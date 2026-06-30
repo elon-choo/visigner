@@ -1,0 +1,18 @@
+{
+  "pass": true,
+  "errorCount": 0,
+  "warnCount": 1,
+  "violations": [
+    {
+      "rule": "emoji",
+      "where": "document",
+      "snippet": "emoji present (✓) — confirm it is copy, not an icon/bullet (banned as icon)",
+      "severity": "warn"
+    }
+  ],
+  "tokenCoverage": {
+    "definedTokens": 23,
+    "rawColorsOutsideTheme": 0
+  },
+  "file": "/Users/elon/claude-design-suite/skills/detail-page/assets/starter/landing.html"
+}

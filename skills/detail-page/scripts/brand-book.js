@@ -36,7 +36,11 @@ const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&l
 
 try {
   fs.mkdirSync(outDir, { recursive: true });
-  const tokens = JSON.parse(fs.readFileSync(tokensFile, 'utf8'));
+  let tokens = JSON.parse(fs.readFileSync(tokensFile, 'utf8'));
+  // The brand-identity SKILL / strategy view nests everything under a top-level "brand" wrapper
+  // ({ brand: { color, font, ... } }). Strip it so walkColor/walkFont find the groups (same shape
+  // brand-lint.js flattenBrandColors accepts), instead of emitting an empty book.
+  if (tokens && tokens.brand && !tokens.color && (tokens.brand.color || tokens.brand.font)) tokens = tokens.brand;
 
   // ---- color flatten + resolve (handles nested ramps + "{color.x.y}" aliases) ----
   // A LITERAL color string $value ("oklch(...)", "#hex" 3/4/6/8, or "rgb()/rgba()") — the shape the

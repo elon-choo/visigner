@@ -267,8 +267,8 @@ PNG it via a CDN harness (no install) → screenshot: wrap the diagram in `<pre 
 **C · Clickable HTML prototype** — multiple greyscale wireframe screens in ONE file, linked by anchors/buttons so stakeholders click through the flow **before** any visual design. Reuse the `.box/.btn/.img` wireframe CSS from step 5; each screen is a `<section id=…hidden>` toggled by `:target`, navigation is plain `<a href="#screen">`. Deliberately ugly (system mono font) — same anti-polish rule as step 5.
 ```html
 <!doctype html><meta name=viewport content="width=device-width,initial-scale=1">
-<style>section{display:none}section:target{display:block}section:first-of-type{display:block}
-section:target~section:first-of-type{display:none}
+<style>section{display:none}section:target{display:block}
+body:not(:has(section:target)) section:first-of-type{display:block} /* home shows only when NO screen is targeted; a targeted screen (incl. #home) wins via :target — the old `:target~:first-of-type` rule could never match */
 body{font-family:ui-monospace,Menlo,monospace;max-width:420px;margin:auto;padding:16px;color:#333}
 .box{border:1.5px solid #999;background:#f2f2f2;padding:12px;margin:8px 0}
 .btn{border:1.5px solid #333;text-align:center;padding:12px;font-weight:700;display:block;text-decoration:none;color:#333}</style>
