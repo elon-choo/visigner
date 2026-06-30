@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ── primary ── -->
+<title>Visigner 가이드 — 설치부터 첫 페이지까지: 스킬 7 · 에이전트 3 · 커맨드 9</title>
+<meta name="description" content="Visigner 사용 가이드 — Claude Code v2.1.100+에 명령 두 줄로 설치하고, /design 한 줄로 첫 상세페이지·랜딩을 만드는 법. 스킬 7 · 에이전트 3 · 커맨드 9 · 빌트인 스크립트 26개, 스크린샷 자기비평 루프, 그리고 하지 않는 것까지 정직하게.">
+<link rel="canonical" href="https://elon-choo.github.io/visigner/guide.html">
+
+<!-- ── open graph ── -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Visigner">
+<meta property="og:url" content="https://elon-choo.github.io/visigner/guide.html">
+<meta property="og:title" content="Visigner 가이드 — 설치부터 첫 페이지까지">
+<meta property="og:description" content="명령 두 줄로 설치, /design 한 줄로 첫 페이지. 스킬 7 · 에이전트 3 · 커맨드 9 · 스크립트 26. 스크린샷 자기비평 루프와, 하지 않는 것까지 정직하게.">
+<meta property="og:image" content="https://elon-choo.github.io/visigner/og-card.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Visigner 가이드 — 설치부터 첫 페이지까지. 따뜻한 종이 질감 위 주황 시그니처.">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+
+<!-- ── twitter ── -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Visigner 가이드 — 설치부터 첫 페이지까지">
+<meta name="twitter:description" content="명령 두 줄로 설치, /design 한 줄로 첫 페이지. 스킬 7 · 에이전트 3 · 커맨드 9. 스크린샷 자기비평 루프와, 하지 않는 것까지 정직하게.">
+<meta name="twitter:image" content="https://elon-choo.github.io/visigner/og-card.png">
+<meta name="twitter:image:alt" content="Visigner guide OG card.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f7f3ea'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23d4501e'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<!-- Korean text + display face so KO headlines render in a real face, not the OS fallback -->
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" rel="stylesheet">
+<style>
+  :root{
+    --paper: oklch(0.976 0.008 85);
+    --surface: oklch(0.945 0.012 80);
+    --ink: oklch(0.215 0.016 60);
+    --muted: oklch(0.50 0.018 60);
+    --line: oklch(0.215 0.016 60 / 0.14);
+    --accent: oklch(0.620 0.200 32);
+    --accent-700: oklch(0.520 0.175 30);
+    --amber: oklch(0.760 0.150 66);
+    --on-accent: oklch(0.980 0.012 85);
+    --good: oklch(0.520 0.130 150);
+    --term: oklch(0.205 0.018 265);
+    --term-ink: oklch(0.90 0.02 150);
+    --term-dim: oklch(0.70 0.02 200);
+    /* Clash/General Sans carry no Hangul → Pretendard picks up KO glyphs per-character */
+    --font-display: "Clash Display", "Pretendard Variable", Pretendard, ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+    --font-body: "General Sans", "Pretendard Variable", Pretendard, ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --maxw: 940px;
+    --shadow-e2: 0 14px 40px oklch(0.21 0.016 60 / 0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper: oklch(0.205 0.014 60);
+      --surface: oklch(0.255 0.016 60);
+      --ink: oklch(0.945 0.010 85);
+      --muted: oklch(0.72 0.016 70);
+      --line: oklch(0.945 0.010 85 / 0.14);
+      --accent: oklch(0.700 0.165 38);
+      --accent-700: oklch(0.760 0.150 45);
+      --amber: oklch(0.800 0.130 70);
+      --on-accent: oklch(0.180 0.014 60);
+      --good: oklch(0.700 0.130 152);
+      --shadow-e2: 0 14px 40px oklch(0 0 0 / 0.4);
+    }
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:78px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation:none !important; transition:none !important; } }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+
+  html[data-lang="ko"] [lang="en"], html[data-lang="en"] [lang="ko"]{ display:none; }
+
+  a{ color:var(--accent-700); }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:3px; }
+  code{ font-family:var(--font-mono); font-size:.92em; }
+  h1,h2,h3{ text-wrap:balance; word-break:keep-all; letter-spacing:-.01em; }
+
+  .wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline:22px; }
+  .skip{ position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--paper); padding:10px 16px; z-index:60; }
+  .skip:focus{ left:8px; top:8px; border-radius:8px; }
+
+  /* nav */
+  .nav{ position:sticky; top:0; z-index:40; background:color-mix(in oklab, var(--paper) 82%, transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .nav-in{ max-width:var(--maxw); margin-inline:auto; padding:11px 22px; display:flex; align-items:center; gap:16px; }
+  .brand-dot{ width:11px; height:11px; border-radius:50%; background:linear-gradient(100deg,var(--accent),var(--amber)); display:inline-block; }
+  .nav a.anchor{ font-family:var(--font-mono); font-size:13px; color:var(--muted); text-decoration:none; }
+  .nav a.anchor:hover{ color:var(--accent-700); }
+  .lang-toggle button{ font-family:var(--font-mono); font-size:12px; padding:5px 9px; border-radius:7px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; }
+  .lang-toggle button[aria-pressed="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
+  .kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-700); }
+  .secnum{ font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--accent); }
+  .grad{ background:linear-gradient(100deg,var(--accent),var(--amber) 92%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  section{ padding-block:38px; border-top:1px solid var(--line); }
+  section h2{ font-family:var(--font-display); font-weight:600; font-size:clamp(24px,3.4vw,34px); margin:6px 0 4px; }
+  .lede{ color:var(--muted); max-width:42em; margin:0 0 18px; }
+
+  .btn{ display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:15px; padding:12px 20px; border-radius:11px; text-decoration:none; min-height:46px; }
+  .btn-accent{ background:var(--accent); color:var(--on-accent); box-shadow:var(--shadow-e2); }
+  .btn-ghost{ border:1.5px solid var(--line); color:var(--ink); }
+
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  /* lift the middle card of each trio: deliberate emphasis, and it breaks the uniform 3-identical-card grid */
+  .grid3 .card:nth-child(2){ border-radius:18px; box-shadow:var(--shadow-e2); border-color:transparent; }
+
+  /* terminal copy box */
+  .term{ background:var(--term); border-radius:13px; overflow:hidden; box-shadow:var(--shadow-e2); margin:14px 0; }
+  .term-bar{ display:flex; align-items:center; gap:7px; padding:11px 14px; border-bottom:1px solid oklch(1 0 0 / .08); }
+  .dot{ width:11px; height:11px; border-radius:50%; }
+  .copybtn{ font-family:var(--font-mono); font-size:11px; color:var(--term-dim); background:oklch(1 0 0 / .06); border:1px solid oklch(1 0 0 / .1); border-radius:7px; padding:4px 9px; cursor:pointer; }
+  .copybtn:hover{ color:var(--term-ink); }
+  .term pre{ margin:0; padding:15px 16px; font-family:var(--font-mono); font-size:13.5px; line-height:1.85; color:var(--term-ink); white-space:pre-wrap; overflow-wrap:anywhere; }
+  .term pre .c{ color:var(--term-dim); }
+  .term pre .p{ color:var(--accent); }
+
+  table{ width:100%; border-collapse:collapse; margin:8px 0 4px; font-size:15px; }
+  th,td{ text-align:left; padding:11px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+  td code{ color:var(--accent-700); }
+  .no{ color:oklch(0.560 0.180 28); font-weight:600; font-family:var(--font-mono); font-size:13px; }
+  .yes{ color:var(--good); font-weight:600; font-family:var(--font-mono); font-size:13px; }
+
+  .warn{ border-left:3px solid var(--amber); background:oklch(0.760 0.150 66 / .08); padding:14px 16px; border-radius:0 10px 10px 0; margin:14px 0; font-size:15px; }
+  ul.tight{ margin:10px 0; padding-left:20px; }
+  ul.tight li{ margin:6px 0; }
+  dl.faq dt{ font-weight:600; margin-top:16px; }
+  dl.faq dd{ margin:6px 0 0; color:var(--muted); }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; } }
+
+  footer{ border-top:1px solid var(--line); padding-block:26px 46px; color:var(--muted); font-size:13.5px; }
+
+  @media (max-width:760px){
+    .grid2,.grid3{ grid-template-columns:1fr; }
+    .nav-hide{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+<a href="#main" class="skip" lang="ko">본문으로 건너뛰기</a><a href="#main" class="skip" lang="en">Skip to content</a>
+
+<!-- ───────────── nav ───────────── -->
+<nav class="nav" aria-label="primary">
+  <div class="nav-in">
+    <a href="index.html" style="display:flex;align-items:baseline;gap:9px;text-decoration:none;color:var(--ink)">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span style="font-family:var(--font-display);font-weight:700;font-size:19px">Visigner</span>
+      <span class="kicker nav-hide" style="font-size:11px"><span lang="ko">가이드</span><span lang="en">Guide</span></span>
+    </a>
+    <a class="anchor nav-hide" href="#install">02 <span lang="ko">설치</span><span lang="en">Install</span></a>
+    <a class="anchor nav-hide" href="#first-run">03 <span lang="ko">첫 명령</span><span lang="en">First run</span></a>
+    <a class="anchor nav-hide" href="#map">04 <span lang="ko">지도</span><span lang="en">Map</span></a>
+    <a class="anchor nav-hide" href="#worked-example">05 <span lang="ko">예시</span><span lang="en">Example</span></a>
+    <a class="anchor nav-hide" href="#boundaries">08 <span lang="ko">한계</span><span lang="en">Limits</span></a>
+    <span style="flex:1"></span>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button id="ko-btn" aria-pressed="true" onclick="setLang('ko')">KO</button>
+      <button id="en-btn" aria-pressed="false" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="anchor" href="https://github.com/elon-choo/visigner" style="text-decoration:none">GitHub ↗</a>
+  </div>
+</nav>
+
+<main id="main">
+
+<!-- ───────────── hero ───────────── -->
+<section style="border-top:none">
+  <div class="wrap">
+    <span class="kicker"><span lang="ko">설치 한 번에 디자인 전부 · Claude Code 플러그인</span><span lang="en">Everything design, in one install · a Claude Code plugin</span></span>
+    <h1 style="font-family:var(--font-display);font-weight:700;font-size:clamp(32px,5.4vw,52px);line-height:1.06;margin:14px 0 0">
+      <span lang="ko"><span class="grad">유능한 디자인 도구</span>를,<br>한 번 설치로 손에.</span>
+      <span lang="en"><span class="grad">The whole design toolchain</span>,<br>in one install.</span>
+    </h1>
+    <p style="font-size:19px;color:var(--muted);max-width:40em;margin-top:18px">
+      <span lang="ko">저장소 하나 = 디자인 툴체인 전체입니다. Anthropic의 프론트엔드 디자인 규율(코드 전에 토큰 설계, 뻔한 기본값 거부) 위에, 결과물이 AI 티 안 나게 하는 <strong style="color:var(--ink)">스크린샷 자기비평 루프</strong>가 얹혀 있습니다.</span>
+      <span lang="en">One repo = the whole design toolchain — built on Anthropic's frontend-design discipline (plan tokens before code, reject the generic defaults) plus a <strong style="color:var(--ink)">screenshot self-critique loop</strong> so the output doesn't read as AI-generated.</span>
+    </p>
+    <p style="margin-top:12px">
+      <span lang="ko">Claude Code <strong>v2.1.100+</strong> 필요 · 기획·디자인·코드·검수는 설치 즉시 동작 · 파워 기능은 일회성 <code>/design-setup</code> 한 번.</span>
+      <span lang="en">Requires Claude Code <strong>v2.1.100+</strong> · plan/design/code/review work immediately · power features need one <code>/design-setup</code>.</span>
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:22px">
+      <a href="#install" class="btn btn-accent"><span lang="ko">Claude Code에 설치</span><span lang="en">Install in Claude Code</span></a>
+      <a href="index.html" class="btn btn-ghost"><span lang="ko">← 랜딩으로</span><span lang="en">← Back to landing</span></a>
+      <a href="https://github.com/elon-choo/visigner" class="btn btn-ghost"><span lang="ko">저장소 보기</span><span lang="en">View the repo</span></a>
+    </div>
+    <p class="warn" style="margin-top:22px"><span lang="ko"><strong>이 가이드의 약속:</strong> 형용사가 아니라 셀 수 있는 것만 말합니다. Visigner에는 외부 성능 벤치마크가 없습니다 — 그래서 인벤토리 수치, 채점 규율, 그리고 <em>하지 않는 것</em>으로 이야기합니다.</span><span lang="en"><strong>This guide's promise:</strong> countable facts, not adjectives. Visigner has no external performance benchmark — so it speaks in inventory counts, a grading bar, and what it <em>does not</em> do.</span></p>
+  </div>
+</section>
+
+<!-- ───────────── 01 what ───────────── -->
+<section id="what">
+  <div class="wrap">
+    <p class="secnum">01</p>
+    <h2><span lang="ko">Visigner가 뭔가요 — 1분 정의</span><span lang="en">What Visigner is, in one minute</span></h2>
+    <p class="lede"><span lang="ko">Claude Code 안에서 디자인 작업 전체를 처리하는 플러그인 하나. 다른 설치형 디자인 스킬·패키지를 여러 개 이어 붙일 필요를 줄입니다.</span><span lang="en">One plugin that handles the whole span of design work inside Claude Code — so you stitch together far fewer installable design skills and packages.</span></p>
+    <div class="grid3">
+      <div class="card reveal">
+        <p class="kicker"><span lang="ko">대체하는 것</span><span lang="en">What it replaces</span></p>
+        <p style="margin:8px 0 0;font-size:15px"><span lang="ko">제각각 깔던 설치형 디자인 <strong>스킬·플러그인·패키지</strong>. 대신 코드·SVG·토큰·스펙·카피·실험 통계를 빌트인 Node로 직접 만듭니다.</span><span lang="en">The scattered installable design <strong>skills/plugins/packages</strong>. Instead it produces the code/SVG/tokens/specs/copy/experiment-stats directly, in built-in Node.</span></p>
+      </div>
+      <div class="card reveal">
+        <p class="kicker"><span lang="ko">대체하지 않고 공급</span><span lang="en">What it feeds, not replaces</span></p>
+        <p style="margin:8px 0 0;font-size:15px"><span lang="ko"><strong>Figma·FigJam·Photoshop·웹 호스팅·ESP 발송·분석 웨어하우스.</strong> 결과물을 만들어 그쪽에 넘깁니다 — 그 도구가 되지는 않습니다.</span><span lang="en"><strong>Figma · FigJam · Photoshop · web hosting · ESP send · the analytics warehouse.</strong> It hands artifacts to them — it doesn't become them.</span></p>
+      </div>
+      <div class="card reveal">
+        <p class="kicker"><span lang="ko">안티슬롭 척추</span><span lang="en">The anti-slop spine</span></p>
+        <p style="margin:8px 0 0;font-size:15px"><span lang="ko">한 문장으로: <strong>토큰 시스템을 먼저 설계하고, 뻔한 기본값을 거부하고, 픽셀에서 검증한다.</strong></span><span lang="en">In one line: <strong>plan a token system, reject the generic defaults, verify from pixels.</strong></span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── 02 install ───────────── -->
+<section id="install">
+  <div class="wrap">
+    <p class="secnum">02</p>
+    <h2><span lang="ko">Claude Code에 설치 — 명령 두 줄</span><span lang="en">Install in Claude Code — two commands</span></h2>
+    <p class="lede"><span lang="ko">Claude Code <strong>v2.1.100+</strong> 안에서 그대로 입력하세요(<code>claude --version</code>으로 버전 확인).</span><span lang="en">Type these verbatim inside Claude Code <strong>v2.1.100+</strong> (check with <code>claude --version</code>).</span></p>
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--term-dim)">claude code</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'/plugin marketplace add elon-choo/visigner\n/plugin install visigner@visigner')">copy</button>
+      </div>
+      <pre><span class="c"># <span lang="ko">1) 마켓플레이스 추가</span><span lang="en">1) add the marketplace</span></span>
+<span class="p">/</span>plugin marketplace add elon-choo/visigner
+<span class="c"># <span lang="ko">2) 플러그인 설치 — 스킬·에이전트·커맨드가 모두 켜집니다</span><span lang="en">2) install — all skills, agents, commands load</span></span>
+<span class="p">/</span>plugin install visigner@visigner</pre>
+    </div>
+    <p style="font-size:15px"><span lang="ko">기획·디자인·코드·검수는 여기서 바로 됩니다. <strong>스크린샷 캡처·이미지 배치 같은 파워 기능</strong>만 일회성 <code>/design-setup</code>(Patchright + Chromium)이 필요합니다.</span><span lang="en">Planning, designing, coding, and reviewing work right away. Only the <strong>screenshot/capture/image-placement power features</strong> need a one-time <code>/design-setup</code> (Patchright + Chromium).</span></p>
+    <h3 style="font-family:var(--font-display);font-size:19px;margin-top:22px"><span lang="ko">팀 전체 자동 적용</span><span lang="en">Team auto-enable</span></h3>
+    <p class="lede"><span lang="ko">프로젝트 <code>.claude/settings.json</code>에 커밋해 두면 팀원은 워크스페이스를 신뢰하는 순간 자동으로 받습니다.</span><span lang="en">Commit this to your project's <code>.claude/settings.json</code> and teammates get it automatically on trusting the workspace.</span></p>
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--term-dim)">.claude/settings.json</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'{\n  &quot;extraKnownMarketplaces&quot;: {\n    &quot;visigner&quot;: { &quot;source&quot;: { &quot;source&quot;: &quot;github&quot;, &quot;repo&quot;: &quot;elon-choo/visigner&quot; } }\n  },\n  &quot;enabledPlugins&quot;: { &quot;visigner@visigner&quot;: true }\n}')">copy</button>
+      </div>
+      <pre>{
+  "extraKnownMarketplaces": {
+    "visigner": { "source": { "source": "github", "repo": "elon-choo/visigner" } }
+  },
+  "enabledPlugins": { "visigner@visigner": true }
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── 03 first-run ───────────── -->
+<section id="first-run">
+  <div class="wrap">
+    <p class="secnum">03</p>
+    <h2><span lang="ko">첫 명령 — 그냥 평소 말로</span><span lang="en">Your first command — just say it plainly</span></h2>
+    <p class="lede"><span lang="ko">단 하나의 만능 입구: <code>/design 만들고 싶은 것</code>. 라우터가 브리프를 고정하고 품질 게이트까지 돌립니다. 보통은 평소 말로 작업을 설명하면 알맞은 스킬이 알아서 켜집니다 — 커맨드는 지름길일 뿐.</span><span lang="en">One universal entry: <code>/design &lt;what you want&gt;</code>. The router pins the brief and runs to a quality gate. Usually you just describe the task in plain language and the matching skill auto-triggers — the commands are shortcuts.</span></p>
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--term-dim)">claude code</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'/design a launch landing page for my AI writing tool')">copy</button>
+      </div>
+      <pre><span class="c"># <span lang="ko">설명만 하면 라우팅·제작·채점까지</span><span lang="en">describe it; it routes, builds, and grades</span></span>
+<span class="p">/</span>design a launch landing page for my AI writing tool</pre>
+    </div>
+    <h3 style="font-family:var(--font-display);font-size:19px;margin-top:20px"><span lang="ko">당신이 누구냐로 시작하기</span><span lang="en">Start here by who you are</span></h3>
+    <table>
+      <thead><tr>
+        <th><span lang="ko">당신은…</span><span lang="en">You are a…</span></th>
+        <th><span lang="ko">이렇게 입력</span><span lang="en">Type this</span></th>
+        <th><span lang="ko">받는 것</span><span lang="en">You get</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span lang="ko">잘 모름 / 바이브코더</span><span lang="en">Not sure / vibe-coder</span></td><td><code>/design &lt;…&gt;</code></td><td><span lang="ko">라우팅 → 브리프 고정 → 게이트까지 제작</span><span lang="en">Routes, pins the brief, builds to a gate</span></td></tr>
+        <tr><td><span lang="ko">마케터 / 창업자</span><span lang="en">Marketer / founder</span></td><td><code>/landing &lt;product&gt;</code></td><td><span lang="ko">슬롭 아닌 전환형 랜딩·상세페이지</span><span lang="en">A converting landing / Korean detail page (상세페이지) that isn't slop</span></td></tr>
+        <tr><td><span lang="ko">프로덕트 디자이너</span><span lang="en">Product designer</span></td><td><code>/ui &lt;screen&gt;</code></td><td><span lang="ko">전 상태 컴포넌트, 픽셀로 채점</span><span lang="en">UI &amp; components with full states, graded from pixels</span></td></tr>
+        <tr><td><span lang="ko">브랜드 디자이너 / CEO</span><span lang="en">Brand designer / CEO</span></td><td><code>/brand &lt;business&gt;</code></td><td><span lang="ko">전략 → 보이스 → 비주얼 정체성</span><span lang="en">Strategy → voice → visual identity</span></td></tr>
+        <tr><td><span lang="ko">기획자 / PM</span><span lang="en">Planner / PM</span></td><td><code>/plan</code></td><td><span lang="ko">플로우·IA·와이어프레임·빌드 가능한 스펙</span><span lang="en">Flows, IA, wireframes, a buildable spec</span></td></tr>
+        <tr><td><span lang="ko">개발자</span><span lang="en">Developer</span></td><td><code>/ui</code> · <code>/design-tokens</code></td><td><span lang="ko">React/Tailwind v4/shadcn, 접근성·반응형</span><span lang="en">React/Tailwind v4/shadcn, accessible &amp; responsive</span></td></tr>
+        <tr><td><span lang="ko">배포 직전 누구나</span><span lang="en">Anyone shipping</span></td><td><code>/design-review &lt;page&gt;</code></td><td><span lang="ko">독립 SHIP / NO-SHIP 판정</span><span lang="en">An independent SHIP / NO-SHIP verdict</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ───────────── 04 map ───────────── -->
+<section id="map">
+  <div class="wrap">
+    <p class="secnum">04</p>
+    <h2><span lang="ko">지도: 스킬 · 커맨드 · 에이전트</span><span lang="en">The map: skills · commands · agents</span></h2>
+    <p class="lede"><span lang="ko">셋 다 직접 셀 수 있습니다 — <code>ls skills/ commands/ agents/</code>.</span><span lang="en">All three are recountable — <code>ls skills/ commands/ agents/</code>.</span></p>
+    <div class="grid3">
+      <div class="card reveal">
+        <p class="kicker"><span lang="ko">스킬 · 7 (자동 발동)</span><span lang="en">Skills · 7 (auto-trigger)</span></p>
+        <ul class="tight" style="font-size:14.5px">
+          <li><strong>detail-page</strong> — <span lang="ko">랜딩 + 한국형 상세페이지/와디즈, 이미지 에셋, 스크린샷 루프</span><span lang="en">landing + Korean 상세페이지/Wadiz, image assets, the screenshot loop</span></li>
+          <li><strong>ui-design</strong> — <span lang="ko">앱·웹·대시보드 UI, 전 상태, 모션, 다크모드, 39-아이콘</span><span lang="en">app/web/dashboard UI, every state, motion, dark mode, 39 icons</span></li>
+          <li><strong>design-system</strong> — <span lang="ko">DTCG + Tailwind v4 @theme, OKLCH, 멀티브랜드, 핸드오프</span><span lang="en">DTCG + Tailwind v4 @theme, OKLCH, multi-brand, handoff</span></li>
+          <li><strong>brand-identity</strong> — <span lang="ko">전략·아키타입·보이스·네이밍, SVG 로고 + guidelines.html</span><span lang="en">strategy, archetypes, voice, naming, SVG logo + guidelines.html</span></li>
+          <li><strong>ux-flows</strong> — <span lang="ko">플로우·IA·와이어프레임·PRD·수용 스펙</span><span lang="en">flows, IA, wireframes, PRD, acceptance spec</span></li>
+          <li><strong>frontend-build</strong> — <span lang="ko">디자인→코드: React/Next + Tailwind v4 + shadcn, a11y</span><span lang="en">design→code: React/Next + Tailwind v4 + shadcn, a11y</span></li>
+          <li><strong>marketing-conversion</strong> — <span lang="ko">퍼널·CRO·카피·이메일 시퀀스·A/B 통계</span><span lang="en">funnel, CRO, copy, email sequences, A/B stats</span></li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <p class="kicker"><span lang="ko">커맨드 · 9 (지름길)</span><span lang="en">Commands · 9 (shortcuts)</span></p>
+        <p style="font-family:var(--font-mono);font-size:13.5px;line-height:2;margin-top:8px">/design · /landing · /ui · /brand · /plan · /campaign · /design-tokens · /design-review · /design-setup</p>
+        <p style="font-size:13.5px;color:var(--muted);margin-top:8px"><span lang="ko">디자인 커맨드 8 + 일회성 셋업 1(<code>/design-setup</code>). 스킬은 평소 말로도 자동 발동하므로 커맨드는 외울 필요 없습니다.</span><span lang="en">8 design commands + 1 one-time setup (<code>/design-setup</code>). Skills auto-trigger from plain language, so you needn't memorize the commands.</span></p>
+      </div>
+      <div class="card reveal">
+        <p class="kicker"><span lang="ko">에이전트 · 3 (독립 리뷰어)</span><span lang="en">Agents · 3 (independent reviewers)</span></p>
+        <ul class="tight" style="font-size:14.5px">
+          <li><strong>design-critic</strong> — <span lang="ko">10차원 점수 + SHIP/NO-SHIP, 픽셀에서 채점</span><span lang="en">10-dim score + SHIP/NO-SHIP, graded from pixels</span></li>
+          <li><strong>a11y-auditor</strong> — <span lang="ko">WCAG 2.2 AA 감사, PASS/FAIL</span><span lang="en">WCAG 2.2 AA audit, PASS/FAIL</span></li>
+          <li><strong>design-director</strong> — <span lang="ko">하나의 비제너릭 토큰 시스템/아트 디렉션 고정</span><span lang="en">locks one non-generic token system / art direction</span></li>
+        </ul>
+        <p style="font-size:13px;color:var(--muted);margin-top:8px"><span lang="ko">셋 다 채점·지시만 — 생성기는 자기 작업을 채점하지 않습니다.</span><span lang="en">All three critique/direct only — the generator never grades itself.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────── 05 worked-example ───────────── -->
+<section id="worked-example">
+  <div class="wrap">
+    <p class="secnum">05</p>
+    <h2><span lang="ko">실전 예시: 상세페이지/랜딩 처음부터 끝까지</span><span lang="en">Worked example: a Korean detail page (상세페이지) / landing, end to end</span></h2>
+    <p class="lede"><span lang="ko">말이 아니라 흐름으로. 아래는 실제로 "이렇게 입력 → 이렇게 나옴"의 순서입니다.</span><span lang="en">Show, don't tell. Here's the literal "type this → get this" sequence.</span></p>
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--term-dim)">claude code</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'/landing a premium pour-over coffee dripper for home baristas')">copy</button>
+      </div>
+      <pre><span class="p">/</span>landing a premium pour-over coffee dripper for home baristas</pre>
+    </div>
+    <ol class="tight" style="font-size:15.5px">
+      <li><span lang="ko"><strong>브리프 고정</strong> — 주제·타깃·단 하나의 목표(single job)를 핀으로 박습니다: "홈 바리스타 / 한 잔의 의식 / CTA = 사전예약".</span><span lang="en"><strong>Pins the brief</strong> — subject, audience, single job: "home baristas / the ritual of one cup / CTA = pre-order".</span></li>
+      <li><span lang="ko"><strong>토큰 시스템 + 시그니처 요소</strong>를 설계합니다 — 색·타입·레이아웃, 그리고 이 브리프에만 어울리는 이름 붙은 시그니처.</span><span lang="en"><strong>Plans a token system + a named signature element</strong> — color, type, layout, and one signature that could only belong to this brief.</span></li>
+      <li><span lang="ko"><strong>페이지를 만듭니다</strong> — PASONA 구조, 실제 와디즈 캡처(400620·403454)로 보정.</span><span lang="en"><strong>Builds the page</strong> — PASONA structure, calibrated against real Wadiz captures (400620 · 403454).</span></li>
+      <li><span lang="ko"><strong>자기 결과물을 렌더·스크린샷</strong>합니다(<code>shoot.js</code>) — 390px 오버플로우 + axe 접근성 패스 포함.</span><span lang="en"><strong>Renders &amp; screenshots its own output</strong> (<code>shoot.js</code>) — incl. a 390px overflow check + an axe accessibility pass.</span></li>
+      <li><span lang="ko"><strong>design-critic가 픽셀을 채점</strong>합니다 — 10차원, 코드가 아니라 화면을 봅니다.</span><span lang="en"><strong>design-critic grades the pixels</strong> — 10 dimensions, looking at the screen, not the code.</span></li>
+      <li><span lang="ko"><strong>게이트까지 반복</strong>합니다 — ≥8/10, 어떤 차원도 7 미만이면 안 됩니다.</span><span lang="en"><strong>Iterates to the gate</strong> — ≥8/10, with no single dimension below 7.</span></li>
+    </ol>
+    <div class="warn"><span lang="ko"><strong>4–5단계는 일회성 <code>/design-setup</code>(Patchright + Chromium)이 필요합니다.</strong> 설치 직후 아직 브라우저가 없으면 페이지는 그대로 만들어지고 당신이 직접 검토하게 됩니다 — 다만 픽셀 스크린샷·critic 채점 단계만 건너뜁니다. <code>/design-setup</code>을 한 번 돌리면 그때부터 자동으로 켜집니다.</span><span lang="en"><strong>Steps 4–5 need the one-time <code>/design-setup</code> (Patchright + Chromium).</strong> Right after install, before you've added the browser, the page still builds and you self-review — only the pixel screenshot + critic grade are skipped. Run <code>/design-setup</code> once and they switch on from then on.</span></div>
+    <div class="warn"><span lang="ko"><strong>이미지 키가 없을 때:</strong> 사진 슬롯은 의도된 온브랜드 lo-fi SVG 컴프로 렌더됩니다 — 자리표시이지 완성 아트가 아닙니다. 운영자가 실제 사진으로 교체합니다(또는 OPENAI/GEMINI 키를 넣고 재생성). 정직하게, 가짜로 채우지 않습니다.</span><span lang="en"><strong>With no image key:</strong> photo slots render as intentional on-brand lo-fi SVG comps — placeholders, not finished art. The operator swaps in real photos (or adds an OPENAI/GEMINI key to regenerate). Kept honest: it never fakes the asset.</span></div>
+  </div>
+</section>
+
+<!-- ───────────── 06 screenshot-loop ───────────── -->
+<section id="screenshot-loop">
+  <div class="wrap">
+    <p class="secnum">06</p>
+    <h2><span lang="ko">스크린샷 자기비평 루프 — 왜 AI 티가 안 나나</span><span lang="en">The screenshot self-critique loop — why it doesn't look AI-made</span></h2>
+    <p class="lede"><span lang="ko">세 단계 척추입니다. 핵심은 마지막 — 코드를 읽고 "괜찮아 보여요"는 허용되지 않습니다.</span><span lang="en">A three-step spine. The point is the last step — "I read the code and it looks right" is not allowed.</span></p>
+    <div class="grid3">
+      <div class="card reveal"><p class="secnum">①</p><p style="font-weight:600;margin:6px 0 4px"><span lang="ko">토큰 먼저</span><span lang="en">Plan tokens first</span></p><p style="font-size:14.5px;color:var(--muted)"><span lang="ko">코드를 짜기 전에 색·타입·레이아웃·시그니처를 설계합니다.</span><span lang="en">Decide color/type/layout/signature before any code.</span></p></div>
+      <div class="card reveal"><p class="secnum">②</p><p style="font-weight:600;margin:6px 0 4px"><span lang="ko">기본값 금지 목록</span><span lang="en">Banned-defaults list</span></p><p style="font-size:14.5px;color:var(--muted)"><span lang="ko">Inter / 보라 그라데이션 / 동일 카드 4개 / 가운데 정렬 — 전부 거부.</span><span lang="en">Inter / purple gradient / four equal cards / centered — all rejected.</span></p></div>
+      <div class="card reveal"><p class="secnum">③</p><p style="font-weight:600;margin:6px 0 4px"><span lang="ko">픽셀로 검증</span><span lang="en">Verify from pixels</span></p><p style="font-size:14.5px;color:var(--muted)"><span lang="ko"><code>shoot.js</code> / <code>serve-shoot.js</code>로 렌더·캡처 후 독립 critic이 채점.</span><span lang="en">render &amp; capture via <code>shoot.js</code> / <code>serve-shoot.js</code>, then an independent critic grades.</span></p></div>
+    </div>
+    <p style="font-size:15px;margin-top:16px"><span lang="ko">렌더·캡처 기능은 일회성 <code>/design-setup</code>(Patchright + Chromium)으로 켭니다. 그 다음부터 독립 <strong>design-critic</strong>가 스크린샷을 읽고 <strong>SHIP / NO-SHIP</strong>을 냅니다 — 만든 쪽의 말이 아니라 픽셀로.</span><span lang="en">Render/capture is enabled by a one-time <code>/design-setup</code> (Patchright + Chromium). From then on an independent <strong>design-critic</strong> reads the screenshot and gates <strong>SHIP / NO-SHIP</strong> — on pixels, not on the builder's claims.</span></p>
+  </div>
+</section>
+
+<!-- ───────────── 07 extend ───────────── -->
+<section id="extend">
+  <div class="wrap">
+    <p class="secnum">07</p>
+    <h2><span lang="ko">확장 &amp; 설정</span><span lang="en">How to extend &amp; configure</span></h2>
+    <ul class="tight" style="font-size:15.5px">
+      <li><span lang="ko"><strong>실제 이미지 생성</strong> — <code>OPENAI_API_KEY</code> / <code>GEMINI_API_KEY</code>(또는 <code>codex login</code> 으로 ChatGPT 로그인). 없으면 lo-fi SVG 컴프로 대체.</span><span lang="en"><strong>Real image generation</strong> — <code>OPENAI_API_KEY</code> / <code>GEMINI_API_KEY</code> (or a ChatGPT login via <code>codex login</code>). Without it you get lo-fi SVG comps.</span></li>
+      <li><span lang="ko"><strong>팀 자동 적용</strong> — <code>.claude/settings.json</code> (02번 참고).</span><span lang="en"><strong>Team auto-enable</strong> — via <code>.claude/settings.json</code> (see section 02).</span></li>
+      <li><span lang="ko"><strong>직접 부를 수 있는 빌트인 Node 스크립트</strong> — <code>ab.js</code>(A/B 통계), <code>pull-funnel.js</code>, <code>copy-lint.js</code>, <code>email.js</code>, <code>icon-set.js</code>, <code>brand-book.js</code>, <code>logo-handoff.js</code>, <code>name-check.js</code>. 26개 전부 <code>skills/detail-page/scripts/</code> 아래에 있고, 모두 의존성 0입니다 (<code>ls skills/detail-page/scripts/*.js</code>).</span><span lang="en"><strong>Built-in Node scripts you can invoke directly</strong> — <code>ab.js</code> (A/B stats), <code>pull-funnel.js</code>, <code>copy-lint.js</code>, <code>email.js</code>, <code>icon-set.js</code>, <code>brand-book.js</code>, <code>logo-handoff.js</code>, <code>name-check.js</code>. All 26 live under <code>skills/detail-page/scripts/</code> and are zero-dependency (<code>ls skills/detail-page/scripts/*.js</code>).</span></li>
+      <li><span lang="ko"><strong>CI 게이트 (템플릿)</strong> — <code>npm run gate</code> / <code>lint:brand</code> / <code>lint:tokens</code> 스크립트와 <code>.husky</code> pre-commit, <code>.github/workflows/design-gate.yml</code>은 플러그인 설치 폴더(<code>skills/detail-page/</code>의 <code>package.json</code>) 안에 들어 있는 <strong>본보기 파일</strong>입니다. 스크린샷+axe+brand-lint를 머지 요건으로 만들려면 이 항목들을 당신 저장소의 <code>package.json</code>/CI로 복사해 쓰세요(루트에서 바로 <code>npm run gate</code>가 도는 게 아닙니다).</span><span lang="en"><strong>CI gate (templates)</strong> — the <code>npm run gate</code> / <code>lint:brand</code> / <code>lint:tokens</code> scripts, the <code>.husky</code> pre-commit, and <code>.github/workflows/design-gate.yml</code> are <strong>template files</strong> inside the plugin install dir (the <code>package.json</code> lives in <code>skills/detail-page/</code>). To make the screenshot+axe+brand-lint checks a merge requirement, copy them into your own repo's <code>package.json</code>/CI — they don't run from your project root out of the box.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ───────────── 08 boundaries ───────────── -->
+<section id="boundaries">
+  <div class="wrap">
+    <p class="secnum">08</p>
+    <h2><span lang="ko">하지 않는 것 (정직 섹션)</span><span lang="en">What it does NOT do (the honesty section)</span></h2>
+    <p class="lede"><span lang="ko">기대할 법한 주장과, 정직한 결과를 나란히 둡니다. 이게 위 인벤토리 수치를 믿어도 되는 이유입니다.</span><span lang="en">The claim people might expect, beside the honest result. This is why the inventory counts above are trustworthy.</span></p>
+    <table>
+      <thead><tr>
+        <th><span lang="ko">기대할 법한 주장</span><span lang="en">Claim you might expect</span></th>
+        <th><span lang="ko">정직한 결과</span><span lang="en">Honest result</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><span lang="ko">"전환율 N% 올려준다"</span><span lang="en">"Lifts conversion by N%"</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span> — <span lang="ko">외부 성능 벤치마크가 저장소에 없습니다. 마케팅하는 건 인벤토리 카운트와 채점 규율뿐.</span><span lang="en">there's no external performance benchmark in the repo. What's marketed is inventory counts and a grading bar.</span></td></tr>
+        <tr><td><span lang="ko">Figma·Photoshop을 대체한다</span><span lang="en">Replaces Figma/Photoshop</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span> — <span lang="ko">공급합니다. 코드·SVG·토큰·스펙을 만들어 넘기고, 호스팅·ESP·웨어하우스로는 여전히 배포합니다.</span><span lang="en">it feeds them. It makes code/SVG/tokens/specs; you still ship through hosting/ESP/warehouse.</span></td></tr>
+        <tr><td><span lang="ko">키 없이 모든 기능</span><span lang="en">Everything with no key</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span> — <span lang="ko">스크린샷 루프는 일회성 <code>/design-setup</code>, 실제 이미지 생성은 OPENAI/GEMINI 키 또는 ChatGPT 로그인이 필요.</span><span lang="en">the screenshot loop needs a one-time <code>/design-setup</code>; real image generation needs an OPENAI/GEMINI key or ChatGPT login.</span></td></tr>
+        <tr><td><span lang="ko">완성된 사진/일러스트 제공</span><span lang="en">Ships finished photos</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span> — <span lang="ko">키가 없으면 lo-fi SVG 컴프(의도된 자리표시)이며 운영자가 실제 아트로 교체합니다.</span><span lang="en">without a key it's a lo-fi SVG comp (intentional placeholder) the operator replaces.</span></td></tr>
+        <tr><td><span lang="ko">법적·표시광고 적합성 보장</span><span lang="en">Handles compliance/legal</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span> — <span lang="ko">컴플라이언스·주장 입증은 운영자 몫입니다. 디자인·전환 품질을 올릴 뿐.</span><span lang="en">compliance and claim-substantiation are the operator's. It raises design/conversion quality only.</span></td></tr>
+        <tr><td><span lang="ko">모델을 더 똑똑하게</span><span lang="en">Makes the model smarter</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span> — <span lang="ko">모델 실력은 그대로입니다. 더하는 건 규율(토큰 먼저 · 픽셀로 검증 · 독립 채점)입니다.</span><span lang="en">the model's ability is unchanged. What's added is discipline (tokens first · verify from pixels · independent grading).</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ───────────── 09 faq ───────────── -->
+<section id="faq">
+  <div class="wrap">
+    <p class="secnum">09</p>
+    <h2><span lang="ko">FAQ &amp; 문제 해결</span><span lang="en">FAQ &amp; troubleshooting</span></h2>
+    <dl class="faq">
+      <dt><span lang="ko">API 키가 꼭 필요한가요?</span><span lang="en">Do I need an API key?</span></dt>
+      <dd><span lang="ko">아니요 — 디자인·코드·검수는 키 없이 됩니다. 실제 사진 생성만 키가 필요하고, 없으면 lo-fi 컴프로 대체합니다.</span><span lang="en">No — design/code/review work without one. Only real photos need a key; without it you get lo-fi comps.</span></dd>
+      <dt><span lang="ko"><code>/design-setup</code>에서 권한 오류가 나요</span><span lang="en"><code>/design-setup</code> permission error</span></dt>
+      <dd><span lang="ko">플러그인 디렉터리에 쓰기 권한이 없는 경우입니다. <code>sudo</code>로 풀려고 하지 마세요 — 설치 경로 권한을 확인하세요.</span><span lang="en">You lack write access to the plugin directory. Don't <code>sudo</code> it — fix the install-dir permissions instead.</span></dd>
+      <dt><span lang="ko">플러그인 업데이트 후엔?</span><span lang="en">After a plugin update?</span></dt>
+      <dd><span lang="ko"><strong>스크린샷 루프를 쓰는 경우에만</strong> 설치 디렉터리에서 <code>npm install</code>을 다시 돌리세요 (Chromium 캐시는 유지됩니다). 그 외 — 기획·디자인·코드·검수·토큰·카피·빌트인 스크립트는 의존성 0이라 할 일이 없습니다. 핵심 경로엔 <code>npm install</code>이 필요 없습니다.</span><span lang="en"><strong>Only if you use the screenshot loop</strong>, re-run <code>npm install</code> in the plugin install dir (the Chromium cache survives). Otherwise — plan/design/code/review/tokens/copy and the built-in scripts are zero-dependency, so there's nothing to do. The core path never needs <code>npm install</code>.</span></dd>
+      <dt><span lang="ko">캡처·스크린샷은 어디에 저장되나요?</span><span lang="en">Where do captures/screenshots go?</span></dt>
+      <dd><span lang="ko">스킬의 작업 디렉터리(예: <code>skills/detail-page/references/captures/</code>) 아래에 저장됩니다.</span><span lang="en">Under the skill's working directory (e.g. <code>skills/detail-page/references/captures/</code>).</span></dd>
+      <dt><span lang="ko">커맨드를 쓸지, 그냥 설명할지?</span><span lang="en">Command vs. just describing?</span></dt>
+      <dd><span lang="ko">대부분 평소 말로 설명하면 알맞은 스킬이 자동 발동합니다. 커맨드는 입구를 명확히 하고 싶을 때의 지름길입니다.</span><span lang="en">Mostly, describe it in plain language and the right skill auto-triggers. Commands are shortcuts when you want to be explicit.</span></dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ───────────── 10 uninstall ───────────── -->
+<section id="uninstall">
+  <div class="wrap">
+    <p class="secnum">10</p>
+    <h2><span lang="ko">제거 / 삭제</span><span lang="en">Uninstall / remove</span></h2>
+    <div class="term">
+      <div class="term-bar">
+        <span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--term-dim)">claude code</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'/plugin uninstall visigner@visigner')">copy</button>
+      </div>
+      <pre><span class="c"># <span lang="ko">플러그인 제거</span><span lang="en">remove the plugin</span></span>
+<span class="p">/</span>plugin uninstall visigner@visigner</pre>
+    </div>
+    <ul class="tight" style="font-size:15.5px">
+      <li><span lang="ko">팀 설치를 쓴 경우 <code>.claude/settings.json</code>에서 <code>extraKnownMarketplaces.visigner</code> 와 <code>enabledPlugins["visigner@visigner"]</code> 항목을 지웁니다.</span><span lang="en">If you used the team install, drop <code>extraKnownMarketplaces.visigner</code> and <code>enabledPlugins["visigner@visigner"]</code> from <code>.claude/settings.json</code>.</span></li>
+      <li><span lang="ko">디스크를 되찾으려면 캐시된 Chromium을 지웁니다 — macOS <code>~/Library/Caches/ms-playwright</code>, Linux <code>~/.cache/ms-playwright</code>.</span><span lang="en">To reclaim disk, remove the cached Chromium — macOS <code>~/Library/Caches/ms-playwright</code>, Linux <code>~/.cache/ms-playwright</code>.</span></li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p style="line-height:1.6;max-width:54em;margin:0">
+      <span lang="ko"><b style="color:var(--ink)">Anthropic과 무관합니다.</b> "Claude", "Anthropic", "Claude Code"는 각 소유자의 상표이며, Visigner가 함께 동작하는 대상을 가리키기 위해 명목적으로만 사용합니다 — 제휴·보증을 뜻하지 않습니다. Visigner는 API 키를 읽거나 저장하지 않습니다. MIT 라이선스 · Claude Code <b>v2.1.100+</b> 필요. 이 페이지의 인벤토리 수치(스킬 7·에이전트 3·커맨드 9·스크립트 26)는 저장소에서 직접 다시 셀 수 있으며, 수치가 저장소와 어긋나면 저장소가 맞습니다.</span>
+      <span lang="en"><b style="color:var(--ink)">Not affiliated with Anthropic.</b> "Claude", "Anthropic", and "Claude Code" are trademarks of their owner, used nominatively only to name what Visigner works with — no affiliation or endorsement implied. Visigner never reads or stores your API keys. MIT license · requires Claude Code <b>v2.1.100+</b>. Every inventory figure here (7 skills · 3 agents · 9 commands · 26 scripts) is recountable in the repo; if a figure disagrees with the repo, the repo wins.</span>
+    </p>
+    <p style="margin-top:14px;display:flex;flex-wrap:wrap;gap:12px">
+      <a href="https://github.com/elon-choo/visigner" style="text-decoration:none">GitHub</a>
+      <a href="https://github.com/elon-choo/visigner/blob/main/README.md" style="text-decoration:none">README</a>
+      <a href="index.html" style="text-decoration:none"><span lang="ko">랜딩 페이지</span><span lang="en">Landing page</span></a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  function setLang(l){
+    document.documentElement.setAttribute('data-lang', l);
+    document.documentElement.setAttribute('lang', l);
+    document.getElementById('ko-btn').setAttribute('aria-pressed', l==='ko');
+    document.getElementById('en-btn').setAttribute('aria-pressed', l==='en');
+    try{ localStorage.setItem('visigner-lang', l); }catch(e){}
+  }
+  (function(){ try{ var s=localStorage.getItem('visigner-lang'); if(s) setLang(s); }catch(e){} })();
+
+  function copyText(btn, txt){
+    var done=function(){ var o=btn.textContent; btn.textContent='copied ✓'; setTimeout(function(){ btn.textContent=o; },1400); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done, function(){ fb(txt); done(); });
+    } else { fb(txt); done(); }
+  }
+  function fb(txt){
+    var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta);
+  }
+
+  // reveal on scroll (guarded)
+  function revealAll(){ document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ el.classList.add('in'); }); }
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold:0.1, rootMargin:'0px 0px -6% 0px' });
+    document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ io.observe(el); });
+    window.addEventListener('load', function(){ setTimeout(revealAll, 800); });
+  } else { revealAll(); }
+</script>
+</body>
+</html>

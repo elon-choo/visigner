@@ -1,6 +1,10 @@
 # Visigner
 
-**Everything design, in one install.** Add this one repo to Claude Code and you get the whole design toolchain — landing pages, Korean 상세페이지/Wadiz pages, app & web UI, design tokens & systems, brand identity, UX flows & wireframes, design-to-code, and conversion/marketing — plus independent design-critic and accessibility-audit agents and a set of friendly slash commands. **No other installable design skill, plugin, or npm package needed for design work in Claude Code.**
+[**한국어 README →**](README.ko.md) · [**Landing page**](https://elon-choo.github.io/visigner/) · [**Guide**](https://elon-choo.github.io/visigner/guide.html)
+
+**Everything design, in one install.** Add this one repo to Claude Code and you get the whole design toolchain — landing pages, Korean 상세페이지/Wadiz pages, app & web UI, design tokens & systems, brand identity, UX flows & wireframes, design-to-code, and conversion/marketing — plus independent design-critic and accessibility-audit agents and a set of friendly slash commands. It bundles **7 skills · 3 agents · 9 commands · 26 built-in Node scripts**, so you stitch together far fewer installable design skills, plugins, or npm packages.
+
+> **Honest scope (the same care as the rest of the suite).** Visigner has **no external performance benchmark** — there are no conversion/speed numbers to quote, and it won't invent any. What's recountable is the inventory above (`ls skills/ agents/ commands/`), the design-critic's **10-dimension** rubric, the **WCAG 2.2 AA** target, and 2 real Wadiz captures. It **feeds** Figma/Photoshop/hosting/ESP rather than replacing them, image slots fall back to lo-fi SVG comps without an API key, and compliance is left to you. See **[the guide's boundaries table](https://elon-choo.github.io/visigner/guide.html#boundaries)**.
 
 It's built on Anthropic's `frontend-design` aesthetic discipline (plan a token system, reject the generic defaults) and a **screenshot self-critique loop** — so the output does not read as AI-generated.
 
@@ -104,7 +108,7 @@ Beyond the screenshot loop (`shoot.js`), the suite ships runnable helpers you in
 - **`brand-book.js`** — one command → ONE self-contained brand `guidelines.html`: palette swatches, type ramp, the logo on full / mono / knockout tiles, and a voice Do/Don't grid + lexicon (when a `voice.json` is given).
 - **`logo-handoff.js`** — one `mark.svg` → the artboard SET (full-color / mono / knockout / favicon / app-icon / social-avatar SVGs + an `index.html` preview), every board nesting the SAME mark with clear-space + min-size baked in. Handles CJK/non-Latin brand names in the no-key lettermark scaffold (고요 → 고).
 - **`skills/brand-identity/assets/logo-grid.html`** — a self-contained logo verification sheet: slots one mark (`?svg=/abs/mark.svg` or inline) and renders the 3-size × 3-color (full / mono / knockout) matrix, so the mono/knockout/small-size test is one `shoot.js` pass.
-- **CI gate** — `.github/workflows/design-gate.yml` + `npm run lint:brand` / `lint:tokens` / `gate` + a `.husky/pre-commit` hook make brand-lint, the @theme↔DTCG drift check (target via env `TOKENS_TARGET`), and the screenshot+axe gate a merge requirement.
+- **CI gate (templates)** — `.github/workflows/design-gate.yml`, the `npm run lint:brand` / `lint:tokens` / `gate` scripts (defined in `skills/detail-page/package.json`, so run them from that dir or copy the scripts into your own repo's `package.json`), and a `.husky/pre-commit` hook make brand-lint, the @theme↔DTCG drift check (target via env `TOKENS_TARGET`), and the screenshot+axe gate a merge requirement. These ship as templates inside the plugin — adapt them into your project's CI/`package.json`.
 - **Inline editor governance** — frontend-build documents a **flat-config ESLint preset** (`eslint-plugin-jsx-a11y` + a Tailwind class rule) paired with a `bin/brand-lint ./src` editor hook, so static-a11y + token-leak feedback shows up as you type, not only at commit/CI time.
 
 ## Notes
