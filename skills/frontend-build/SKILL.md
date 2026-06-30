@@ -161,6 +161,53 @@ Semantic HTML is the cheapest a11y win — get it right before reaching for ARIA
 
 The screenshot gate runs `axe-core` (below); for a full WCAG 2.2 AA audit (focus-appearance, target-size, reflow at 320px, reduced-motion paths) hand off to the **a11y-auditor** agent.
 
+### 7b · Per-component a11y tests + a stories scaffold (catch the regression in CI, not in review)
+The §8 shoot is a page-level smoke gate; a **component** a11y test fails the build the moment a `<Dialog>` loses its label or a button its name. Two equivalent recipes — pick by what the repo already runs:
+
+**Vitest + jest-axe** (unit/jsdom — fast, no browser; best for a Vite/RHF component repo):
+```bash
+npm i -D vitest jsdom @testing-library/react @testing-library/jest-dom jest-axe @types/jest-axe
+```
+```tsx
+// Button.test.tsx
+import { render } from "@testing-library/react";
+import { axe, toHaveNoViolations } from "jest-axe";
+import { Button } from "./Button";
+expect.extend(toHaveNoViolations);
+it("has no a11y violations in each state", async () => {
+  for (const props of [{}, { disabled: true }, { loading: true }]) {     // test the STATE MACHINE, not just default
+    const { container } = render(<Button {...props}>Save</Button>);
+    expect(await axe(container)).toHaveNoViolations();
+  }
+});
+```
+**@axe-core/playwright** (real-browser — catches focus-visible/contrast that jsdom can't; use when you already run Playwright):
+```bash
+npm i -D @playwright/test @axe-core/playwright
+```
+```ts
+import AxeBuilder from "@axe-core/playwright";
+test("component story is axe-clean", async ({ page }) => {
+  await page.goto("/iframe.html?id=button--loading");                    // a Storybook story URL, or any mounted route
+  const r = await new AxeBuilder({ page }).withTags(["wcag2a","wcag2aa"]).analyze();
+  expect(r.violations).toEqual([]);
+});
+```
+Gate on `serious`/`critical` (mirror the §8 `axe.gatingCount` floor) so a component test fails the same class of defect the page gate does.
+
+**Minimal Storybook stories scaffold** — one `*.stories.tsx` per component renders **every state as a named story**, which (a) is the visual catalogue a designer reviews and (b) gives the Playwright recipe above its per-state URLs. Don't over-invest; one story per state is the floor:
+```tsx
+// Button.stories.tsx
+import type { Meta, StoryObj } from "@storybook/react";
+import { Button } from "./Button";
+const meta: Meta<typeof Button> = { component: Button, args: { children: "Save changes" } };
+export default meta;
+export const Default: StoryObj<typeof Button> = {};
+export const Loading: StoryObj<typeof Button> = { args: { loading: true } };
+export const Disabled: StoryObj<typeof Button> = { args: { disabled: true } };
+```
+Scaffold with `npx storybook@latest init` only if the team wants the catalogue; the stories file is useful on its own as the state inventory even without running Storybook.
+
 ## 8 · Verify by screenshot — the gate that makes it real
 
 Render YOUR output, screenshot it, and read both pixels and the a11y/overflow/asset gates. This is non-negotiable. One-time, install the headless browser via the **`/design-setup`** slash command (a Claude command, not a shell line — it runs `npm install` + `npx patchright install chromium` inside the plugin). Then, each iteration:
@@ -202,7 +249,7 @@ Ship only when `gate.report.overall === true` and the tiles read as designed-for
 
 A repeatable method (don't free-hand pixel-push):
 1. **Identify the layout primitive** — is it a split hero? a 12-col grid? a centered stack? a bento? Name it before writing a `<div>`. One repeated primitive > 7 mismatched cards.
-2. **Extract tokens, not pixels** — eyedrop the 4–6 real colors → transcribe to OKLCH in the `@theme` block; identify the display + body faces (match to a Fontshare/Google face, never assume Inter); read the spacing rhythm onto the 8pt scale. This is a `design-system` extraction — produce the token block first, then build to it.
+2. **Extract tokens, not pixels** — eyedrop the 4–6 real colors → transcribe to OKLCH in the `@theme` block; identify the display + body faces (match to a Fontshare/Google face, never assume Inter); read the spacing rhythm onto the 8pt scale. This is a `design-system` extraction — produce the token block first, then build to it. **When the source is a real Figma file, import the variables/styles instead of eyedropping:** the **Figma REST API** `GET /v1/files/:key/variables/local` (Dev Mode / Enterprise) or the **Figma MCP server** (Dev Mode "Get variables/code") returns Variables + styles as structured JSON — map that into the DTCG model and run it through `design-system`'s `build-tokens.js --from style-dictionary|tokens-studio` (which also normalizes Figma's sRGB hex/rgb to OKLCH), so the `@theme` is *derived* from the design source, not hand-transcribed. (The Figma-Tokens / Tokens Studio plugin exports the same shape for files without Dev Mode.)
 3. **Build structure semantically** — landmarks + heading order from the visual hierarchy, not absolute positioning. From a Figma frame, read auto-layout → flex/grid + gap (Figma auto-layout maps almost 1:1 to flexbox).
 4. **Add every state** the static comp doesn't show — loading/empty/error/disabled/focus/hover (§4). A screenshot is one state; ship five.
 5. **Verify** with §8 — the rebuild must survive 390px + axe, and the tiles must match the source's intent (compare side-by-side).

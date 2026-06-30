@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# brand-lint — thin wrapper around skills/detail-page/scripts/brand-lint.js
+#
+# Resolves the shared script's absolute path so you can run the brand-governance gate from
+# anywhere without retyping the plugin path. brand-lint.js is pure built-in Node (no deps),
+# so NODE_PATH is only set for parity with `bin/shoot`.
+#
+#   bin/brand-lint <page.html|./src> [out.json]
+#   bin/brand-lint <page.html> --brand brand.tokens.json [--lexicon voice.json]
+#
+# Exits 1 on any error-severity violation (drops straight into CI). All env knobs
+# (BRAND_LINT_DELTAE, BRAND_LINT_PX, ALLOW_PURPLE…) pass through unchanged.
+set -euo pipefail
+
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+BIN_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+SCRIPT="$BIN_DIR/../skills/detail-page/scripts/brand-lint.js"
+
+GLOBAL_NM="$(npm root -g 2>/dev/null || true)"
+export NODE_PATH="${NODE_PATH:+$NODE_PATH:}${GLOBAL_NM}"
+
+exec node "$SCRIPT" "$@"

@@ -73,6 +73,44 @@ function parseOklch(str) {
   return { L, C: parseFloat(m[3]), H: parseFloat(m[4]) };
 }
 
+// sRGB (0-1 each) → OKLab → {L,C,H} so #hex / rgb() brand roles can be diffed in the same space as oklch().
+// Björn Ottosson's reference matrices. Lets flattenBrandColors accept a literal hex/rgb $value.
+function srgbToLCH(r, g, b) {
+  const lin = (c) => (c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+  const R = lin(r), G = lin(g), B = lin(b);
+  const l = 0.4122214708 * R + 0.5363325363 * G + 0.0514459929 * B;
+  const m = 0.2119034982 * R + 0.6806995451 * G + 0.1073969566 * B;
+  const s = 0.0883024619 * R + 0.2817188376 * G + 0.6299787005 * B;
+  const l_ = Math.cbrt(l), m_ = Math.cbrt(m), s_ = Math.cbrt(s);
+  const L = 0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_;
+  const a = 1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_;
+  const bb = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_;
+  let H = (Math.atan2(bb, a) * 180) / Math.PI; if (H < 0) H += 360;
+  return { L, C: Math.hypot(a, bb), H };
+}
+
+// parse ANY literal color $value string → {L,C,H}: oklch(...), #hex (3/4/6/8), or rgb()/rgba(). null otherwise.
+function parseColorString(str) {
+  const ok = parseOklch(str); if (ok) return ok;
+  const s = String(str).trim();
+  let hm = s.match(/^#([0-9a-fA-F]{3,8})$/);
+  if (hm) {
+    let h = hm[1];
+    if (h.length === 3 || h.length === 4) h = h.split('').map((c) => c + c).join(''); // expand shorthand
+    if (h.length >= 6) {
+      const r = parseInt(h.slice(0, 2), 16) / 255, g = parseInt(h.slice(2, 4), 16) / 255, b = parseInt(h.slice(4, 6), 16) / 255;
+      return srgbToLCH(r, g, b);
+    }
+    return null;
+  }
+  const rm = s.match(/rgba?\(\s*([\d.]+%?)\s*[,\s]\s*([\d.]+%?)\s*[,\s]\s*([\d.]+%?)/i);
+  if (rm) {
+    const chan = (t) => (t.endsWith('%') ? parseFloat(t) / 100 : parseFloat(t) / 255);
+    return srgbToLCH(chan(rm[1]), chan(rm[2]), chan(rm[3]));
+  }
+  return null;
+}
+
 // OKLab ΔE between two OKLCH colors (hue→a/b so a 30° teal shift reads as a real distance).
 function deltaE(a, b) {
   const ar = (a.H * Math.PI) / 180, brad = (b.H * Math.PI) / 180;
@@ -81,27 +119,59 @@ function deltaE(a, b) {
   return Math.sqrt((a.L - b.L) ** 2 + (aa - ba) ** 2 + (ab - bb) ** 2);
 }
 
-// flatten a DTCG brand.tokens.json `color` tree → { "primary-700": {L,C,H}, "surface": {...}, ... }.
-// Aliases ($value is a "{ref}" string) and non-OKLCH values are skipped (can't be diffed numerically).
+// flatten a DTCG brand.tokens.json color tree → { "primary-700": {L,C,H}, "surface": {...}, ... }.
+// Accepts every brand.tokens.json shape the system emits, not just the structured-components default:
+//   • structured oklch  ($value:{colorSpace:"oklch",components:[L,C,H]}) and the $extensions css round-trip;
+//   • a LITERAL string $value  ("oklch(...)", "#hex", or "rgb()/rgba()") — the shape the brand-identity SKILL documents;
+//   • a top-level "brand" (and/or "color") WRAPPER  ({ "brand": { "color": { ... } } });
+//   • {alias} refs ($value:"{color.primary.700}") — resolved against the resolved color of their target, like build-tokens.js.
+// A color leaf is `$type:"color"` OR a leaf (has $value/$type) with no $type and a color-looking string value;
+// leaves of any other $type (shadow/fontFamily/dimension/cubicBezier…) are skipped so e.g. a shadow's inner oklch() is never misread.
 function flattenBrandColors(tokens) {
-  const roles = {};
-  const rec = (obj, prefix) => {
+  const byPath = {};   // full dot-path → {L,C,H}
+  const aliasOf = {};  // full dot-path → target dot-path (unresolved ref)
+  const isLeaf = (v) => v && typeof v === 'object' && ('$value' in v || '$type' in v);
+  const aliasRef = (val) => (typeof val === 'string' && /^\{.+\}$/.test(val) ? val.slice(1, -1) : null);
+  const colorOf = (v) => {
+    const css = v.$extensions && v.$extensions['com.detail-page'] && v.$extensions['com.detail-page'].css;
+    if (css) { const ok = parseColorString(css); if (ok) return ok; }
+    const val = v.$value;
+    if (val && val.colorSpace === 'oklch' && Array.isArray(val.components)) {
+      const c = val.components; return { L: c[0], C: c[1], H: c[2] };
+    }
+    if (typeof val === 'string') return parseColorString(val); // literal oklch()/#hex/rgb()
+    return null;
+  };
+  const walk = (obj, segs) => {
     for (const [k, v] of Object.entries(obj || {})) {
       if (k.startsWith('$') || v == null || typeof v !== 'object') continue;
-      const name = (prefix ? `${prefix}-${k}` : k).toLowerCase();
-      if (v.$type === 'color') {
-        const css = v.$extensions && v.$extensions['com.detail-page'] && v.$extensions['com.detail-page'].css;
-        let ok = css ? parseOklch(css) : null;
-        if (!ok && v.$value && v.$value.colorSpace === 'oklch' && Array.isArray(v.$value.components)) {
-          const c = v.$value.components; ok = { L: c[0], C: c[1], H: c[2] };
-        }
-        if (ok) roles[name] = ok;
-      } else if (!v.$type) {
-        rec(v, name);
+      const p = [...segs, k];
+      if (isLeaf(v)) {
+        if (v.$type && v.$type !== 'color') continue;       // non-color token — skip
+        const ref = aliasRef(v.$value);
+        if (ref) { aliasOf[p.join('.')] = ref; continue; }   // resolve in pass 2
+        const col = colorOf(v);
+        if (col) byPath[p.join('.')] = col;
+      } else {
+        walk(v, p); // group node (wrapper, ramp, etc.) — recurse
       }
     }
   };
-  rec(tokens.color, '');
+  walk(tokens, []);
+  // resolve {alias} chains against resolved leaf colors (bounded; ignore cycles/unresolvable).
+  for (const from of Object.keys(aliasOf)) {
+    let cur = aliasOf[from]; const seen = new Set([from]);
+    while (cur && !byPath[cur] && aliasOf[cur] && !seen.has(cur)) { seen.add(cur); cur = aliasOf[cur]; }
+    if (cur && byPath[cur]) byPath[from] = byPath[cur];
+  }
+  // role names: strip leading "brand"/"color" wrapper segment(s), join the rest with '-' (matches the page's --brand-*/--color-* names).
+  const roles = {};
+  for (const [p, col] of Object.entries(byPath)) {
+    const segs = p.split('.');
+    while (segs.length > 1 && (segs[0] === 'brand' || segs[0] === 'color')) segs.shift();
+    const name = segs.join('-').toLowerCase();
+    if (!(name in roles)) roles[name] = col;
+  }
   return roles;
 }
 
@@ -142,7 +212,7 @@ function tagDim(tag, attr) {
 // The on-brand check. brandTokens = parsed brand.tokens.json; lexicon = {banned:[],owned:[]} | null.
 // Returns { onBrand, evidence, violations }. Off-brand color and banned term are ERROR (gate teeth);
 // logo-undersize and missing-owned-term are WARN (judgement). Emits NO violations on a fully matching page.
-function brandCheck(raw, brandTokens, lexicon) {
+function brandCheck(raw, brandTokens, lexicon, brandFile) {
   const violations = [];
   const add = mkAdd(violations);
   const stripped = raw
@@ -151,6 +221,12 @@ function brandCheck(raw, brandTokens, lexicon) {
 
   // (1) colors: declared vs semantic role within ΔE
   const roles = flattenBrandColors(brandTokens);
+  const roleCount = Object.keys(roles).length;
+  // LOUD FAILURE: a brand file we could not read ANY semantic color role from is an ERROR, never a silent
+  // "0/0 — on-brand: yes". Empty {}, a garbage object, or a shape this parser can't read all land here.
+  if (roleCount === 0) {
+    add('brand-unreadable', 'brand tokens', `could not read any brand roles from ${brandFile || 'brand file'}`, 'error');
+  }
   const declared = extractDeclaredColors(stripped);
   let checked = 0;
   const off = [];
@@ -196,13 +272,18 @@ function brandCheck(raw, brandTokens, lexicon) {
     }
   }
 
-  const onBrand = off.length === 0 && bannedHits.length === 0 && logoIssues.length === 0;
+  // A zero-role brand file can NEVER be on-brand (would otherwise read off=0/banned=0 → silent "yes").
+  const onBrand = roleCount > 0 && off.length === 0 && bannedHits.length === 0 && logoIssues.length === 0;
   const parts = [];
-  parts.push(`${checked - off.length}/${checked} declared colors within ΔE ${BRAND_DELTAE} of brand roles`);
-  if (off.length) parts.push(`OFF: ${off.map((o) => `--${o.name} ΔE${o.dE.toFixed(3)}`).join(', ')}`);
+  if (roleCount === 0) {
+    parts.push(`could not read any brand roles from ${brandFile || 'brand file'} — check brand.tokens.json shape`);
+  } else {
+    parts.push(`${checked - off.length}/${checked} declared colors within ΔE ${BRAND_DELTAE} of ${roleCount} brand roles`);
+    if (off.length) parts.push(`OFF: ${off.map((o) => `--${o.name} ΔE${o.dE.toFixed(3)}`).join(', ')}`);
+  }
   if (lexicon) parts.push(`${bannedHits.length} banned${bannedHits.length ? ` ("${bannedHits.join('", "')}")` : ''}; owned ${ownedPresent}/${ownedTotal}`);
   if (logoGuide) parts.push(logoChecked ? (logoIssues.length ? `logo ${logoIssues.join(', ')}` : 'logo ok') : 'no logo found');
-  return { onBrand, evidence: parts.join('; '), violations };
+  return { onBrand, evidence: parts.join('; '), violations, roleCount, checked, offCount: off.length };
 }
 
 // ============================================================================
@@ -411,26 +492,50 @@ try {
     // ---------- DIR / source-tree mode ----------
     const root = path.resolve(target);
     const outPath = positionals[1] || path.join(root, 'brand-lint.json');
-    if (flags.brand) console.error('note: --brand (SEMANTIC BRAND mode) applies to a single page file; ignored in dir mode.');
+    // SEMANTIC BRAND mode now runs in DIR mode too: per-file ΔE rollup + one overall on-brand line.
+    // The semantic color/logo/copy check is meaningful only for files that declare :root/@theme token
+    // colors, so it runs on .html/.htm/.css/.scss; other source exts still get the raw-color/font/etc. lint.
+    const BRAND_CHECK_EXTS = new Set(['.html', '.htm', '.css', '.scss']);
+    // LOUD FAILURE up front: a brand file with zero readable roles fails the whole run (no silent per-file pass).
+    if (flags.brand) {
+      const roleN = Object.keys(flattenBrandColors(brandTokens)).length;
+      if (roleN === 0) {
+        console.error(`on-brand: no — could not read any brand roles from ${flags.brand} — check brand.tokens.json shape`);
+        console.log(JSON.stringify({ pass: false, onBrand: false, errorCount: 1, brandError: `could not read any brand roles from ${flags.brand}`, outPath }, null, 2));
+        process.exit(1);
+      }
+    }
     const files = collectFiles(root, []).sort();
     const fileReports = [];
     let errorCount = 0, warnCount = 0, rawColorsTotal = 0, definedTokensTotal = 0;
+    let brandCheckedTotal = 0, brandOffTotal = 0, brandFilesOff = 0, brandFilesChecked = 0;
 
     for (const f of files) {
       const raw = fs.readFileSync(f, 'utf8');
       const { violations, tokenCoverage } = lintByExt(raw, f);
+      // SEMANTIC BRAND check per file (color ΔE + logo + lexicon); its violations join the gate.
+      let brand = null;
+      if (flags.brand && BRAND_CHECK_EXTS.has(path.extname(f).toLowerCase())) {
+        const r = brandCheck(raw, brandTokens, lexicon, flags.brand);
+        for (const v of r.violations) violations.push(v);
+        brand = { onBrand: r.onBrand, evidence: r.evidence };
+        brandCheckedTotal += r.checked; brandOffTotal += r.offCount;
+        if (r.checked > 0 || r.offCount > 0) { brandFilesChecked++; if (!r.onBrand) brandFilesOff++; }
+      }
       const fe = violations.filter((v) => v.severity === 'error').length;
       const fw = violations.filter((v) => v.severity === 'warn').length;
       errorCount += fe; warnCount += fw;
       rawColorsTotal += tokenCoverage.rawColorsOutsideTheme;
       definedTokensTotal += tokenCoverage.definedTokens;
-      fileReports.push({ file: path.relative(root, f), errorCount: fe, warnCount: fw, violations, tokenCoverage });
+      fileReports.push({ file: path.relative(root, f), errorCount: fe, warnCount: fw, violations, tokenCoverage, ...(brand ? { brand } : {}) });
     }
 
+    const overallOnBrand = flags.brand ? brandFilesOff === 0 : undefined;
     const report = {
       pass: errorCount === 0,
       errorCount,
       warnCount,
+      ...(flags.brand ? { onBrand: overallOnBrand } : {}),
       files: fileReports,
       totals: {
         filesScanned: files.length,
@@ -439,12 +544,17 @@ try {
         warnCount,
         rawColorsOutsideTheme: rawColorsTotal,
         definedTokens: definedTokensTotal,
+        ...(flags.brand ? { brandFilesChecked, brandDeclaredColors: brandCheckedTotal, brandOffBrandColors: brandOffTotal, brandFilesOff } : {}),
       },
       root,
     };
     fs.writeFileSync(outPath, JSON.stringify(report, null, 2));
+    if (flags.brand) {
+      console.log(`on-brand: ${overallOnBrand ? 'yes' : 'no'} — ${brandCheckedTotal - brandOffTotal}/${brandCheckedTotal} declared colors on-brand across ${brandFilesChecked} file(s); ${brandFilesOff} file(s) off-brand`);
+    }
     console.log(JSON.stringify({
       pass: report.pass, errorCount, warnCount,
+      ...(flags.brand ? { onBrand: overallOnBrand } : {}),
       filesScanned: files.length, filesWithErrors: report.totals.filesWithErrors, outPath,
     }, null, 2));
     process.exit(errorCount === 0 ? 0 : 1);
@@ -459,7 +569,7 @@ try {
   // Off-brand colors / banned terms are added to the SAME violations list so they count toward the gate.
   let brand = null;
   if (brandTokens) {
-    const r = brandCheck(raw, brandTokens, lexicon);
+    const r = brandCheck(raw, brandTokens, lexicon, flags.brand);
     for (const v of r.violations) violations.push(v);
     brand = { onBrand: r.onBrand, evidence: r.evidence };
   }

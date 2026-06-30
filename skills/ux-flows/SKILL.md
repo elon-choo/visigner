@@ -254,6 +254,8 @@ flowchart TD
 ```
 PNG it via a CDN harness (no install) → screenshot: wrap the diagram in `<pre class=mermaid>…</pre>` + `<script type=module>import m from"https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";m.initialize({startOnLoad:true})</script>`, then `node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js /tmp/wire/flow.html /tmp/wire/shots`.
 
+> **Shorthand:** the suite ships `bin/shoot` and `bin/brand-lint` thin wrappers (suite root `bin/`) that resolve the global `node_modules` (Playwright/axe) and the script path for you — so every `NODE_PATH=$(npm root -g) node …/scripts/shoot.js <x>` in this skill can be typed `bin/shoot <x>`, and the brand gate `bin/brand-lint <page>`. Use them anywhere the long incantation appears.
+
 **B · Ticket list (JIRA/Linear paste)** — one row per screen/state, copy-paste ready so the backlog is seeded from the plan, not re-derived. Title · acceptance criteria (from step 7) · route.
 
 | Title | Acceptance criteria (Given/When/Then) | Route |
@@ -376,6 +378,12 @@ Do not declare the plan done until every box is true:
 - [ ] **Every SUCCESS metric** (§1) maps to an event in the §7e event spec — nothing is unmeasurable.
 
 If any box fails, fix that artifact and re-check — don't hand off a plan with holes; the hole becomes a mid-build interruption or a wrong build.
+
+**Run the deterministic floor FIRST — `plan-lint.js` is the machine floor under `design-critic MODE=plan`.** The plan was the one in-scope deliverable with no machine gate (HTML/tokens/email/A-B already have one); this closes it. Lint the PRD/plan markdown (§7d) before the LLM critic judges quality — deterministic checks first, judgment second:
+```bash
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/plan-lint.js <plan.md> [out.json]
+```
+It checks **11 required sections** (problem, goals, non-goals, users, success-metrics, scope-in, scope-out, flows, acceptance-criteria, event-spec, open-questions) — detected from markdown **headings OR bold labels**, so a plan written either way passes — plus **3 structural floors**: `event-spec-table` (a real markdown table exists in the event-spec section, §7e), `flow-error-path` (every flow names an error/edge/unhappy path, §3), and `inventory-ac` (every screen/state in a "Screen/State Inventory" section is referenced in acceptance criteria; **no inventory section → WARN only**). It prints a PASS/FAIL/WARN checklist and an optional JSON report; **exit 1** on any required/structural ERROR, 0 when the floor is met, 2 fatal. (Off-by-default — nothing imports it; run it explicitly.) Fix every ERROR, then hand the plan to the critic.
 
 Then get an **independent** read before handoff — a planner grading their own plan is the same trap the visual rubric bans (generator ≠ evaluator): run **`design-critic` with `MODE=plan`** (it grades the flow / IA / wireframe as a non-pixel artifact — does it serve the JTBD, or is it feature theatre with no spine?) and **`a11y-auditor`** (is every flow reachable by keyboard + screen reader, every state announced, before any visual pass?). Fold their findings back into the artifacts, not into a reply.
 

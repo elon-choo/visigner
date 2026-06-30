@@ -9,18 +9,70 @@
 const fs = require('fs');
 const path = require('path');
 
-const file = process.argv[2];
-if (!file) { console.error('usage: node emit-tokens.js <page.html> [out-dir]'); process.exit(1); }
-const outDir = process.argv[3] || path.dirname(path.resolve(file));
+// args: <page.html> [out-dir] [--theme <selector>]   (--theme emits ONE themed handoff; default = :root only, no leak)
+const rawArgs = process.argv.slice(2);
+let theme = null;
+const positional = [];
+for (let i = 0; i < rawArgs.length; i++) {
+  const a = rawArgs[i];
+  if (a === '--theme') { theme = rawArgs[++i]; continue; }
+  if (a.startsWith('--theme=')) { theme = a.slice('--theme='.length); continue; }
+  positional.push(a);
+}
+const file = positional[0];
+if (!file) { console.error('usage: node emit-tokens.js <page.html> [out-dir] [--theme <selector>]'); process.exit(1); }
+const outDir = positional[1] || path.dirname(path.resolve(file));
+const themeSlug = theme ? theme.replace(/[^a-z0-9]+/gi, '-').replace(/^-+|-+$/g, '').toLowerCase() : null;
+const normSel = (s) => String(s).replace(/['"]/g, '').replace(/\s+/g, '').toLowerCase();
 
 try {
   fs.mkdirSync(outDir, { recursive: true });
   const raw = fs.readFileSync(file, 'utf8');
   const css = raw.replace(/<!--[\s\S]*?-->/g, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
 
-  // collect every custom-property definition (name -> raw value) across all <style> blocks (last wins)
+  // --- parse CSS into selector-scoped blocks so a theme override ([data-theme]/[data-brand]) can't LEAK its
+  //     value into the default handoff. The old code flattened every --prop last-wins across all blocks. ---
+  function parseBlocks(src) {
+    const blocks = [];
+    (function walk(start, end) {
+      let j = start, buf = '';
+      while (j < end) {
+        const ch = src[j];
+        if (ch === '{') {
+          const sel = buf.trim(); buf = '';
+          let d = 1, k = j + 1;
+          for (; k < end; k++) { if (src[k] === '{') d++; else if (src[k] === '}') { d--; if (d === 0) break; } }
+          if (/^@(media|supports|layer|container|scope)\b/i.test(sel)) {
+            walk(j + 1, k); // at-rule wrapper — descend to its inner selector blocks (e.g. prefers-color-scheme)
+          } else {
+            const decls = new Map();
+            for (const m of src.slice(j + 1, k).matchAll(/(--[a-z0-9-]+)\s*:\s*([^;{}]+);/gi)) decls.set(m[1], m[2].trim());
+            blocks.push({ selector: sel, decls });
+          }
+          j = k + 1; buf = '';
+        } else { buf += ch; j++; }
+      }
+    })(0, src.length);
+    return blocks;
+  }
+  // Parse ONLY <style> contents — <script> JS braces would otherwise desync the CSS block matcher.
+  // (Fall back to the whole document when a bare .css file is passed, i.e. no <style> tags.)
+  const styleSrc = [...css.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)].map((m) => m[1]).join('\n');
+  const blocks = parseBlocks(styleSrc || css);
+  // BASE = the always-applied cascade (:root + @theme). Theme-scoped blocks are NOT merged in unless --theme asks.
+  const BASE = new Set([':root', '@theme', 'html', ':where(:root)']);
   const defs = new Map();
-  for (const m of css.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;{}]+);/gi)) defs.set(m[1], m[2].trim());
+  for (const b of blocks) if (BASE.has(normSel(b.selector))) for (const [n, v] of b.decls) defs.set(n, v);
+  // --theme <selector>: overlay the requested block on top of BASE so var(--brand-*) chains resolve to the THEMED value.
+  if (theme) {
+    const match = blocks.filter((b) => normSel(b.selector) === normSel(theme));
+    if (!match.length) {
+      const avail = [...new Set(blocks.map((b) => b.selector))].filter((s) => !BASE.has(normSel(s)) && /\S/.test(s));
+      console.error(`FATAL no CSS rule matches selector "${theme}". Available theme selectors: ${avail.join(' | ') || '(none)'}`);
+      process.exit(2);
+    }
+    for (const b of match) for (const [n, v] of b.decls) defs.set(n, v);
+  }
 
   // resolve a value's var(--x[, fallback]) chain to a literal (single-var tokens; guards cycles)
   function resolve(val, seen = new Set()) {
@@ -68,7 +120,7 @@ try {
   }
 
   // enumerate the Tailwind design tokens the page actually exposes (the @theme namespace)
-  const tokens = { $description: 'DTCG design tokens serialized from ' + path.basename(file) + ' by emit-tokens.js. OKLCH-native; literal CSS in $extensions["com.detail-page"].css. Regenerated from @theme — never hand-edit.', color: {}, font: {}, shadow: {}, space: {}, fontSize: {}, lineHeight: {}, radius: {}, motion: { duration: {}, easing: {} } };
+  const tokens = { $description: 'DTCG design tokens serialized from ' + path.basename(file) + (theme ? ` (theme "${theme}")` : ' (:root)') + ' by emit-tokens.js. OKLCH-native; literal CSS in $extensions["com.detail-page"].css. Regenerated from @theme — never hand-edit.', color: {}, font: {}, shadow: {}, space: {}, fontSize: {}, lineHeight: {}, radius: {}, motion: { duration: {}, easing: {} } };
   let nColor = 0, nFont = 0, nShadow = 0, nSpace = 0, nText = 0, nLeading = 0, nRadius = 0, nDur = 0, nEase = 0;
   for (const [name, val] of defs) {
     if (/^--color-/.test(name)) { tokens.color[name.replace('--color-', '')] = colorToken(val); nColor++; }
@@ -81,7 +133,10 @@ try {
     else if (/^--dur-/.test(name)) { tokens.motion.duration[name.replace('--dur-', '')] = durToken(val); nDur++; }
     else if (/^--ease-/.test(name)) { tokens.motion.easing[name.replace('--ease-', '')] = easeToken(val); nEase++; }
   }
-  fs.writeFileSync(path.join(outDir, 'tokens.json'), JSON.stringify(tokens, null, 2));
+  // --theme writes a per-theme filename so multiple themes can land in one out-dir without clobbering the default
+  const tokensName = themeSlug ? `tokens.${themeSlug}.json` : 'tokens.json';
+  const specName = themeSlug ? `spec.${themeSlug}.html` : 'spec.html';
+  fs.writeFileSync(path.join(outDir, tokensName), JSON.stringify(tokens, null, 2));
 
   // spec.html — one swatch per color, the type families, and the elevation samples
   const sw = Object.entries(tokens.color).map(([k, t]) => {
@@ -126,9 +181,9 @@ h2{margin:28px 0 12px;font-size:14px;text-transform:uppercase;letter-spacing:.05
 <h2>Radius (${nRadius})</h2><div class="grid">${radii}</div>
 <h2>Motion (${nMotion})</h2><ul style="line-height:1.9;list-style:none;padding:0">${motion}</ul>
 </body></html>`;
-  fs.writeFileSync(path.join(outDir, 'spec.html'), html);
+  fs.writeFileSync(path.join(outDir, specName), html);
 
-  console.log(JSON.stringify({ ok: true, outDir: path.resolve(outDir), color: nColor, font: nFont, shadow: nShadow, space: nSpace, fontSize: nText, lineHeight: nLeading, radius: nRadius, motion: nMotion }, null, 2));
+  console.log(JSON.stringify({ ok: true, outDir: path.resolve(outDir), theme: theme || null, outFiles: [tokensName, specName], color: nColor, font: nFont, shadow: nShadow, space: nSpace, fontSize: nText, lineHeight: nLeading, radius: nRadius, motion: nMotion }, null, 2));
 } catch (e) {
   console.error('FATAL', e.message);
   process.exit(2);

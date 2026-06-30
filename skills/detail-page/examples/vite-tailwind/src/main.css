@@ -1,0 +1,7 @@
+/* Tailwind v4 entry for the Vite build.
+   1) pull in Tailwind, 2) layer in the @theme that maps every Tailwind token to its --brand-* primitive.
+   theme.generated.css is produced by ../../scripts/build-tokens.js from tokens/brand-default.tokens.json —
+   it is the SAME @theme the CDN starter ships, so utilities (bg-primary / text-ink / shadow-e2 / rounded-lg)
+   and inline var(--color-*) refs resolve identically in this real production build. Never hand-edit it. */
+@import 'tailwindcss';
+@import './theme.generated.css';

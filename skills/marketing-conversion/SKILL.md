@@ -200,10 +200,15 @@ node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js plan --baseline 0.04
 node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js test --a 120/4000 --b 156/4100
 # Ship the split: dependency-free client snippet (stable id → bucket, sets data-variant, fires exposure).
 node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js snippet --name hero-cta --split 50
-# Pull the funnel read-only: ordered step counts + drop-off %, segmented by source × device.
+# Pull the funnel read-only: ordered step counts + drop-off %. --segment now DRIVES the PostHog query (a real
+# breakdownFilter on $utm_source × $device_type), rendering a per-segment drop-off MATRIX (one funnel block per
+# breakdown value); without --segment behavior is unchanged (overall funnel). --dry-run prints the exact provider
+# query body with NO key/network call and exits 0 (preview the segmented query offline).
 POSTHOG_API_KEY=... POSTHOG_PROJECT_ID=... \
-  node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/pull-funnel.js --provider posthog --steps "page_view,scroll_50,cta_click,purchase"
+  node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/pull-funnel.js --provider posthog --steps "page_view,scroll_50,cta_click,purchase" --segment source,device [--days 14] [--dry-run]
 # No key? It prints the exact event/UTM schema you need instrumented and exits 0 (useful offline).
+# GA4 path: metric is now totalUsers (user-scoped/deduplicated, not eventCount) and it always WARNs that v1beta
+# runReport can't produce a true ordered funnel → prefer PostHog or GA4 v1alpha runFunnelReport for ordered intent.
 ```
 **`ab.js` also covers the cases a proportion z-test can't** (all built-in Node math, deterministic, no RNG — `--help` documents every formula):
 ```bash
@@ -232,7 +237,17 @@ node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/email.js spec.json out.htm
 node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/email-lint.js <spec.json|email.html|dir/> [--lexicon voice.json] [out.json]
 ```
 - **Spec shape:** `{ subject, preheader, brand:{surface,ink,accent,font}, blocks:[…] }` — `blocks` is the only required field. Block types: `h1`/`p`/`cta {text,href}`/`img {href,text,width}`/`divider`. Text is HTML-escaped; `javascript:`/`data:` hrefs are sanitized to `#`; button text color auto-picks white/dark by accent luminance. Exports `{ buildEmail, onColor }` for programmatic use.
-- **email-lint severities:** ERROR (exit 1) = subject missing / >50 chars, zero CTAs, ALL-CAPS or `!!!` or known spam words in subject/preheader, any `--lexicon` banned term. WARN (never fails) = no preheader / >90 chars, >1 CTA, >2 emoji, none of the owned terms present. Run it as the gate before handing the copy to **design-critic `MODE=copy`** for the voice/consistency read — deterministic checks first, LLM judgment second.
+- **email-lint severities:** ERROR (exit 1) = subject missing / >50 chars, zero CTAs, ALL-CAPS or `!!!` in subject/preheader, a **true** spam tell (rule `spam-words`: *free money, act now, cash bonus, no cost, 100% free, winner, congratulations you, this is not spam, extra income, click here, risk-free*), any `--lexicon` banned term. WARN (never fails) = no preheader / >90 chars, >1 CTA, >2 emoji, none of the owned terms present, and a **borderline-but-legit launch phrase** (new rule `spam-words-soft`: *guarantee, order now, buy now, limited time, urgent*) — these are downgraded from ERROR so real launch copy no longer fails the gate. **Sequence/dir mode dedupes a spec+HTML pair:** a `welcome.json` + `welcome.html` in the same dir count **once** by basename (the `.json` spec is preferred when both exist), so a built sequence isn't double-linted. Run it as the gate before handing the copy to **design-critic `MODE=copy`** for the voice/consistency read — deterministic checks first, LLM judgment second.
+
+### Channel copy lint + the one-idea campaign ladder
+Email has its own discipline; the **paid-ad / social / push** surfaces get the non-email companion floor, `copy-lint.js` — a deterministic per-CHANNEL gate (built-in Node, no deps, no key).
+```bash
+# Lint paid-ad/social/push copy: channel length budgets + AI-slop banned verbs + a required CTA. Exit 1 on ERROR.
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/copy-lint.js <spec.json|dir/> [out.json] [--idea "the one promise"] [--lexicon voice.json]
+```
+- **Spec shape:** a single surface object, an array of them, or `{ "surfaces": [...] }`. A surface's `channel` ∈ `{ad, social, push}` gets **length budgets** (ad primary text ~125 chars, social first-line, push ≤10 words / ~90 chars); any other channel (`landing`/`email`/…) gets the slop/CTA/idea/lexicon checks only (no length budget).
+- **Checks:** the per-channel length floor, an AI-slop **banned-verb** list (Empower / Unlock / Transform / Build the future / …), a **required CTA**, an optional owned/banned `--lexicon voice.json` (shared with email-lint), and — with `--idea` — a **cross-surface message-match** check that flags any surface whose hero doesn't restate the pinned idea.
+- **Use it for the `/campaign` ladder** — pin ONE idea, build a per-surface ladder (landing + ad + social + an email *sequence*; each with message / awareness / angle / metric), then run **`copy-lint.js --idea`** for the cross-surface floor + **`email-lint.js`** for the sequence + **design-critic `MODE=copy`** for the independent grade. That whole flow is the **`/campaign`** command (`commands/campaign.md`); reach for it on "campaign / 캠페인 / 런치 캠페인 짜줘 / one idea across channels / 메시지 일관성". The §Sequences launch-runway arc is the email half of that ladder.
 
 ## Analytics — the few numbers that matter
 

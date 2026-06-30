@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# shoot — thin wrapper around skills/detail-page/scripts/shoot.js
+#
+# Saves you the long `NODE_PATH=$(npm root -g) node …/skills/detail-page/scripts/shoot.js`
+# incantation: it resolves the global node_modules (where Playwright + axe live) and the
+# shared script's absolute path on its own, then forwards every arg + env knob through.
+#
+#   bin/shoot <file-or-url> [outDir]
+#   AXE=1 GATE_EXIT=1 bin/shoot ./index.html /tmp/shots
+#   REDUCED_MOTION=1 bin/shoot ./index.html
+#   MOTION_TRIGGER='scroll:.reveal' bin/shoot ./index.html /tmp/shots
+#
+# All shoot.js env vars (AXE, ASSETS, GATE_EXIT, FILMSTRIP, MOTION_TRIGGER, REDUCED_MOTION,
+# STATIC, BRANDS, MAX_TILES…) pass through unchanged. Exit code is shoot.js's own, so
+# GATE_EXIT=1 propagates straight to CI.
+set -euo pipefail
+
+# Resolve this script's real dir (follow symlinks) → the suite root is its parent.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+BIN_DIR="$(cd -P "$(dirname "$SOURCE")" >/dev/null 2>&1 && pwd)"
+SCRIPT="$BIN_DIR/../skills/detail-page/scripts/shoot.js"
+
+# Global node_modules so the bundled Playwright/axe/visual comparators resolve. Keep any
+# caller-supplied NODE_PATH ahead of it.
+GLOBAL_NM="$(npm root -g 2>/dev/null || true)"
+export NODE_PATH="${NODE_PATH:+$NODE_PATH:}${GLOBAL_NM}"
+
+exec node "$SCRIPT" "$@"

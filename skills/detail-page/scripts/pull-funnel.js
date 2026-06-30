@@ -33,6 +33,16 @@ const steps = (args.steps && args.steps !== true ? String(args.steps) : '')
 const days = args.days !== undefined && args.days !== true ? Math.max(1, Number(args.days) || 14) : 14;
 const segment = (args.segment && args.segment !== true ? String(args.segment) : 'source,device')
   .split(',').map(s => s.trim()).filter(Boolean);
+// --segment is "given" when the flag is present at all (bare flag => default source,device dims).
+const segmentGiven = args.segment !== undefined;
+// --dry-run prints the constructed provider query body (works WITHOUT a key) and exits 0.
+const dryRun = args['dry-run'] === true || args.dryRun === true;
+
+// segment dimension -> PostHog event property used for the funnel breakdown.
+const SEG_PROP = {
+  source: '$utm_source', utm_source: '$utm_source', '$utm_source': '$utm_source',
+  device: '$device_type', device_type: '$device_type', '$device_type': '$device_type'
+};
 
 if (args.help || args['-h']) { printOfflineGuidance('help'); process.exit(0); }
 if (steps.length < 2) {
@@ -62,6 +72,10 @@ function printOfflineGuidance(reason) {
     console.log('  export POSTHOG_HOST=https://us.posthog.com   # or https://eu.posthog.com / self-host');
     console.log('  # (uses POST /api/projects/:id/query/ with a FunnelsQuery — read-only)');
   }
+  console.log('');
+  console.log('## Preview the query without a key');
+  console.log('  Add --dry-run to print the exact provider query body (incl. the source × device breakdown');
+  console.log('  when --segment is set) without issuing any request.');
   console.log('');
   console.log('## Exact events you must have instrumented (these step names → these events)');
   console.log('   Name events object_action, lowercase snake_case. Map your --steps to:');
@@ -103,13 +117,7 @@ function printOfflineGuidance(reason) {
 
 // ---------- live pull: PostHog ----------
 
-async function pullPosthog() {
-  const key = process.env.POSTHOG_API_KEY;
-  const projectId = process.env.POSTHOG_PROJECT_ID;
-  const host = (process.env.POSTHOG_HOST || 'https://us.posthog.com').replace(/\/+$/, '');
-  if (!key) { printOfflineGuidance('POSTHOG_API_KEY not set'); return 0; }
-  if (!projectId) { printOfflineGuidance('POSTHOG_PROJECT_ID not set'); return 0; }
-
+function buildPosthogQuery() {
   const suggested = { view: 'page_view', pageview: 'page_view', scroll50: 'scroll_50', cta: 'cta_click', cta_click: 'cta_click', buy: 'purchase', purchase: 'purchase', checkout: 'checkout_started', signup: 'signup_completed' };
   const series = steps.map(s => ({ kind: 'EventsNode', event: suggested[s.toLowerCase()] || s.toLowerCase().replace(/[^a-z0-9]+/g, '_') }));
   const query = {
@@ -120,6 +128,36 @@ async function pullPosthog() {
       funnelsFilter: { funnelVizType: 'steps' }
     }
   };
+  // When --segment is given, break the funnel down by source × device so the per-segment
+  // drop-off matrix is computed server-side (highest-leverage diagnostic the tool used to punt).
+  const breakdowns = [];
+  if (segmentGiven) {
+    const seen = new Set();
+    for (const d of segment) {
+      const prop = SEG_PROP[d.toLowerCase()];
+      if (prop && !seen.has(prop)) { seen.add(prop); breakdowns.push({ type: 'event', property: prop }); }
+    }
+    if (breakdowns.length) {
+      query.query.breakdownFilter = { breakdown_type: 'event', breakdowns };
+    }
+  }
+  return { query, series, breakdowns };
+}
+
+async function pullPosthog() {
+  const { query, series, breakdowns } = buildPosthogQuery();
+  if (dryRun) {
+    console.log(`# DRY-RUN — PostHog FunnelsQuery body (no request issued)`);
+    console.log(`# Segment breakdown: ${breakdowns.length ? breakdowns.map(b => b.property).join(' × ') : '(none — pass --segment to enable)'}`);
+    console.log(JSON.stringify(query, null, 2));
+    return 0;
+  }
+
+  const key = process.env.POSTHOG_API_KEY;
+  const projectId = process.env.POSTHOG_PROJECT_ID;
+  const host = (process.env.POSTHOG_HOST || 'https://us.posthog.com').replace(/\/+$/, '');
+  if (!key) { printOfflineGuidance('POSTHOG_API_KEY not set'); return 0; }
+  if (!projectId) { printOfflineGuidance('POSTHOG_PROJECT_ID not set'); return 0; }
 
   try {
     const res = await fetch(`${host}/api/projects/${projectId}/query/`, {
@@ -138,14 +176,27 @@ async function pullPosthog() {
       printOfflineGuidance('PostHog returned no funnel rows (check event names / date window)');
       return 0;
     }
+    const header = `PostHog · last ${days}d · project ${projectId}`;
+    // With a breakdownFilter, PostHog returns one funnel (array of steps) PER segment value,
+    // i.e. results is an array-of-arrays. Render the per-segment drop-off matrix in that case.
+    const isBreakdown = breakdowns.length > 0 && Array.isArray(results[0]);
+    if (isBreakdown) {
+      printFunnelMatrix(results, header, series);
+      return 0;
+    }
     printFunnel(results.map((r, i) => ({
       step: steps[i] || (r.name || `step ${i + 1}`),
       event: (series[i] && series[i].event) || '',
       count: r.count != null ? r.count : (r.aggregated_value != null ? r.aggregated_value : 0)
-    })), `PostHog · last ${days}d · project ${projectId}`);
+    })), header);
     console.log('');
-    console.log('Note: re-run with a PostHog breakdown (utm_source / $device_type) in the UI for the full');
-    console.log('source × device matrix — this CLI prints the overall funnel; segment dimensions: ' + segment.join(' × ') + '.');
+    if (segmentGiven) {
+      console.log('Note: PostHog returned a single (un-broken-down) funnel — your project may lack the');
+      console.log('breakdown properties (' + segment.join(' × ') + ') on these events. Instrument them to get the matrix.');
+    } else {
+      console.log('Note: pass --segment source,device to break this funnel into the per-segment drop-off matrix');
+      console.log('(breaks down on $utm_source × $device_type) — the highest-leverage diagnostic.');
+    }
     return 0;
   } catch (e) {
     printOfflineGuidance(`PostHog request failed: ${e && e.message ? e.message : e}`);
@@ -155,21 +206,44 @@ async function pullPosthog() {
 
 // ---------- live pull: GA4 (best-effort; graceful) ----------
 
+function buildGa4Report() {
+  // totalUsers (user-scoped) — NOT eventCount. eventCount sums independent, non-deduplicated
+  // event totals, so a noisy step reads as a funnel "leak". totalUsers counts distinct users
+  // reaching each step, the closest honest approximation of a funnel via the flat runReport API.
+  return {
+    dateRanges: [{ startDate: `${days}daysAgo`, endDate: 'today' }],
+    dimensions: [{ name: 'eventName' }],
+    metrics: [{ name: 'totalUsers' }],
+    dimensionFilter: { filter: { fieldName: 'eventName', inListFilter: { values: steps.map(s => s.toLowerCase().replace(/[^a-z0-9]+/g, '_')) } } }
+  };
+}
+
+function ga4FunnelWarning() {
+  console.error('WARN: GA4 runReport (v1beta) cannot compute a TRUE ordered funnel — it returns per-event');
+  console.error('      distinct-user totals (totalUsers), unordered and not step-sequenced. A user counted at');
+  console.error('      a later step need not have passed the earlier ones, so the drop-off below is an');
+  console.error('      approximation. For ordered-funnel intent use PostHog (--provider posthog, real');
+  console.error('      FunnelsQuery) or GA4\'s Funnel exploration / Data API v1alpha runFunnelReport.');
+}
+
 async function pullGa4() {
+  const report = buildGa4Report();
+  if (dryRun) {
+    console.log(`# DRY-RUN — GA4 Data API v1beta runReport body (no request issued)`);
+    console.log(JSON.stringify(report, null, 2));
+    ga4FunnelWarning();
+    return 0;
+  }
   const token = process.env.GA4_ACCESS_TOKEN;
   const propertyId = process.env.GA4_PROPERTY_ID;
   if (!token) { printOfflineGuidance('GA4_ACCESS_TOKEN not set'); return 0; }
   if (!propertyId) { printOfflineGuidance('GA4_PROPERTY_ID not set'); return 0; }
+  ga4FunnelWarning();
   try {
     const res = await fetch(`https://analyticsdata.googleapis.com/v1beta/properties/${propertyId}:runReport`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        dateRanges: [{ startDate: `${days}daysAgo`, endDate: 'today' }],
-        dimensions: [{ name: 'eventName' }],
-        metrics: [{ name: 'eventCount' }],
-        dimensionFilter: { filter: { fieldName: 'eventName', inListFilter: { values: steps.map(s => s.toLowerCase().replace(/[^a-z0-9]+/g, '_')) } } }
-      })
+      body: JSON.stringify(report)
     });
     if (!res.ok) {
       const body = await res.text().catch(() => '');
@@ -192,9 +266,7 @@ async function pullGa4() {
 
 // ---------- render ----------
 
-function printFunnel(rows, header) {
-  console.log(`# Funnel — ${header}`);
-  console.log('');
+function renderSteps(rows) {
   const top = rows.length && rows[0].count > 0 ? rows[0].count : 0;
   let prev = null;
   for (const r of rows) {
@@ -207,8 +279,34 @@ function printFunnel(rows, header) {
     );
     prev = r.count;
   }
+}
+
+function printFunnel(rows, header) {
+  console.log(`# Funnel — ${header}`);
+  console.log('');
+  renderSteps(rows);
   console.log('');
   console.log('  → Biggest %-drop step = your highest-leverage fix. Segment it (source × device) before deciding why.');
+}
+
+// Per-segment drop-off matrix: one funnel block per breakdown value (source × device combo).
+function printFunnelMatrix(funnels, header, series) {
+  console.log(`# Funnel matrix (${segment.join(' × ')}) — ${header}`);
+  for (const f of funnels) {
+    if (!Array.isArray(f) || f.length === 0) continue;
+    let bv = f[0].breakdown_value;
+    bv = Array.isArray(bv) ? bv.join(' × ') : (bv == null || bv === '' ? '(unset)' : String(bv));
+    console.log('');
+    console.log(`## segment: ${bv}`);
+    renderSteps(f.map((r, i) => ({
+      step: steps[i] || r.name || `step ${i + 1}`,
+      event: (series[i] && series[i].event) || r.name || '',
+      count: r.count != null ? r.count : (r.aggregated_value != null ? r.aggregated_value : 0)
+    })));
+  }
+  console.log('');
+  console.log('  → Compare the SAME step across segments: the segment with the steepest %-drop is where to');
+  console.log('    focus. A funnel that converts on desktop but dies on mobile is a friction bug, not copy.');
 }
 
 // ---------- dispatch ----------

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Logo verification grid</title>
+<!--
+  logo-grid.html — a self-contained logo VERIFICATION SHEET.
+  Slots ONE candidate mark and renders the full robustness matrix in a single shoot.js pass:
+    3 SIZE rows  (24px / 64px / min)  ×  3 COLOR rows  (full-color / 1-color mono / knockout-on-dark)  =  9 cells.
+  So the mono / knockout / small-size test is ONE command, not nine hand-authored variants.
+
+  HOW TO SLOT A MARK (either works; no build step):
+    1) BY PATH — open with a query string:
+         logo-grid.html?svg=/abs/path/to/mark.svg
+       (loaded as <img>; the mark SVG must carry intrinsic width/height — gen-assets.js logo SVGs do.)
+       Optional: &min=16  (the "min" size row, px, default 16)   &name=Acme  (sheet title)
+    2) INLINE — paste your <svg>…</svg> between the SLOT markers in <template id="mark"> below.
+       The built-in default sample renders when no ?svg= is given, so the sheet is never empty.
+
+  SHOOT IT:
+    NODE_PATH=/Users/elon/.claude/skills/detail-page/node_modules \
+      node /Users/elon/claude-design-suite/skills/detail-page/scripts/shoot.js logo-grid.html /tmp/out
+    -> /tmp/out/run.json  gate.report.overall === true  when all 9 cells render with no overflow / broken art.
+
+  Color treatments are CSS-filter based so they work on ANY slotted SVG without re-authoring fills:
+    full-color  = as drawn   |   1-color mono = grayscale+brightness(0) (solid single ink) on light
+    knockout    = mono then invert(1) (solid white) on a dark cell — the classic single-color survival test.
+-->
+<style>
+  :root {
+    --surface: #F1EEE8;
+    --panel: #FFFFFF;
+    --ink: #23201B;
+    --ink-soft: rgba(35, 32, 27, 0.55);
+    --line: rgba(35, 32, 27, 0.12);
+    --knockout-bg: #1C1A16;
+    --accent: #B4654A;
+    --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    padding: clamp(16px, 4vw, 40px);
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+  header { margin-bottom: 22px; }
+  h1 { font-size: clamp(18px, 4.4vw, 26px); font-weight: 800; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .sub { font-family: var(--mono); font-size: 12px; color: var(--ink-soft); margin: 0; word-break: break-word; }
+
+  .matrix { display: grid; grid-template-columns: max-content 1fr 1fr 1fr; gap: 10px; align-items: stretch; }
+  .corner { }
+  .colhead, .rowhead {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+    color: var(--ink-soft); display: flex; align-items: center; padding: 4px 2px;
+  }
+  .colhead { justify-content: center; }
+  .rowhead { writing-mode: horizontal-tb; font-weight: 600; padding-right: 8px; }
+
+  .cell {
+    position: relative; background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    min-height: 96px; display: flex; align-items: center; justify-content: center; padding: 12px; overflow: hidden;
+  }
+  .cell.knock { background: var(--knockout-bg); border-color: rgba(255,255,255,0.08); }
+  .cap {
+    position: absolute; left: 8px; bottom: 6px; font-family: var(--mono); font-size: 9px;
+    color: var(--ink-soft); letter-spacing: 0.03em;
+  }
+  .cell.knock .cap { color: rgba(255,255,255,0.45); }
+
+  /* the mark holder; the slotted <svg>/<img> is sized by JS to the row's px target */
+  .mark { display: block; line-height: 0; }
+  .mark svg, .mark img { display: block; }
+  .mono  .mark { filter: grayscale(1) brightness(0); }
+  .knock .mark { filter: grayscale(1) brightness(0) invert(1); }
+
+  .legend { margin-top: 20px; font-family: var(--mono); font-size: 11px; color: var(--ink-soft); line-height: 1.6; }
+  .legend b { color: var(--ink); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title">Logo verification grid</h1>
+    <p class="sub" id="src">inline sample mark · 9-cell size × color matrix</p>
+  </header>
+
+  <div class="matrix" id="matrix"><!-- built by JS --></div>
+
+  <p class="legend">
+    <b>Read it:</b> a mark that holds across all 9 cells survives the real world.
+    Watch the <b>min</b> row (does it stay legible tiny?), the <b>1-color mono</b> row
+    (does it collapse into mush as a single ink?), and the <b>knockout</b> row (does it read reversed on dark?).
+  </p>
+</div>
+
+<!-- INLINE SLOT: replace the inner <svg>…</svg> with your candidate mark (used when no ?svg= is passed). -->
+<template id="mark">
+<!-- BEGIN SLOT -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="sample mark">
+  <rect width="512" height="512" fill="none"/>
+  <circle cx="256" cy="256" r="150" fill="#B4654A"/>
+  <path d="M256 106 A150 150 0 0 1 256 406 Z" fill="#23201B"/>
+  <circle cx="256" cy="256" r="58" fill="#F1EEE8"/>
+  <circle cx="256" cy="256" r="22" fill="#B4654A"/>
+</svg>
+<!-- END SLOT -->
+</template>
+
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var svgPath = params.get('svg');
+  var minPx = Math.max(8, parseInt(params.get('min'), 10) || 16);
+  var name = params.get('name');
+
+  var SIZES = [
+    { key: '24px', px: 24 },
+    { key: '64px', px: 64 },
+    { key: 'min',  px: minPx }
+  ];
+  var COLORS = [
+    { key: 'full-color',     cls: 'full',  label: 'full color' },
+    { key: '1-color mono',   cls: 'mono',  label: '1-color mono' },
+    { key: 'knockout (dark)',cls: 'knock', label: 'knockout on dark' }
+  ];
+
+  // Build a factory that returns a fresh sized mark node for each cell.
+  // ?svg= -> <img> (no CORS issue for image elements on file://; needs intrinsic size).
+  // else  -> clone the inline <svg> from the template (recolorable, no network).
+  var tpl = document.getElementById('mark');
+  function makeMark(px) {
+    var holder = document.createElement('span');
+    holder.className = 'mark';
+    if (svgPath) {
+      var img = document.createElement('img');
+      img.src = svgPath;
+      img.alt = 'candidate mark';
+      img.width = px; img.height = px;
+      img.style.width = px + 'px'; img.style.height = px + 'px';
+      holder.appendChild(img);
+    } else {
+      var node = tpl.content.querySelector('svg').cloneNode(true);
+      node.setAttribute('width', px);
+      node.setAttribute('height', px);
+      holder.appendChild(node);
+    }
+    return holder;
+  }
+
+  var matrix = document.getElementById('matrix');
+  function div(cls, text) { var d = document.createElement('div'); d.className = cls; if (text != null) d.textContent = text; return d; }
+
+  // header row: corner + 3 size column heads
+  matrix.appendChild(div('corner'));
+  SIZES.forEach(function (s) { matrix.appendChild(div('colhead', s.key)); });
+
+  // one row per color treatment, 3 size cells each
+  COLORS.forEach(function (c) {
+    matrix.appendChild(div('rowhead', c.label));
+    SIZES.forEach(function (s) {
+      var cell = div('cell ' + c.cls);
+      cell.appendChild(makeMark(s.px));
+      cell.appendChild(div('cap', c.key + ' · ' + s.px + 'px'));
+      matrix.appendChild(cell);
+    });
+  });
+
+  if (name) document.getElementById('title').textContent = name + ' — logo verification grid';
+  document.getElementById('src').textContent =
+    (svgPath ? ('src: ' + svgPath) : 'inline sample mark') + ' · min=' + minPx + 'px · 9-cell size × color matrix';
+})();
+</script>
+</body>
+</html>

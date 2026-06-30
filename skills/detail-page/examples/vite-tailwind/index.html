@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko" data-brand="default">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>detail-page · Vite + Tailwind v4 @theme</title>
+</head>
+<body class="bg-surface text-ink font-body">
+  <!--
+    Every class below is a Tailwind utility generated FROM the @theme in src/theme.generated.css
+    (bg-surface/bg-primary/text-ink/text-on-accent/shadow-e2/rounded-lg/p-24...). If `vite build`
+    succeeds and these render, the token pipeline round-trips in a real app, not just the CDN starter.
+  -->
+  <main class="mx-auto" style="max-width: 720px; padding: var(--space-48) var(--space-24)">
+    <span class="inline-block rounded-pill bg-primary-100 text-primary-700" style="padding: var(--space-8) var(--space-16); font-size: var(--text-14)">
+      Vite + Tailwind v4
+    </span>
+    <h1 class="font-display" style="font-size: var(--text-48); line-height: var(--leading-48); margin: var(--space-24) 0 var(--space-16)">
+      @theme compiles in a real production build
+    </h1>
+    <p class="text-muted" style="font-size: var(--text-18); line-height: var(--leading-18)">
+      이 페이지의 모든 색·타이포·그림자는 <code>tokens/brand-default.tokens.json</code> 한 곳에서 나옵니다.
+    </p>
+
+    <div class="bg-card rounded-lg shadow-e2" style="margin-top: var(--space-32); padding: var(--space-24)">
+      <button class="bg-primary rounded-md" style="color: var(--color-card); padding: var(--space-12) var(--space-24)">
+        Primary
+      </button>
+      <button class="bg-accent rounded-md text-on-accent" style="margin-left: var(--space-12); padding: var(--space-12) var(--space-24)">
+        Accent
+      </button>
+    </div>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

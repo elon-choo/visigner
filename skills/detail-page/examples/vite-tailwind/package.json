@@ -1,0 +1,18 @@
+{
+  "name": "detail-page-vite-tailwind-example",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Minimal Vite + Tailwind v4 app that compiles the detail-page @theme (generated from tokens/brand-default.tokens.json) in a real production build, proving the token pipeline round-trips outside the CDN starter.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint:tokens": "cd ../.. && TOKENS_TARGET=examples/vite-tailwind/src/theme.generated.css npm run --silent lint:tokens"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "tailwindcss": "^4.0.0",
+    "vite": "^6.0.0"
+  }
+}

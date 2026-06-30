@@ -71,6 +71,7 @@ Run the **two-pass method** from `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/refer
 | **Onboarding / wizard** | one step per screen, visible progress, one primary action, escape hatch; never a 12-field wall | the single next action |
 | **Auth** | the ONE place centering is right; single card, one field group, one CTA, no nav chrome | the form |
 | **Data-table workspace** | toolbar (search + filters + bulk actions) above a TanStack table; row → sheet for detail | the rows; toolbar recedes |
+| **Pricing / plan comparison** | 3 tier cards with ONE highlighted "Most popular" default (the decoy/center-stage default, see marketing-conversion §7) + a billing **segmented toggle** (monthly↔annual) that runs the **discount math** live (annual shown as monthly-equiv + "save N%") + a **comparison matrix** with a **sticky header row** so tier names stay pinned while scrolling features; cover every state — loading skeleton, current-plan badge, unavailable/`—`/"coming soon" cell, enterprise "contact us" | the recommended tier + its price, value stacked before the number |
 
 ### Build scaffold (real commands — frontend-build owns the deeper code work)
 ```bash
@@ -163,9 +164,12 @@ REDUCED_MOTION=1 NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out
 # MOTION_TRIGGER='selector:event' → films a ~600ms window around a triggered state (hover/click/focus) and warns
 # if a triggered element animates a LAYOUT property (the jank ban above), not transform/opacity.
 MOTION_TRIGGER='button:click|[data-row]:hover' NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out]
+# MOTION_TRIGGER='scroll:<selector>' → scrolls the element into view and films pre + a ~600ms reveal window
+# (interact-scroll_<sel>-*.png), running the same duration/easing/layout audit — for scroll-revealed sections.
+MOTION_TRIGGER='scroll:.reveal|button:click' NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out]
 # FILMSTRIP=1 captures the orchestrated entrance at desktop AND 390px (filmstrip-mobile-*.png) so the "one moment" is screenshot-visible.
 ```
-Run `REDUCED_MOTION=1` before ship so the reduced-motion floor is machine-proven; use `MOTION_TRIGGER` to catch a dropdown/toggle quietly animating `width`/`height`/`top` instead of `transform`.
+Run `REDUCED_MOTION=1` before ship so the reduced-motion floor is machine-proven; use `MOTION_TRIGGER` to catch a dropdown/toggle quietly animating `width`/`height`/`top` instead of `transform`. **Easing is now machine-graded** — `run.json.motion.easings[]` records `{sel, enter, exit, fn}` per animated element, and `motion.warnings[]` flags `linear-or-default-entrance` (a flat/default entrance ease) and `no-enter-exit-asymmetry` (`enter===exit`, a non-blocking `warn`). The off-token duration band derives from the page's own `--dur-*` tokens unioned with `[120,150,200,250,320,400,700]`, so your committed motion tokens read as in-band; `design-critic MODE=motion` grades from these fields.
 
 ### Motion BANNED defaults
 - ❌ Everything fades/slides in on scroll (whole-page `AOS`-style reveal) — it screams template.

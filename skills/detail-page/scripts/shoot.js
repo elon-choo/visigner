@@ -164,12 +164,31 @@ function runStaticLint() {
     console.error('STATIC lint: file not found:', target);
     process.exit(1);
   }
-  const html = fs.readFileSync(target, 'utf8');
-  // (1) banned fonts — in any font-family declaration or a font-CDN href (Google Fonts / Fontshare / etc.).
+  const htmlRaw = fs.readFileSync(target, 'utf8');
+  // Strip HTML comments FIRST so commented-out markup never trips a gate — a commented <img> example, a "NOT
+  // Inter/Roboto…" usage note, or a sample purple hex inside <!-- … --> are documentation, not shipped pixels.
+  // Every text heuristic below runs on this comment-free source.
+  const html = htmlRaw.replace(/<!--[\s\S]*?-->/g, ' ');
+  // (1) banned fonts — collect the ACTUAL font-family declaration VALUES and the family= params of font-CDN <link>s,
+  // then match each banned name on WORD BOUNDARIES. Bounding the declaration value with ;}{"'<> stops the old bug
+  // where `font-family[^;}{]*` bled past `font-family:var(--x)">…the entire interface` and matched "Inter" inside
+  // "interface"; the \b…\b anchors stop other substring hits ("Roboto"/"Lato" inside prose).
+  const fontScopes = [];
+  let fdm; const FONT_DECL = /font-family\s*:\s*([^;}{"'<>]*)/gi;
+  while ((fdm = FONT_DECL.exec(html))) fontScopes.push(fdm[1]);
+  let hrf; const HREF_VAL = /href\s*=\s*("([^"]*)"|'([^']*)')/gi;
+  const FONT_CDN = /fonts\.googleapis|fonts\.gstatic|api\.fontshare|fonts\.bunny|use\.typekit/i;
+  while ((hrf = HREF_VAL.exec(html))) {
+    const href = hrf[2] || hrf[3] || '';
+    if (!FONT_CDN.test(href)) continue;
+    let fam; const FAMILY = /family=([^&]*)/gi;
+    while ((fam = FAMILY.exec(href))) { try { fontScopes.push(decodeURIComponent(fam[1]).replace(/\+/g, ' ')); } catch (_) { fontScopes.push(fam[1].replace(/\+/g, ' ')); } }
+  }
+  const fontScope = fontScopes.join('\n');
   const bannedFonts = [];
   for (const f of BANNED_FONTS) {
-    const re = new RegExp('(font-family[^;}{]*|href\\s*=\\s*["\'][^"\']*(?:fonts\\.googleapis|fonts\\.gstatic|api\\.fontshare|fonts\\.bunny|use\\.typekit)[^"\']*)' + f.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/\s+/g, '[\\s+]+'), 'i');
-    if (re.test(html)) bannedFonts.push(f);
+    const re = new RegExp('\\b' + f.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/\s+/g, '[\\s+]+') + '\\b', 'i');
+    if (re.test(fontScope)) bannedFonts.push(f);
   }
   // (2) raw hex / rgb() color used OUTSIDE a token block (@theme {...}, :root {...}, or any <style>...</style>).
   // Blank out token/style regions, then look ONLY inside inline style="..." attrs and Tailwind arbitrary values
@@ -230,10 +249,25 @@ function runStaticLint() {
   //   - >=3 sibling-equal cards (same class signature repeated 3+ times) - a uniform card grid
   //   - big-number hero (a huge font-size whose text is mostly a number/percent near the top)
   const structuralSlop = [];
-  const centerCount = (html.match(/text-align\s*:\s*center/gi) || []).length + (html.match(/(?:^|["'\s])text-center(?:["'\s]|$)/g) || []).length;
+  // Centered-everything tell — count ELEMENTS that center themselves but EXCLUDE headings (a centered h1/h2 is normal
+  // hierarchy, not the "center everything" smell). Scanning opening tags means a single centered <h2> no longer
+  // inflates the count the way the old whole-document `text-align:center` substring tally did.
+  let centerCount = 0; let tg; const TAG_RE = /<([a-z][a-z0-9]*)\b([^>]*)>/gi;
+  while ((tg = TAG_RE.exec(html))) {
+    const tag = tg[1].toLowerCase(); const attrs = tg[2];
+    if (/^h[1-6]$/.test(tag)) continue;
+    if (/text-align\s*:\s*center/i.test(attrs) || /(?:^|["'\s])text-center(?:["'\s]|$)/.test(attrs)) centerCount++;
+  }
   if (centerCount >= 5) structuralSlop.push(`text-align:center on ${centerCount} blocks`);
+  // Sibling-equal CARD grid — count repeats ONLY of card-like class signatures (a `card`/`tile` token), so a utility
+  // class repeated across the page (every `<p class="text-muted">`, every `<a class="nav-item">`) is no longer
+  // miscounted as a uniform card grid (the old bug counted ANY identical class string 3+ times).
   const classSig = {};
-  for (const cm2 of html.matchAll(/class\s*=\s*"([^"]{8,})"/gi)) { const k = cm2[1].trim().replace(/\s+/g, ' '); classSig[k] = (classSig[k] || 0) + 1; }
+  for (const cm2 of html.matchAll(/class\s*=\s*"([^"]{8,})"/gi)) {
+    const k = cm2[1].trim().replace(/\s+/g, ' ');
+    if (!/(?:^|[\s-])(?:card|tile)(?:[\s-]|$)/i.test(k)) continue;
+    classSig[k] = (classSig[k] || 0) + 1;
+  }
   const maxRepeat = Object.entries(classSig).sort((a, b) => b[1] - a[1])[0];
   if (maxRepeat && maxRepeat[1] >= 3) structuralSlop.push(`${maxRepeat[1]} sibling-equal cards (class "${maxRepeat[0].slice(0, 40)}")`);
   const heroZone = html.slice(0, 3500);
@@ -271,6 +305,7 @@ const MOTION_ON = !!process.env.FILMSTRIP || !!process.env.MOTION;
 // REDUCED_MOTION=1 (or any FILMSTRIP/MOTION pass) → also run the reduced-motion capture gate (A).
 const REDUCED_MOTION_ON = MOTION_ON || !!process.env.REDUCED_MOTION;
 // MOTION_TRIGGER='sel:event' (B) — opt-in interaction filming. Pipe-separate ('a:click|.menu:hover') for several.
+// Also supports 'scroll:<selector>' (C) — scroll the element into view and film the reveal window.
 const MOTION_TRIGGER = process.env.MOTION_TRIGGER || '';
 // prefix lets the mobile entrance filmstrip (C) write distinct files so it never overwrites the desktop strip.
 async function captureFilmstrip(page, prefix = 'filmstrip') {
@@ -338,16 +373,22 @@ function parseTrigger(spec) {
   return { selector: spec.trim(), event: 'click' };
 }
 async function filmOneInteraction(page, spec) {
-  const { selector, event } = parseTrigger(spec);
-  const result = { trigger: spec, selector, event, frames: [], durations: [], layoutAnimated: [], warnings: [] };
-  const safe = selector.replace(/[^a-z0-9_-]/gi, '_').slice(0, 24);
+  // 'scroll:<selector>' (C) — scroll-into-view reveal mode: film the element OFF-screen, scroll it into view to fire
+  // scroll/IntersectionObserver entrance animations, film the reveal window, then run the SAME duration/easing/layout
+  // audit. Otherwise parse 'selector:event' as before (event = trailing click/hover/focus/…).
+  const isScroll = /^scroll\s*:/i.test(spec);
+  const { selector, event } = isScroll ? { selector: spec.replace(/^scroll\s*:/i, '').trim(), event: 'scroll' } : parseTrigger(spec);
+  const result = { trigger: spec, selector, event, frames: [], durations: [], layoutAnimated: [], warnings: [], easings: [] };
+  const safe = (isScroll ? 'scroll_' : '') + selector.replace(/[^a-z0-9_-]/gi, '_').slice(0, 24);
   const shot = async (tag) => { const f = `interact-${safe}-${tag}.png`; try { await page.screenshot({ path: path.join(outDir, f) }); result.frames.push(f); } catch (_) {} };
   let el;
   try { el = page.locator(selector).first(); await el.waitFor({ state: 'attached', timeout: 2500 }); }
   catch (e) { result.error = 'selector not found: ' + selector; return result; }
+  if (isScroll) await page.evaluate(() => window.scrollTo(0, 0)).catch(() => {}); // start above the reveal so the pre frame is the un-revealed state
   await shot('pre');
   try {
-    if (event === 'hover' || event === 'mouseenter' || event === 'mouseover') await el.hover({ timeout: 2500, force: true });
+    if (event === 'scroll') await el.scrollIntoViewIfNeeded({ timeout: 2500 });
+    else if (event === 'hover' || event === 'mouseenter' || event === 'mouseover') await el.hover({ timeout: 2500, force: true });
     else if (event === 'focus') await el.focus({ timeout: 2500 });
     else await el.click({ timeout: 2500, force: true }); // force: bypass actionability so a covered/anchored CTA still fires
   } catch (e) { result.error = 'dispatch failed: ' + e.message; }
@@ -355,7 +396,7 @@ async function filmOneInteraction(page, spec) {
   const start = Date.now();
   for (const t of stamps) { const w = t - (Date.now() - start); if (w > 0) await sleep(w); await shot(String(t)); }
   const audit = await analyzeMotion(page);
-  result.durations = audit.durations; result.layoutAnimated = audit.layoutAnimated; result.warnings = audit.warnings;
+  result.durations = audit.durations; result.layoutAnimated = audit.layoutAnimated; result.warnings = audit.warnings; result.easings = audit.easings;
   if (audit.error) result.error = (result.error ? result.error + '; ' : '') + audit.error;
   return result;
 }
@@ -367,7 +408,9 @@ async function filmInteractions(page, spec) {
 }
 async function analyzeMotion(page) {
   return page.evaluate(() => {
-    const SANE = [120, 200, 250, 320, 400, 700];
+    // Fallback band when the page declares no --dur tokens. Includes 150 (a common committed token) so a 150ms
+    // duration is never flagged off-token on a page that didn't expose its band as a custom property.
+    const FALLBACK_BAND = [120, 150, 200, 250, 320, 400, 700];
     const LAYOUT = ['width', 'height', 'top', 'left', 'right', 'bottom', 'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'];
     const parseDur = (s) => String(s || '').split(',').map((x) => {
       x = x.trim();
@@ -375,20 +418,37 @@ async function analyzeMotion(page) {
       if (x.endsWith('s')) return parseFloat(x) * 1000;
       return parseFloat(x) || 0;
     });
-    // Map @keyframes name -> set of animated properties (so animation layout-jank is detectable too).
-    const kf = {};
+    const parseMs = (v) => { v = String(v || '').trim(); if (v.endsWith('ms')) return parseFloat(v); if (v.endsWith('s')) return parseFloat(v) * 1000; const n = parseFloat(v); return isNaN(n) ? null : n; };
+    // Split a CSS value-list on TOP-LEVEL commas only, so a timing function's own commas (cubic-bezier(0, 0, .2, 1))
+    // are not mistaken for the separator between two transitions. Returns the trimmed, non-empty segments.
+    const splitTop = (s) => { const out = []; let depth = 0, cur = ''; for (const ch of String(s || '')) { if (ch === '(') depth++; else if (ch === ')') depth = Math.max(0, depth - 1); if (ch === ',' && depth === 0) { out.push(cur); cur = ''; } else cur += ch; } out.push(cur); return out.map((x) => x.trim()).filter(Boolean); };
+    // Map @keyframes name -> { animated props, enter easing (0%/from), exit easing (100%/to) } AND harvest the page's
+    // --dur-*/--duration-* design tokens, so the off-token audit accepts THIS page's committed motion band (e.g. a
+    // 150ms token) instead of only a hardcoded list, and so per-keyframe easing is available to the easing audit.
+    const kf = {}, kfEase = {}, tokenDurs = [];
+    const collectTokens = (style) => { if (!style) return; for (let i = 0; i < style.length; i++) { const p = style[i]; if (/^--(dur|duration)/i.test(p)) { const ms = parseMs(style.getPropertyValue(p)); if (ms != null && ms > 0) tokenDurs.push(ms); } } };
     for (const ss of document.styleSheets) {
       let rules; try { rules = ss.cssRules; } catch (_) { continue; }
       if (!rules) continue;
       for (const r of rules) {
+        if (r.style) collectTokens(r.style); // :root / * custom-property declarations carry the --dur-* tokens
         const isKf = (typeof CSSRule !== 'undefined' && r.type === CSSRule.KEYFRAMES_RULE) || (r.constructor && r.constructor.name === 'CSSKeyframesRule');
         if (!isKf) continue;
-        const props = new Set();
-        for (const k of (r.cssRules || [])) { for (let i = 0; i < k.style.length; i++) props.add(k.style[i]); }
+        const props = new Set(); let enterEase = null, exitEase = null;
+        for (const k of (r.cssRules || [])) {
+          for (let i = 0; i < k.style.length; i++) props.add(k.style[i]);
+          const ease = k.style.animationTimingFunction || k.style.getPropertyValue('animation-timing-function');
+          const key = (k.keyText || '').trim();
+          if (ease) { if (/(^|[\s,])(0%|from)([\s,]|$)/.test(key)) enterEase = ease; if (/(^|[\s,])(100%|to)([\s,]|$)/.test(key)) exitEase = ease; }
+        }
         kf[r.name] = [...props];
+        kfEase[r.name] = { enter: enterEase, exit: exitEase };
       }
     }
-    const durations = [], layoutAnimated = [], warnings = [];
+    const band = [...new Set([...FALLBACK_BAND, ...tokenDurs])];
+    // CSS `ease` resolves to this cubic-bezier; treat it + `linear` as the "default/flat" entrance the critic dings.
+    const DEFAULT_EASE = (e) => { e = String(e || '').trim().toLowerCase(); return e === '' || e === 'linear' || e === 'ease' || e === 'initial' || e === 'cubic-bezier(0.25, 0.1, 0.25, 1)'; };
+    const durations = [], layoutAnimated = [], warnings = [], easings = [];
     let scanned = 0;
     for (const el of document.querySelectorAll('body *')) {
       if (scanned > 4000) break; scanned++;
@@ -406,17 +466,34 @@ async function analyzeMotion(page) {
       const durs = [...(hasTrans ? transDurs : []), ...(hasAnim ? animDurs : [])];
       for (const d of durs) {
         durations.push(Math.round(d));
-        const sane = SANE.some((s) => Math.abs(s - d) <= 40);
-        if (d > 600 || !sane) warnings.push({ sel, durationMs: Math.round(d), reason: d > 600 ? 'too-long' : 'off-token' });
+        const onToken = band.some((s) => Math.abs(s - d) <= 40);
+        if (d > 600 || !onToken) warnings.push({ sel, durationMs: Math.round(d), reason: d > 600 ? 'too-long' : 'off-token' });
       }
+      // Easing audit (the critic grades easing). enter vs exit easing + the raw timing function: for a transition the
+      // computed transition-timing-function is the symmetric ease; for an animation, prefer the per-keyframe 0%/100%
+      // easing when present, else the element animation-timing-function. WARN on a linear/default-ease entrance, else
+      // on a symmetric enter===exit (no asymmetry — flat, robotic motion).
+      let enter, exit, fn;
+      if (hasAnim) {
+        const firstName = (animName.split(',')[0] || '').trim();
+        const atf = splitTop(cs.animationTimingFunction)[0] || '';
+        const ke = kfEase[firstName] || {};
+        enter = ke.enter || atf; exit = ke.exit || atf; fn = atf;
+      } else {
+        fn = splitTop(cs.transitionTimingFunction)[0] || '';
+        enter = fn; exit = fn;
+      }
+      if (easings.length < 60) easings.push({ sel, enter, exit, fn });
+      if (DEFAULT_EASE(enter)) warnings.push({ sel, reason: 'linear-or-default-entrance', easing: enter });
+      else if (enter && exit && enter === exit) warnings.push({ sel, reason: 'no-enter-exit-asymmetry', easing: enter });
       // layout-property animation (jank/banned motion) — from transition-property and/or keyframe props.
       const layoutHit = new Set();
       if (hasTrans) for (const p of transProp.split(',').map((s) => s.trim())) { if (p === 'all' || LAYOUT.includes(p)) layoutHit.add(p); }
       if (hasAnim) for (const name of animName.split(',').map((s) => s.trim())) { for (const p of (kf[name] || [])) if (LAYOUT.includes(p)) layoutHit.add(p); }
       if (layoutHit.size) layoutAnimated.push({ sel, props: [...layoutHit] });
     }
-    return { durations, layoutAnimated, warnings };
-  }).catch(() => ({ durations: [], layoutAnimated: [], warnings: [], error: 'motion eval failed' }));
+    return { durations, layoutAnimated, warnings, easings, band };
+  }).catch(() => ({ durations: [], layoutAnimated: [], warnings: [], easings: [], error: 'motion eval failed' }));
 }
 
 (async () => {
@@ -436,7 +513,7 @@ async function analyzeMotion(page) {
     if (MOTION_ON) {
       const frames = await captureFilmstrip(dp, 'filmstrip');
       const audit = await analyzeMotion(dp);
-      Object.assign(motion, { frames, durations: audit.durations, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.error ? { error: audit.error } : {}) });
+      Object.assign(motion, { frames, durations: audit.durations, easings: audit.easings, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.error ? { error: audit.error } : {}) });
     }
     if (MOTION_TRIGGER) {
       motion.interactions = await filmInteractions(dp, MOTION_TRIGGER); // (B) state→state transitions, screenshot-proven

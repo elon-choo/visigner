@@ -192,23 +192,28 @@ function buildPalette(plan, slot) {
   return { surface, ink, accent, ramps };
 }
 
-// Map a slot to ONE of five comp archetypes from its role/label/id + aspect, so each slot
+// Map a slot to ONE of eight comp archetypes from its role/label/id + aspect, so each slot
 // gets a visibly different lo-fi composition. Deterministic, keyword-first then aspect fallback.
+// 'logo'/'portrait' are keyword-only (never reached by aspect alone); 'hero' splits off the richer
+// hero-comp from the simpler 'cover' tile when a slot is explicitly a hero/key-visual.
 function classifyRole(slot, aspect) {
   const text = String(slot.role || slot.label || slot.id || '').toLowerCase();
   const { width, height } = aspectDims(aspect);
   const ratio = width / (height || 1);
   if (/before|after|compare|comparison|versus|\bvs\b|b\/a/.test(text)) return 'beforeafter';
+  if (/\blogo\b|wordmark|word.?mark|logotype|monogram|brand.?mark|로고|심볼|워드마크|이니셜/.test(text)) return 'logo';
+  if (/portrait|maker|founder|headshot|\bface\b|얼굴|인물|대표|초상|bust/.test(text)) return 'portrait';
   if (/wall|grid|deliverable|gallery|bundle|contents|lineup|curriculum|모음|구성|grid/.test(text)) return 'grid';
   if (/banner|strip|ribbon|cta|배너/.test(text) || ratio >= 2.4) return 'banner';
-  if (/cover|hero|title|main|thumb|thumbnail|key.?visual|\bkv\b|표지|메인|히어로/.test(text)) return 'cover';
+  if (/hero|key.?visual|\bkv\b|히어로|키비주얼|메인비주얼/.test(text)) return 'hero';
+  if (/cover|title|main|thumb|thumbnail|표지|메인/.test(text)) return 'cover';
   if (/scene|product|shot|mockup|lifestyle|detail|close.?up|photo|장면|제품|컷/.test(text)) return 'scene';
   if (ratio >= 2.2) return 'banner';
   if (ratio <= 0.85) return 'cover';
   return 'scene';
 }
 
-// ---- five distinct lo-fi comp motifs (each returns inner SVG markup, no <svg> root) ----
+// ---- eight distinct lo-fi comp motifs (each returns inner SVG markup, no <svg> root) ----
 function motifCover(ctx) {
   const { width: W, height: H, min, pal } = ctx;
   const { surface, ink, accent } = pal;
@@ -320,6 +325,166 @@ function motifBeforeAfter(ctx) {
     `<rect x="${mid - Math.round(min * 0.006)}" y="0" width="${Math.max(2, Math.round(min * 0.012))}" height="${H}" fill="${ink}" fill-opacity="0.50"/>`,
   ].join('');
 }
+// ---- LOGO scaffold: a parametric, on-grid STARTING POINT (not a mood tile). Renders an explicit
+// construction grid, optical-overshoot guides (cap/baseline + dashed overshoot), a clear-space frame
+// (one module of padding), a min-size label, and a SELECTABLE starter mark — monogram | wordmark |
+// abstract — in the brand palette. Selection: slot.logoKind/logoStyle/variant, else keyword, else a
+// deterministic hash pick. An operator refines this; it is intentionally constructed, not decorative. ----
+function motifLogo(ctx) {
+  const { width: W, height: H, min, pal, id, slot } = ctx;
+  const { surface, ink, accent, ramps } = pal;
+  const text = String(slot.role || slot.label || slot.id || '').toLowerCase();
+  let variant = String(slot.logoKind || slot.logoStyle || slot.variant || '').toLowerCase();
+  if (!/^(monogram|wordmark|abstract)$/.test(variant)) {
+    if (/wordmark|word.?mark|logotype|워드마크/.test(text)) variant = 'wordmark';
+    else if (/abstract|심볼|symbol/.test(text)) variant = 'abstract';
+    else if (/monogram|이니셜|initial/.test(text)) variant = 'monogram';
+    else variant = ['monogram', 'wordmark', 'abstract'][hashStr(id) % 3];
+  }
+  const brandName = (plan.brand && plan.brand.name) || plan.brandName || slot.word || 'Brand';
+  const word = String(slot.word || brandName);
+  const letter = (word.match(/[A-Za-z0-9]/) || ['A'])[0].toUpperCase();
+  const minPx = Math.max(8, Math.round(Number(slot.minSize) || 24));
+  const font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+
+  const S = Math.min(W, H);
+  const cx = Math.round(W / 2), cy = Math.round(H / 2);
+  const field = Math.round(S * 0.46);          // square mark construction field
+  const fx = cx - Math.round(field / 2), fy = cy - Math.round(field / 2);
+  const N = 6, stepF = field / N;              // 6x6 module grid
+  const lw = Math.max(1, Math.round(min * 0.0026));
+  const guide = mix(accent, surface, 0.35);
+
+  // construction grid + center cross + bounding circle
+  let grid = `<rect x="${fx}" y="${fy}" width="${field}" height="${field}" fill="none" stroke="${ink}" stroke-opacity="0.16" stroke-width="${lw}"/>`;
+  for (let i = 1; i < N; i++) {
+    const gx = Math.round(fx + i * stepF), gy = Math.round(fy + i * stepF);
+    grid += `<line x1="${gx}" y1="${fy}" x2="${gx}" y2="${fy + field}" stroke="${ink}" stroke-opacity="0.10" stroke-width="${lw}"/>`;
+    grid += `<line x1="${fx}" y1="${gy}" x2="${fx + field}" y2="${gy}" stroke="${ink}" stroke-opacity="0.10" stroke-width="${lw}"/>`;
+  }
+  grid += `<circle cx="${cx}" cy="${cy}" r="${Math.round(field / 2)}" fill="none" stroke="${guide}" stroke-opacity="0.55" stroke-width="${lw}"/>`;
+  grid += `<line x1="${cx}" y1="${fy - Math.round(stepF * 0.4)}" x2="${cx}" y2="${fy + field + Math.round(stepF * 0.4)}" stroke="${guide}" stroke-opacity="0.5" stroke-width="${lw}"/>`;
+  grid += `<line x1="${fx - Math.round(stepF * 0.4)}" y1="${cy}" x2="${fx + field + Math.round(stepF * 0.4)}" y2="${cy}" stroke="${guide}" stroke-opacity="0.5" stroke-width="${lw}"/>`;
+
+  // optical-overshoot guides: cap line + baseline (solid) + dashed overshoot just beyond each
+  const capY = Math.round(fy + stepF);
+  const baseY = Math.round(fy + field - stepF);
+  const over = Math.round(stepF * 0.16);
+  const dash = `stroke-dasharray="${Math.round(stepF * 0.25)} ${Math.round(stepF * 0.2)}"`;
+  const guides = [
+    `<line x1="${fx}" y1="${capY}" x2="${fx + field}" y2="${capY}" stroke="${accent}" stroke-opacity="0.6" stroke-width="${lw}"/>`,
+    `<line x1="${fx}" y1="${baseY}" x2="${fx + field}" y2="${baseY}" stroke="${accent}" stroke-opacity="0.6" stroke-width="${lw}"/>`,
+    `<line x1="${fx}" y1="${capY - over}" x2="${fx + field}" y2="${capY - over}" stroke="${accent}" stroke-opacity="0.4" stroke-width="${lw}" ${dash}/>`,
+    `<line x1="${fx}" y1="${baseY + over}" x2="${fx + field}" y2="${baseY + over}" stroke="${accent}" stroke-opacity="0.4" stroke-width="${lw}" ${dash}/>`,
+  ].join('');
+
+  // clear-space frame (one module of padding around the field)
+  const cs = Math.round(stepF);
+  const clear = `<rect x="${fx - cs}" y="${fy - cs}" width="${field + 2 * cs}" height="${field + 2 * cs}" fill="none" stroke="${ink}" stroke-opacity="0.28" stroke-width="${lw}" stroke-dasharray="${Math.round(stepF * 0.4)} ${Math.round(stepF * 0.3)}"/>`;
+
+  // the starter mark itself
+  let mark = '';
+  if (variant === 'wordmark') {
+    const fz = Math.round(field * 0.30);
+    mark = `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central" font-family='${font}' font-size="${fz}" font-weight="800" letter-spacing="${Math.round(fz * 0.02)}" fill="${ink}">${svgEscape(word.slice(0, 14))}</text>`
+         + `<rect x="${Math.round(cx - field * 0.30)}" y="${baseY}" width="${Math.round(field * 0.60)}" height="${Math.max(1, Math.round(stepF * 0.10))}" fill="${accent}"/>`;
+  } else if (variant === 'abstract') {
+    const r = Math.round(field * 0.30);
+    const o = Math.round(field * 0.16);
+    mark = `<circle cx="${cx - o}" cy="${cy}" r="${r}" fill="${accent}"/>`
+         + `<circle cx="${cx + o}" cy="${cy}" r="${r}" fill="${surface}"/>`
+         + `<path d="M ${cx} ${cy - r} A ${r} ${r} 0 0 1 ${cx} ${cy + r} Z" fill="${mix(accent, ink, 0.3)}"/>`
+         + `<circle cx="${cx + o}" cy="${cy}" r="${Math.round(r * 0.34)}" fill="${ramps[ramps.length - 1] || ink}"/>`;
+  } else { // monogram
+    const fz = Math.round(field * 0.82);
+    mark = `<text x="${cx}" y="${cy + Math.round(fz * 0.02)}" text-anchor="middle" dominant-baseline="central" font-family='${font}' font-size="${fz}" font-weight="800" fill="${accent}">${svgEscape(letter)}</text>`;
+  }
+
+  // min-size + clear-space label (distinct from the global placeholder footer)
+  const tz = Math.round(min * 0.03);
+  const tagY = Math.round(fy + field + cs + tz * 2.2);
+  const minTag = `<text x="${cx}" y="${tagY}" text-anchor="middle" font-family='${font}' font-size="${tz}" font-weight="600" letter-spacing="1" fill="${ink}" fill-opacity="0.6">CLEAR-SPACE = 1 UNIT  ·  MIN ${minPx}px  ·  ${variant.toUpperCase()}</text>`;
+
+  return `<rect width="${W}" height="${H}" fill="${surface}"/>` + grid + guides + clear + mark + minTag;
+}
+
+// ---- HERO comp: overlay headline (eyebrow + 2 headline bars + sub + CTA pill) over a product
+// silhouette on a graded diagonal sweep with a left scrim for legibility. Richer than 'cover'. ----
+function motifHero(ctx) {
+  const { width: W, height: H, min, pal, id } = ctx;
+  const { surface, ink, accent } = pal;
+  const g = `hero_${id}`;
+  const headX = Math.round(W * 0.07);
+  const eyeY = Math.round(H * 0.28);
+  const bh = Math.round(min * 0.08);
+  const colW = Math.round(W * 0.46);
+  return [
+    `<defs>`,
+    `<linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1">`,
+    `<stop offset="0" stop-color="${mix(surface, accent, 0.25)}"/>`,
+    `<stop offset="0.55" stop-color="${mix(accent, ink, 0.25)}"/>`,
+    `<stop offset="1" stop-color="${mix(accent, ink, 0.55)}"/>`,
+    `</linearGradient>`,
+    `<linearGradient id="${g}_s" x1="0" y1="0" x2="1" y2="0">`,
+    `<stop offset="0" stop-color="${ink}" stop-opacity="0.55"/>`,
+    `<stop offset="1" stop-color="${ink}" stop-opacity="0"/>`,
+    `</linearGradient>`,
+    `<radialGradient id="${g}_h" cx="0.72" cy="0.32" r="0.5">`,
+    `<stop offset="0" stop-color="${mix(surface, accent, 0.5)}" stop-opacity="0.8"/>`,
+    `<stop offset="1" stop-color="${accent}" stop-opacity="0"/>`,
+    `</radialGradient>`,
+    `</defs>`,
+    `<rect width="${W}" height="${H}" fill="url(#${g})"/>`,
+    `<path d="M 0 ${Math.round(H * 0.62)} Q ${Math.round(W * 0.45)} ${Math.round(H * 0.40)} ${W} ${Math.round(H * 0.58)} L ${W} ${H} L 0 ${H} Z" fill="${mix(accent, ink, 0.4)}" fill-opacity="0.45"/>`,
+    `<rect width="${W}" height="${H}" fill="url(#${g}_h)"/>`,
+    `<ellipse cx="${Math.round(W * 0.72)}" cy="${Math.round(H * 0.82)}" rx="${Math.round(min * 0.26)}" ry="${Math.round(min * 0.05)}" fill="${ink}" fill-opacity="0.28"/>`,
+    `<rect x="${Math.round(W * 0.63)}" y="${Math.round(H * 0.34)}" width="${Math.round(min * 0.26)}" height="${Math.round(min * 0.5)}" rx="${Math.round(min * 0.05)}" fill="${mix(ink, accent, 0.45)}"/>`,
+    `<rect x="${Math.round(W * 0.655)}" y="${Math.round(H * 0.40)}" width="${Math.round(min * 0.06)}" height="${Math.round(min * 0.34)}" rx="${Math.round(min * 0.03)}" fill="${surface}" fill-opacity="0.22"/>`,
+    `<rect width="${Math.round(W * 0.6)}" height="${H}" fill="url(#${g}_s)"/>`,
+    `<rect x="${headX}" y="${eyeY}" width="${Math.round(colW * 0.34)}" height="${Math.round(bh * 0.42)}" rx="${Math.round(bh * 0.2)}" fill="${accent}"/>`,
+    `<rect x="${headX}" y="${eyeY + Math.round(bh * 1.0)}" width="${Math.round(colW * 0.95)}" height="${bh}" rx="${Math.round(bh * 0.16)}" fill="${surface}" fill-opacity="0.92"/>`,
+    `<rect x="${headX}" y="${eyeY + Math.round(bh * 2.2)}" width="${Math.round(colW * 0.7)}" height="${bh}" rx="${Math.round(bh * 0.16)}" fill="${surface}" fill-opacity="0.92"/>`,
+    `<rect x="${headX}" y="${eyeY + Math.round(bh * 3.6)}" width="${Math.round(colW * 0.5)}" height="${Math.round(bh * 0.42)}" rx="${Math.round(bh * 0.2)}" fill="${surface}" fill-opacity="0.5"/>`,
+    `<rect x="${headX}" y="${eyeY + Math.round(bh * 5.0)}" width="${Math.round(colW * 0.46)}" height="${Math.round(bh * 1.4)}" rx="${Math.round(bh * 0.7)}" fill="${accent}"/>`,
+    `<rect x="${headX + Math.round(colW * 0.10)}" y="${eyeY + Math.round(bh * 5.5)}" width="${Math.round(colW * 0.26)}" height="${Math.round(bh * 0.4)}" rx="${Math.round(bh * 0.2)}" fill="${surface}" fill-opacity="0.85"/>`,
+  ].join('');
+}
+
+// ---- PORTRAIT comp: centered bust (shoulders + head) lit from above on a soft graded ground,
+// with a radial vignette. Triggered by portrait/maker/얼굴/face keywords. ----
+function motifPortrait(ctx) {
+  const { width: W, height: H, min, pal, id } = ctx;
+  const { surface, ink, accent } = pal;
+  const g = `por_${id}`;
+  const cx = Math.round(W / 2);
+  const headR = Math.round(min * 0.16);
+  const headCy = Math.round(H * 0.42);
+  const shoulderY = headCy + Math.round(headR * 1.15);
+  const shoulderW = Math.round(min * 0.5);
+  const figure = mix(accent, ink, 0.45);
+  return [
+    `<defs>`,
+    `<linearGradient id="${g}" x1="0" y1="0" x2="0" y2="1">`,
+    `<stop offset="0" stop-color="${mix(surface, accent, 0.18)}"/>`,
+    `<stop offset="1" stop-color="${mix(surface, ink, 0.12)}"/>`,
+    `</linearGradient>`,
+    `<radialGradient id="${g}_v" cx="0.5" cy="0.42" r="0.75">`,
+    `<stop offset="0.55" stop-color="${ink}" stop-opacity="0"/>`,
+    `<stop offset="1" stop-color="${ink}" stop-opacity="0.45"/>`,
+    `</radialGradient>`,
+    `<radialGradient id="${g}_r" cx="0.5" cy="0.34" r="0.5">`,
+    `<stop offset="0" stop-color="${mix(figure, surface, 0.25)}"/>`,
+    `<stop offset="1" stop-color="${figure}"/>`,
+    `</radialGradient>`,
+    `</defs>`,
+    `<rect width="${W}" height="${H}" fill="url(#${g})"/>`,
+    `<path d="M ${cx - shoulderW} ${H} C ${cx - shoulderW} ${shoulderY} ${cx - Math.round(shoulderW * 0.5)} ${shoulderY - Math.round(headR * 0.2)} ${cx} ${shoulderY - Math.round(headR * 0.2)} C ${cx + Math.round(shoulderW * 0.5)} ${shoulderY - Math.round(headR * 0.2)} ${cx + shoulderW} ${shoulderY} ${cx + shoulderW} ${H} Z" fill="${figure}"/>`,
+    `<circle cx="${cx}" cy="${headCy}" r="${headR}" fill="url(#${g}_r)"/>`,
+    `<path d="M ${cx + Math.round(headR * 0.5)} ${headCy - Math.round(headR * 0.8)} A ${headR} ${headR} 0 0 1 ${cx + Math.round(headR * 0.85)} ${headCy + Math.round(headR * 0.4)}" fill="none" stroke="${mix(accent, surface, 0.4)}" stroke-opacity="0.6" stroke-width="${Math.max(1, Math.round(min * 0.01))}"/>`,
+    `<rect width="${W}" height="${H}" fill="url(#${g}_v)"/>`,
+  ].join('');
+}
+
 // Bottom-left role/aspect tag so the operator always knows which slot a comp stands in for.
 function placeholderFooter(ctx) {
   const { width: W, height: H, min, pal, role, aspect } = ctx;
@@ -357,6 +522,9 @@ function writePlaceholder(slot, reason) {
     case 'grid': body = motifGrid(ctx); break;
     case 'banner': body = motifBanner(ctx); break;
     case 'beforeafter': body = motifBeforeAfter(ctx); break;
+    case 'logo': body = motifLogo(ctx); break;
+    case 'hero': body = motifHero(ctx); break;
+    case 'portrait': body = motifPortrait(ctx); break;
     case 'scene': default: body = motifScene(ctx); break;
   }
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${svgEscape(role)} placeholder (${kind})">

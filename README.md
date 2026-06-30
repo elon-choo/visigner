@@ -8,7 +8,7 @@ It's built on Anthropic's `frontend-design` aesthetic discipline (plan a token s
 
 - **Replaces** — other installable design *skills / plugins / packages* for Claude Code. The suite produces the actual artifacts: page/component **code**, **SVG**, design **tokens**, handoff **specs**, **diagrams/wireframes**, conversion **copy**, ESP-ready **email HTML**, the **experiment stats** (A/B sizing, Welch t / SRM / Bayesian readouts, funnel drop-off), and the **test math** (contrast, touch targets, overflow) — all as zero-dependency Node scripts.
 - **Feeds, does not replace** — it hands off to the tools downstream of design, it does not become them: live-canvas GUIs (**Figma / FigJam**), raster editors (**Photoshop**), and runtime infrastructure (**web hosting**, **ESP send**, the **analytics warehouse**). You still ship through those.
-- **Real photo/illustration generation** needs an image API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, each image slot **renders as an intentional lo-fi comp** — a deterministic, on-brand SVG (classified into one of five comp archetypes, full palette, slot tag) that marks the slot's intent, *not* a finished asset. The operator still replaces these comps with real art before shipping. The **screenshot browser** is installed once by **`/design-setup`**.
+- **Real photo/illustration generation** needs an image API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, each image slot **renders as an intentional lo-fi comp** — a deterministic, on-brand SVG (classified into one of eight comp archetypes — incl. logo-scaffold, hero, and portrait — full palette, slot tag) that marks the slot's intent, *not* a finished asset. The operator still replaces these comps with real art before shipping. The **screenshot browser** is installed once by **`/design-setup`**.
 
 ---
 
@@ -73,7 +73,9 @@ You usually don't need to name anything — just describe the task in plain lang
 - **design-director** — sets strong, non-generic art direction (token system + signature element) before building.
 
 ### Commands
-`/design` (router) · `/landing` · `/ui` · `/brand` · `/design-tokens` · `/design-review` · `/design-setup`
+`/design` (router) · `/landing` · `/ui` · `/brand` · `/plan` · `/campaign` · `/design-tokens` · `/design-review` · `/design-setup`
+
+`/campaign` pins ONE idea and ladders it across landing + paid ad + social + an email sequence, then enforces cross-surface message-match with the deterministic copy floor (`copy-lint.js --idea`) + the email floor + an independent `design-critic MODE=copy` grade.
 
 ---
 
@@ -92,9 +94,14 @@ Left alone, a model emits the high-probability **generic center** — the "AI sl
 Beyond the screenshot loop (`shoot.js`), the suite ships runnable helpers you invoke directly:
 - **`ab.js`** — A/B sizing + readouts: proportion z-test, Welch t-test for revenue/AOV, SRM guardrail (chi-square), Bayesian P(B>A) + expected loss, multi-variant Bonferroni/Šidák, and an N-bucket exposure snippet.
 - **`pull-funnel.js`** — read-only PostHog/GA4 funnel: ordered step counts + drop-off %, segmented by source × device (no key → prints the event/UTM schema to instrument).
-- **`email.js` / `email-lint.js`** — emit an ESP-pasteable responsive HTML email (600px table layout, inlined CSS, Outlook VML CTA) and a deterministic copy linter (spam/subject/CTA/lexicon) that's the machine floor under the LLM copy critique.
+- **`email.js` / `email-lint.js`** — emit an ESP-pasteable responsive HTML email (600px table layout, inlined CSS, Outlook VML CTA) and a deterministic copy linter (spam/subject/CTA/lexicon) that's the machine floor under the LLM copy critique. (Spam severity is split: true spam tells stay ERROR, borderline launch phrases like "limited time" are now WARN.)
+- **`copy-lint.js`** — the non-email companion floor: a deterministic per-CHANNEL gate for paid-ad / social / push copy (length budgets, AI-slop banned verbs, a required CTA) + an optional `--idea` cross-surface message-match. Powers the new **`/campaign`** command's one-idea ladder.
+- **`plan-lint.js`** — the deterministic floor under `design-critic MODE=plan`: lints a ux-flows PRD/plan markdown for 11 required sections + 3 structural floors (event-spec table, per-flow error path, inventory↔acceptance-criteria coverage).
+- **`name-check.js`** — brand-naming conflict sweep: authoritative `.com` domain availability via RDAP, best-effort GitHub/npm handle probes, and prefilled USPTO/WIPO/EUIPO trademark search URLs. (`.co`/`.io` report `unknown` — no RDAP coverage.)
 - **`serve-shoot.js`** — build/serve → shoot → teardown in one call (static dir or a spawned app), exiting with `shoot.js`'s code so it drops into **CI**.
-- **CI gate** — `.github/workflows/design-gate.yml` + `npm run lint:brand` / `lint:tokens` / `gate` + a `.husky/pre-commit` hook make brand-lint, the @theme↔DTCG drift check, and the screenshot+axe gate a merge requirement.
+- **`bin/shoot` & `bin/brand-lint`** — thin wrappers that resolve the global `node_modules` + the shared script path, so the long `NODE_PATH=$(npm root -g) node …/scripts/shoot.js` incantation becomes `bin/shoot <file|url>` (and `bin/brand-lint <page>`). Same env knobs and exit codes pass through.
+- **`skills/brand-identity/assets/logo-grid.html`** — a self-contained logo verification sheet: slots one mark (`?svg=/abs/mark.svg` or inline) and renders the 3-size × 3-color (full / mono / knockout) matrix, so the mono/knockout/small-size test is one `shoot.js` pass.
+- **CI gate** — `.github/workflows/design-gate.yml` + `npm run lint:brand` / `lint:tokens` / `gate` + a `.husky/pre-commit` hook make brand-lint, the @theme↔DTCG drift check (target via env `TOKENS_TARGET`), and the screenshot+axe gate a merge requirement.
 
 ## Notes
 

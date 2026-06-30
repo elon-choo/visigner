@@ -22,7 +22,8 @@
 //   cta-multiple       WARN   >1 CTA (diluted single clear action)
 //   spam-allcaps       ERROR  an ALL-CAPS word run (>=4 letters) in subject/preheader
 //   spam-bang          ERROR  "!!!" (or more) anywhere in subject/preheader
-//   spam-words         ERROR  known spam phrases (free money, act now, ...)
+//   spam-words         ERROR  hard spam tells (free money, act now, cash bonus, 100% free, winner, ...)
+//   spam-words-soft    WARN   borderline-but-legit launch phrases (guarantee, order now, buy now, limited time, urgent)
 //   spam-emoji         WARN   excessive emoji (>2) in subject/preheader
 //   lexicon-banned     ERROR  a banned brand-lexicon term appears
 //   lexicon-no-owned   WARN   none of the owned brand-lexicon terms appear
@@ -35,10 +36,16 @@ const path = require('path');
 const SUBJECT_MAX = 50;
 const PREHEADER_MAX = 90;
 
-const SPAM_WORDS = [
-  'free money', 'act now', 'risk-free', 'risk free', 'click here', 'buy now',
-  'limited time', 'cash bonus', 'no cost', '100% free', 'guarantee', 'winner',
-  'congratulations you', 'urgent', 'order now', 'this is not spam', 'extra income',
+// Split severity so the linter doesn't over-block legitimate launch copy. True spam tells
+// (phishing / get-rich tells) stay ERROR; common-but-legit commerce phrases (a money-back
+// guarantee, "Order now", a "limited time" promo) are real-world launch language → WARN, not a
+// gate failure. Match the design-critic intent: flag, don't forbid, the borderline ones.
+const SPAM_WORDS_ERROR = [
+  'free money', 'act now', 'risk-free', 'risk free', 'click here', 'cash bonus',
+  'no cost', '100% free', 'winner', 'congratulations you', 'this is not spam', 'extra income',
+];
+const SPAM_WORDS_WARN = [
+  'guarantee', 'order now', 'buy now', 'limited time', 'urgent',
 ];
 const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u{2BFF}]/gu;
 // an ALL-CAPS run of >=4 letters (whole "word"); excludes things like "I" or "OK".
@@ -107,8 +114,11 @@ function lintOne(model, file, lexicon) {
   if (caps) add('spam-allcaps', 'error', `ALL-CAPS shouting: ${[...new Set(caps)].slice(0, 3).join(', ')}`);
   if (/!{3,}/.test(head)) add('spam-bang', 'error', 'excessive "!!!"');
   const lower = head.toLowerCase();
-  for (const w of SPAM_WORDS) {
+  for (const w of SPAM_WORDS_ERROR) {
     if (lower.includes(w)) add('spam-words', 'error', `spam phrase: "${w}"`);
+  }
+  for (const w of SPAM_WORDS_WARN) {
+    if (lower.includes(w)) add('spam-words-soft', 'warn', `borderline phrase: "${w}" — fine for a real launch, but a spam-filter tell`);
   }
   const emo = head.match(EMOJI);
   if (emo && emo.length > 2) add('spam-emoji', 'warn', `${emo.length} emoji in subject/preheader (>2)`);
@@ -150,11 +160,21 @@ function modelFromFile(file) {
 
 function collectTargets(dir, excludeAbs) {
   const skip = new Set((excludeAbs || []).map((p) => path.resolve(p)));
-  return fs.readdirSync(dir)
+  const files = fs.readdirSync(dir)
     .filter((n) => /\.(json|html|htm)$/i.test(n) && !/email-lint\.json$/i.test(n))
     .map((n) => path.join(dir, n))
     .filter((p) => !skip.has(path.resolve(p)))
     .sort();
+  // Dedupe a spec+render PAIR (welcome.json + welcome.html) so one email counts ONCE, not twice.
+  // Prefer the .json spec (authoritative structured copy) when both exist; otherwise keep the HTML.
+  const byBase = new Map();
+  for (const p of files) {
+    const base = path.basename(p, path.extname(p)).toLowerCase();
+    const isJson = path.extname(p).toLowerCase() === '.json';
+    const prev = byBase.get(base);
+    if (!prev || (isJson && path.extname(prev).toLowerCase() !== '.json')) byBase.set(base, p);
+  }
+  return [...byBase.values()].sort();
 }
 
 const HELP = `email-lint.js — deterministic email-copy linter (the floor under design-critic MODE=copy).
