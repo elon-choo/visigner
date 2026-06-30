@@ -29,7 +29,18 @@ const path = require('path');
 const BANNED_FONT = /\b(Inter|Roboto|Arial|Open\s+Sans|Lato|system-ui)\b/i;
 const EMOJI = /[⌚-⌛☀-➿⬅-⬇⬛⬜⭐⭕️\u{1F000}-\u{1FAFF}]/u;
 const SOURCE_EXTS = new Set(['.html', '.htm', '.tsx', '.jsx', '.ts', '.js', '.css', '.scss', '.vue', '.svelte', '.astro']);
-const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build']);
+const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', 'coverage']);
+
+// --- GOVERNANCE (source/dir mode) — spacing utilities that take an arbitrary px bracket and the hand-picked
+// type scale. Arbitrary spacing off the 4px grid (mt-[13px]) and arbitrary font-size off the scale
+// (text-[15px]) are promoted from warn → ERROR in component/source files.
+const SPACING_PREFIX = /^(?:m[trblxy]?|p[trblxy]?|gap(?:-[xy])?|space-[xy])$/;
+const TYPE_SCALE = new Set([12, 14, 16, 18, 20, 24, 30, 36, 48, 64]);
+// ALLOW_PURPLE=1 — "earned purple" override: a brand whose identity is legitimately purple opts out of the
+// ai-purple gate (the OKLCH hue 270-310 / chroma>0.04 ban). Off by default; default behavior unchanged.
+const ALLOW_PURPLE = process.env.ALLOW_PURPLE === '1';
+// SEMANTIC BRAND mode ΔE tolerance (OKLab distance). Override with BRAND_LINT_DELTAE.
+const BRAND_DELTAE = parseFloat(process.env.BRAND_LINT_DELTAE || '0.02');
 
 const mkAdd = (violations) => (rule, where, snippet, severity) =>
   violations.push({ rule, where, snippet: String(snippet).replace(/\s+/g, ' ').trim().slice(0, 90), severity });
@@ -46,6 +57,152 @@ function braceBlocks(text, headRe) {
     }
   }
   return blocks;
+}
+
+// ============================================================================
+// SEMANTIC BRAND mode (opt-in via --brand) — statically diff the page's DECLARED token colors against the
+// brand.tokens.json SEMANTIC roles in OKLCH/OKLab. Catches "tokenized-but-off-brand": a page can pass the
+// raw-hex gate while declaring the WRONG teal in its own :root/@theme. Also: logo min-size + lexicon copy.
+// ============================================================================
+
+// parse an `oklch(L C H[ / a])` string → {L,C,H} (L normalized to 0-1 if given as %). null if not oklch.
+function parseOklch(str) {
+  const m = String(str).match(/oklch\(\s*([\d.]+)(%?)\s+([\d.]+)\s+([\d.]+)/i);
+  if (!m) return null;
+  let L = parseFloat(m[1]); if (m[2] === '%') L /= 100;
+  return { L, C: parseFloat(m[3]), H: parseFloat(m[4]) };
+}
+
+// OKLab ΔE between two OKLCH colors (hue→a/b so a 30° teal shift reads as a real distance).
+function deltaE(a, b) {
+  const ar = (a.H * Math.PI) / 180, brad = (b.H * Math.PI) / 180;
+  const aa = a.C * Math.cos(ar), ab = a.C * Math.sin(ar);
+  const ba = b.C * Math.cos(brad), bb = b.C * Math.sin(brad);
+  return Math.sqrt((a.L - b.L) ** 2 + (aa - ba) ** 2 + (ab - bb) ** 2);
+}
+
+// flatten a DTCG brand.tokens.json `color` tree → { "primary-700": {L,C,H}, "surface": {...}, ... }.
+// Aliases ($value is a "{ref}" string) and non-OKLCH values are skipped (can't be diffed numerically).
+function flattenBrandColors(tokens) {
+  const roles = {};
+  const rec = (obj, prefix) => {
+    for (const [k, v] of Object.entries(obj || {})) {
+      if (k.startsWith('$') || v == null || typeof v !== 'object') continue;
+      const name = (prefix ? `${prefix}-${k}` : k).toLowerCase();
+      if (v.$type === 'color') {
+        const css = v.$extensions && v.$extensions['com.detail-page'] && v.$extensions['com.detail-page'].css;
+        let ok = css ? parseOklch(css) : null;
+        if (!ok && v.$value && v.$value.colorSpace === 'oklch' && Array.isArray(v.$value.components)) {
+          const c = v.$value.components; ok = { L: c[0], C: c[1], H: c[2] };
+        }
+        if (ok) roles[name] = ok;
+      } else if (!v.$type) {
+        rec(v, name);
+      }
+    }
+  };
+  rec(tokens.color, '');
+  return roles;
+}
+
+// extract the page's DECLARED token colors: --brand-*/--color-* whose value is a literal oklch(),
+// scanned ONLY inside :root{}/@theme{} blocks. Returns { name: {L,C,H} } keyed by role (prefix stripped).
+function extractDeclaredColors(stripped) {
+  const decls = {};
+  const blocks = braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g);
+  for (const [s, e] of blocks) {
+    for (const m of stripped.slice(s, e).matchAll(/--(?:brand|color)-([a-z0-9-]+)\s*:\s*(oklch\([^;}]+)/gi)) {
+      const name = m[1].toLowerCase();
+      const ok = parseOklch(m[2]);
+      if (ok && !decls[name]) decls[name] = ok; // first literal wins (the --brand-* primitive layer)
+    }
+  }
+  return decls;
+}
+
+// strip tags/script/style/comments → visible copy (for lexicon grep).
+function visibleText(raw) {
+  return raw
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&[a-z]+;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// pull a numeric px dimension (attr="NN" or style:width:NNpx) out of a tag string. null if absent.
+function tagDim(tag, attr) {
+  let m = tag.match(new RegExp(`\\b${attr}\\s*=\\s*["']?\\s*(\\d+(?:\\.\\d+)?)`, 'i'));
+  if (m) return parseFloat(m[1]);
+  m = tag.match(new RegExp(`${attr}\\s*:\\s*(\\d+(?:\\.\\d+)?)px`, 'i'));
+  return m ? parseFloat(m[1]) : null;
+}
+
+// The on-brand check. brandTokens = parsed brand.tokens.json; lexicon = {banned:[],owned:[]} | null.
+// Returns { onBrand, evidence, violations }. Off-brand color and banned term are ERROR (gate teeth);
+// logo-undersize and missing-owned-term are WARN (judgement). Emits NO violations on a fully matching page.
+function brandCheck(raw, brandTokens, lexicon) {
+  const violations = [];
+  const add = mkAdd(violations);
+  const stripped = raw
+    .replace(/<!--[\s\S]*?-->/g, (m) => ' '.repeat(m.length))
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => ' '.repeat(m.length));
+
+  // (1) colors: declared vs semantic role within ΔE
+  const roles = flattenBrandColors(brandTokens);
+  const declared = extractDeclaredColors(stripped);
+  let checked = 0;
+  const off = [];
+  for (const [name, col] of Object.entries(declared)) {
+    const role = roles[name];
+    if (!role) continue; // page var with no matching semantic role — can't judge
+    checked++;
+    const dE = deltaE(col, role);
+    if (dE > BRAND_DELTAE) {
+      off.push({ name, dE });
+      add('off-brand-color', 'declared token', `--${name} ΔE${dE.toFixed(3)} > ${BRAND_DELTAE} vs role ${name}`, 'error');
+    }
+  }
+
+  // (2) logo min-size guideline (optional). brandTokens.logo = { minWidth, minHeight } (px).
+  const logoGuide = brandTokens.logo || (brandTokens.$extensions && brandTokens.$extensions['com.detail-page'] && brandTokens.$extensions['com.detail-page'].logo);
+  const logoIssues = [];
+  let logoChecked = false;
+  if (logoGuide) {
+    for (const m of raw.matchAll(/<(?:img|svg)\b[^>]*\blogo\b[^>]*>/gi)) {
+      logoChecked = true;
+      const tag = m[0];
+      const w = tagDim(tag, 'width'), h = tagDim(tag, 'height');
+      if (logoGuide.minWidth != null && w != null && w < logoGuide.minWidth) logoIssues.push(`w ${w}px<${logoGuide.minWidth}px`);
+      if (logoGuide.minHeight != null && h != null && h < logoGuide.minHeight) logoIssues.push(`h ${h}px<${logoGuide.minHeight}px`);
+      if (logoGuide.minWidth != null && w == null && h == null) logoIssues.push('no declared dimensions');
+    }
+    for (const iss of logoIssues) add('logo-undersize', 'logo element', iss, 'warn');
+  }
+
+  // (3) lexicon: banned terms present (ERROR) + owned terms missing (WARN)
+  let bannedHits = [], ownedPresent = 0, ownedTotal = 0;
+  if (lexicon) {
+    const copy = visibleText(raw).toLowerCase();
+    for (const term of (lexicon.banned || [])) {
+      if (copy.includes(String(term).toLowerCase())) { bannedHits.push(term); add('banned-term', 'visible copy', `"${term}"`, 'error'); }
+    }
+    const owned = lexicon.owned || [];
+    ownedTotal = owned.length;
+    for (const term of owned) {
+      if (copy.includes(String(term).toLowerCase())) ownedPresent++;
+      else add('missing-owned-term', 'visible copy', `"${term}" not found`, 'warn');
+    }
+  }
+
+  const onBrand = off.length === 0 && bannedHits.length === 0 && logoIssues.length === 0;
+  const parts = [];
+  parts.push(`${checked - off.length}/${checked} declared colors within ΔE ${BRAND_DELTAE} of brand roles`);
+  if (off.length) parts.push(`OFF: ${off.map((o) => `--${o.name} ΔE${o.dE.toFixed(3)}`).join(', ')}`);
+  if (lexicon) parts.push(`${bannedHits.length} banned${bannedHits.length ? ` ("${bannedHits.join('", "')}")` : ''}; owned ${ownedPresent}/${ownedTotal}`);
+  if (logoGuide) parts.push(logoChecked ? (logoIssues.length ? `logo ${logoIssues.join(', ')}` : 'logo ok') : 'no logo found');
+  return { onBrand, evidence: parts.join('; '), violations };
 }
 
 // ============================================================================
@@ -98,7 +255,7 @@ function lintHtml(raw, file) {
   // (c) AI-purple: any OKLCH color at hue 270-310 AND chroma>0.04 (chroma floor protects gray neutrals)
   for (const m of stripped.matchAll(/oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)/gi)) {
     const chroma = parseFloat(m[2]), hue = parseFloat(m[3]);
-    if (hue >= 270 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
+    if (!ALLOW_PURPLE && hue >= 270 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
   }
 
   // (d) emoji used as content — WARN (a linter can't reliably tell icon-use from copy-use)
@@ -168,7 +325,7 @@ function lintSource(raw, file) {
   // (c) AI-purple: OKLCH at hue 270-310 AND chroma>0.04 (oklch() itself is the allowed token format).
   for (const m of stripped.matchAll(/oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)/gi)) {
     const chroma = parseFloat(m[2]), hue = parseFloat(m[3]);
-    if (hue >= 270 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
+    if (!ALLOW_PURPLE && hue >= 270 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
   }
 
   // (d) emoji-as-icon — WARN
@@ -177,11 +334,30 @@ function lintSource(raw, file) {
     add('emoji', 'document', `emoji present (${hit && hit[0]}) — confirm it is copy, not an icon/bullet (banned as icon)`, 'warn');
   }
 
-  // (e) Tailwind arbitrary-value brackets in class/className — WARN
+  // (e) Tailwind arbitrary-value brackets in class/className. GOVERNANCE promotion: an arbitrary SPACING
+  //     bracket off the 4px grid (mt-[13px], p-[7px]) and an arbitrary font-size off the type scale
+  //     (text-[15px]) are ERRORs; every other arbitrary bracket stays a WARN (one per class, as before).
   for (const m of masked.matchAll(/\sclass(?:Name)?\s*=\s*(?:"([^"]*)"|'([^']*)'|\{`([^`]*)`\})/gi)) {
     const cls = m[1] || m[2] || m[3] || '';
-    const bm = cls.match(/[a-z0-9]+-\[[^\]]+\]/i);
-    if (bm) add('tailwind-arbitrary', 'class attribute', bm[0], 'warn');
+    let warned = false;
+    for (const bm of cls.matchAll(/(-?[a-z][a-z0-9]*(?:-[a-z]+)?)-\[([^\]]+)\]/gi)) {
+      const prefix = bm[1].replace(/^-/, '');
+      const pxm = bm[2].match(/^(\d+(?:\.\d+)?)px$/);
+      if (SPACING_PREFIX.test(prefix) && pxm && Number(pxm[1]) % 4 !== 0) {
+        add('spacing-arbitrary-off-grid', 'class attribute', bm[0], 'error');
+      } else if (prefix === 'text' && pxm && !TYPE_SCALE.has(Number(pxm[1]))) {
+        add('type-scale-arbitrary', 'class attribute', bm[0], 'error');
+      } else if (!warned) {
+        add('tailwind-arbitrary', 'class attribute', bm[0], 'warn');
+        warned = true;
+      }
+    }
+  }
+
+  // (f) GOVERNANCE: a component referencing a --brand-* PRIMITIVE directly (outside a :root/@theme block,
+  //     which is masked above) — components must consume the SEMANTIC --color-* tokens, not raw primitives.
+  for (const m of masked.matchAll(/var\(\s*(--brand-[a-z0-9-]+)/gi)) {
+    add('brand-primitive-ref', 'source outside @theme/:root', `${m[1]} (use semantic --color-*)`, 'error');
   }
 
   return { violations, tokenCoverage: { definedTokens: tokenNames.size, rawColorsOutsideTheme: rawColorCount } };
@@ -207,15 +383,35 @@ function collectFiles(dir, acc) {
   return acc;
 }
 
+// parse argv into positionals + flags so `[out.json]` stays positional and --brand/--lexicon are additive.
+function parseArgs(argv) {
+  const positionals = [], flags = {};
+  for (let i = 0; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === '--brand') flags.brand = argv[++i];
+    else if (a === '--lexicon') flags.lexicon = argv[++i];
+    else positionals.push(a);
+  }
+  return { positionals, flags };
+}
+
 try {
-  const target = process.argv[2];
-  if (!target) { console.error('usage: node brand-lint.js <page.html|dir> [out.json]'); process.exit(1); }
+  const { positionals, flags } = parseArgs(process.argv.slice(2));
+  const target = positionals[0];
+  if (!target) { console.error('usage: node brand-lint.js <page.html|dir> [out.json] [--brand brand.tokens.json] [--lexicon voice.json]'); process.exit(1); }
+  // SEMANTIC BRAND mode is opt-in: load token/lexicon files only when --brand is passed.
+  let brandTokens = null, lexicon = null;
+  if (flags.brand) {
+    brandTokens = JSON.parse(fs.readFileSync(flags.brand, 'utf8'));
+    if (flags.lexicon) lexicon = JSON.parse(fs.readFileSync(flags.lexicon, 'utf8'));
+  }
   const st = fs.statSync(target);
 
   if (st.isDirectory()) {
     // ---------- DIR / source-tree mode ----------
     const root = path.resolve(target);
-    const outPath = process.argv[3] || path.join(root, 'brand-lint.json');
+    const outPath = positionals[1] || path.join(root, 'brand-lint.json');
+    if (flags.brand) console.error('note: --brand (SEMANTIC BRAND mode) applies to a single page file; ignored in dir mode.');
     const files = collectFiles(root, []).sort();
     const fileReports = [];
     let errorCount = 0, warnCount = 0, rawColorsTotal = 0, definedTokensTotal = 0;
@@ -256,8 +452,18 @@ try {
 
   // ---------- SINGLE-FILE mode (backward-compatible) ----------
   const raw = fs.readFileSync(target, 'utf8');
-  const outPath = process.argv[3] || path.join(path.dirname(path.resolve(target)), 'brand-lint.json');
+  const outPath = positionals[1] || path.join(path.dirname(path.resolve(target)), 'brand-lint.json');
   const { violations, tokenCoverage } = lintByExt(raw, target);
+
+  // SEMANTIC BRAND mode (opt-in): diff declared colors vs brand roles, check logo + lexicon, emit one line.
+  // Off-brand colors / banned terms are added to the SAME violations list so they count toward the gate.
+  let brand = null;
+  if (brandTokens) {
+    const r = brandCheck(raw, brandTokens, lexicon);
+    for (const v of r.violations) violations.push(v);
+    brand = { onBrand: r.onBrand, evidence: r.evidence };
+  }
+
   const errorCount = violations.filter((v) => v.severity === 'error').length;
   const warnCount = violations.filter((v) => v.severity === 'warn').length;
   const report = {
@@ -266,9 +472,11 @@ try {
     warnCount,
     violations,
     tokenCoverage,
+    ...(brand ? { brand } : {}),
     file: path.resolve(target),
   };
   fs.writeFileSync(outPath, JSON.stringify(report, null, 2));
+  if (brand) console.log(`on-brand: ${brand.onBrand ? 'yes' : 'no'} — ${brand.evidence}`);
   console.log(JSON.stringify({ pass: report.pass, errorCount, warnCount, outPath }, null, 2));
   process.exit(errorCount === 0 ? 0 : 1);
 } catch (e) {

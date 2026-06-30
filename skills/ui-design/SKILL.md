@@ -153,6 +153,20 @@ import { motion, AnimatePresence } from "motion/react"
 ```
 In React: `const reduce = useReducedMotion()` then drop transforms, keep opacity-only. Reduced motion means *no large transforms/parallax*, not *no feedback* — keep the state change instant and visible.
 
+**Prove the motion from pixels, don't just assert it** — `shoot.js` now *verifies* this section instead of taking your word for it:
+```bash
+ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page
+# REDUCED_MOTION=1 → emulates prefers-reduced-motion:reduce, re-resolves @media, and FAILS the run if any active
+# transition/animation doesn't collapse to ~0 (a no-op @media(reduce) block is the common bug). Gate check
+# reducedMotion (block); offenders land in run.json.motion.reducedMotionOffenders[].
+REDUCED_MOTION=1 NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out]
+# MOTION_TRIGGER='selector:event' → films a ~600ms window around a triggered state (hover/click/focus) and warns
+# if a triggered element animates a LAYOUT property (the jank ban above), not transform/opacity.
+MOTION_TRIGGER='button:click|[data-row]:hover' NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out]
+# FILMSTRIP=1 captures the orchestrated entrance at desktop AND 390px (filmstrip-mobile-*.png) so the "one moment" is screenshot-visible.
+```
+Run `REDUCED_MOTION=1` before ship so the reduced-motion floor is machine-proven; use `MOTION_TRIGGER` to catch a dropdown/toggle quietly animating `width`/`height`/`top` instead of `transform`.
+
 ### Motion BANNED defaults
 - ❌ Everything fades/slides in on scroll (whole-page `AOS`-style reveal) — it screams template.
 - ❌ Bouncy spring on everything (overshoot on a dropdown reads as a toy, not a tool).

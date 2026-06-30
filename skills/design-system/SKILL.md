@@ -141,6 +141,8 @@ L lands on near-even rungs (.96/.91/.76/.56/.40/.27); H drifts only ~3° toward 
 
 Hierarchy comes from **weight + color first, size second** — de-emphasize by lowering contrast (ink→muted), not by shrinking. Extreme weight contrast (100/200 vs 800/900), never 400-vs-600.
 
+> **All eight axes are now machine-emitted.** The `motion` (`--dur-*`/`--ease-*`) and contrast-bearing color tokens above are compiled from the DTCG source by `build-tokens.js --emit=theme` along with the other six axes — the starter `@theme` carries the full set byte-identical to that output (verify with the drift self-test in §VERIFY). Tune them in `tokens/*.tokens.json` and recompile; there is no separate motion or contrast file to hand-edit.
+
 ## 5 · Multi-brand & dark mode (override SEMANTIC, never re-author primitives)
 
 Dark mode is **not** an inversion and **not** a second palette — it is a remap of the *semantic* tokens. Override the `--brand-*` primitives under a scope; the `@theme` map and every utility follow automatically:
@@ -213,6 +215,16 @@ node $ROOT/scripts/emit-tokens.js <page.html> [out-dir]
    # DIR report: { pass, errorCount, warnCount, files:[{file,errorCount,warnCount,violations,tokenCoverage}], totals }
    # totals.rawColorsOutsideTheme must read 0; totals.filesWithErrors must read 0
    ```
+
+   **Governance error rules (source/dir mode — promote the system's hard contracts to CI failures).** Beyond raw color, dir-mode now blocks the drift vectors §4/§BANNED only *described*: an **off-8pt-grid arbitrary spacing bracket** (`mt-[13px]`, `p-[7px]`, `gap-[7px]`) → `spacing-arbitrary-off-grid` ERROR; an **off-type-scale arbitrary font size** (`text-[15px]`, where the scale is 12/14/16/18/20/24/30/36/48/64) → `type-scale-arbitrary` ERROR; a component **referencing a `--brand-*` PRIMITIVE directly** via `var(--brand-*)` outside a `:root`/`@theme` block → `brand-primitive-ref` ERROR (the §1 "components read SEMANTIC only" rule, now enforced). Other arbitrary brackets stay `tailwind-arbitrary` WARN. Dir-mode ignore list also skips `.next`/`coverage`. **`ALLOW_PURPLE=1`** is the "earned purple" override — it exempts a legitimately purple brand (a Magician strategy, per brand-identity) from the `ai-purple` gate in both linters; set it only with a stated reason.
+
+   **Semantic on-brand mode (`--brand`) — data-driven, not eyeballed.** Point the single-file/page run at the brand's DTCG and (optionally) its voice lexicon to assert the page actually *uses* the declared brand:
+   ```bash
+   node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/brand-lint.js <page.html> [out.json] \
+     --brand brand.tokens.json [--lexicon voice.json]
+   # → prints one line BEFORE the JSON: `on-brand: yes|no — <evidence>`
+   ```
+   It statically extracts the page's DECLARED token colors (the `--brand-*`/`--color-*` `oklch()` literals inside `:root{}`/`@theme{}`), maps each by name to the matching DTCG semantic role (`primary-700`, `surface`, …), and diffs with an **OKLab ΔE** (tolerance 0.02, override `BRAND_LINT_DELTAE`). A color past tolerance is an `off-brand-color` ERROR. If `brand.tokens.json` carries `logo:{minWidth,minHeight}`, any `<img>`/`<svg>` whose tag contains "logo" is checked against its declared width/height → undersized/no-dimensions is a `logo-undersize` WARN. With `--lexicon` (`{banned:[],owned:[]}`): a banned term in visible copy is a `banned-term` ERROR, a missing owned term a `missing-owned-term` WARN. Off-brand/banned violations count toward `errorCount` and the exit gate; the single-file report gains an additive `brand:{onBrand,evidence}` key. (`--brand` is positional-order-independent with `[out.json]`; in DIR mode it's ignored with a stderr note.)
 2. **Tokens-only-source diff** — prove the runtime `@theme` still equals the committed DTCG (no hand-edit drift):
    ```bash
    ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page
@@ -224,6 +236,12 @@ node $ROOT/scripts/emit-tokens.js <page.html> [out-dir]
 4. **Re-theme smoke test** — set `data-brand="alt"` (or `data-theme="dark"`) and re-shoot: the WHOLE page must shift with zero component/markup edits. If anything stays the old color, a value was hardcoded — trace it with `brand-lint` and route it through a semantic token.
 
 Ship only when: `brand-lint` exits 0 · the `@theme`↔DTCG diff is empty · AA holds in light + dark · the re-theme smoke test shifts every surface. Anything `null`/unknown in a report is "not verified," never a pass — re-run.
+
+### Wire the gate into CI (so drift can't merge)
+The same four checks run unattended. The detail-page skill ships the scaffold — `npm` scripts, a GitHub Actions workflow, and a Husky pre-commit hook — so a team adopts governance without re-authoring it:
+- **`npm` scripts** (`skills/detail-page/package.json`): `lint:brand` → `brand-lint.js ./src` (dir mode, non-zero on any error-severity finding) · **`lint:tokens`** → the **@theme↔DTCG drift self-test**: it regenerates `@theme` via `build-tokens.js --emit=theme` and diffs it against the committed `assets/starter/index.html` `@theme`, printing `@theme<->DTCG in sync (N tokens, 0 drift)` or exiting 1 with the drifted token list (a stronger, paste-proof version of the §VERIFY-2 diff) · `shoot` → `shoot.js` · `gate` → `AXE=1 GATE_EXIT=1 serve-shoot.js`.
+- **`.github/workflows/design-gate.yml`** — copy-paste GitHub Actions, every step commented; all repo-specific paths live in one top `env:` block (`SRC_DIR=./src`, `SERVE_DIR=…/assets/starter`, `SERVE_FILE=index.html`). Job `lint`: `npm install` → brand-lint over `$SRC_DIR` → `npm run lint:tokens` (the drift assertion). Job `gate`: `npx patchright install --with-deps chromium` → `serve-shoot.js --dir` with `AXE=1 GATE_EXIT=1` → uploads the screenshot artifact.
+- **`.husky/pre-commit`** (Husky v9, POSIX sh, inert until a team installs husky) — lints only STAGED design files in single-file mode; any error-severity finding aborts the commit. No-op guards: `HUSKY=0` or a missing `brand-lint.js`.
 
 ## Hand-off to siblings
 - **detail-page / ui-design / frontend-build** consume this `@theme` directly — point them at the compiled block, don't let them re-declare colors. `frontend-build` compiles the SAME `@theme` with the Tailwind CLI for production (swap the browser CDN, identical block).

@@ -142,41 +142,231 @@ function aspectDims(aspect) {
   if (w >= h) return { width: base, height: Math.max(1, Math.round(base * h / w)) };
   return { width: Math.max(1, Math.round(base * w / h)), height: base };
 }
+
+// ---- placeholder helpers: deterministic color math + role classification ----
+// (Used ONLY by the no-key SVG placeholder path; real-provider paths are untouched.)
+function _clamp255(n) { return Math.max(0, Math.min(255, Math.round(n))); }
+function hexToRgb(hex) {
+  let h = String(hex == null ? '' : hex).trim().replace(/^#/, '');
+  if (h.length === 3) h = h.split('').map((c) => c + c).join('');
+  if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
+  return { r: parseInt(h.slice(0, 2), 16), g: parseInt(h.slice(2, 4), 16), b: parseInt(h.slice(4, 6), 16) };
+}
+function rgbToHex(o) { return '#' + [o.r, o.g, o.b].map((v) => _clamp255(v).toString(16).padStart(2, '0')).join(''); }
+// linear blend a->b by t in [0,1]; tolerant of bad input (falls back to black/white).
+function mix(a, b, t) {
+  const ca = hexToRgb(a) || { r: 0, g: 0, b: 0 };
+  const cb = hexToRgb(b) || { r: 255, g: 255, b: 255 };
+  return rgbToHex({ r: ca.r + (cb.r - ca.r) * t, g: ca.g + (cb.g - ca.g) * t, b: ca.b + (cb.b - ca.b) * t });
+}
+function relLum(hex) { const c = hexToRgb(hex) || { r: 0, g: 0, b: 0 }; return (0.299 * c.r + 0.587 * c.g + 0.114 * c.b) / 255; }
+function hashStr(s) {
+  let h = 2166136261; const str = String(s == null ? '' : s);
+  for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); }
+  return (h >>> 0);
+}
+function safeId(s) { return String(s == null ? 'x' : s).replace(/[^a-zA-Z0-9_-]/g, '_') || 'x'; }
+
+// Resolve the FULL token palette the plan passed in: surface, ink, accent, and a primary ramp.
+// Accepts brand.* or top-level plan.*; ramp may be an array or an object of stops (e.g. {50:..,500:..}).
+// When accent/ramp are absent, derive a tasteful set from accent<->surface/ink so comps stay on-brand.
+function buildPalette(plan, slot) {
+  const brand = plan.brand || {};
+  let surface = brand.surface || plan.surface || '#F1EEE8';
+  let ink = brand.ink || plan.ink || '#23201B';
+  let accent = brand.accent || plan.accent || (slot && slot.accent);
+  const rawRamp = brand.primary || brand.ramp || brand.primaryRamp || plan.primary || plan.ramp;
+  let ramps = [];
+  if (Array.isArray(rawRamp)) ramps = rawRamp.filter((x) => typeof x === 'string' && hexToRgb(x));
+  else if (rawRamp && typeof rawRamp === 'object') {
+    ramps = Object.keys(rawRamp).sort((a, b) => (parseFloat(a) || 0) - (parseFloat(b) || 0))
+      .map((k) => rawRamp[k]).filter((x) => typeof x === 'string' && hexToRgb(x));
+  }
+  if (!accent || !hexToRgb(accent)) accent = ramps.length ? ramps[Math.floor(ramps.length / 2)] : '#B4654A';
+  if (!hexToRgb(accent)) accent = '#B4654A';
+  if (!hexToRgb(surface)) surface = '#F1EEE8';
+  if (!hexToRgb(ink)) ink = '#23201B';
+  if (!ramps.length) {
+    ramps = [mix(accent, surface, 0.72), mix(accent, surface, 0.42), accent, mix(accent, ink, 0.22), mix(accent, ink, 0.46)];
+  }
+  return { surface, ink, accent, ramps };
+}
+
+// Map a slot to ONE of five comp archetypes from its role/label/id + aspect, so each slot
+// gets a visibly different lo-fi composition. Deterministic, keyword-first then aspect fallback.
+function classifyRole(slot, aspect) {
+  const text = String(slot.role || slot.label || slot.id || '').toLowerCase();
+  const { width, height } = aspectDims(aspect);
+  const ratio = width / (height || 1);
+  if (/before|after|compare|comparison|versus|\bvs\b|b\/a/.test(text)) return 'beforeafter';
+  if (/wall|grid|deliverable|gallery|bundle|contents|lineup|curriculum|모음|구성|grid/.test(text)) return 'grid';
+  if (/banner|strip|ribbon|cta|배너/.test(text) || ratio >= 2.4) return 'banner';
+  if (/cover|hero|title|main|thumb|thumbnail|key.?visual|\bkv\b|표지|메인|히어로/.test(text)) return 'cover';
+  if (/scene|product|shot|mockup|lifestyle|detail|close.?up|photo|장면|제품|컷/.test(text)) return 'scene';
+  if (ratio >= 2.2) return 'banner';
+  if (ratio <= 0.85) return 'cover';
+  return 'scene';
+}
+
+// ---- five distinct lo-fi comp motifs (each returns inner SVG markup, no <svg> root) ----
+function motifCover(ctx) {
+  const { width: W, height: H, min, pal } = ctx;
+  const { surface, ink, accent } = pal;
+  const m = Math.round(min * 0.09);
+  const sw = Math.max(1, Math.round(min * 0.004));
+  const bandW = Math.round(min * 0.10);
+  const ex = m + bandW + Math.round(min * 0.08);
+  const ey = Math.round(H * 0.30);
+  const tbh = Math.round(min * 0.075);
+  const gap = Math.round(tbh * 0.55);
+  const ty = ey + Math.round(min * 0.09);
+  const colW = Math.max(1, W - ex - m);
+  return [
+    `<rect width="${W}" height="${H}" fill="${surface}"/>`,
+    `<rect x="${m}" y="${m}" width="${W - 2 * m}" height="${H - 2 * m}" fill="none" stroke="${ink}" stroke-opacity="0.18" stroke-width="${sw}"/>`,
+    `<rect x="${m}" y="${m}" width="${bandW}" height="${H - 2 * m}" fill="${accent}"/>`,
+    `<rect x="${ex}" y="${ey}" width="${Math.round(min * 0.26)}" height="${Math.round(min * 0.035)}" rx="${Math.round(min * 0.018)}" fill="${accent}"/>`,
+    `<rect x="${ex}" y="${ty}" width="${Math.round(colW * 0.82)}" height="${tbh}" rx="${Math.round(tbh * 0.16)}" fill="${ink}" fill-opacity="0.82"/>`,
+    `<rect x="${ex}" y="${ty + tbh + gap}" width="${Math.round(colW * 0.55)}" height="${tbh}" rx="${Math.round(tbh * 0.16)}" fill="${ink}" fill-opacity="0.82"/>`,
+    `<rect x="${ex}" y="${ty + 2 * (tbh + gap)}" width="${Math.round(colW * 0.40)}" height="${Math.round(min * 0.028)}" rx="${Math.round(min * 0.014)}" fill="${ink}" fill-opacity="0.32"/>`,
+  ].join('');
+}
+function motifScene(ctx) {
+  const { width: W, height: H, min, pal, id } = ctx;
+  const { surface, ink, accent } = pal;
+  const g = `g_${id}`;
+  return [
+    `<defs>`,
+    `<linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1">`,
+    `<stop offset="0" stop-color="${mix(surface, accent, 0.12)}"/>`,
+    `<stop offset="1" stop-color="${mix(accent, ink, 0.18)}"/>`,
+    `</linearGradient>`,
+    `<radialGradient id="${g}_f" cx="0.62" cy="0.40" r="0.55">`,
+    `<stop offset="0" stop-color="${mix(accent, surface, 0.18)}" stop-opacity="0.95"/>`,
+    `<stop offset="1" stop-color="${accent}" stop-opacity="0"/>`,
+    `</radialGradient>`,
+    `</defs>`,
+    `<rect width="${W}" height="${H}" fill="url(#${g})"/>`,
+    `<path d="M ${Math.round(W * 0.10)} ${Math.round(H * 0.78)} Q ${Math.round(W * 0.40)} ${Math.round(H * 0.55)} ${Math.round(W * 0.92)} ${Math.round(H * 0.82)} L ${W} ${H} L 0 ${H} Z" fill="${mix(accent, ink, 0.30)}" fill-opacity="0.55"/>`,
+    `<circle cx="${Math.round(W * 0.62)}" cy="${Math.round(H * 0.42)}" r="${Math.round(min * 0.34)}" fill="url(#${g}_f)"/>`,
+    `<circle cx="${Math.round(W * 0.30)}" cy="${Math.round(H * 0.30)}" r="${Math.round(min * 0.05)}" fill="${surface}" fill-opacity="0.70"/>`,
+  ].join('');
+}
+function motifGrid(ctx) {
+  const { width: W, height: H, min, pal, id } = ctx;
+  const { surface, ink, accent, ramps } = pal;
+  const m = Math.round(min * 0.07);
+  const ratio = W / (H || 1);
+  const cols = ratio >= 1.6 ? 4 : ratio >= 0.9 ? 3 : 2;
+  const rows = Math.max(2, Math.round(cols / ratio));
+  const gp = Math.round(min * 0.035);
+  const gw = (W - 2 * m - (cols - 1) * gp) / cols;
+  const gh = (H - 2 * m - (rows - 1) * gp) / rows;
+  const palette = [mix(accent, surface, 0.70), mix(accent, surface, 0.45), accent, mix(ink, surface, 0.30), ...ramps];
+  const h = hashStr(id);
+  let out = `<rect width="${W}" height="${H}" fill="${surface}"/>`;
+  let i = 0;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const x = Math.round(m + c * (gw + gp));
+      const y = Math.round(m + r * (gh + gp));
+      const fill = palette[(h + i * 7 + r * 3 + c) % palette.length];
+      out += `<rect x="${x}" y="${y}" width="${Math.round(gw)}" height="${Math.round(gh)}" rx="${Math.round(min * 0.02)}" fill="${fill}" fill-opacity="0.92"/>`;
+      if ((h >> (i % 24)) & 1) {
+        out += `<rect x="${x + Math.round(gw * 0.18)}" y="${y + Math.round(gh * 0.62)}" width="${Math.round(gw * 0.50)}" height="${Math.round(gh * 0.10)}" rx="${Math.round(gh * 0.05)}" fill="${ink}" fill-opacity="0.22"/>`;
+      }
+      i++;
+    }
+  }
+  return out;
+}
+function motifBanner(ctx) {
+  const { width: W, height: H, min, pal } = ctx;
+  const { surface, ink, accent } = pal;
+  const splitX = Math.round(W * 0.38);
+  const seamW = Math.round(min * 0.18);
+  const lx = splitX + Math.round(min * 0.12);
+  const ly = Math.round(H * 0.40);
+  const bh = Math.round(min * 0.12);
+  const colW = Math.max(1, W - lx - Math.round(min * 0.06));
+  return [
+    `<rect width="${W}" height="${H}" fill="${surface}"/>`,
+    `<rect x="0" y="0" width="${splitX}" height="${H}" fill="${accent}"/>`,
+    `<path d="M ${splitX} 0 L ${splitX + seamW} 0 L ${splitX} ${H} L ${splitX - seamW} ${H} Z" fill="${mix(accent, ink, 0.20)}" fill-opacity="0.50"/>`,
+    `<circle cx="${Math.round(splitX * 0.5)}" cy="${Math.round(H * 0.5)}" r="${Math.round(min * 0.12)}" fill="none" stroke="${surface}" stroke-opacity="0.70" stroke-width="${Math.max(1, Math.round(min * 0.012))}"/>`,
+    `<rect x="${lx}" y="${ly}" width="${Math.round(colW * 0.60)}" height="${bh}" rx="${Math.round(bh * 0.16)}" fill="${ink}" fill-opacity="0.80"/>`,
+    `<rect x="${lx}" y="${ly + bh + Math.round(bh * 0.5)}" width="${Math.round(colW * 0.38)}" height="${Math.round(bh * 0.5)}" rx="${Math.round(bh * 0.10)}" fill="${ink}" fill-opacity="0.34"/>`,
+  ].join('');
+}
+function motifBeforeAfter(ctx) {
+  const { width: W, height: H, min, pal } = ctx;
+  const { surface, ink, accent } = pal;
+  const mid = Math.round(W / 2);
+  const lx = Math.round(W * 0.10);
+  const ly = Math.round(H * 0.30);
+  const lw = Math.round(mid - W * 0.20);
+  const bh = Math.round(min * 0.05);
+  const bg = Math.round(bh * 0.7);
+  const widths = [1, 0.7, 0.85, 0.5];
+  let wire = '';
+  for (let i = 0; i < 4; i++) {
+    wire += `<rect x="${lx}" y="${ly + i * (bh + bg)}" width="${Math.round(lw * widths[i])}" height="${bh}" rx="${Math.round(bh * 0.2)}" fill="${ink}" fill-opacity="0.20"/>`;
+  }
+  return [
+    `<rect width="${W}" height="${H}" fill="${surface}"/>`,
+    `<rect x="${mid}" y="0" width="${W - mid}" height="${H}" fill="${mix(accent, surface, 0.30)}"/>`,
+    wire,
+    `<rect x="${mid + Math.round(W * 0.08)}" y="${Math.round(H * 0.30)}" width="${Math.round((W - mid) * 0.70)}" height="${Math.round(H * 0.40)}" rx="${Math.round(min * 0.02)}" fill="${accent}" fill-opacity="0.85"/>`,
+    `<rect x="${mid - Math.round(min * 0.006)}" y="0" width="${Math.max(2, Math.round(min * 0.012))}" height="${H}" fill="${ink}" fill-opacity="0.50"/>`,
+  ].join('');
+}
+// Bottom-left role/aspect tag so the operator always knows which slot a comp stands in for.
+function placeholderFooter(ctx) {
+  const { width: W, height: H, min, pal, role, aspect } = ctx;
+  const { ink, surface, accent } = pal;
+  const fz = Math.round(min * 0.036);
+  const dotR = Math.round(fz * 0.42);
+  const x = Math.round(min * 0.06);
+  const txt = svgEscape(`${role}  ·  ${aspect}  ·  placeholder`);
+  const font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+  const padX = Math.round(fz * 0.7);
+  const pillH = Math.round(fz * 1.9);
+  const pillW = Math.round(txt.length * fz * 0.54) + padX * 2 + dotR * 3;
+  const pillY = H - Math.round(min * 0.06) - pillH;
+  const pillFill = relLum(surface) < 0.5 ? mix(surface, '#000000', 0.20) : '#FFFFFF';
+  return [
+    `<g>`,
+    `<rect x="${x}" y="${pillY}" width="${pillW}" height="${pillH}" rx="${Math.round(pillH * 0.5)}" fill="${pillFill}" fill-opacity="0.82"/>`,
+    `<circle cx="${x + padX + dotR}" cy="${pillY + Math.round(pillH / 2)}" r="${dotR}" fill="${accent}"/>`,
+    `<text x="${x + padX + dotR * 2 + Math.round(fz * 0.4)}" y="${pillY + Math.round(pillH / 2)}" dominant-baseline="middle" font-family='${font}' font-size="${fz}" font-weight="600" fill="${ink}" fill-opacity="0.85" letter-spacing="0.4">${txt}</text>`,
+    `</g>`,
+  ].join('');
+}
+
 function writePlaceholder(slot, reason) {
   const aspect = slot.aspect || defaults.aspect || '1:1';
   const { width, height } = aspectDims(aspect);
   const min = Math.min(width, height);
-  const brand = plan.brand || {};
-  const surface = brand.surface || plan.surface || '#F1EEE8';
-  const ink = brand.ink || plan.ink || '#23201B';
+  const pal = buildPalette(plan, slot);
   const role = String(slot.role || slot.label || slot.id);
-  const label = svgEscape(role);
-  const sub = svgEscape(`${aspect}  ·  placeholder`);
-  const pad = Math.round(min * 0.06);
-  const fontMain = Math.round(min * 0.058);
-  const fontSub = Math.round(min * 0.034);
-  const stroke = Math.max(1, Math.round(min * 0.004));
-  const font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
-  // simple "image" glyph centered above the label so it reads as a deliberate placeholder
-  const ic = Math.round(min * 0.14);
-  const icx = Math.round(width / 2 - ic / 2);
-  const icy = Math.round(height * 0.34 - ic / 2);
-  const glyph = `<g stroke="${ink}" stroke-opacity="0.42" stroke-width="${stroke}" fill="none">
-    <rect x="${icx}" y="${icy}" width="${ic}" height="${ic}" rx="${Math.round(ic * 0.12)}"/>
-    <circle cx="${icx + Math.round(ic * 0.32)}" cy="${icy + Math.round(ic * 0.34)}" r="${Math.round(ic * 0.09)}"/>
-    <path d="M ${icx + Math.round(ic * 0.12)} ${icy + Math.round(ic * 0.82)} L ${icx + Math.round(ic * 0.42)} ${icy + Math.round(ic * 0.5)} L ${icx + Math.round(ic * 0.64)} ${icy + Math.round(ic * 0.7)} L ${icx + Math.round(ic * 0.8)} ${icy + Math.round(ic * 0.54)} L ${icx + Math.round(ic * 0.88)} ${icy + Math.round(ic * 0.82)} Z" stroke-linejoin="round"/>
-  </g>`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${label} placeholder">
-  <rect width="${width}" height="${height}" fill="${surface}"/>
-  <rect x="${pad}" y="${pad}" width="${width - 2 * pad}" height="${height - 2 * pad}" rx="${Math.round(min * 0.025)}" fill="none" stroke="${ink}" stroke-opacity="0.16" stroke-width="${stroke}"/>
-  ${glyph}
-  <text x="50%" y="${Math.round(height * 0.56)}" text-anchor="middle" font-family='${font}' font-size="${fontMain}" font-weight="600" fill="${ink}" fill-opacity="0.80" letter-spacing="0.5">${label}</text>
-  <text x="50%" y="${Math.round(height * 0.56) + Math.round(fontMain * 1.25)}" text-anchor="middle" font-family='${font}' font-size="${fontSub}" font-weight="500" fill="${ink}" fill-opacity="0.42" letter-spacing="2">${sub}</text>
+  const kind = classifyRole(slot, aspect);
+  const ctx = { width, height, min, pal, slot, role, aspect, id: safeId(slot.id), kind };
+  let body;
+  switch (kind) {
+    case 'cover': body = motifCover(ctx); break;
+    case 'grid': body = motifGrid(ctx); break;
+    case 'banner': body = motifBanner(ctx); break;
+    case 'beforeafter': body = motifBeforeAfter(ctx); break;
+    case 'scene': default: body = motifScene(ctx); break;
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${svgEscape(role)} placeholder (${kind})">
+${body}
+${placeholderFooter(ctx)}
 </svg>`;
   const file = path.join(outDir, `${slot.id}.svg`);
   fs.writeFileSync(file, svg);
   return { id: slot.id, file, provider: slot.provider || DEFAULT_PROVIDER, aspect, role,
-    bytes: Buffer.byteLength(svg), ok: true, placeholder: true, reason };
+    bytes: Buffer.byteLength(svg), ok: true, placeholder: true, placeholderKind: kind, reason };
 }
 
 const defaults = plan.defaults || {};

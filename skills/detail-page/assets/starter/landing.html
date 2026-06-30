@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SCAFFOLD — Latin-first western landing (replace per brief)</title>
+
+<!--
+  STARTER VARIANT: western/Latin landing (no Korean buy-bar). Pick THIS file when the brief is a
+  Latin-first marketing/SaaS landing; pick index.html for a Korean 상세페이지/Wadiz detail page;
+  pick app-shell.html for a product app UI. Same @theme token discipline across all three.
+  Distinctive non-banned pairing: Fraunces (high-contrast serif display) + General Sans (geometric
+  body) + JetBrains Mono (data/eyebrow). NOT Inter/Roboto/Arial/Open Sans/Lato/system-ui, and
+  deliberately NOT defaulting to Space Grotesk/Satoshi (the "safe distinctive" convergence trap).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1" integrity="sha384-OT3qnPBOZ0Z1BVC2R6WSI4cjBlIoSMeeZAUY8gZqaP1TgAJHbuo2gIM6KzQ8/viI" crossorigin="anonymous"></script>
+<style type="text/tailwindcss">
+  /* ============================================================
+     DESIGN TOKENS — single source. :root --brand-* OKLCH primitives → @theme maps each Tailwind
+     token to a --brand-* var (so utilities AND inline var(--color-*) re-theme together). Same
+     discipline as assets/starter/index.html; 8 token axes present so emit-tokens.js captures the
+     full handoff. Subject: "Marrow", a CLI-first time tracker for engineers — palette grounded in a
+     warm-paper surface + terminal-ink hero + a single reserved coral CTA accent. NEVER AI-purple.
+     ============================================================ */
+  :root {
+    /* neutrals — warm paper, near-black ink */
+    --brand-surface: oklch(0.984 0.006 85);
+    --brand-card:    oklch(1 0 0);
+    --brand-ink:     oklch(0.190 0.012 65);
+    --brand-muted:   oklch(0.500 0.016 66);
+    --brand-line:    oklch(0.190 0.012 65 / 0.12);
+    /* primary ramp — deep ink-teal (hue ~200), L stepped near-even, chroma arced mid-ramp */
+    --brand-primary-50:  oklch(0.965 0.018 200);
+    --brand-primary-100: oklch(0.910 0.035 200);
+    --brand-primary-300: oklch(0.745 0.065 201);
+    --brand-primary-500: oklch(0.560 0.080 202);
+    --brand-primary-700: oklch(0.405 0.070 203);
+    --brand-primary-900: oklch(0.260 0.045 204);
+    --brand-primary: var(--brand-primary-700);
+    /* accent ramp — the reserved 10%: warm coral CTA pop (chroma < 0.8 of gamut, no neon) */
+    --brand-accent-300: oklch(0.760 0.130 33);
+    --brand-accent-500: oklch(0.630 0.175 30);
+    --brand-accent-700: oklch(0.520 0.150 28);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: oklch(0.985 0.004 85); /* near-white on the deep coral → AA-safe */
+    /* type — distinctive western pairing (see header comment) */
+    --brand-font-display: "Fraunces", Georgia, serif;
+    --brand-font-body:    "General Sans", "Helvetica Neue", sans-serif;
+    --brand-font-latin:   "JetBrains Mono", ui-monospace, monospace;
+    /* elevation — 3 named tokens */
+    --brand-shadow-e1: 0 1px 2px oklch(0.19 0.02 65 / 0.06);
+    --brand-shadow-e2: 0 8px 22px oklch(0.19 0.02 65 / 0.10);
+    --brand-shadow-e3: 0 24px 56px oklch(0.19 0.02 65 / 0.16);
+  }
+
+  @theme {
+    --color-surface: var(--brand-surface);
+    --color-card:    var(--brand-card);
+    --color-ink:     var(--brand-ink);
+    --color-muted:   var(--brand-muted);
+    --color-line:    var(--brand-line);
+    --color-primary-50:  var(--brand-primary-50);
+    --color-primary-100: var(--brand-primary-100);
+    --color-primary-300: var(--brand-primary-300);
+    --color-primary-500: var(--brand-primary-500);
+    --color-primary-700: var(--brand-primary-700);
+    --color-primary-900: var(--brand-primary-900);
+    --color-primary: var(--brand-primary);
+    --color-accent-300: var(--brand-accent-300);
+    --color-accent-500: var(--brand-accent-500);
+    --color-accent-700: var(--brand-accent-700);
+    --color-accent: var(--brand-accent);
+    --color-on-accent: var(--brand-on-accent);
+    --font-display: var(--brand-font-display);
+    --font-body:    var(--brand-font-body);
+    --font-latin:   var(--brand-font-latin);
+    --shadow-e1: var(--brand-shadow-e1);
+    --shadow-e2: var(--brand-shadow-e2);
+    --shadow-e3: var(--brand-shadow-e3);
+    /* scale tokens — kept in sync with scripts/build-tokens.js --emit=theme (8 axes complete) */
+    --space-4: 4px; --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-24: 24px;
+    --space-32: 32px; --space-48: 48px; --space-64: 64px; --space-96: 96px;
+    --text-12: 12px; --text-14: 14px; --text-16: 16px; --text-18: 18px; --text-20: 20px;
+    --text-24: 24px; --text-30: 30px; --text-36: 36px; --text-48: 48px; --text-64: 64px;
+    --leading-12: 16px; --leading-14: 20px; --leading-16: 24px; --leading-18: 28px; --leading-20: 28px;
+    --leading-24: 32px; --leading-30: 40px; --leading-36: 44px; --leading-48: 56px; --leading-64: 72px;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-pill: 9999px;
+    --dur-1: 120ms; --dur-2: 200ms; --dur-3: 320ms;
+    --ease-out: cubic-bezier(0.2, 0, 0, 1); --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* ---- Base ---- */
+  html { scroll-behavior: smooth; }
+  body { background: var(--color-surface); color: var(--color-ink); font-family: var(--font-body); }
+  img, svg, video, canvas { max-width: 100%; height: auto; }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; overflow-wrap: anywhere; }
+  *:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto; } }
+
+  /* ---- One orchestrated entrance + scroll-in reveals (once). Hidden state arms ONLY after JS +
+     motion allowed; with JS off / reduced motion the page is fully visible. Hero is above the fold →
+     intersects immediately → its children reveal in a short stagger (data-d delay) = the one
+     orchestrated entrance; below-the-fold .reveal blocks come in on scroll-in. transform/opacity only. ---- */
+  .reveal { transition: opacity .34s cubic-bezier(0,0,.2,1), transform .34s cubic-bezier(0,0,.2,1); }
+  html.reveal-on .reveal { opacity: 0; transform: translateY(18px); }
+  html.reveal-on .reveal.is-in { opacity: 1; transform: none; }
+  html.reveal-on .reveal[data-d="1"] { transition-delay: .06s; }
+  html.reveal-on .reveal[data-d="2"] { transition-delay: .12s; }
+  html.reveal-on .reveal[data-d="3"] { transition-delay: .18s; }
+  html.reveal-on .reveal[data-d="4"] { transition-delay: .24s; }
+
+  /* ---- Content column ---- */
+  .col { max-width: 1080px; margin-inline: auto; padding-inline: 24px; }
+  .col-narrow { max-width: 720px; margin-inline: auto; padding-inline: 24px; }
+
+  /* ---- One repeated layout primitive: the bordered card (features + pricing reuse it) ---- */
+  .card { background: var(--color-card); border: 1px solid var(--color-line); border-radius: 16px; box-shadow: var(--shadow-e1); }
+
+  /* ---- Buttons ---- */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 48px; padding-inline: 24px; border-radius: 10px; font-weight: 600; line-height: 1; }
+  .btn-accent { background: var(--color-accent); color: var(--color-on-accent); box-shadow: var(--shadow-e2); }
+  .btn-ghost { border: 1px solid var(--color-line); color: var(--color-ink); background: transparent; }
+
+  /* ---- Hero terminal artifact (the grounded signature) ---- */
+  .terminal { background: var(--color-primary-900); color: oklch(0.95 0.01 200); border-radius: 14px;
+    box-shadow: var(--shadow-e3); font-family: var(--font-latin); font-size: 13px; line-height: 1.7; overflow: hidden; }
+  .terminal .bar { display: flex; gap: 7px; padding: 12px 14px; border-bottom: 1px solid oklch(1 0 0 / 0.08); }
+  .terminal .dot { width: 11px; height: 11px; border-radius: 9999px; background: oklch(1 0 0 / 0.22); }
+  .terminal pre { margin: 0; padding: 16px 18px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .terminal .g { color: oklch(0.82 0.13 150); } /* prompt green */
+  .terminal .a { color: var(--color-accent-300); } /* accent highlight */
+  .terminal .m { color: oklch(0.72 0.02 200); } /* muted */
+
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 48px; align-items: center; }
+  @media (max-width: 880px) { .grid-3, .grid-2, .hero-grid { grid-template-columns: 1fr; } }
+
+  .eyebrow { font-family: var(--font-latin); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-primary); }
+</style>
+</head>
+<body>
+
+<!-- ░░ NAV ░░ -->
+<header class="col" style="display:flex;align-items:center;justify-content:space-between;padding-block:20px">
+  <span class="font-display" style="font-size:22px;font-weight:900;letter-spacing:-0.02em">Marrow</span>
+  <nav style="display:flex;align-items:center;gap:24px;font-size:14px">
+    <a href="#features" class="text-muted" style="text-decoration:none">Features</a>
+    <a href="#pricing" class="text-muted" style="text-decoration:none">Pricing</a>
+    <a href="#faq" class="text-muted" style="text-decoration:none">FAQ</a>
+    <a href="#cta" class="btn btn-accent" style="min-height:40px;padding-inline:18px;font-size:14px">Start free</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ░░ 1 · HERO — thesis grounded in the subject (a terminal), not a big-number+gradient template ░░ -->
+  <section class="col hero-grid" style="padding-block:64px">
+    <div>
+      <p class="eyebrow reveal" data-d="1">time tracking · zero context-switch</p>
+      <h1 class="reveal" data-d="2" style="font-size:clamp(40px,6vw,68px);font-weight:900;line-height:1.02;margin-top:14px">
+        Time tracking that disappears into your terminal.
+      </h1>
+      <p class="reveal text-muted" data-d="3" style="font-size:clamp(17px,2vw,20px);line-height:1.5;margin-top:20px;max-width:30em">
+        Start a timer in the same window you write code. No browser tab, no Pomodoro theatre — one command,
+        and Marrow logs the work while you stay in flow.
+      </p>
+      <div class="reveal" data-d="4" style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px">
+        <a href="#cta" class="btn btn-accent">Start free — no card</a>
+        <a href="#features" class="btn btn-ghost">See how it works</a>
+      </div>
+      <p class="reveal" data-d="4" style="font-family:var(--font-latin);font-size:12px;color:var(--color-muted);margin-top:16px">
+        $ brew install marrow
+      </p>
+    </div>
+    <div class="terminal reveal" data-d="3" aria-hidden="true">
+      <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+<pre><span class="g">~/api</span> $ mar start "refactor auth"
+<span class="m">▸ tracking · refactor auth · 00:00</span>
+
+<span class="g">~/api</span> $ git commit -m "rotate tokens"
+<span class="m">▸ auto-tagged commit → refactor auth</span>
+
+<span class="g">~/api</span> $ mar stop
+<span class="a">✓ 1h 47m logged</span> <span class="m">· billable · #auth</span>
+
+<span class="g">~/api</span> $ mar week
+<span class="m">Mon ███████░░  6.2h
+Tue █████████  8.0h
+Wed ████░░░░░  3.4h</span></pre>
+    </div>
+  </section>
+
+  <!-- ░░ 2 · SOCIAL PROOF — real-shaped logos as styled text (no <img>), one honest stat ░░ -->
+  <section class="col" style="padding-block:24px 48px">
+    <p class="reveal text-muted" style="text-align:center;font-size:13px;letter-spacing:0.04em">
+      Trusted in the terminals of engineers at
+    </p>
+    <div class="reveal" style="display:flex;flex-wrap:wrap;justify-content:center;gap:36px;margin-top:18px;font-family:var(--font-display);font-weight:600;font-size:20px;opacity:0.62">
+      <span>Hexbyte</span><span>Norther</span><span>Quanta</span><span>Larkfield</span><span>Driftwork</span>
+    </div>
+    <p class="reveal" style="text-align:center;margin-top:28px;font-size:15px;color:var(--color-muted)">
+      <strong style="color:var(--color-ink)">11,400+</strong> engineers · <strong style="color:var(--color-ink)">2.1M</strong> sessions logged ·
+      <strong style="color:var(--color-ink)">4.9/5</strong> on the CLI
+    </p>
+  </section>
+
+  <!-- ░░ 3 · VALUE — the thesis expanded into one sharp statement ░░ -->
+  <section class="bg-ink text-surface" style="padding-block:64px">
+    <div class="col-narrow reveal" style="text-align:center">
+      <p class="eyebrow" style="color:var(--color-accent-300)">why it sticks</p>
+      <p class="font-display" style="font-size:clamp(26px,4vw,40px);font-weight:600;line-height:1.2;margin-top:16px">
+        Every tracker you abandoned needed you to remember it. Marrow lives where you already are, so the timer
+        runs even when you forget it exists.
+      </p>
+    </div>
+  </section>
+
+  <!-- ░░ 4 · FEATURES — ONE repeated primitive (.card), benefit headline above each ░░ -->
+  <section id="features" class="col" style="padding-block:64px">
+    <div class="reveal" style="max-width:38em">
+      <p class="eyebrow">features</p>
+      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.05;margin-top:12px">
+        Built for people who hate tracking time.
+      </h2>
+    </div>
+    <div class="grid-3" style="margin-top:40px">
+      <article class="card reveal" data-d="1" style="padding:24px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--color-primary)"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        <h3 style="font-size:20px;font-weight:600;margin-top:16px">One command, zero ceremony</h3>
+        <p class="text-muted" style="margin-top:8px;font-size:15px;line-height:1.55">
+          <code style="font-family:var(--font-latin)">mar start</code> and <code style="font-family:var(--font-latin)">mar stop</code>.
+          That is the entire interface. No timesheet grid to fill on Friday.
+        </p>
+      </article>
+      <article class="card reveal" data-d="2" style="padding:24px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--color-primary)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+        <h3 style="font-size:20px;font-weight:600;margin-top:16px">Auto-tags from git</h3>
+        <p class="text-muted" style="margin-top:8px;font-size:15px;line-height:1.55">
+          Commits, branches and PRs attach themselves to the running session, so the log writes itself
+          with real context instead of "misc work".
+        </p>
+      </article>
+      <article class="card reveal" data-d="3" style="padding:24px">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--color-primary)"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="13" y="7" width="3" height="11"/></svg>
+        <h3 style="font-size:20px;font-weight:600;margin-top:16px">Invoices in one line</h3>
+        <p class="text-muted" style="margin-top:8px;font-size:15px;line-height:1.55">
+          <code style="font-family:var(--font-latin)">mar bill --client acme</code> turns a month of sessions into a
+          clean, client-ready breakdown you can export.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ░░ 5 · PRICING — same .card primitive, accent reserved for the recommended tier's CTA ░░ -->
+  <section id="pricing" class="col" style="padding-block:48px 64px">
+    <div class="reveal" style="text-align:center;max-width:34em;margin-inline:auto">
+      <p class="eyebrow">pricing</p>
+      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.05;margin-top:12px">Free to track. Pay when you bill.</h2>
+    </div>
+    <div class="grid-2" style="margin-top:40px;max-width:760px;margin-inline:auto">
+      <article class="card reveal" data-d="1" style="padding:28px;display:flex;flex-direction:column">
+        <h3 style="font-size:18px;font-weight:600">Solo</h3>
+        <p style="margin-top:10px"><span class="font-display" style="font-size:44px;font-weight:900">$0</span><span class="text-muted" style="font-size:15px"> / forever</span></p>
+        <ul class="text-muted" style="margin-top:18px;font-size:15px;line-height:2;list-style:none;padding:0">
+          <li>Unlimited tracking + git tags</li>
+          <li>Weekly &amp; monthly summaries</li>
+          <li>Local-first, exportable data</li>
+        </ul>
+        <a href="#cta" class="btn btn-ghost" style="margin-top:auto;margin-top:24px">Install Marrow</a>
+      </article>
+      <article class="card reveal" data-d="2" style="padding:28px;display:flex;flex-direction:column;border-color:var(--color-accent);box-shadow:var(--shadow-e2)">
+        <div style="display:flex;align-items:center;justify-content:space-between">
+          <h3 style="font-size:18px;font-weight:600">Billable</h3>
+          <span style="font-family:var(--font-latin);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-accent);background:var(--color-accent);padding:4px 10px;border-radius:9999px">Popular</span>
+        </div>
+        <p style="margin-top:10px"><span class="font-display" style="font-size:44px;font-weight:900">$9</span><span class="text-muted" style="font-size:15px"> / month</span></p>
+        <ul class="text-muted" style="margin-top:18px;font-size:15px;line-height:2;list-style:none;padding:0">
+          <li>Everything in Solo</li>
+          <li>One-line client invoices</li>
+          <li>Multi-project rates &amp; rounding</li>
+        </ul>
+        <a href="#cta" class="btn btn-accent" style="margin-top:24px">Start 14-day trial</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- ░░ 6 · FAQ — native <details>, no JS, empty/answer states free ░░ -->
+  <section id="faq" class="col-narrow" style="padding-block:48px 64px">
+    <h2 class="reveal" style="font-size:clamp(26px,4vw,38px);font-weight:900;text-align:center">Questions, answered</h2>
+    <div class="reveal" style="margin-top:28px;border-top:1px solid var(--color-line)">
+      <details style="border-bottom:1px solid var(--color-line);padding:18px 4px">
+        <summary style="cursor:pointer;font-weight:600;font-size:17px;list-style:none">Does it work offline?</summary>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Yes. Marrow is local-first — every session is written to a file on your machine and syncs only when you choose to.</p>
+      </details>
+      <details style="border-bottom:1px solid var(--color-line);padding:18px 4px">
+        <summary style="cursor:pointer;font-weight:600;font-size:17px;list-style:none">Which shells are supported?</summary>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">bash, zsh and fish out of the box, with completions. PowerShell support is in beta.</p>
+      </details>
+      <details style="border-bottom:1px solid var(--color-line);padding:18px 4px">
+        <summary style="cursor:pointer;font-weight:600;font-size:17px;list-style:none">Can I export my data if I leave?</summary>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6"><code style="font-family:var(--font-latin)">mar export --json</code> hands you everything. It is your data; we never lock it in.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ░░ 7 · FINAL CTA — recap ONE benefit + the focal-accent action ░░ -->
+  <section id="cta" class="bg-ink text-surface" style="padding-block:72px">
+    <div class="col-narrow reveal" style="text-align:center">
+      <h2 style="font-size:clamp(30px,5vw,52px);font-weight:900;line-height:1.05">Stop remembering to track. Just code.</h2>
+      <p style="font-size:18px;opacity:0.8;margin-top:16px;max-width:32em;margin-inline:auto">
+        Install in one line, run your first session in ten seconds, and let the log write itself.
+      </p>
+      <a href="#" class="btn btn-accent" style="margin-top:28px;min-height:54px;padding-inline:32px;font-size:17px">Start free — no card needed</a>
+      <p style="font-family:var(--font-latin);font-size:12px;opacity:0.6;margin-top:16px">$ brew install marrow</p>
+    </div>
+  </section>
+</main>
+
+<!-- ░░ FOOTER ░░ -->
+<footer class="col" style="padding-block:40px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;border-top:1px solid var(--color-line)">
+  <span class="font-display" style="font-size:18px;font-weight:900">Marrow</span>
+  <p class="text-muted" style="font-size:13px">© 2026 Marrow Labs · Built for the command line</p>
+  <nav style="display:flex;gap:20px;font-size:13px">
+    <a href="#" class="text-muted" style="text-decoration:none">Docs</a>
+    <a href="#" class="text-muted" style="text-decoration:none">Changelog</a>
+    <a href="#" class="text-muted" style="text-decoration:none">Privacy</a>
+  </nav>
+</footer>
+
+<!-- One orchestrated entrance + scroll-in reveals, gated by prefers-reduced-motion / no-JS (then fully visible). -->
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return; // leave everything visible
+  var els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  document.documentElement.classList.add('reveal-on');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0 }); // any pixel entering counts → reliable on tall pages (no -% margin race on the last section)
+  els.forEach(function (el) { io.observe(el); });
+  // Safety net: never leave content stuck hidden if a fast programmatic scroll (or future taller edits)
+  // outraces the observer. Reveals only AFTER the entrance window; off-screen items are already past their
+  // animation when scrolled to, so this adds zero on-load motion. Cleared the moment IO has done its job.
+  setTimeout(function () { els.forEach(function (el) { el.classList.add('is-in'); }); }, 1400);
+})();
+</script>
+</body>
+</html>

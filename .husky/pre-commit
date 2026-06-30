@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+# .husky/pre-commit — run brand-lint on STAGED design files before a commit.
+# Husky v9: this file is the hook itself (git runs it via core.hooksPath once `husky` is installed).
+#
+# No-op guards so the hook never blocks a commit in an environment that isn't set up for it:
+#   - HUSKY=0            → user opted out of hooks for this command
+#   - node / scripts/    → toolchain not present (e.g. a docs-only clone) → skip with a notice
+# Only files git already has STAGED (added/copied/modified) are linted, in brand-lint single-file mode.
+# An error-severity finding (raw hex/rgb, banned font, AI-purple) exits non-zero and aborts the commit.
+
+[ "$HUSKY" = "0" ] && exit 0
+
+LINT="skills/detail-page/scripts/brand-lint.js"
+
+# toolchain guard — if node or the linter is missing, no-op (don't fail the commit)
+if ! command -v node >/dev/null 2>&1 || [ ! -f "$LINT" ]; then
+  echo "pre-commit: brand-lint unavailable (node or $LINT missing) — skipping."
+  exit 0
+fi
+
+# staged design files only (Added/Copied/Modified); restrict to the extensions brand-lint understands
+FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -Ei '\.(html?|css|jsx?|tsx?|vue|svelte)$' || true)
+[ -z "$FILES" ] && exit 0
+
+status=0
+TMP="$(mktemp -d 2>/dev/null || echo /tmp)/brand-lint-precommit.json"
+echo "$FILES" | while IFS= read -r f; do
+  [ -f "$f" ] || continue
+  if ! node "$LINT" "$f" "$TMP" >/dev/null; then
+    echo "pre-commit: brand-lint FAILED on $f (run: node $LINT \"$f\" to see findings)"
+    exit 1
+  fi
+done || status=1
+
+exit $status

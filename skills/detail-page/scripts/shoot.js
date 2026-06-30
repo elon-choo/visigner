@@ -27,16 +27,28 @@
 //     not a CrUX guarantee).
 // Env: MAX_TILES (default 90), AXE=1, AXE_IMPACT=serious|critical (default serious), ASSETS=0 (skip asset gate),
 //      GATE_EXIT=1 (exit 1 when gate.report.overall===false), BRANDS=a,b, VR=1 / VR_BASELINE=1 / VR_RATIO (default 0.02),
-//      PERF=1 / LCP_BUDGET_MS (2500) / CLS_BUDGET (0.1) / BYTE_BUDGET_KB (2500).
+//      PERF=1 / LCP_BUDGET_MS (2500) / CLS_BUDGET (0.1) / BYTE_BUDGET_KB (2500),
+//      FILMSTRIP=1 / MOTION=1, REDUCED_MOTION=1, MOTION_TRIGGER='sel:event' (see notes below).
 //      STATIC=1 — NO-BROWSER lint mode: parse the HTML as text (no Chromium needed, works BEFORE /design-setup) and
-//        emit a partial gate to run.json — banned fonts (Inter/Roboto/Arial/Open Sans/Lato/system-ui), raw hex/rgb
-//        colors used OUTSIDE a @theme/:root/<style> token block, naive fixed-width mobile-overflow risk
-//        (width:NNNpx / w-[NNNpx] over 390), and <img> without alt. Prints a PASS/FAIL summary; never launches a browser.
-//      FILMSTRIP=1 (or MOTION=1) — capture ~6 frames over the first ~1500ms into <outDir>/filmstrip-*.png and read
-//        getComputedStyle on animated/transitioned elements → run.json.motion {frames, durations, layoutAnimated[]}:
-//        warns on durations >600ms or off-token, and FLAGS any element animating a layout property
-//        (width/height/top/left/right/bottom/margin) as a jank/banned-motion violation (prefer transform/opacity).
-//        The page itself still gates on prefers-reduced-motion; this only audits the motion that is defined.
+//        emit a partial gate to run.json. BLOCK checks: banned fonts (Inter/Roboto/Arial/Open Sans/Lato/system-ui);
+//        raw hex/rgb colors used OUTSIDE a @theme/:root/<style> token block (now matched only as valid 3/6/8-digit hex
+//        inside inline style attrs / Tailwind [#…] arbitrary values, so visible text like an order no. "#1042" no longer
+//        false-positives); aiDefaultColors (the AI-default hex families #7c3aed/#6366f1/#8b5cf6/#a855f7/#4f46e5 plus
+//        oklch/hsl purples in hue 270–310 with real chroma); naive fixed-width mobile-overflow risk (width:NNNpx /
+//        w-[NNNpx] over 390); <img> without alt. WARN checks: lowContrast (naive WCAG ratio on inline color+bg pairs)
+//        and structuralSlop (text-align:center on many blocks / >=3 sibling-equal cards / big-number hero). Never launches a browser.
+//      FILMSTRIP=1 (or MOTION=1) — capture ~6 frames over the first ~1500ms into <outDir>/filmstrip-*.png (desktop)
+//        AND <outDir>/filmstrip-mobile-*.png (390px entrance) and read getComputedStyle on animated/transitioned
+//        elements → run.json.motion {frames, mobileFrames, durations, layoutAnimated[]}: warns on durations >600ms or
+//        off-token, and FLAGS any element animating a layout property (width/height/top/left/right/bottom/margin) as a
+//        jank/banned-motion violation (prefer transform/opacity).
+//      REDUCED_MOTION=1 (implied by FILMSTRIP/MOTION) — re-render the desktop page under emulateMedia reducedMotion:reduce
+//        and assert every active transition/animation duration collapses to ~0 → run.json.motion.reducedMotionHonored
+//        (+ reducedMotionOffenders[]) as a BLOCK gate. A no-op duplicate @media (reduce) block that does not actually
+//        disable motion FAILS this gate; honored=null (eval threw) reads as unknown and never silently passes.
+//      MOTION_TRIGGER='selector:event' (opt-in; pipe-separate several, e.g. 'a:click|.menu:hover') — dispatch the
+//        interaction (event = trailing click/hover/focus/…; otherwise treated as part of the selector), film a pre frame
+//        + a ~600ms window (interact-*.png), and run the SAME duration/layout-property audit → run.json.motion.interactions[].
 //
 // Browser launch: tries the patchright/playwright BUNDLED Chromium first (what /design-setup installs), then falls
 //   back to system Google Chrome (channel:'chrome'); on total failure it throws a plain-language fix message.
@@ -160,13 +172,36 @@ function runStaticLint() {
     if (re.test(html)) bannedFonts.push(f);
   }
   // (2) raw hex / rgb() color used OUTSIDE a token block (@theme {...}, :root {...}, or any <style>...</style>).
-  // Blank out token/style regions, then any remaining hex/rgb in inline style attrs / class arbitrary values is raw.
+  // Blank out token/style regions, then look ONLY inside inline style="..." attrs and Tailwind arbitrary values
+  // ([#...]) of the remaining markup — this is where a *color* legitimately lives. Restricting to those zones (plus
+  // valid 3/6/8-digit hex on a word boundary) stops the old false-positive on visible text like an order no. "#1042"
+  // (4 digits → not valid hex; and it sits in a text node, not a style attr).
   let scrubbed = html
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/@theme[\s\S]*?\{[\s\S]*?\}/gi, ' ')
     .replace(/:root[\s\S]*?\{[\s\S]*?\}/gi, ' ');
-  const RAW_COLOR = /#[0-9a-fA-F]{3,8}\b|rgba?\(\s*\d/g;
-  const rawColors = [...new Set((scrubbed.match(RAW_COLOR) || []))].slice(0, 24);
+  // valid hex = exactly 3, 6, or 8 hex digits, terminated by a word boundary (rejects #1042, #abcde, etc.)
+  const HEX = '#(?:[0-9a-fA-F]{8}|[0-9a-fA-F]{6}|[0-9a-fA-F]{3})\\b';
+  const colorZones = [];
+  let zm;
+  const STYLE_ATTR = /style\s*=\s*("([^"]*)"|'([^']*)')/gi;       // inline style attribute values
+  while ((zm = STYLE_ATTR.exec(scrubbed))) colorZones.push(zm[2] || zm[3] || '');
+  const ARBITRARY = /\[([^\]]*#[^\]]*)\]/g;                       // Tailwind arbitrary value e.g. bg-[#7c3aed]
+  while ((zm = ARBITRARY.exec(scrubbed))) colorZones.push(zm[1]);
+  const RAW_COLOR = new RegExp(HEX + '|rgba?\\(\\s*\\d', 'g');
+  const rawColors = [...new Set(colorZones.join(' ').match(RAW_COLOR) || [])].slice(0, 24);
+  // (2b) AI-default color families (scan the WHOLE source incl. tokens — shipping AI-purple is the cardinal slop).
+  // Known hex defaults + oklch/hsl in the purple hue band 270–310 (oklch needs real chroma so neutral hue-275 grays
+  // — e.g. the scaffold's --brand-ink oklch(0.205 0.012 275) — are NOT flagged).
+  const AI_HEX = ['#7c3aed', '#6366f1', '#8b5cf6', '#a855f7', '#4f46e5'];
+  const aiDefaultColors = [];
+  for (const h of AI_HEX) if (new RegExp(h.replace('#', '#') + '\\b', 'i').test(html)) aiDefaultColors.push(h);
+  let cm;
+  const OKLCH = /oklch\(\s*[\d.]+%?\s+([\d.]+)\s+([\d.]+)/gi; // oklch(L C H ...)
+  while ((cm = OKLCH.exec(html))) { const C = parseFloat(cm[1]), H = parseFloat(cm[2]); if (C >= 0.04 && H >= 270 && H <= 310) aiDefaultColors.push(`oklch(h=${H})`); }
+  const HSL = /hsl[a]?\(\s*([\d.]+)/gi; // hsl(H ...)
+  while ((cm = HSL.exec(html))) { const H = parseFloat(cm[1]); if (H >= 270 && H <= 310) aiDefaultColors.push(`hsl(h=${H})`); }
+  const aiDefaults = [...new Set(aiDefaultColors)].slice(0, 24);
   // (3) naive fixed-width overflow risk — inline width:NNNpx or w-[NNNpx] over the 390px mobile viewport.
   const widthHits = [];
   // Bare `width:NNNpx` or Tailwind `w-[NNNpx]` only — exclude max-width/min-width (constraints, never overflow).
@@ -179,17 +214,48 @@ function runStaticLint() {
   // (4) <img> with no alt attribute.
   const imgs = html.match(/<img\b[^>]*>/gi) || [];
   const imgNoAlt = imgs.filter((t) => !/\balt\s*=/i.test(t)).length;
+  // (5) naive low-contrast text/bg — within a single inline style="..." that sets BOTH a 6-digit hex color and a
+  // 6-digit hex background, compute the WCAG ratio; <4.5 is flagged. Naive by design (no resolved cascade/vars).
+  const lum = (hex) => { const n = parseInt(hex.slice(1), 16); const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f((n >> 16) & 255) + 0.7152 * f((n >> 8) & 255) + 0.0722 * f(n & 255); };
+  const lowContrast = [];
+  let sm; const STYLE_FOR_CONTRAST = /style\s*=\s*("([^"]*)"|'([^']*)')/gi;
+  while ((sm = STYLE_FOR_CONTRAST.exec(html)) && lowContrast.length < 12) {
+    const s = sm[2] || sm[3] || '';
+    const fg = (s.match(/(?:^|[;{\s])color\s*:\s*(#[0-9a-fA-F]{6})\b/) || [])[1];
+    const bg = (s.match(/background(?:-color)?\s*:\s*(#[0-9a-fA-F]{6})\b/) || [])[1];
+    if (fg && bg) { const L1 = lum(fg) + 0.05, L2 = lum(bg) + 0.05; const ratio = Math.max(L1, L2) / Math.min(L1, L2); if (ratio < 4.5) lowContrast.push(`${fg} on ${bg} (${ratio.toFixed(2)}:1)`); }
+  }
+  // (6) STRUCTURAL slop smells (warnings only) — cheap regex approximations of the real visual gate:
+  //   - text-align:center / Tailwind text-center on MANY blocks (centered-everything is an AI tell)
+  //   - >=3 sibling-equal cards (same class signature repeated 3+ times) - a uniform card grid
+  //   - big-number hero (a huge font-size whose text is mostly a number/percent near the top)
+  const structuralSlop = [];
+  const centerCount = (html.match(/text-align\s*:\s*center/gi) || []).length + (html.match(/(?:^|["'\s])text-center(?:["'\s]|$)/g) || []).length;
+  if (centerCount >= 5) structuralSlop.push(`text-align:center on ${centerCount} blocks`);
+  const classSig = {};
+  for (const cm2 of html.matchAll(/class\s*=\s*"([^"]{8,})"/gi)) { const k = cm2[1].trim().replace(/\s+/g, ' '); classSig[k] = (classSig[k] || 0) + 1; }
+  const maxRepeat = Object.entries(classSig).sort((a, b) => b[1] - a[1])[0];
+  if (maxRepeat && maxRepeat[1] >= 3) structuralSlop.push(`${maxRepeat[1]} sibling-equal cards (class "${maxRepeat[0].slice(0, 40)}")`);
+  const heroZone = html.slice(0, 3500);
+  if (/font-size\s*:\s*(?:clamp\([^)]*?(\d{2,})px[^)]*\)|(\d{2,})px)/i.test(heroZone)) {
+    const fsMatch = heroZone.match(/font-size\s*:\s*(?:clamp\([^)]*?(\d{2,})px[^)]*\)|(\d{2,})px)/i);
+    const big = Number(fsMatch[1] || fsMatch[2]);
+    if (big >= 56 && />[^<]*?\d[\d,.%]*\b[^<]*</.test(heroZone) && /<(h1|h2|div|p|span)[^>]*font-size[^>]*>[\s\d,.%원$₩+\-]+</i.test(heroZone)) structuralSlop.push(`big-number hero (~${big}px)`);
+  }
 
   const checks = [
     { name: 'bannedFonts', pass: bannedFonts.length === 0, detail: bannedFonts.length ? bannedFonts.join(',') : 'none', severity: 'block' },
     { name: 'rawColorOutsideTokens', pass: rawColors.length === 0, detail: rawColors.length ? rawColors.join(' ') : 'none', severity: 'block' },
+    { name: 'aiDefaultColors', pass: aiDefaults.length === 0, detail: aiDefaults.length ? aiDefaults.join(' ') : 'none', severity: 'block' },
     { name: 'fixedWidthOverflowRisk', pass: widthHits.length === 0, detail: widthHits.length ? widthHits.join(',') + 'px > 390' : 'none', severity: 'block' },
     { name: 'imgMissingAlt', pass: imgNoAlt === 0, detail: imgNoAlt ? imgNoAlt + ' <img> without alt' : 'none', severity: 'block' },
+    { name: 'lowContrast', pass: lowContrast.length === 0, detail: lowContrast.length ? lowContrast.join('; ') : 'none', severity: 'warn' },
+    { name: 'structuralSlop', pass: structuralSlop.length === 0, detail: structuralSlop.length ? structuralSlop.join('; ') : 'none', severity: 'warn' },
   ];
   const overall = checks.filter((c) => c.severity === 'block').every((c) => c.pass !== false);
   const summary = {
     mode: 'static', url, outDir, file: target,
-    static: { bannedFonts, rawColors, fixedWidthOverPx: widthHits, imgMissingAlt: imgNoAlt },
+    static: { bannedFonts, rawColors, aiDefaults, fixedWidthOverPx: widthHits, imgMissingAlt: imgNoAlt, lowContrast, structuralSlop },
     gate: { report: { overall, checks } },
     files: [],
   };
@@ -202,17 +268,102 @@ function runStaticLint() {
 
 // FILMSTRIP=1 / MOTION=1 — capture frames across the entrance window, then audit motion via getComputedStyle.
 const MOTION_ON = !!process.env.FILMSTRIP || !!process.env.MOTION;
-async function captureFilmstrip(page) {
+// REDUCED_MOTION=1 (or any FILMSTRIP/MOTION pass) → also run the reduced-motion capture gate (A).
+const REDUCED_MOTION_ON = MOTION_ON || !!process.env.REDUCED_MOTION;
+// MOTION_TRIGGER='sel:event' (B) — opt-in interaction filming. Pipe-separate ('a:click|.menu:hover') for several.
+const MOTION_TRIGGER = process.env.MOTION_TRIGGER || '';
+// prefix lets the mobile entrance filmstrip (C) write distinct files so it never overwrites the desktop strip.
+async function captureFilmstrip(page, prefix = 'filmstrip') {
   const stamps = [0, 120, 250, 400, 700, 1100, 1500];
   const frames = [];
   const start = Date.now();
   for (const t of stamps) {
     const wait = t - (Date.now() - start);
     if (wait > 0) await sleep(wait);
-    const f = `filmstrip-${String(t).padStart(4, '0')}.png`;
+    const f = `${prefix}-${String(t).padStart(4, '0')}.png`;
     try { await page.screenshot({ path: path.join(outDir, f) }); frames.push(f); } catch (_) {}
   }
   return frames;
+}
+
+// (A) REDUCED-MOTION capture gate. Emulate prefers-reduced-motion:reduce, let media queries re-resolve, then assert
+// every element's ACTIVE transition/animation duration collapses to ~0. A page whose @media (reduce) block is a no-op
+// duplicate (does not actually set transition/animation:none) leaves real durations alive → honored=false (BLOCK).
+// honored=null only if the eval itself throws (unknown, never a silent pass). Emulation is restored before returning.
+async function auditReducedMotion(page) {
+  let res;
+  try {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await sleep(150);
+    res = await page.evaluate(() => {
+      const parseDur = (s) => String(s || '').split(',').map((x) => {
+        x = x.trim();
+        if (x.endsWith('ms')) return parseFloat(x);
+        if (x.endsWith('s')) return parseFloat(x) * 1000;
+        return parseFloat(x) || 0;
+      });
+      const offenders = []; let scanned = 0;
+      for (const el of document.querySelectorAll('body *')) {
+        if (scanned > 4000) break; scanned++;
+        const cs = getComputedStyle(el);
+        const tProp = cs.transitionProperty || 'none';
+        const tDur = parseDur(cs.transitionDuration).filter((d) => d > 1); // >1ms = NOT collapsed
+        const aName = cs.animationName || 'none';
+        const aDur = parseDur(cs.animationDuration).filter((d) => d > 1);
+        const activeTrans = tProp !== 'none' && tDur.length > 0;
+        const activeAnim = aName !== 'none' && aName !== '' && aDur.length > 0;
+        if (activeTrans || activeAnim) {
+          const sel = el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '');
+          offenders.push({ sel, transitionMs: activeTrans ? Math.round(Math.max(...tDur)) : 0, animationMs: activeAnim ? Math.round(Math.max(...aDur)) : 0 });
+          if (offenders.length >= 20) break;
+        }
+      }
+      return { honored: offenders.length === 0, offenders };
+    });
+  } catch (e) { res = { honored: null, offenders: [], error: e.message }; }
+  try { await page.emulateMedia({ reducedMotion: 'no-preference' }); } catch (_) {}
+  return res;
+}
+
+// (B) INTERACTION filming. Parse 'selector:event' (event = trailing token only if it's a known event name, so CSS
+// pseudo-classes like button:first-child stay part of the selector). Screenshot a pre frame, dispatch the event,
+// film a ~600ms window, then run the SAME analyzeMotion property/duration audit so state→state motion is pixel-proven.
+const TRIGGER_EVENTS = new Set(['click', 'hover', 'focus', 'mouseenter', 'mouseover', 'mousedown', 'press', 'tap']);
+function parseTrigger(spec) {
+  const idx = spec.lastIndexOf(':');
+  if (idx > 0) {
+    const maybe = spec.slice(idx + 1).toLowerCase();
+    if (TRIGGER_EVENTS.has(maybe)) return { selector: spec.slice(0, idx).trim(), event: maybe };
+  }
+  return { selector: spec.trim(), event: 'click' };
+}
+async function filmOneInteraction(page, spec) {
+  const { selector, event } = parseTrigger(spec);
+  const result = { trigger: spec, selector, event, frames: [], durations: [], layoutAnimated: [], warnings: [] };
+  const safe = selector.replace(/[^a-z0-9_-]/gi, '_').slice(0, 24);
+  const shot = async (tag) => { const f = `interact-${safe}-${tag}.png`; try { await page.screenshot({ path: path.join(outDir, f) }); result.frames.push(f); } catch (_) {} };
+  let el;
+  try { el = page.locator(selector).first(); await el.waitFor({ state: 'attached', timeout: 2500 }); }
+  catch (e) { result.error = 'selector not found: ' + selector; return result; }
+  await shot('pre');
+  try {
+    if (event === 'hover' || event === 'mouseenter' || event === 'mouseover') await el.hover({ timeout: 2500, force: true });
+    else if (event === 'focus') await el.focus({ timeout: 2500 });
+    else await el.click({ timeout: 2500, force: true }); // force: bypass actionability so a covered/anchored CTA still fires
+  } catch (e) { result.error = 'dispatch failed: ' + e.message; }
+  const stamps = [60, 160, 300, 450, 600];
+  const start = Date.now();
+  for (const t of stamps) { const w = t - (Date.now() - start); if (w > 0) await sleep(w); await shot(String(t)); }
+  const audit = await analyzeMotion(page);
+  result.durations = audit.durations; result.layoutAnimated = audit.layoutAnimated; result.warnings = audit.warnings;
+  if (audit.error) result.error = (result.error ? result.error + '; ' : '') + audit.error;
+  return result;
+}
+async function filmInteractions(page, spec) {
+  const specs = spec.split('|').map((s) => s.trim()).filter(Boolean); // pipe-separated → commas stay inside selectors
+  const out = [];
+  for (const s of specs) out.push(await filmOneInteraction(page, s));
+  return out;
 }
 async function analyzeMotion(page) {
   return page.evaluate(() => {
@@ -278,11 +429,24 @@ async function analyzeMotion(page) {
   if (PERF_ON) await dp.addInitScript(initCwv); // register CWV observers BEFORE the page loads
   await dp.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
   // FILMSTRIP/MOTION (opt-in) — capture the entrance window FIRST (before the long settle below), then audit motion.
+  // Also runs the opt-in interaction filming (B) and the reduced-motion capture gate (A) on this desktop page.
   let motion = null;
-  if (MOTION_ON) {
-    const frames = await captureFilmstrip(dp);
-    const audit = await analyzeMotion(dp);
-    motion = { frames, durations: audit.durations, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.error ? { error: audit.error } : {}) };
+  if (MOTION_ON || REDUCED_MOTION_ON || MOTION_TRIGGER) {
+    motion = {};
+    if (MOTION_ON) {
+      const frames = await captureFilmstrip(dp, 'filmstrip');
+      const audit = await analyzeMotion(dp);
+      Object.assign(motion, { frames, durations: audit.durations, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.error ? { error: audit.error } : {}) });
+    }
+    if (MOTION_TRIGGER) {
+      motion.interactions = await filmInteractions(dp, MOTION_TRIGGER); // (B) state→state transitions, screenshot-proven
+    }
+    if (REDUCED_MOTION_ON) {
+      const rm = await auditReducedMotion(dp); // (A) emulate reduce, assert durations collapse to ~0
+      motion.reducedMotionHonored = rm.honored;
+      motion.reducedMotionOffenders = rm.offenders;
+      if (rm.error) motion.reducedMotionError = rm.error;
+    }
   }
   await sleep(800);
   // scroll to trigger lazy content + entrance animations, then back to top
@@ -328,6 +492,11 @@ async function analyzeMotion(page) {
   const mp = await mctx.newPage();
   const badMobile = ASSETS_ON ? watchAssets(mp) : null;
   await mp.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
+  // (C) MOBILE entrance filmstrip — capture the load-entrance at the 390px context too, not only desktop.
+  if (MOTION_ON) {
+    const mframes = await captureFilmstrip(mp, 'filmstrip-mobile');
+    if (motion) motion.mobileFrames = mframes; else motion = { mobileFrames: mframes };
+  }
   await sleep(600);
   await mp.screenshot({ path: path.join(outDir, 'mobile-full.png'), fullPage: true });
   // Horizontal-overflow check at 390px — the silent killer of Korean detail pages. Detect, name culprits.
@@ -446,6 +615,14 @@ async function analyzeMotion(page) {
   // Motion audit (opt-in) — layout-animated elements are a jank/banned-motion violation; surfaced as warn (never
   // hard-blocks the default build), with the offenders listed under run.json.motion.layoutAnimated.
   if (MOTION_ON && motion) checks.push({ name: 'motion', pass: (motion.layoutAnimated || []).length === 0, detail: `layoutAnimated=${(motion.layoutAnimated || []).length} warnings=${(motion.warnings || []).length}`, severity: 'warn' });
+  // (A) reduced-motion is the real motion-craft gate → BLOCK. honored=null (eval failed) reads as unknown, never blocks.
+  if (motion && motion.reducedMotionHonored !== undefined) checks.push({ name: 'reducedMotion', pass: motion.reducedMotionHonored, detail: `honored=${motion.reducedMotionHonored} offenders=${(motion.reducedMotionOffenders || []).length}`, severity: 'block' });
+  // (B) interaction filming — flag layout-property animation in the triggered state as a warn (the films are the proof).
+  if (motion && motion.interactions) {
+    const li = motion.interactions.reduce((n, i) => n + (i.layoutAnimated || []).length, 0);
+    const er = motion.interactions.filter((i) => i.error).length;
+    checks.push({ name: 'motionInteraction', pass: li === 0, detail: `interactions=${motion.interactions.length} layoutAnimated=${li} errors=${er}`, severity: 'warn' });
+  }
   const reportOverall = checks.filter((c) => c.severity === 'block').every((c) => c.pass !== false);
   const summary = {
     url, outDir, pageHeight: height, desktopTiles: tiles, coveredHeight: tiles * tileH, maxTiles,

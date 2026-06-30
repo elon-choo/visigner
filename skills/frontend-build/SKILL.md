@@ -174,6 +174,19 @@ AXE=1 GATE_EXIT=1 NODE_PATH=$(npm root -g) \
   node "${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js" http://localhost:3000 /tmp/build/shots
 # (Vite app instead: `npm run build && npm run preview &` → shoot http://localhost:4173)
 ```
+
+**Don't hand-manage the serve/teardown — `serve-shoot.js` does build→serve→shoot→teardown in one call** (built-in Node modules only; no deps). It exits with `shoot.js`'s own code, so `GATE_EXIT=1` propagates straight to CI. Two modes:
+```bash
+ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page
+# (a) STATIC dir — built-in static server on an EPHEMERAL port (no collisions), path-scoped to the dir:
+AXE=1 GATE_EXIT=1 node $ROOT/scripts/serve-shoot.js --dir ./out --file index.html --out /tmp/shots
+# (b) SERVE a real app — spawns your cmd, exports the chosen $PORT to it, TCP-polls until it accepts
+#     (SERVE_TIMEOUT_MS default 30000), then shoots the URL and tears the server down:
+AXE=1 GATE_EXIT=1 node $ROOT/scripts/serve-shoot.js --serve "npx next start -p \$PORT" --port 3000 --out /tmp/shots
+# All shoot.js env knobs (AXE, GATE_EXIT, MAX_TILES…) pass through; anything after `--` is forwarded to shoot.js.
+```
+This is the React/Next gate wired for **CI**: the suite ships `.github/workflows/design-gate.yml` (a `gate` job that runs `npx patchright install --with-deps chromium` then `serve-shoot.js` with `AXE=1 GATE_EXIT=1` and uploads the screenshots) plus the `npm run gate` / `npm run lint:brand` scripts in the detail-page `package.json` and a `.husky/pre-commit` that brand-lints staged files. Drop them in to make "screenshot + axe pass" a merge requirement, not a manual step. (design-system owns the full CI-scaffold doc.)
+
 It writes a full-page desktop PNG, viewport tiles, a 390px mobile PNG, and `run.json`. **Read the tiles** (hierarchy, rhythm, the banned-default tells) AND **read `run.json.gate`:**
 
 | Gate field | Hard fail when | Fix |

@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SCAFFOLD — product app shell (replace per brief)</title>
+
+<!--
+  STARTER VARIANT: product application shell (sidebar + topbar + data table). Pick THIS file when the
+  brief is an app/dashboard/admin UI; pick index.html for a Korean 상세페이지, landing.html for a western
+  marketing page. Same @theme token discipline. DARK MODE is wired through the token system: only the
+  --brand-* neutral primitives are re-declared under [data-theme="dark"] (and prefers-color-scheme), so
+  every utility (bg-surface/text-ink/…) and inline var(--color-*) flips together — one source of truth.
+  Distinctive non-banned pairing: Cabinet Grotesk (display) + General Sans (body) + JetBrains Mono (data).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@600,700,800&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+
+<!-- Set the theme BEFORE paint to avoid a flash: honor a stored choice, else the OS preference. -->
+<script>
+(function () {
+  try {
+    var t = localStorage.getItem('app-theme');
+    if (!t) t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', t);
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'light'); }
+})();
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1" integrity="sha384-OT3qnPBOZ0Z1BVC2R6WSI4cjBlIoSMeeZAUY8gZqaP1TgAJHbuo2gIM6KzQ8/viI" crossorigin="anonymous"></script>
+<style type="text/tailwindcss">
+  /* ============================================================
+     DESIGN TOKENS — single source. Light is the default :root; dark RE-DECLARES ONLY the neutral
+     primitives (surface/card/ink/muted/line + two elevation tints) under [data-theme="dark"]. Because
+     @theme maps every Tailwind token to a --brand-* var, flipping data-theme re-themes utilities AND
+     inline var(--color-*) at once. The brand hues (primary/accent) are shared across modes. NEVER AI-purple.
+     ============================================================ */
+  :root {
+    /* neutrals — light */
+    --brand-surface: oklch(0.984 0.003 250);  /* app canvas */
+    --brand-card:    oklch(1 0 0);            /* panels, rows, cards */
+    --brand-ink:     oklch(0.215 0.018 262);  /* primary text */
+    --brand-muted:   oklch(0.530 0.018 262);  /* secondary text */
+    --brand-line:    oklch(0.215 0.018 262 / 0.12);
+    /* primary/accent ramp — indigo, OKLCH near-even L (shared by both themes) */
+    --brand-primary-50:  oklch(0.965 0.018 265);
+    --brand-primary-100: oklch(0.915 0.035 265);
+    --brand-primary-300: oklch(0.760 0.085 265);
+    --brand-primary-500: oklch(0.585 0.130 266);
+    --brand-primary-700: oklch(0.470 0.135 267);
+    --brand-primary-900: oklch(0.320 0.090 268);
+    --brand-primary: var(--brand-primary-700);
+    --brand-accent-300: oklch(0.760 0.110 265);
+    --brand-accent-500: oklch(0.585 0.150 266);
+    --brand-accent-700: oklch(0.470 0.140 267);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: oklch(0.99 0.003 250); /* white on indigo → AA */
+    /* status hues (token-driven; used by row badges + table states) */
+    --brand-ok:    oklch(0.620 0.130 150);
+    --brand-warn:  oklch(0.720 0.130 75);
+    --brand-danger:oklch(0.600 0.170 25);
+    /* type */
+    --brand-font-display: "Cabinet Grotesk", "General Sans", sans-serif;
+    --brand-font-body:    "General Sans", "Helvetica Neue", sans-serif;
+    --brand-font-latin:   "JetBrains Mono", ui-monospace, monospace;
+    /* elevation — light */
+    --brand-shadow-e1: 0 1px 2px oklch(0.21 0.02 262 / 0.06);
+    --brand-shadow-e2: 0 8px 22px oklch(0.21 0.02 262 / 0.10);
+    --brand-shadow-e3: 0 24px 56px oklch(0.21 0.02 262 / 0.18);
+  }
+  /* DARK — re-declare ONLY neutrals + elevation; brand hues lift slightly for contrast on dark surfaces. */
+  [data-theme="dark"] {
+    --brand-surface: oklch(0.205 0.012 262);
+    --brand-card:    oklch(0.250 0.013 262);
+    --brand-ink:     oklch(0.955 0.005 250);
+    --brand-muted:   oklch(0.705 0.012 255);
+    --brand-line:    oklch(0.985 0.004 250 / 0.12);
+    --brand-primary-500: oklch(0.680 0.140 266);
+    --brand-primary-700: oklch(0.620 0.150 266);
+    --brand-primary: var(--brand-primary-700);
+    --brand-accent-500: oklch(0.680 0.150 266);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: oklch(0.16 0.01 262);
+    --brand-shadow-e1: 0 1px 2px oklch(0 0 0 / 0.30);
+    --brand-shadow-e2: 0 8px 22px oklch(0 0 0 / 0.40);
+    --brand-shadow-e3: 0 24px 56px oklch(0 0 0 / 0.55);
+  }
+
+  @theme {
+    --color-surface: var(--brand-surface);
+    --color-card:    var(--brand-card);
+    --color-ink:     var(--brand-ink);
+    --color-muted:   var(--brand-muted);
+    --color-line:    var(--brand-line);
+    --color-primary-50:  var(--brand-primary-50);
+    --color-primary-100: var(--brand-primary-100);
+    --color-primary-300: var(--brand-primary-300);
+    --color-primary-500: var(--brand-primary-500);
+    --color-primary-700: var(--brand-primary-700);
+    --color-primary-900: var(--brand-primary-900);
+    --color-primary: var(--brand-primary);
+    --color-accent-300: var(--brand-accent-300);
+    --color-accent-500: var(--brand-accent-500);
+    --color-accent-700: var(--brand-accent-700);
+    --color-accent: var(--brand-accent);
+    --color-on-accent: var(--brand-on-accent);
+    --color-ok: var(--brand-ok);
+    --color-warn: var(--brand-warn);
+    --color-danger: var(--brand-danger);
+    --font-display: var(--brand-font-display);
+    --font-body:    var(--brand-font-body);
+    --font-latin:   var(--brand-font-latin);
+    --shadow-e1: var(--brand-shadow-e1);
+    --shadow-e2: var(--brand-shadow-e2);
+    --shadow-e3: var(--brand-shadow-e3);
+    /* scale tokens — kept in sync with scripts/build-tokens.js --emit=theme (8 axes complete) */
+    --space-4: 4px; --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-24: 24px;
+    --space-32: 32px; --space-48: 48px; --space-64: 64px; --space-96: 96px;
+    --text-12: 12px; --text-14: 14px; --text-16: 16px; --text-18: 18px; --text-20: 20px;
+    --text-24: 24px; --text-30: 30px; --text-36: 36px; --text-48: 48px; --text-64: 64px;
+    --leading-12: 16px; --leading-14: 20px; --leading-16: 24px; --leading-18: 28px; --leading-20: 28px;
+    --leading-24: 32px; --leading-30: 40px; --leading-36: 44px; --leading-48: 56px; --leading-64: 72px;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-pill: 9999px;
+    --dur-1: 120ms; --dur-2: 200ms; --dur-3: 320ms;
+    --ease-out: cubic-bezier(0.2, 0, 0, 1); --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* ---- Base ---- */
+  html, body { height: 100%; }
+  body { background: var(--color-surface); color: var(--color-ink); font-family: var(--font-body); margin: 0;
+    transition: background-color .2s var(--ease-out), color .2s var(--ease-out); }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; margin: 0; }
+  img, svg, video, canvas { max-width: 100%; height: auto; }
+  *:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+  /* ---- App grid: sidebar + (topbar over content). minmax(0,1fr) lets the main column shrink so the
+     wide table never forces page overflow. ---- */
+  .app { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
+  .sidebar { background: var(--color-card); border-right: 1px solid var(--color-line); padding: 20px 14px;
+    display: flex; flex-direction: column; gap: 4px; }
+  .main { min-width: 0; display: flex; flex-direction: column; }
+
+  .nav-item { display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: 10px;
+    color: var(--color-muted); font-size: 14px; font-weight: 500; text-decoration: none; cursor: pointer; }
+  .nav-item:hover { background: color-mix(in oklch, var(--color-ink) 6%, transparent); color: var(--color-ink); }
+  .nav-item.active { background: var(--color-primary-50); color: var(--color-primary); font-weight: 600; }
+  [data-theme="dark"] .nav-item.active { background: color-mix(in oklch, var(--color-primary) 22%, transparent); color: var(--color-ink); }
+  .nav-item svg { flex: none; }
+
+  .topbar { display: flex; align-items: center; gap: 16px; padding: 14px 24px;
+    border-bottom: 1px solid var(--color-line); background: var(--color-surface);
+    position: sticky; top: 0; z-index: 20; }
+  .content { padding: 24px; }
+
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px;
+    padding-inline: 16px; border-radius: 10px; font-weight: 600; font-size: 14px; border: 0; cursor: pointer;
+    font-family: var(--font-body); }
+  .btn-accent { background: var(--color-accent); color: var(--color-on-accent); }
+  .btn-ghost { background: transparent; color: var(--color-ink); border: 1px solid var(--color-line); }
+  .icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px;
+    border-radius: 10px; border: 1px solid var(--color-line); background: var(--color-card); color: var(--color-ink); cursor: pointer; }
+
+  .panel { background: var(--color-card); border: 1px solid var(--color-line); border-radius: 16px; box-shadow: var(--shadow-e1); overflow: hidden; }
+  .seg { display: inline-flex; border: 1px solid var(--color-line); border-radius: 10px; overflow: hidden; }
+  .seg button { border: 0; background: transparent; color: var(--color-muted); font-size: 13px; font-weight: 500;
+    padding: 7px 12px; cursor: pointer; font-family: var(--font-body); }
+  .seg button[aria-pressed="true"] { background: var(--color-primary); color: var(--color-on-accent); }
+
+  /* ---- Table: wrapper scrolls horizontally on its own so a wide table never overflows the page ---- */
+  .table-wrap { overflow-x: auto; }
+  table.data { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 14px; }
+  table.data th { text-align: left; font-family: var(--font-latin); font-size: 11px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--color-muted); font-weight: 600; padding: 12px 16px; border-bottom: 1px solid var(--color-line); }
+  table.data td { padding: 14px 16px; border-bottom: 1px solid var(--color-line); }
+  table.data tr:last-child td { border-bottom: 0; }
+  .mono { font-family: var(--font-latin); }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+    padding: 3px 9px; border-radius: 9999px; }
+  .badge::before { content: ""; width: 7px; height: 7px; border-radius: 9999px; background: currentColor; }
+  .badge.ok { color: var(--color-ok); background: color-mix(in oklch, var(--color-ok) 14%, transparent); }
+  .badge.warn { color: var(--color-warn); background: color-mix(in oklch, var(--color-warn) 16%, transparent); }
+  .badge.danger { color: var(--color-danger); background: color-mix(in oklch, var(--color-danger) 14%, transparent); }
+
+  /* ---- Non-data table states (empty / loading / error) ---- */
+  .state { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 64px 24px; }
+  .state svg { color: var(--color-muted); }
+  .state h3 { font-size: 18px; }
+  .state p { color: var(--color-muted); font-size: 14px; margin: 0; max-width: 34ch; }
+  .skel { height: 14px; border-radius: 6px; background: color-mix(in oklch, var(--color-ink) 9%, transparent);
+    animation: pulse 1.2s var(--ease-out) infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+  .skel-row { display: grid; grid-template-columns: 1.6fr 1fr 1fr 0.8fr; gap: 16px; padding: 14px 16px; align-items: center; }
+
+  /* Mobile: collapse the sidebar; expose the same nav inside a topbar disclosure (no fixed widths → no overflow). */
+  .mobile-nav { display: none; }
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .mobile-nav { display: block; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ░░ SIDEBAR ░░ -->
+  <aside class="sidebar">
+    <div style="display:flex;align-items:center;gap:10px;padding:6px 12px 18px">
+      <span style="display:inline-flex;width:30px;height:30px;border-radius:8px;background:var(--color-accent);color:var(--color-on-accent);align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800">L</span>
+      <span class="font-display" style="font-size:18px;font-weight:800">Ledgerline</span>
+    </div>
+    <a class="nav-item active" href="#" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+      Overview
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>
+      Invoices
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 6a3 3 0 0 1 0 6"/><path d="M19 20a5 5 0 0 0-3-4.6"/></svg>
+      Clients
+    </a>
+    <a class="nav-item" href="#">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6 19.4l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 4.3 14H4a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 6 6l-.1-.1A2 2 0 1 1 8.7 3.1l.1.1A1.6 1.6 0 0 0 11 4.3V4a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1A1.6 1.6 0 0 0 19.7 11H21a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg>
+      Settings
+    </a>
+    <div style="margin-top:auto;padding:12px;border-top:1px solid var(--color-line);display:flex;align-items:center;gap:10px">
+      <span style="width:32px;height:32px;border-radius:9999px;background:var(--color-primary-100);color:var(--color-primary);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">AR</span>
+      <div style="line-height:1.2"><div style="font-size:13px;font-weight:600">Avery Reed</div><div style="font-size:12px;color:var(--color-muted)">Owner</div></div>
+    </div>
+  </aside>
+
+  <!-- ░░ MAIN ░░ -->
+  <div class="main">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <details class="mobile-nav">
+        <summary class="icon-btn" style="list-style:none" aria-label="Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </summary>
+        <nav style="position:absolute;left:16px;right:16px;margin-top:10px;background:var(--color-card);border:1px solid var(--color-line);border-radius:12px;box-shadow:var(--shadow-e2);padding:8px;display:flex;flex-direction:column;gap:2px;z-index:30">
+          <a class="nav-item active" href="#">Overview</a>
+          <a class="nav-item" href="#">Invoices</a>
+          <a class="nav-item" href="#">Clients</a>
+          <a class="nav-item" href="#">Settings</a>
+        </nav>
+      </details>
+      <div style="min-width:0">
+        <h1 style="font-size:20px;font-weight:700">Invoices</h1>
+        <p style="font-size:13px;color:var(--color-muted);margin-top:2px">Track what's owed and what's been paid.</p>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+          <svg class="i-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+          <svg class="i-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="display:none"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="btn btn-accent" id="newInvoice">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          New invoice
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT -->
+    <main class="content">
+      <!-- State switcher (a scaffold control — wire to real fetch lifecycle: loading → data | empty | error) -->
+      <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:16px">
+        <div class="seg" role="group" aria-label="Demo table state">
+          <button data-state="data" aria-pressed="true">Data</button>
+          <button data-state="loading" aria-pressed="false">Loading</button>
+          <button data-state="empty" aria-pressed="false">Empty</button>
+          <button data-state="error" aria-pressed="false">Error</button>
+        </div>
+        <span style="font-size:12px;color:var(--color-muted)">Toggle to preview each table state.</span>
+      </div>
+
+      <section class="panel" aria-live="polite">
+        <!-- DATA -->
+        <div class="state-block" data-state="data">
+          <div class="table-wrap">
+            <table class="data">
+              <thead><tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Status</th><th>Due</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">INV-2041</td><td>Northwind Co.</td><td class="mono">$4,200.00</td><td><span class="badge ok">Paid</span></td><td class="text-muted">Jun 12</td></tr>
+                <tr><td class="mono">INV-2040</td><td>Hexbyte Labs</td><td class="mono">$1,850.00</td><td><span class="badge warn">Pending</span></td><td class="text-muted">Jul 02</td></tr>
+                <tr><td class="mono">INV-2038</td><td>Larkfield Studio</td><td class="mono">$9,600.00</td><td><span class="badge danger">Overdue</span></td><td class="text-muted">May 28</td></tr>
+                <tr><td class="mono">INV-2037</td><td>Quanta Inc.</td><td class="mono">$640.00</td><td><span class="badge ok">Paid</span></td><td class="text-muted">Jun 30</td></tr>
+                <tr><td class="mono">INV-2035</td><td>Driftwork</td><td class="mono">$2,310.00</td><td><span class="badge warn">Pending</span></td><td class="text-muted">Jul 09</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- LOADING (skeleton) -->
+        <div class="state-block" data-state="loading" hidden aria-busy="true">
+          <div style="padding:8px 0">
+            <div class="skel-row"><div class="skel" style="width:60%"></div><div class="skel" style="width:80%"></div><div class="skel" style="width:50%"></div><div class="skel" style="width:70%"></div></div>
+            <div class="skel-row"><div class="skel" style="width:50%"></div><div class="skel" style="width:70%"></div><div class="skel" style="width:60%"></div><div class="skel" style="width:55%"></div></div>
+            <div class="skel-row"><div class="skel" style="width:65%"></div><div class="skel" style="width:60%"></div><div class="skel" style="width:45%"></div><div class="skel" style="width:75%"></div></div>
+            <div class="skel-row"><div class="skel" style="width:55%"></div><div class="skel" style="width:75%"></div><div class="skel" style="width:55%"></div><div class="skel" style="width:60%"></div></div>
+          </div>
+        </div>
+
+        <!-- EMPTY -->
+        <div class="state-block" data-state="empty" hidden>
+          <div class="state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+            <h3>No invoices yet</h3>
+            <p>Create your first invoice and it will show up here with its status and due date.</p>
+            <button class="btn btn-accent" style="margin-top:6px">New invoice</button>
+          </div>
+        </div>
+
+        <!-- ERROR -->
+        <div class="state-block" data-state="error" hidden>
+          <div class="state">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-danger)" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="13"/><line x1="12" y1="16.5" x2="12" y2="16.5"/></svg>
+            <h3>Couldn't load invoices</h3>
+            <p>The request timed out. Check your connection and try again — nothing was lost.</p>
+            <button class="btn btn-ghost" style="margin-top:6px">Retry</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+(function () {
+  // ---- Dark-mode toggle (token-driven): flip data-theme on <html>; every var(--brand-*) neutral re-resolves. ----
+  var root = document.documentElement;
+  function syncIcons() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    var sun = document.querySelector('.i-sun'), moon = document.querySelector('.i-moon');
+    if (sun && moon) { sun.style.display = dark ? 'none' : ''; moon.style.display = dark ? '' : 'none'; }
+  }
+  syncIcons();
+  var toggle = document.getElementById('themeToggle');
+  if (toggle) toggle.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('app-theme', next); } catch (e) {}
+    syncIcons();
+  });
+
+  // ---- Table state switcher: show one .state-block, toggle [hidden] + aria-pressed. ----
+  var blocks = document.querySelectorAll('.state-block');
+  var segBtns = document.querySelectorAll('.seg button');
+  function show(state) {
+    blocks.forEach(function (b) { b.hidden = b.getAttribute('data-state') !== state; });
+    segBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-state') === state)); });
+  }
+  segBtns.forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-state')); }); });
+})();
+</script>
+</body>
+</html>

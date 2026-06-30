@@ -47,6 +47,103 @@ function normInv(p) {
   }
 }
 
+// ---------- math: log-gamma, incomplete beta/gamma, Student-t & chi-square ----------
+
+// ln Γ(x) — Lanczos approximation (abs error ~1e-10 for x>0).
+function gammaln(x) {
+  const c = [76.18009172947146, -86.50532032941677, 24.01409824083091, -1.231739572450155, 0.1208650973866179e-2, -0.5395239384953e-5];
+  let y = x, tmp = x + 5.5;
+  tmp -= (x + 0.5) * Math.log(tmp);
+  let ser = 1.000000000190015;
+  for (let j = 0; j < 6; j++) { y++; ser += c[j] / y; }
+  return -tmp + Math.log(2.5066282746310005 * ser / x);
+}
+
+// Continued fraction for the incomplete beta (Numerical Recipes betacf).
+function betacf(a, b, x) {
+  const MAXIT = 300, EPS = 3e-14, FPMIN = 1e-300;
+  const qab = a + b, qap = a + 1, qam = a - 1;
+  let c = 1, d = 1 - qab * x / qap;
+  if (Math.abs(d) < FPMIN) d = FPMIN;
+  d = 1 / d;
+  let h = d;
+  for (let m = 1; m <= MAXIT; m++) {
+    const m2 = 2 * m;
+    let aa = m * (b - m) * x / ((qam + m2) * (a + m2));
+    d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+    c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+    d = 1 / d; h *= d * c;
+    aa = -(a + m) * (qab + m) * x / ((a + m2) * (qap + m2));
+    d = 1 + aa * d; if (Math.abs(d) < FPMIN) d = FPMIN;
+    c = 1 + aa / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+    d = 1 / d; const del = d * c; h *= del;
+    if (Math.abs(del - 1) < EPS) break;
+  }
+  return h;
+}
+// I_x(a,b): regularized incomplete beta = CDF of Beta(a,b) at x.
+function betai(a, b, x) {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  const bt = Math.exp(gammaln(a + b) - gammaln(a) - gammaln(b) + a * Math.log(x) + b * Math.log(1 - x));
+  if (x < (a + 1) / (a + b + 2)) return bt * betacf(a, b, x) / a;
+  return 1 - bt * betacf(b, a, 1 - x) / b;
+}
+
+// Regularized lower incomplete gamma P(a,x) via series, and upper Q(a,x) via CF.
+function gser(a, x) {
+  const ITMAX = 400, EPS = 3e-14;
+  if (x <= 0) return 0;
+  const gln = gammaln(a);
+  let ap = a, sum = 1 / a, del = sum;
+  for (let n = 0; n < ITMAX; n++) { ap++; del *= x / ap; sum += del; if (Math.abs(del) < Math.abs(sum) * EPS) break; }
+  return sum * Math.exp(-x + a * Math.log(x) - gln);
+}
+function gcf(a, x) {
+  const ITMAX = 400, EPS = 3e-14, FPMIN = 1e-300;
+  const gln = gammaln(a);
+  let b = x + 1 - a, c = 1 / FPMIN, d = 1 / b, h = d;
+  for (let i = 1; i <= ITMAX; i++) {
+    const an = -i * (i - a);
+    b += 2;
+    d = an * d + b; if (Math.abs(d) < FPMIN) d = FPMIN;
+    c = b + an / c; if (Math.abs(c) < FPMIN) c = FPMIN;
+    d = 1 / d; const del = d * c; h *= del;
+    if (Math.abs(del - 1) < EPS) break;
+  }
+  return Math.exp(-x + a * Math.log(x) - gln) * h;
+}
+function gammp(a, x) { if (x < 0 || a <= 0) return NaN; return x < a + 1 ? gser(a, x) : 1 - gcf(a, x); }
+function gammq(a, x) { return 1 - gammp(a, x); }
+
+// Two-sided p-value for Student-t: P(|T| > |t|) with df degrees of freedom.
+function tTwoSidedP(t, df) { return betai(df / 2, 0.5, df / (df + t * t)); }
+// Two-sided critical t* such that P(|T| > t*) = alpha (bisection; tTwoSidedP is monotone↓ in t).
+function tCrit(alpha, df) {
+  let lo = 0, hi = 1e5;
+  for (let i = 0; i < 200; i++) {
+    const mid = (lo + hi) / 2;
+    if (tTwoSidedP(mid, df) > alpha) lo = mid; else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+// Upper-tail chi-square p-value: P(X² > x) with df degrees of freedom.
+function chisqUpperP(x, df) { return gammq(df / 2, x / 2); }
+
+// Beta(a,b) density at x.
+function betaPdf(x, a, b) {
+  if (x <= 0 || x >= 1) return 0;
+  return Math.exp((a - 1) * Math.log(x) + (b - 1) * Math.log(1 - x) - (gammaln(a) + gammaln(b) - gammaln(a + b)));
+}
+// Composite Simpson's rule on [lo,hi] with N (forced even) intervals.
+function simpson(f, lo, hi, N) {
+  if (N % 2) N++;
+  const h = (hi - lo) / N;
+  let s = f(lo) + f(hi);
+  for (let i = 1; i < N; i++) s += (i % 2 ? 4 : 2) * f(lo + i * h);
+  return s * h / 3;
+}
+
 // ---------- arg parsing ----------
 
 function parseArgs(argv) {
@@ -76,6 +173,28 @@ function parseFrac(v, name) {
   return { x, n };
 }
 const pct = (x, d = 2) => (x * 100).toFixed(d) + '%';
+
+// "52.1,18.3,1200" → { mean:52.1, sd:18.3, n:1200 }  (for continuous-metric Welch test)
+function parseTriple(v, name) {
+  const parts = String(v).split(',').map(s => s.trim());
+  if (parts.length !== 3) { console.error(`error: --${name} must be "mean,sd,n", e.g. 52.1,18.3,1200 (got ${JSON.stringify(v)})`); process.exit(1); }
+  const mean = Number(parts[0]), sd = Number(parts[1]), n = Number(parts[2]);
+  if (![mean, sd, n].every(Number.isFinite)) { console.error(`error: --${name} must be three numbers "mean,sd,n" (got ${JSON.stringify(v)})`); process.exit(1); }
+  if (sd < 0 || n < 2) { console.error(`error: --${name}=${v} invalid (need sd ≥ 0 and n ≥ 2)`); process.exit(1); }
+  return { mean, sd, n };
+}
+
+// Multiple-comparison note: m = variants−1 tests vs control → corrected per-comparison α.
+function printMultipleComparison(variants, alpha) {
+  const m = variants - 1;
+  const bonf = alpha / m;
+  const sidak = 1 - Math.pow(1 - alpha, 1 / m);
+  console.log('');
+  console.log(`  ⚠ MULTIPLE COMPARISONS: ${variants} variants ⇒ ${m} test(s) vs control. A single α=${alpha} inflates the`);
+  console.log(`    family-wise false-positive rate to ~${(1 - Math.pow(1 - alpha, m)).toFixed(4)}. Use a stricter per-comparison α:`);
+  console.log(`      Bonferroni  α' = α/${m}            = ${bonf.toFixed(4)}`);
+  console.log(`      Šidák       α' = 1−(1−α)^(1/${m})  = ${sidak.toFixed(4)}   (slightly less conservative)`);
+}
 
 // ---------- subcommand: plan (required sample size per variant) ----------
 
@@ -122,14 +241,21 @@ function cmdPlan(args) {
     console.log('');
     console.log('  (pass --daily <total visitors/day> to also get the test duration in days)');
   }
+
+  if (variants > 2) printMultipleComparison(variants, alpha);
 }
 
 // ---------- subcommand: test (significance of an observed result) ----------
 
 function cmdTest(args) {
+  if (args.metric === 'mean') return cmdTestMean(args);
+  if (args.metric !== undefined && args.metric !== 'proportion' && args.metric !== true) {
+    console.error(`error: --metric must be "proportion" (default) or "mean" (got ${JSON.stringify(args.metric)})`); process.exit(1);
+  }
   const A = parseFrac(args.a, 'a');               // control
   const B = parseFrac(args.b, 'b');               // treatment
   const alpha = args.alpha !== undefined ? num(args.alpha, 'alpha') : 0.05;
+  const variants = args.variants !== undefined ? Math.max(2, Math.round(num(args.variants, 'variants'))) : 2;
 
   const pA = A.x / A.n, pB = B.x / B.n;
   const absLift = pB - pA;
@@ -170,6 +296,169 @@ function cmdTest(args) {
   console.log('  ⚠ PEEKING WARNING: this is a fixed-horizon test. Stopping the moment it crosses significance');
   console.log('    inflates false positives. Only call it at the PRE-COMMITTED sample size (see `ab.js plan`),');
   console.log('    run full weeks, and don\'t revert-and-restart on a blip.');
+
+  if (variants > 2) printMultipleComparison(variants, alpha);
+}
+
+// ---------- subcommand: test --metric mean (Welch t-test for a continuous metric) ----------
+
+function cmdTestMean(args) {
+  const A = parseTriple(args.a, 'a');             // control:   mean,sd,n
+  const B = parseTriple(args.b, 'b');             // treatment: mean,sd,n
+  const alpha = args.alpha !== undefined ? num(args.alpha, 'alpha') : 0.05;
+  const variants = args.variants !== undefined ? Math.max(2, Math.round(num(args.variants, 'variants'))) : 2;
+
+  const diff = B.mean - A.mean;                    // B − A
+  const vA = A.sd * A.sd / A.n, vB = B.sd * B.sd / B.n;
+  const se = Math.sqrt(vA + vB);                   // Welch standard error of the difference
+  const t = se > 0 ? diff / se : 0;
+  // Welch–Satterthwaite degrees of freedom
+  const df = se > 0 ? Math.pow(vA + vB, 2) / (vA * vA / (A.n - 1) + vB * vB / (B.n - 1)) : (A.n + B.n - 2);
+  const pValue = se > 0 ? tTwoSidedP(t, df) : 1;   // two-sided
+  const tc = tCrit(alpha, df);
+  const ciLo = diff - tc * se, ciHi = diff + tc * se;
+  const relLift = A.mean !== 0 ? diff / A.mean : Infinity;
+  const sig = pValue < alpha;
+
+  console.log('A/B result (Welch two-sample t-test, continuous metric — revenue/AOV/etc.)');
+  console.log('  formulas:  t = (x̄_B − x̄_A) / √(s²_A/n_A + s²_B/n_B)');
+  console.log('             df = (s²_A/n_A + s²_B/n_B)² / [ (s²_A/n_A)²/(n_A−1) + (s²_B/n_B)²/(n_B−1) ]   (Welch–Satterthwaite)');
+  console.log('             p = 2·P(T_df > |t|);   CI = (x̄_B − x̄_A) ± t_{1-α/2, df}·√(s²_A/n_A + s²_B/n_B)');
+  console.log('');
+  console.log(`  A (control)    mean ${A.mean}  sd ${A.sd}  n ${A.n}`);
+  console.log(`  B (treatment)  mean ${B.mean}  sd ${B.sd}  n ${B.n}`);
+  console.log('');
+  console.log(`  mean diff      ${diff >= 0 ? '+' : ''}${diff.toFixed(4)}  (B − A)`);
+  console.log(`  relative lift  ${relLift >= 0 ? '+' : ''}${(relLift * 100).toFixed(1)}%`);
+  console.log(`  Welch t        ${t.toFixed(4)}`);
+  console.log(`  df             ${df.toFixed(2)}`);
+  console.log(`  p-value        ${pValue < 0.0001 ? '< 0.0001' : pValue.toFixed(4)}  (two-sided)`);
+  console.log(`  t_{1-α/2, df}  ${tc.toFixed(4)}`);
+  console.log(`  ${pct(1 - alpha, 0)} CI on mean diff  [${ciLo.toFixed(4)}, ${ciHi.toFixed(4)}]`);
+  console.log('');
+  if (sig) {
+    console.log(`  ✅ SIGNIFICANT at α=${alpha}: B ${diff >= 0 ? 'beats' : 'loses to'} A (p=${pValue < 0.0001 ? '<0.0001' : pValue.toFixed(4)}). The CI excludes 0.`);
+  } else {
+    console.log(`  ⏳ NOT YET significant at α=${alpha} (p=${pValue.toFixed(4)}). The ${pct(1 - alpha, 0)} CI includes 0 — could be noise.`);
+  }
+  console.log('  ⚠ Welch assumes roughly normal means (CLT covers large n) and does NOT assume equal variances.');
+  console.log('    For heavy-tailed revenue, also sanity-check with medians/trimmed means.');
+
+  if (variants > 2) printMultipleComparison(variants, alpha);
+}
+
+// ---------- subcommand: srm (Sample-Ratio-Mismatch chi-square guardrail) ----------
+
+function cmdSrm(args) {
+  if (args.observed === undefined || args.observed === true) {
+    console.error('error: srm needs --observed "a:4001,b:3999" (label:count pairs, comma-separated)'); process.exit(1);
+  }
+  const obs = String(args.observed).split(',').map(s => s.trim()).filter(Boolean).map(pair => {
+    const m = pair.match(/^([^:]+):\s*(\d+(?:\.\d+)?)$/);
+    if (!m) { console.error(`error: --observed entry ${JSON.stringify(pair)} must be label:count, e.g. a:4001`); process.exit(1); }
+    return { label: m[1].trim(), count: Number(m[2]) };
+  });
+  if (obs.length < 2) { console.error('error: srm needs at least 2 buckets in --observed'); process.exit(1); }
+
+  let ratios;
+  if (args.expected !== undefined && args.expected !== true) {
+    ratios = String(args.expected).split(':').map(s => Number(s.trim()));
+    if (ratios.length !== obs.length || !ratios.every(r => Number.isFinite(r) && r > 0)) {
+      console.error(`error: --expected must be ${obs.length} positive numbers like ${obs.map(() => '1').join(':')} (got ${JSON.stringify(args.expected)})`); process.exit(1);
+    }
+  } else {
+    ratios = obs.map(() => 1);                     // default: equal split
+  }
+
+  const total = obs.reduce((s, o) => s + o.count, 0);
+  const ratioSum = ratios.reduce((s, r) => s + r, 0);
+  const df = obs.length - 1;
+  let chi2 = 0;
+  const rows = obs.map((o, i) => {
+    const exp = total * ratios[i] / ratioSum;
+    const contrib = (o.count - exp) * (o.count - exp) / exp;
+    chi2 += contrib;
+    return { label: o.label, obs: o.count, exp, share: o.count / total, expShare: ratios[i] / ratioSum };
+  });
+  const p = chisqUpperP(chi2, df);
+
+  console.log('Sample-Ratio-Mismatch (SRM) guardrail — Pearson chi-square goodness-of-fit');
+  console.log('  formula:  χ² = Σ (Oᵢ − Eᵢ)² / Eᵢ ,  Eᵢ = N·rᵢ/Σr ,  df = k−1 ,  p = P(χ²_df > χ²_obs)');
+  console.log('');
+  console.log(`  total assigned   ${total.toLocaleString()}   (k=${obs.length} buckets, df=${df})`);
+  for (const r of rows) {
+    console.log(`  ${r.label.padEnd(6)} observed ${String(r.obs).padStart(8)} (${pct(r.share, 2)})   expected ${r.exp.toFixed(1).padStart(10)} (${pct(r.expShare, 2)})`);
+  }
+  console.log('');
+  console.log(`  χ²             ${chi2.toFixed(4)}`);
+  console.log(`  p-value        ${p < 0.0001 ? '< 0.0001' : p.toFixed(4)}`);
+  console.log('');
+  if (p < 0.001) {
+    console.log(`  🚨 SRM DETECTED (p=${p < 0.0001 ? '<0.0001' : p.toFixed(4)} < 0.001): the split deviates from expected far more than chance.`);
+    console.log('     Your randomization/assignment is almost certainly BROKEN (bot filtering, redirect bug, caching,');
+    console.log('     uneven bucketing). DO NOT TRUST the conversion results — fix the pipeline and re-run.');
+  } else {
+    console.log(`  ✅ No SRM (p=${p.toFixed(4)} ≥ 0.001): the bucket counts are consistent with the expected split.`);
+  }
+}
+
+// ---------- subcommand: bayes (beta-binomial Bayesian readout, no RNG) ----------
+
+function cmdBayes(args) {
+  const A = parseFrac(args.a, 'a');               // control:   conversions/visitors
+  const B = parseFrac(args.b, 'b');               // treatment: conversions/visitors
+  let prior = { a: 1, b: 1 };                      // uniform Beta(1,1) by default
+  if (args.prior !== undefined && args.prior !== true) {
+    const pp = String(args.prior).split(',').map(s => Number(s.trim()));
+    if (pp.length !== 2 || !pp.every(v => Number.isFinite(v) && v > 0)) { console.error('error: --prior must be "a,b" with a,b > 0, e.g. 1,1'); process.exit(1); }
+    prior = { a: pp[0], b: pp[1] };
+  }
+
+  // Posterior Beta params
+  const aA = prior.a + A.x, bA = prior.b + (A.n - A.x);
+  const aB = prior.a + B.x, bB = prior.b + (B.n - B.x);
+  const meanA = aA / (aA + bA), meanB = aB / (aB + bB);
+  const sdA = Math.sqrt(aA * bA / ((aA + bA) * (aA + bA) * (aA + bA + 1)));
+  const sdB = Math.sqrt(aB * bB / ((aB + bB) * (aB + bB) * (aB + bB + 1)));
+
+  // Integration window covering both posteriors (±10 sd, clamped).
+  const lo = Math.max(0, Math.min(meanA - 10 * sdA, meanB - 10 * sdB));
+  const hi = Math.min(1, Math.max(meanA + 10 * sdA, meanB + 10 * sdB));
+  const N = 4000;
+
+  // P(pB > pA) = ∫ pdf_B(p)·CDF_A(p) dp  (CDF_A = I_p(aA,bA)). Deterministic Simpson grid, no RNG.
+  const pBwins = simpson(p => betaPdf(p, aB, bB) * betai(aA, bA, p), lo, hi, N);
+  const pAwins = 1 - pBwins;
+
+  // Expected loss of shipping B = E[max(pA − pB, 0)] over A's support:
+  //   ∫ pdf_A(a)·[ a·I_a(aB,bB) − meanB·I_a(aB+1,bB) ] da
+  const loA = Math.max(0, meanA - 10 * sdA), hiA = Math.min(1, meanA + 10 * sdA);
+  const lossShipB = simpson(a => betaPdf(a, aA, bA) * (a * betai(aB, bB, a) - meanB * betai(aB + 1, bB, a)), loA, hiA, N);
+  // Expected loss of shipping A = E[max(pB − pA, 0)] over B's support.
+  const loB = Math.max(0, meanB - 10 * sdB), hiB = Math.min(1, meanB + 10 * sdB);
+  const lossShipA = simpson(b => betaPdf(b, aB, bB) * (b * betai(aA, bA, b) - meanA * betai(aA + 1, bA, b)), loB, hiB, N);
+
+  console.log('Bayesian A/B readout (beta-binomial conjugate, deterministic numeric integration — no RNG)');
+  console.log(`  prior Beta(${prior.a},${prior.b})  →  posteriors:  A ~ Beta(${aA},${bA})   B ~ Beta(${aB},${bB})`);
+  console.log('  P(B>A) = ∫₀¹ f_B(p)·F_A(p) dp ;  expected loss(ship B) = E[max(p_A−p_B, 0)]   (Simpson grid)');
+  console.log('');
+  console.log(`  A (control)    ${A.x}/${A.n}   posterior mean ${pct(meanA, 3)}  (±${pct(sdA, 3)})`);
+  console.log(`  B (treatment)  ${B.x}/${B.n}   posterior mean ${pct(meanB, 3)}  (±${pct(sdB, 3)})`);
+  console.log('');
+  console.log(`  P(B > A)             ${(pBwins * 100).toFixed(2)}%`);
+  console.log(`  P(A > B)             ${(pAwins * 100).toFixed(2)}%`);
+  console.log(`  E[loss | ship B]     ${pct(lossShipB, 4)}  (abs CVR points you forgo if B is actually worse)`);
+  console.log(`  E[loss | ship A]     ${pct(lossShipA, 4)}  (abs CVR points you forgo if A is actually worse)`);
+  console.log('');
+  const winner = pBwins >= 0.5 ? 'B' : 'A';
+  const conf = Math.max(pBwins, pAwins);
+  if (conf >= 0.95) {
+    console.log(`  ✅ ${winner} wins with ${(conf * 100).toFixed(1)}% probability and tiny remaining risk (E[loss | ship ${winner}] = ${pct(winner === 'B' ? lossShipB : lossShipA, 4)}).`);
+  } else {
+    console.log(`  ⏳ ${winner} leads (${(conf * 100).toFixed(1)}%) but not decisively. Keep running until P(winner) ≥ ~95% AND E[loss] is below your threshold.`);
+  }
+  console.log('  Note: Bayesian readouts have no fixed-horizon peeking penalty, but the decision rule (P / E[loss]');
+  console.log('  thresholds) must be pre-committed — chasing the metric still inflates wrong calls.');
 }
 
 // ---------- subcommand: snippet (client-side variant split) ----------
@@ -180,6 +469,9 @@ function cmdSnippet(args) {
   if (split < 0 || split > 100) { console.error('error: --split must be 0–100 (percent allocated to variant A)'); process.exit(1); }
   const storage = args.storage === 'cookie' ? 'cookie' : 'local';
   const key = name.replace(/[^a-zA-Z0-9_-]/g, '-').toLowerCase();
+  const buckets = args.buckets !== undefined ? Math.round(num(args.buckets, 'buckets')) : 2;
+  if (buckets < 2 || buckets > 26) { console.error('error: --buckets must be 2–26 (A..Z)'); process.exit(1); }
+  if (buckets > 2) return snippetNBuckets(key, buckets, storage);
 
   // Dependency-free: stable per-visitor id (localStorage or cookie) → cyrb53 hash → bucket A/B by split.
   const snippet = `<!-- A/B split: "${key}" — dependency-free, deterministic per visitor. Inline before </body>. -->
@@ -233,6 +525,59 @@ function cmdSnippet(args) {
   console.log(snippet);
 }
 
+// N equal-weight buckets (A..) — carries the variant assignment so an SRM check has data.
+function snippetNBuckets(key, n, storage) {
+  const labels = Array.from({ length: n }, (_, i) => String.fromCharCode(65 + i)); // A,B,C,...
+  const snippet = `<!-- A/B/n split: "${key}" — ${n} equal buckets [${labels.join(',')}], dependency-free, deterministic per visitor. Inline before </body>. -->
+<script>
+(function () {
+  var EXP = ${JSON.stringify(key)};            // experiment key
+  var BUCKETS = ${JSON.stringify(labels)};  // ${n} equal-weight buckets
+  var STORE = ${JSON.stringify(storage)};      // "local" | "cookie"
+
+  // --- stable visitor id -------------------------------------------------
+  function readCookie(k){ var m=document.cookie.match('(?:^|; )'+k+'=([^;]*)'); return m?decodeURIComponent(m[1]):null; }
+  function writeCookie(k,v){ document.cookie=k+'='+encodeURIComponent(v)+';path=/;max-age=31536000;SameSite=Lax'; }
+  function getId(){
+    var IDK='ab_uid', id=null;
+    try { id = STORE==='cookie' ? readCookie(IDK) : localStorage.getItem(IDK); } catch(e){}
+    if(!id){
+      id = (Date.now().toString(36) + Math.random().toString(36).slice(2,10));
+      try { STORE==='cookie' ? writeCookie(IDK,id) : localStorage.setItem(IDK,id); } catch(e){}
+    }
+    return id;
+  }
+
+  // --- cyrb53: fast 53-bit string hash (stable across loads) -------------
+  function cyrb53(str, seed){
+    var h1=0xdeadbeef^seed, h2=0x41c6ce57^seed;
+    for(var i=0,ch;i<str.length;i++){ ch=str.charCodeAt(i); h1=Math.imul(h1^ch,2654435761); h2=Math.imul(h2^ch,1597334677); }
+    h1=Math.imul(h1^(h1>>>16),2246822507)^Math.imul(h2^(h2>>>13),3266489909);
+    h2=Math.imul(h2^(h2>>>16),2246822507)^Math.imul(h1^(h1>>>13),3266489909);
+    return 4294967296*(2097151&h2)+(h1>>>0);
+  }
+
+  var id = getId();
+  // hash → one of N equal buckets (uniform → expected equal split → SRM-checkable)
+  var bucket = BUCKETS[cyrb53(EXP+':'+id, 0) % BUCKETS.length];
+
+  // --- apply: set data-variant on <html>, expose a global, fire exposure --
+  document.documentElement.setAttribute('data-variant', bucket);
+  document.documentElement.setAttribute('data-exp-'+EXP, bucket);
+  window.__ab = window.__ab || {}; window.__ab[EXP] = bucket;
+
+  var payload = { experiment: EXP, variant: bucket };
+  // dataLayer (GTM/GA4) — carries the bucket so you can COUNT assignments and run \`ab.js srm\`
+  try { window.dataLayer = window.dataLayer || []; window.dataLayer.push(Object.assign({ event: 'experiment_exposure' }, payload)); } catch(e){}
+  // PostHog
+  try { if (window.posthog && posthog.capture) posthog.capture('$experiment_started', { '$feature_flag': EXP, '$feature_flag_response': bucket }); } catch(e){}
+})();
+</script>
+<!-- Style each variant with attribute selectors, e.g. html[data-variant="C"] .hero-cta { ... }.
+     Feed the per-bucket exposure counts into:  node ab.js srm --observed "${labels.map(l => l.toLowerCase() + ':<count>').join(',')}" -->`;
+  console.log(snippet);
+}
+
 // ---------- help ----------
 
 function help() {
@@ -240,8 +585,11 @@ function help() {
 
 USAGE
   node ab.js plan    --baseline <rate> --mde <relLift> [--power 0.8] [--alpha 0.05] [--daily N] [--variants 2]
-  node ab.js test    --a <conv/visitors> --b <conv/visitors> [--alpha 0.05]
-  node ab.js snippet --name <key> [--split 50] [--storage local|cookie]
+  node ab.js test    --a <conv/visitors> --b <conv/visitors> [--alpha 0.05] [--variants 2]
+  node ab.js test    --metric mean --a "mean,sd,n" --b "mean,sd,n" [--alpha 0.05] [--variants 2]
+  node ab.js srm     --observed "a:4001,b:3999" [--expected 50:50]
+  node ab.js bayes   --a <conv/visitors> --b <conv/visitors> [--prior 1,1]
+  node ab.js snippet --name <key> [--split 50] [--storage local|cookie] [--buckets 2]
 
 PLAN — required sample size per variant
   n = ( z_{1-α/2}·√(2·p̄·q̄) + z_{1-β}·√(p₁q₁+p₂q₂) )² / (p₂−p₁)²
@@ -256,14 +604,36 @@ TEST — significance of an observed result (two-proportion z-test)
   95% CI on the difference (unpooled SE):
   (p̂_B − p̂_A) ± z_{1-α/2}·√(p̂_A q̂_A/n_A + p̂_B q̂_B/n_B)
   e.g.  node ab.js test --a 120/4000 --b 156/4100
+  With --variants >2, prints a Bonferroni/Šidák-corrected per-comparison α note.
+
+TEST --metric mean — continuous metric (revenue/AOV), Welch two-sample t-test
+  t  = (x̄_B − x̄_A) / √(s²_A/n_A + s²_B/n_B)
+  df = (s²_A/n_A + s²_B/n_B)² / [ (s²_A/n_A)²/(n_A−1) + (s²_B/n_B)²/(n_B−1) ]   (Welch–Satterthwaite)
+  p  = 2·P(T_df > |t|);   CI = (x̄_B − x̄_A) ± t_{1-α/2, df}·√(s²_A/n_A + s²_B/n_B)
+  --a / --b take "mean,sd,n" (sample mean, sample SD, n). Does NOT assume equal variances.
+  e.g.  node ab.js test --metric mean --a "52.1,18.3,1200" --b "55.4,19.1,1180"
+
+SRM — Sample-Ratio-Mismatch guardrail (Pearson chi-square goodness-of-fit)
+  χ² = Σ (Oᵢ − Eᵢ)²/Eᵢ ,  Eᵢ = N·rᵢ/Σr ,  df = k−1 ,  p = P(χ²_df > χ²_obs)
+  Warns (🚨) if p < 0.001 — the split is broken and the conversion results are untrustworthy.
+  --expected takes a ratio like 50:50 or 1:1:1 (default: equal). e.g.  node ab.js srm --observed "a:4001,b:3999"
+
+BAYES — beta-binomial Bayesian readout (deterministic, NO RNG)
+  Posterior_X = Beta(prior_a + conv, prior_b + (visitors−conv)).
+  P(B>A) = ∫₀¹ f_B(p)·F_A(p) dp ;  expected loss(ship B) = E[max(p_A−p_B, 0)]  (Simpson grid).
+  e.g.  node ab.js bayes --a 120/4000 --b 156/4100
 
 SNIPPET — dependency-free client-side variant split
-  Stable visitor id (localStorage/cookie) → cyrb53 hash → bucket by --split%.
+  Stable visitor id (localStorage/cookie) → cyrb53 hash → bucket by --split% (2-bucket),
+  or N equal buckets A.. with --buckets N (the bucket is sent on every exposure event,
+  so you can count assignments and run 'ab.js srm').
   Sets html[data-variant], exposes window.__ab[name], fires an exposure event
   to dataLayer (GTM/GA4) and posthog if present.
   e.g.  node ab.js snippet --name hero-cta --split 50
+        node ab.js snippet --name hero-cta --buckets 3
 
-Numerics are self-contained (Acklam inverse-normal + A&S erf). No npm deps.`);
+Numerics are self-contained (Acklam inverse-normal, A&S erf, Lanczos log-Γ,
+incomplete-beta/gamma continued fractions for Student-t & chi-square). No npm deps.`);
 }
 
 // ---------- dispatch ----------
@@ -276,9 +646,11 @@ function main() {
   switch (cmd) {
     case 'plan': return cmdPlan(args);
     case 'test': return cmdTest(args);
+    case 'srm': return cmdSrm(args);
+    case 'bayes': return cmdBayes(args);
     case 'snippet': return cmdSnippet(args);
     default:
-      console.error(`unknown subcommand "${cmd}". Try: plan | test | snippet  (or --help)`);
+      console.error(`unknown subcommand "${cmd}". Try: plan | test | srm | bayes | snippet  (or --help)`);
       process.exit(1);
   }
 }

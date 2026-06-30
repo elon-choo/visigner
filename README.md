@@ -6,9 +6,9 @@ It's built on Anthropic's `frontend-design` aesthetic discipline (plan a token s
 
 ### What this replaces vs. what it feeds
 
-- **Replaces** — other installable design *skills / plugins / packages* for Claude Code. The suite produces the actual artifacts: page/component **code**, **SVG**, design **tokens**, handoff **specs**, **diagrams/wireframes**, conversion **copy**, and the **test math** (contrast, touch targets, overflow).
+- **Replaces** — other installable design *skills / plugins / packages* for Claude Code. The suite produces the actual artifacts: page/component **code**, **SVG**, design **tokens**, handoff **specs**, **diagrams/wireframes**, conversion **copy**, ESP-ready **email HTML**, the **experiment stats** (A/B sizing, Welch t / SRM / Bayesian readouts, funnel drop-off), and the **test math** (contrast, touch targets, overflow) — all as zero-dependency Node scripts.
 - **Feeds, does not replace** — it hands off to the tools downstream of design, it does not become them: live-canvas GUIs (**Figma / FigJam**), raster editors (**Photoshop**), and runtime infrastructure (**web hosting**, **ESP send**, the **analytics warehouse**). You still ship through those.
-- **Real photo/illustration generation** needs an image API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, the suite falls back to on-brand **SVG placeholders**. The **screenshot browser** is installed once by **`/design-setup`**.
+- **Real photo/illustration generation** needs an image API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, each image slot **renders as an intentional lo-fi comp** — a deterministic, on-brand SVG (classified into one of five comp archetypes, full palette, slot tag) that marks the slot's intent, *not* a finished asset. The operator still replaces these comps with real art before shipping. The **screenshot browser** is installed once by **`/design-setup`**.
 
 ---
 
@@ -87,8 +87,17 @@ Left alone, a model emits the high-probability **generic center** — the "AI sl
 
 ---
 
+## Bundled zero-dep scripts (no npm install, built-in Node only)
+
+Beyond the screenshot loop (`shoot.js`), the suite ships runnable helpers you invoke directly:
+- **`ab.js`** — A/B sizing + readouts: proportion z-test, Welch t-test for revenue/AOV, SRM guardrail (chi-square), Bayesian P(B>A) + expected loss, multi-variant Bonferroni/Šidák, and an N-bucket exposure snippet.
+- **`pull-funnel.js`** — read-only PostHog/GA4 funnel: ordered step counts + drop-off %, segmented by source × device (no key → prints the event/UTM schema to instrument).
+- **`email.js` / `email-lint.js`** — emit an ESP-pasteable responsive HTML email (600px table layout, inlined CSS, Outlook VML CTA) and a deterministic copy linter (spam/subject/CTA/lexicon) that's the machine floor under the LLM copy critique.
+- **`serve-shoot.js`** — build/serve → shoot → teardown in one call (static dir or a spawned app), exiting with `shoot.js`'s code so it drops into **CI**.
+- **CI gate** — `.github/workflows/design-gate.yml` + `npm run lint:brand` / `lint:tokens` / `gate` + a `.husky/pre-commit` hook make brand-lint, the @theme↔DTCG drift check, and the screenshot+axe gate a merge requirement.
+
 ## Notes
 
-- **Image generation & live capture** need a one-time `/design-setup` (Patchright + Chromium). Image *generation* additionally needs an API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login.
+- **Image generation & live capture** need a one-time `/design-setup` (Patchright + Chromium). Image *generation* additionally needs an API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, image slots render as **intentional lo-fi comps** (deterministic on-brand SVG) the operator replaces with real art.
 - **Compliance** (ad/labeling law, claim substantiation) is intentionally left to you — the suite optimizes for design and conversion quality, not legal review.
 - License: MIT.

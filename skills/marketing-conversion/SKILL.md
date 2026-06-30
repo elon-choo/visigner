@@ -205,6 +205,34 @@ POSTHOG_API_KEY=... POSTHOG_PROJECT_ID=... \
   node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/pull-funnel.js --provider posthog --steps "page_view,scroll_50,cta_click,purchase"
 # No key? It prints the exact event/UTM schema you need instrumented and exits 0 (useful offline).
 ```
+**`ab.js` also covers the cases a proportion z-test can't** (all built-in Node math, deterministic, no RNG — `--help` documents every formula):
+```bash
+# Continuous metric (revenue / AOV): Welch two-sample t-test — mean diff, Welch t, Satterthwaite df,
+# two-sided p, 95% CI. Does NOT assume equal variances (the proportion z-test is wrong for revenue).
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js test --metric mean --a "52.10,38.0,4000" --b "55.40,41.0,4100"
+# SRM guardrail FIRST, before reading any result: Pearson chi-square on the bucket split. p<0.001 prints
+# 🚨 SRM-DETECTED ("assignment broken, results untrustworthy"). Supports k≥2 buckets + arbitrary ratios.
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js srm --observed "a:4001,b:3999"
+# Bayesian readout (beta-binomial conjugate posteriors): P(B>A), P(A>B), and expected loss of shipping each
+# arm — a decision number when "is it significant?" is the wrong question. Default uniform prior 1,1.
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js bayes --a 120/4000 --b 156/4100
+```
+- **Multi-variant correction:** pass `--variants N` (N>2) to `plan` OR `test` (both proportion and mean paths) and it prints the Bonferroni (α/m) and Šidák (1−(1−α)^(1/m)) corrected per-comparison α (m = N−1) — testing 3+ arms against one α inflates false positives; default `--variants 2` prints nothing (output unchanged).
+- **N-way exposure snippet:** `snippet --buckets N` (2–26) emits an N-equal-bucket split (labels A,B,C…) via the same stable `cyrb53` hash and sends the assigned bucket on every exposure event, so per-bucket counts feed straight back into `srm`. Default `--buckets 2` is byte-identical to the original `--split` snippet.
+
+### Email build & lint (ESP-ready HTML + the deterministic copy floor)
+The page is one surface; the email sequence (§Sequences) is the other half — and email HTML is its own discipline (table layout, inlined CSS, Outlook VML). Two zero-dep scripts in the detail-page skill build and gate it; `--help` on each.
+```bash
+# Build: JSON spec → a robust, ESP-pasteable responsive HTML email. 600px TABLE layout (no flex/grid),
+# every critical CSS prop INLINED, bulletproof <!--[if mso]> VML CTA button, hidden preheader span,
+# color-scheme dark-bg hint, %unsubscribe_url% merge-tag footer. Screenshot-clean via shoot.js (gate overall:true).
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/email.js spec.json out.html   # out "-" → stdout
+# Lint: the MACHINE FLOOR under design-critic MODE=copy — runs BEFORE the LLM voice grade, accepts the spec
+# JSON or the generated HTML, lints a whole dir of emails (sequence) too. Optional --lexicon voice.json {owned,banned}.
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/email-lint.js <spec.json|email.html|dir/> [--lexicon voice.json] [out.json]
+```
+- **Spec shape:** `{ subject, preheader, brand:{surface,ink,accent,font}, blocks:[…] }` — `blocks` is the only required field. Block types: `h1`/`p`/`cta {text,href}`/`img {href,text,width}`/`divider`. Text is HTML-escaped; `javascript:`/`data:` hrefs are sanitized to `#`; button text color auto-picks white/dark by accent luminance. Exports `{ buildEmail, onColor }` for programmatic use.
+- **email-lint severities:** ERROR (exit 1) = subject missing / >50 chars, zero CTAs, ALL-CAPS or `!!!` or known spam words in subject/preheader, any `--lexicon` banned term. WARN (never fails) = no preheader / >90 chars, >1 CTA, >2 emoji, none of the owned terms present. Run it as the gate before handing the copy to **design-critic `MODE=copy`** for the voice/consistency read — deterministic checks first, LLM judgment second.
 
 ## Analytics — the few numbers that matter
 

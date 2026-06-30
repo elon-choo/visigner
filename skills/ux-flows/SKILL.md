@@ -324,6 +324,8 @@ Decide analytics **while planning the flow**, so the metric in §1 SUCCESS is ac
 
 Tie each SUCCESS metric (§1) to the event(s) that compute it; an unmeasurable metric is a hole — fix it here, before build.
 
+**Close the planning→measurement loop:** these event names are the literal `--steps` that `marketing-conversion`'s `pull-funnel.js` reads back out of PostHog/GA4 (`… pull-funnel.js --steps "page_view,scroll_50,cta_click,purchase"`). So name them in funnel order with the exact `object_action` strings you'll query — a planned event that doesn't match what the funnel puller expects is an event you can't read. Hand this table to marketing-conversion as the instrumentation contract.
+
 ## Usability heuristics — Nielsen's 10 as a review checklist
 
 Walk the flow against each before handoff (these gate the plan, not the pixels):

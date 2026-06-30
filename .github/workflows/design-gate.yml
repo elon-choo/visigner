@@ -1,0 +1,108 @@
+# =============================================================================
+# design-gate.yml — copy-paste CI for the detail-page design skill.
+#
+# Three machine gates, all deterministic (no LLM, no flaky network beyond a CDN axe load):
+#   1. brand-lint   — raw-hex / banned-font / AI-purple as hard errors over your design source tree.
+#   2. token drift  — the committed Tailwind @theme block must equal `build-tokens.js --emit=theme`
+#                     (i.e. the DTCG tokens are the single source of truth; no hand-edit drift).
+#   3. serve+shoot  — serve the built page on an ephemeral port and run shoot.js with the 390px-overflow,
+#                     broken-asset, and AXE a11y gates; GATE_EXIT=1 turns any gate violation into a red build.
+#
+# TO ADAPT for your repo, change the `env:` block below — that is the only place with repo-specific paths.
+# =============================================================================
+name: design-gate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# ---- the only repo-specific knobs: point these at YOUR paths ----
+env:
+  SKILL_DIR: skills/detail-page                       # where this skill (package.json + scripts/) lives
+  SRC_DIR: ./src                                       # your design source tree (HTML/JSX/CSS) for brand-lint
+  SERVE_DIR: skills/detail-page/assets/starter         # the built static site to screenshot+a11y-scan
+  SERVE_FILE: index.html                               # entry file inside SERVE_DIR
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # JOB 1 — static gates: brand governance + token drift. Fast, no browser needed.
+  # ---------------------------------------------------------------------------
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      # check out the repo so the skill scripts + tokens are on disk
+      - uses: actions/checkout@v4
+
+      # install Node 20 (the skill targets Node 20+; built-in modules only, so no version drama)
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # install the skill's deps (patchright). Swap to `npm ci` once you commit a package-lock.json.
+      - name: Install skill deps
+        working-directory: ${{ env.SKILL_DIR }}
+        run: npm install --no-audit --no-fund
+
+      # GATE 1 — brand-lint over your design source (dir mode → non-zero exit on any error-severity finding).
+      # Run from the repo root so SRC_DIR is a repo-root-relative path; require() inside the script still
+      # resolves the skill's own node_modules by module location, not cwd.
+      # Guarded: if SRC_DIR doesn't exist yet, emit a notice instead of failing the template.
+      - name: Brand lint (raw-hex / banned-font / AI-purple)
+        run: |
+          if [ -d "${{ env.SRC_DIR }}" ]; then
+            node "${{ env.SKILL_DIR }}/scripts/brand-lint.js" "${{ env.SRC_DIR }}"
+          else
+            echo "::notice::SRC_DIR '${{ env.SRC_DIR }}' not found — set env.SRC_DIR to your design source tree to enable brand-lint."
+          fi
+
+      # GATE 2 — assert the committed @theme matches the DTCG token source (no hand-edit drift).
+      # `npm run lint:tokens` regenerates the @theme map from tokens/*.tokens.json and diffs it against
+      # the committed assets/starter/index.html; it exits 1 (red build) listing any drifted tokens.
+      - name: Token drift (@theme ↔ DTCG must be empty)
+        working-directory: ${{ env.SKILL_DIR }}
+        run: npm run lint:tokens
+
+  # ---------------------------------------------------------------------------
+  # JOB 2 — visual + a11y gate: serve the page and screenshot-assert it with shoot.js.
+  # ---------------------------------------------------------------------------
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install skill deps
+        working-directory: ${{ env.SKILL_DIR }}
+        run: npm install --no-audit --no-fund
+
+      # download the Chromium engine patchright drives (the headless browser shoot.js launches).
+      - name: Install Chromium for patchright
+        working-directory: ${{ env.SKILL_DIR }}
+        run: npx patchright install --with-deps chromium
+
+      # GATE 3 — serve-shoot.js serves SERVE_DIR on an ephemeral port, then runs shoot.js against the URL.
+      # AXE=1 adds the axe-core a11y scan; GATE_EXIT=1 makes a failed gate (overflow / broken asset / serious
+      # a11y violation) exit non-zero → red build. Swap `--dir` for `--serve "<cmd>" --port <n>` to gate a
+      # framework dev/preview server instead of a static folder.
+      - name: Serve + shoot (390px overflow / broken assets / AXE a11y)
+        env:
+          AXE: '1'
+          GATE_EXIT: '1'
+        run: |
+          node "${{ env.SKILL_DIR }}/scripts/serve-shoot.js" \
+            --dir "${{ env.SERVE_DIR }}" \
+            --file "${{ env.SERVE_FILE }}" \
+            --out "$RUNNER_TEMP/design-gate-shots"
+
+      # keep the screenshots + run.json as a build artifact for review
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-gate-shots
+          path: ${{ runner.temp }}/design-gate-shots
+          if-no-files-found: ignore
