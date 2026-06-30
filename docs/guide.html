@@ -77,14 +77,16 @@
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; scroll-padding-top:78px; }
   @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation:none !important; transition:none !important; } }
-  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:17px; line-height:1.7; -webkit-font-smoothing:antialiased; word-break:keep-all; line-break:strict; }
+  /* Korean breaks at eojeol (spaces), never mid-word; only long Latin/code tokens may break */
+  code, pre, .copybtn{ overflow-wrap:break-word; word-break:normal; }
 
   html[data-lang="ko"] [lang="en"], html[data-lang="en"] [lang="ko"]{ display:none; }
 
   a{ color:var(--accent-700); }
   a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:3px; }
   code{ font-family:var(--font-mono); font-size:.92em; }
-  h1,h2,h3{ text-wrap:balance; word-break:keep-all; letter-spacing:-.01em; }
+  h1,h2,h3{ text-wrap:balance; letter-spacing:-.01em; }
 
   .wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline:22px; }
   .skip{ position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--paper); padding:10px 16px; z-index:60; }
@@ -99,9 +101,8 @@
   .lang-toggle button{ font-family:var(--font-mono); font-size:12px; padding:5px 9px; border-radius:7px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; }
   .lang-toggle button[aria-pressed="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
 
-  .kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent-700); }
-  .secnum{ font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--accent); }
-  .grad{ background:linear-gradient(100deg,var(--accent),var(--amber) 92%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .kicker{ font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .secnum{ font-family:var(--font-mono); font-size:13px; font-weight:600; color:var(--muted); }
   section{ padding-block:38px; border-top:1px solid var(--line); }
   section h2{ font-family:var(--font-display); font-weight:600; font-size:clamp(24px,3.4vw,34px); margin:6px 0 4px; }
   .lede{ color:var(--muted); max-width:42em; margin:0 0 18px; }
@@ -122,12 +123,12 @@
   .dot{ width:11px; height:11px; border-radius:50%; }
   .copybtn{ font-family:var(--font-mono); font-size:11px; color:var(--term-dim); background:oklch(1 0 0 / .06); border:1px solid oklch(1 0 0 / .1); border-radius:7px; padding:4px 9px; cursor:pointer; }
   .copybtn:hover{ color:var(--term-ink); }
-  .term pre{ margin:0; padding:15px 16px; font-family:var(--font-mono); font-size:13.5px; line-height:1.85; color:var(--term-ink); white-space:pre-wrap; overflow-wrap:anywhere; }
+  .term pre{ margin:0; padding:15px 16px; font-family:var(--font-mono); font-size:13.5px; line-height:1.6; color:var(--term-ink); white-space:pre-wrap; overflow-wrap:anywhere; }
+  .term pre .p{ color:var(--amber); }
   .term pre .c{ color:var(--term-dim); }
-  .term pre .p{ color:var(--accent); }
 
-  table{ width:100%; border-collapse:collapse; margin:8px 0 4px; font-size:15px; }
-  th,td{ text-align:left; padding:11px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  table{ width:100%; border-collapse:collapse; margin:8px 0 4px; font-size:15px; line-height:1.6; }
+  th,td{ text-align:left; padding:14px 13px; border-bottom:1px solid var(--line); vertical-align:top; }
   th{ font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; }
   td code{ color:var(--accent-700); }
   .no{ color:oklch(0.560 0.180 28); font-weight:600; font-family:var(--font-mono); font-size:13px; }
@@ -162,11 +163,11 @@
       <span style="font-family:var(--font-display);font-weight:700;font-size:19px">Visigner</span>
       <span class="kicker nav-hide" style="font-size:11px"><span lang="ko">가이드</span><span lang="en">Guide</span></span>
     </a>
-    <a class="anchor nav-hide" href="#install">02 <span lang="ko">설치</span><span lang="en">Install</span></a>
-    <a class="anchor nav-hide" href="#first-run">03 <span lang="ko">첫 명령</span><span lang="en">First run</span></a>
-    <a class="anchor nav-hide" href="#map">04 <span lang="ko">지도</span><span lang="en">Map</span></a>
-    <a class="anchor nav-hide" href="#worked-example">05 <span lang="ko">예시</span><span lang="en">Example</span></a>
-    <a class="anchor nav-hide" href="#boundaries">08 <span lang="ko">한계</span><span lang="en">Limits</span></a>
+    <a class="anchor nav-hide" href="#install"><span lang="ko">설치</span><span lang="en">Install</span></a>
+    <a class="anchor nav-hide" href="#first-run"><span lang="ko">첫 명령</span><span lang="en">First run</span></a>
+    <a class="anchor nav-hide" href="#map"><span lang="ko">지도</span><span lang="en">Map</span></a>
+    <a class="anchor nav-hide" href="#worked-example"><span lang="ko">예시</span><span lang="en">Example</span></a>
+    <a class="anchor nav-hide" href="#boundaries"><span lang="ko">한계</span><span lang="en">Limits</span></a>
     <span style="flex:1"></span>
     <div class="lang-toggle" role="group" aria-label="Language">
       <button id="ko-btn" aria-pressed="true" onclick="setLang('ko')">KO</button>
@@ -182,11 +183,11 @@
 <section style="border-top:none">
   <div class="wrap">
     <span class="kicker"><span lang="ko">설치 한 번에 디자인 전부 · Claude Code 플러그인</span><span lang="en">Everything design, in one install · a Claude Code plugin</span></span>
-    <h1 style="font-family:var(--font-display);font-weight:700;font-size:clamp(32px,5.4vw,52px);line-height:1.06;margin:14px 0 0">
-      <span lang="ko"><span class="grad">유능한 디자인 도구</span>를,<br>한 번 설치로 손에.</span>
-      <span lang="en"><span class="grad">The whole design toolchain</span>,<br>in one install.</span>
+    <h1 style="font-family:var(--font-display);font-weight:700;font-size:clamp(32px,5.4vw,52px);line-height:1.05;letter-spacing:-.022em;margin:14px 0 0">
+      <span lang="ko">유능한 디자인 도구를,<br>한 번 설치로 손에.</span>
+      <span lang="en">The whole design toolchain,<br>in one install.</span>
     </h1>
-    <p style="font-size:19px;color:var(--muted);max-width:40em;margin-top:18px">
+    <p style="font-size:19px;color:var(--muted);max-width:40em;margin-top:18px;line-height:1.7">
       <span lang="ko">저장소 하나 = 디자인 툴체인 전체입니다. Anthropic의 프론트엔드 디자인 규율(코드 전에 토큰 설계, 뻔한 기본값 거부) 위에, 결과물이 AI 티 안 나게 하는 <strong style="color:var(--ink)">스크린샷 자기비평 루프</strong>가 얹혀 있습니다.</span>
       <span lang="en">One repo = the whole design toolchain — built on Anthropic's frontend-design discipline (plan tokens before code, reject the generic defaults) plus a <strong style="color:var(--ink)">screenshot self-critique loop</strong> so the output doesn't read as AI-generated.</span>
     </p>
@@ -458,7 +459,7 @@
 
 <footer>
   <div class="wrap">
-    <p style="line-height:1.6;max-width:54em;margin:0">
+    <p style="line-height:1.6;max-width:54em;margin:0;color:color-mix(in oklab, var(--ink) 74%, var(--paper))">
       <span lang="ko"><b style="color:var(--ink)">Anthropic과 무관합니다.</b> "Claude", "Anthropic", "Claude Code"는 각 소유자의 상표이며, Visigner가 함께 동작하는 대상을 가리키기 위해 명목적으로만 사용합니다 — 제휴·보증을 뜻하지 않습니다. Visigner는 API 키를 읽거나 저장하지 않습니다. MIT 라이선스 · Claude Code <b>v2.1.100+</b> 필요. 이 페이지의 인벤토리 수치(스킬 7·에이전트 3·커맨드 9·스크립트 26)는 저장소에서 직접 다시 셀 수 있으며, 수치가 저장소와 어긋나면 저장소가 맞습니다.</span>
       <span lang="en"><b style="color:var(--ink)">Not affiliated with Anthropic.</b> "Claude", "Anthropic", and "Claude Code" are trademarks of their owner, used nominatively only to name what Visigner works with — no affiliation or endorsement implied. Visigner never reads or stores your API keys. MIT license · requires Claude Code <b>v2.1.100+</b>. Every inventory figure here (7 skills · 3 agents · 9 commands · 26 scripts) is recountable in the repo; if a figure disagrees with the repo, the repo wins.</span>
     </p>
