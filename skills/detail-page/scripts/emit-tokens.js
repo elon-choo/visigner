@@ -50,14 +50,36 @@ try {
     return { $type: 'fontFamily', $value: fams };
   }
   function shadowToken(rawVal) { return { $type: 'shadow', $value: resolve(rawVal) }; }
+  // scale tokens: keep the literal CSS string in $extensions (round-trip), parse a structured $value for interop
+  function dimToken(rawVal) {
+    const v = resolve(rawVal).trim();
+    const m = v.match(/^(-?[\d.]+)(px|rem|em|%)?$/);
+    return { $type: 'dimension', $value: m ? { value: parseFloat(m[1]), unit: m[2] || 'px' } : v, $extensions: { 'com.detail-page': { css: v } } };
+  }
+  function durToken(rawVal) {
+    const v = resolve(rawVal).trim();
+    const m = v.match(/^([\d.]+)(ms|s)$/i);
+    return { $type: 'duration', $value: m ? { value: parseFloat(m[1]), unit: m[2].toLowerCase() } : v, $extensions: { 'com.detail-page': { css: v } } };
+  }
+  function easeToken(rawVal) {
+    const v = resolve(rawVal).trim();
+    const m = v.match(/cubic-bezier\(\s*([\d.-]+)\s*,\s*([\d.-]+)\s*,\s*([\d.-]+)\s*,\s*([\d.-]+)\s*\)/i);
+    return { $type: 'cubicBezier', $value: m ? [parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]), parseFloat(m[4])] : v, $extensions: { 'com.detail-page': { css: v } } };
+  }
 
   // enumerate the Tailwind design tokens the page actually exposes (the @theme namespace)
-  const tokens = { $description: 'DTCG design tokens serialized from ' + path.basename(file) + ' by emit-tokens.js. OKLCH-native; literal CSS in $extensions["com.detail-page"].css. Regenerated from @theme — never hand-edit.', color: {}, font: {}, shadow: {} };
-  let nColor = 0, nFont = 0, nShadow = 0;
+  const tokens = { $description: 'DTCG design tokens serialized from ' + path.basename(file) + ' by emit-tokens.js. OKLCH-native; literal CSS in $extensions["com.detail-page"].css. Regenerated from @theme — never hand-edit.', color: {}, font: {}, shadow: {}, space: {}, fontSize: {}, lineHeight: {}, radius: {}, motion: { duration: {}, easing: {} } };
+  let nColor = 0, nFont = 0, nShadow = 0, nSpace = 0, nText = 0, nLeading = 0, nRadius = 0, nDur = 0, nEase = 0;
   for (const [name, val] of defs) {
     if (/^--color-/.test(name)) { tokens.color[name.replace('--color-', '')] = colorToken(val); nColor++; }
     else if (/^--font-/.test(name)) { tokens.font[name.replace('--font-', '')] = fontToken(val); nFont++; }
     else if (/^--shadow-/.test(name)) { tokens.shadow[name.replace('--shadow-', '')] = shadowToken(val); nShadow++; }
+    else if (/^--space-/.test(name)) { tokens.space[name.replace('--space-', '')] = dimToken(val); nSpace++; }
+    else if (/^--text-/.test(name)) { tokens.fontSize[name.replace('--text-', '')] = dimToken(val); nText++; }
+    else if (/^--leading-/.test(name)) { tokens.lineHeight[name.replace('--leading-', '')] = dimToken(val); nLeading++; }
+    else if (/^--radius-/.test(name)) { tokens.radius[name.replace('--radius-', '')] = dimToken(val); nRadius++; }
+    else if (/^--dur-/.test(name)) { tokens.motion.duration[name.replace('--dur-', '')] = durToken(val); nDur++; }
+    else if (/^--ease-/.test(name)) { tokens.motion.easing[name.replace('--ease-', '')] = easeToken(val); nEase++; }
   }
   fs.writeFileSync(path.join(outDir, 'tokens.json'), JSON.stringify(tokens, null, 2));
 
@@ -72,6 +94,22 @@ try {
   const elev = Object.entries(tokens.shadow).map(([k, t]) =>
     `<div style="display:inline-block;width:120px;height:80px;margin:16px;background:#fff;border-radius:10px;box-shadow:${t.$value}"></div><span style="vertical-align:bottom"><b>${k}</b></span>`
   ).join('\n');
+  const cssOf = (t) => t.$extensions['com.detail-page'].css;
+  const spacing = Object.entries(tokens.space).map(([k, t]) =>
+    `<div class="sw"><div style="height:16px;background:#16161a;border-radius:3px;flex:none;width:${cssOf(t)}"></div><div class="lbl"><b>${k}</b><code>${cssOf(t)}</code></div></div>`
+  ).join('\n');
+  const typeRamp = Object.entries(tokens.fontSize).map(([k, t]) => {
+    const fs = cssOf(t); const lhTok = tokens.lineHeight[k]; const lh = lhTok ? cssOf(lhTok) : null;
+    return `<p style="margin:4px 0;font-size:${fs};line-height:${lh || 'normal'}"><b>${k}</b> 다람쥐 헌 쳇바퀴 AaBbGg <code style="font-size:12px;color:#888">${fs}${lh ? ` / ${lh}` : ''}</code></p>`;
+  }).join('\n');
+  const radii = Object.entries(tokens.radius).map(([k, t]) =>
+    `<div class="sw"><div style="width:48px;height:48px;background:#e8e8ee;border:1px solid #ccc;flex:none;border-radius:${cssOf(t)}"></div><div class="lbl"><b>${k}</b><code>${cssOf(t)}</code></div></div>`
+  ).join('\n');
+  const motion = [
+    ...Object.entries(tokens.motion.duration).map(([k, t]) => `<li><b>--dur-${k}</b> <code>${cssOf(t)}</code></li>`),
+    ...Object.entries(tokens.motion.easing).map(([k, t]) => `<li><b>--ease-${k}</b> <code>${cssOf(t)}</code></li>`),
+  ].join('\n');
+  const nMotion = nDur + nEase;
   const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Token spec — ${path.basename(file)}</title>
 <style>body{font-family:Pretendard,system-ui,sans-serif;margin:0;padding:24px;background:#fafafa;color:#16161a}
 h2{margin:28px 0 12px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:#666}
@@ -81,12 +119,16 @@ h2{margin:28px 0 12px;font-size:14px;text-transform:uppercase;letter-spacing:.05
 .lbl b{display:block;font-size:13px}.lbl code{font-size:11px;color:#777}</style></head>
 <body><h1 style="margin:0">Design tokens — ${path.basename(file)}</h1>
 <h2>Color (${nColor})</h2><div class="grid">${sw}</div>
-<h2>Type (${nFont})</h2>${fonts}
+<h2>Type — families (${nFont})</h2>${fonts}
 <h2>Elevation (${nShadow})</h2>${elev}
+<h2>Spacing (${nSpace})</h2><div class="grid">${spacing}</div>
+<h2>Type — scale (${nText} size · ${nLeading} line-height)</h2>${typeRamp}
+<h2>Radius (${nRadius})</h2><div class="grid">${radii}</div>
+<h2>Motion (${nMotion})</h2><ul style="line-height:1.9;list-style:none;padding:0">${motion}</ul>
 </body></html>`;
   fs.writeFileSync(path.join(outDir, 'spec.html'), html);
 
-  console.log(JSON.stringify({ ok: true, outDir: path.resolve(outDir), color: nColor, font: nFont, shadow: nShadow }, null, 2));
+  console.log(JSON.stringify({ ok: true, outDir: path.resolve(outDir), color: nColor, font: nFont, shadow: nShadow, space: nSpace, fontSize: nText, lineHeight: nLeading, radius: nRadius, motion: nMotion }, null, 2));
 } catch (e) {
   console.error('FATAL', e.message);
   process.exit(2);

@@ -55,9 +55,14 @@ Structural devices — numbering, eyebrows, dividers, labels — must encode som
 
 ## Motion
 
-- One **orchestrated** moment (a page-load with staggered `animation-delay`, or one scroll reveal) lands harder than scattered micro-interactions. Extra animation is itself an AI-generated tell.
-- CSS-only for HTML artifacts; the `motion` (Framer Motion) library for React.
-- Always honor `prefers-reduced-motion`.
+One **orchestrated** moment (a page-load with staggered `animation-delay`, or one scroll-in reveal) lands harder than scattered micro-interactions. Extra animation is itself an AI-generated tell. CSS-only for HTML artifacts; the `motion` (Framer Motion) library for React. This is the canonical motion discipline shared across the suite (ui-design §5 carries the React/app-state depth).
+
+- **Duration tokens** — `120ms` hover/press/color · `200ms` most state changes (the workhorse) · `320ms` larger surfaces (reveal, sheet). Over ~400ms reads as broken; reserve it for one signature moment only.
+- **Easing** — enter `ease-out` (`cubic-bezier(0,0,.2,1)`, decelerate in); exit `ease-in` (`cubic-bezier(.4,0,1,1)`, accelerate out). Make enter ≠ exit, and exits ~30% faster than enters. `spring` only for things the user drags/moves — never on a load reveal.
+- **Animate `transform` and `opacity` ONLY.** Never animate `width`/`height`/`top`/`left`/`margin` — they trigger layout and jank. For size changes use `transform: scale()` or React `layout`.
+- **Below-the-fold reveals trigger on scroll-in, once** (IntersectionObserver), not on load. A single staggered hero entrance on load is fine; everything else animating on load is the AOS tell.
+- **Always honor `prefers-reduced-motion: reduce`** — drop transforms/parallax, keep the state instant and visible. This is a quality-floor non-negotiable, not a nicety.
+- **Banned:** AOS-style fade/slide-everything-on-scroll · parallax everywhere / mouse-follow gradients · bounce/overshoot on load · animating any layout property.
 
 ## Copy is design material
 

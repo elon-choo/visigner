@@ -116,7 +116,7 @@ Then REPLACE shadcn's default tokens with your Step-2 `@theme` block — the sto
 
 ## 5 · Motion & micro-interaction
 
-Motion is interaction feedback and spatial continuity — not decoration. **One orchestrated moment beats ten scattered micro-animations** (scattered animation is itself an AI tell). Library: **`motion`** (Framer Motion) for React; CSS transitions for simple hover/focus.
+Motion is interaction feedback and spatial continuity — not decoration. **One orchestrated moment beats ten scattered micro-animations** (scattered animation is itself an AI tell). Library: **`motion`** (Framer Motion) for React; CSS transitions for simple hover/focus. The canonical motion discipline (tokens, enter≠exit, transform/opacity-only, banned defaults) is shared via `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/aesthetics.md §Motion`; this section carries the React/app-state depth on top of it.
 
 **Duration + easing tokens (commit these, reuse everywhere):**
 ```

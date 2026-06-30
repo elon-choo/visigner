@@ -32,5 +32,62 @@
     "e1": { "$type": "shadow", "$value": "0 1px 2px oklch(0.20 0.02 270 / 0.06)" },
     "e2": { "$type": "shadow", "$value": "0 6px 16px oklch(0.20 0.02 270 / 0.10)" },
     "e3": { "$type": "shadow", "$value": "0 20px 48px oklch(0.20 0.02 270 / 0.16)" }
+  },
+  "space": {
+    "$description": "8pt spacing scale (design-system SKILL §4). Compiles to --space-N. Inner gap < outer gap.",
+    "4":  { "$type": "dimension", "$value": { "value": 4,  "unit": "px" }, "$extensions": { "com.detail-page": { "css": "4px" } } },
+    "8":  { "$type": "dimension", "$value": { "value": 8,  "unit": "px" }, "$extensions": { "com.detail-page": { "css": "8px" } } },
+    "12": { "$type": "dimension", "$value": { "value": 12, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "12px" } } },
+    "16": { "$type": "dimension", "$value": { "value": 16, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "16px" } } },
+    "24": { "$type": "dimension", "$value": { "value": 24, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "24px" } } },
+    "32": { "$type": "dimension", "$value": { "value": 32, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "32px" } } },
+    "48": { "$type": "dimension", "$value": { "value": 48, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "48px" } } },
+    "64": { "$type": "dimension", "$value": { "value": 64, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "64px" } } },
+    "96": { "$type": "dimension", "$value": { "value": 96, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "96px" } } }
+  },
+  "fontSize": {
+    "$description": "Hand-picked type scale (design-system SKILL §4). Compiles to --text-N (px). Pair with lineHeight.N.",
+    "12": { "$type": "dimension", "$value": { "value": 12, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "12px" } } },
+    "14": { "$type": "dimension", "$value": { "value": 14, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "14px" } } },
+    "16": { "$type": "dimension", "$value": { "value": 16, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "16px" } } },
+    "18": { "$type": "dimension", "$value": { "value": 18, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "18px" } } },
+    "20": { "$type": "dimension", "$value": { "value": 20, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "20px" } } },
+    "24": { "$type": "dimension", "$value": { "value": 24, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "24px" } } },
+    "30": { "$type": "dimension", "$value": { "value": 30, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "30px" } } },
+    "36": { "$type": "dimension", "$value": { "value": 36, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "36px" } } },
+    "48": { "$type": "dimension", "$value": { "value": 48, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "48px" } } },
+    "64": { "$type": "dimension", "$value": { "value": 64, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "64px" } } }
+  },
+  "lineHeight": {
+    "$description": "Line-heights snapped to a 4pt rhythm, one per fontSize step (design-system SKILL §4). Compiles to --leading-N.",
+    "12": { "$type": "dimension", "$value": { "value": 16, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "16px" } } },
+    "14": { "$type": "dimension", "$value": { "value": 20, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "20px" } } },
+    "16": { "$type": "dimension", "$value": { "value": 24, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "24px" } } },
+    "18": { "$type": "dimension", "$value": { "value": 28, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "28px" } } },
+    "20": { "$type": "dimension", "$value": { "value": 28, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "28px" } } },
+    "24": { "$type": "dimension", "$value": { "value": 32, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "32px" } } },
+    "30": { "$type": "dimension", "$value": { "value": 40, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "40px" } } },
+    "36": { "$type": "dimension", "$value": { "value": 44, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "44px" } } },
+    "48": { "$type": "dimension", "$value": { "value": 56, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "56px" } } },
+    "64": { "$type": "dimension", "$value": { "value": 72, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "72px" } } }
+  },
+  "radius": {
+    "$description": "Radius family (design-system SKILL §4) — pick one; concentrate the soft corner where it means something. Compiles to --radius-X.",
+    "sm":   { "$type": "dimension", "$value": { "value": 6,    "unit": "px" }, "$extensions": { "com.detail-page": { "css": "6px" } } },
+    "md":   { "$type": "dimension", "$value": { "value": 10,   "unit": "px" }, "$extensions": { "com.detail-page": { "css": "10px" } } },
+    "lg":   { "$type": "dimension", "$value": { "value": 16,   "unit": "px" }, "$extensions": { "com.detail-page": { "css": "16px" } } },
+    "pill": { "$type": "dimension", "$value": { "value": 9999, "unit": "px" }, "$extensions": { "com.detail-page": { "css": "9999px" } } }
+  },
+  "motion": {
+    "$description": "Motion tokens (design-system SKILL §4). Duration compiles to --dur-N, easing to --ease-X. Always honor prefers-reduced-motion.",
+    "duration": {
+      "1": { "$type": "duration", "$value": { "value": 120, "unit": "ms" }, "$extensions": { "com.detail-page": { "css": "120ms" } } },
+      "2": { "$type": "duration", "$value": { "value": 200, "unit": "ms" }, "$extensions": { "com.detail-page": { "css": "200ms" } } },
+      "3": { "$type": "duration", "$value": { "value": 320, "unit": "ms" }, "$extensions": { "com.detail-page": { "css": "320ms" } } }
+    },
+    "easing": {
+      "out":    { "$type": "cubicBezier", "$value": [0.2, 0, 0, 1],   "$extensions": { "com.detail-page": { "css": "cubic-bezier(0.2, 0, 0, 1)" } } },
+      "spring": { "$type": "cubicBezier", "$value": [0.2, 0.8, 0.2, 1], "$extensions": { "com.detail-page": { "css": "cubic-bezier(0.2, 0.8, 0.2, 1)" } } }
+    }
   }
 }

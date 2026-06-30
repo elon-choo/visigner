@@ -1,8 +1,14 @@
 # Claude Design Suite
 
-**Everything design, in one install.** Add this one repo to Claude Code and you get the whole design toolchain — landing pages, Korean 상세페이지/Wadiz pages, app & web UI, design tokens & systems, brand identity, UX flows & wireframes, design-to-code, and conversion/marketing — plus independent design-critic and accessibility-audit agents and a set of friendly slash commands. **No other design skill, plugin, or package to install.**
+**Everything design, in one install.** Add this one repo to Claude Code and you get the whole design toolchain — landing pages, Korean 상세페이지/Wadiz pages, app & web UI, design tokens & systems, brand identity, UX flows & wireframes, design-to-code, and conversion/marketing — plus independent design-critic and accessibility-audit agents and a set of friendly slash commands. **No other installable design skill, plugin, or npm package needed for design work in Claude Code.**
 
 It's built on Anthropic's `frontend-design` aesthetic discipline (plan a token system, reject the generic defaults) and a **screenshot self-critique loop** — so the output does not read as AI-generated.
+
+### What this replaces vs. what it feeds
+
+- **Replaces** — other installable design *skills / plugins / packages* for Claude Code. The suite produces the actual artifacts: page/component **code**, **SVG**, design **tokens**, handoff **specs**, **diagrams/wireframes**, conversion **copy**, and the **test math** (contrast, touch targets, overflow).
+- **Feeds, does not replace** — it hands off to the tools downstream of design, it does not become them: live-canvas GUIs (**Figma / FigJam**), raster editors (**Photoshop**), and runtime infrastructure (**web hosting**, **ESP send**, the **analytics warehouse**). You still ship through those.
+- **Real photo/illustration generation** needs an image API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, the suite falls back to on-brand **SVG placeholders**. The **screenshot browser** is installed once by **`/design-setup`**.
 
 ---
 

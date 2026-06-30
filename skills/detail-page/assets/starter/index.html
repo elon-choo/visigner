@@ -112,9 +112,14 @@
   *:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; } /* visible keyboard focus */
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto; } }
 
-  /* ---- One orchestrated entrance, staggered — not scattered micro-animations. ---- */
-  .reveal { opacity: 0; transform: translateY(16px); animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
-  @keyframes rise { to { opacity: 1; transform: none; } }
+  /* ---- Reveals: scroll-in once, not animate-on-load (the suite bans AOS-style fade-everything).
+     The hidden state applies ONLY after JS arms `.reveal-on` AND motion is allowed — so with JS off
+     or prefers-reduced-motion the page is fully visible and nothing animates. The hero is above the
+     fold, so it intersects immediately = one orchestrated entrance on load; below-the-fold .reveal
+     elements transition in when scrolled into view. Animate transform/opacity only. ---- */
+  .reveal { transition: opacity .32s cubic-bezier(0,0,.2,1), transform .32s cubic-bezier(0,0,.2,1); }
+  html.reveal-on .reveal { opacity: 0; transform: translateY(16px); }
+  html.reveal-on .reveal.is-in { opacity: 1; transform: none; }
 
   /* ---- Detail-page content column: 860px (Wadiz/Naver). Build images 1000–1200px and downscale. ---- */
   .col { max-width: 860px; margin-inline: auto; padding-inline: 16px; }
@@ -205,5 +210,26 @@
   </div>
   <a href="#offer">[지금 후원하기]</a>
 </aside>
+
+<!--
+  Scroll-in reveal (once). Fully gated by prefers-reduced-motion: when reduced motion is set (or
+  IntersectionObserver is missing) we never arm the hidden state, so content stays visible and nothing
+  animates. Hero is above the fold → intersects immediately → entrance on load; rest reveal on scroll-in.
+-->
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return; // leave everything visible, no JS animation
+  var els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  document.documentElement.classList.add('reveal-on'); // arm the hidden state only now (JS on + motion OK)
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } // once
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+</script>
 </body>
 </html>

@@ -40,13 +40,144 @@
 
 const fs = require('fs');
 const path = require('path');
-const { generateImageViaResponses, scoreImageViaResponses, hasChatGPTAuth } = require('./lib-openai-responses.js');
+const { generateImageViaResponses, scoreImageViaResponses, hasChatGPTAuth, codexAuthPath } = require('./lib-openai-responses.js');
+
+// ---- provider availability (shared by --doctor and the no-key placeholder path) ----
+// Pure inspection of env + ~/.codex/auth.json. Never throws, never makes a network call.
+function availability() {
+  let chatgptOAuth = false;
+  try { chatgptOAuth = hasChatGPTAuth(); } catch { chatgptOAuth = false; }
+  return {
+    chatgptOAuth,
+    openaiKey: !!process.env.OPENAI_API_KEY,
+    geminiKey: !!process.env.GEMINI_API_KEY,
+  };
+}
+function anyProvider() { const a = availability(); return a.chatgptOAuth || a.openaiKey || a.geminiKey; }
+// Which provider the engine auto-selects when nothing is set (mirrors DEFAULT_PROVIDER's fallback).
+function autoProvider() {
+  return process.env.IMG_PROVIDER || (availability().chatgptOAuth ? 'openai-responses' : 'openai');
+}
+// Can the resolved provider for a slot actually run with the current credentials?
+function providerCanRun(provider) {
+  const a = availability();
+  if (provider === 'gemini') return a.geminiKey;
+  if (provider === 'openai-responses' || provider === 'gpt-oauth') {
+    const mode = process.env.OPENAI_RESPONSES_AUTH;
+    if (mode === 'apikey') return a.openaiKey;
+    if (mode === 'chatgpt-oauth') return a.chatgptOAuth;
+    return a.chatgptOAuth || a.openaiKey; // default: prefer OAuth, fall back to key
+  }
+  return a.openaiKey; // legacy /v1/images
+}
+
+// ---- --doctor preflight: plain-language report of what's configured. NEVER crashes. ----
+function runDoctor() {
+  try {
+    const a = availability();
+    const oaModel = process.env.OPENAI_IMAGE_MODEL || 'gpt-image-1.5';
+    const gemModel = process.env.GEMINI_IMAGE_MODEL || 'gemini-3-pro-image';
+    const respOAuthModel = process.env.OPENAI_RESPONSES_MODEL || 'gpt-5.4-mini';
+    const respKeyModel = process.env.OPENAI_RESPONSES_MODEL || 'gpt-5.2';
+    let authPath = '~/.codex/auth.json';
+    try { authPath = codexAuthPath(); } catch {}
+    const yn = (b) => (b ? 'PRESENT' : 'absent');
+    const sel = autoProvider();
+    const selRuns = providerCanRun(sel);
+    const lines = [];
+    lines.push('Detail-page asset generator — provider doctor');
+    lines.push('=============================================');
+    lines.push('');
+    lines.push('Providers detected:');
+    lines.push(`  - ChatGPT login (OAuth, FREE image gen): ${yn(a.chatgptOAuth)}   (${authPath})`);
+    lines.push(`  - OPENAI_API_KEY (paid):                 ${a.openaiKey ? 'set' : 'not set'}`);
+    lines.push(`  - GEMINI_API_KEY (paid):                 ${a.geminiKey ? 'set' : 'not set'}`);
+    lines.push('');
+    lines.push('Model each path would use:');
+    lines.push(`  - openai-responses + ChatGPT OAuth -> ${respOAuthModel}   (free, no API key needed)`);
+    lines.push(`  - openai-responses + API key       -> ${respKeyModel}`);
+    lines.push(`  - openai (legacy /v1/images)       -> ${oaModel}`);
+    lines.push(`  - gemini                           -> ${gemModel}`);
+    lines.push('');
+    const selLabel = sel === 'openai-responses'
+      ? (a.chatgptOAuth && process.env.OPENAI_RESPONSES_AUTH !== 'apikey' ? 'openai-responses (ChatGPT OAuth)' : 'openai-responses (API key)')
+      : sel;
+    lines.push(`Auto-selected provider for this run: ${selLabel}`);
+    if (anyProvider() && selRuns) {
+      lines.push('Real photo generation: ENABLED.');
+    } else {
+      lines.push('Real photo generation: DISABLED — every slot will be filled with a');
+      lines.push('license-clear SVG placeholder (tasteful labeled tile) instead of a real photo.');
+      lines.push('');
+      lines.push('To enable real photos, do ONE of these, then re-run your generate command:');
+      lines.push('  1) Free, recommended:   codex login');
+      lines.push('  2) Or with an API key:  export OPENAI_API_KEY=sk-...     (paid)');
+      lines.push('  3) Or Google Gemini:    export GEMINI_API_KEY=...        (paid)');
+    }
+    console.log(lines.join('\n'));
+  } catch (e) {
+    // Doctor must never crash — degrade to a one-liner.
+    console.log('provider doctor: unable to fully probe (' + (e && e.message) + '). No provider confirmed; the generator will use SVG placeholders. Enable real photos with: codex login');
+  }
+}
 
 const planPath = process.argv[2];
-if (!planPath) { console.error('usage: node gen-assets.js <asset-plan.json> [outDir]'); process.exit(1); }
+if (process.argv.includes('--doctor')) { runDoctor(); process.exit(0); }
+if (!planPath) { console.error('usage: node gen-assets.js <asset-plan.json> [outDir]  (or --doctor)'); process.exit(1); }
 const plan = JSON.parse(fs.readFileSync(planPath, 'utf8'));
 const outDir = process.argv[3] || plan.outDir || '/tmp/detail-page-assets';
 fs.mkdirSync(outDir, { recursive: true });
+
+// ---- NO-KEY graceful placeholder: a self-contained, license-clear SVG stand-in per slot. ----
+// Deterministic (no randomness), on-brand (uses plan brand surface/ink if provided), and clearly
+// labeled so the page renders as intentional and the operator knows which slots still need real art.
+function svgEscape(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+function aspectDims(aspect) {
+  const m = /^\s*(\d+(?:\.\d+)?)\s*:\s*(\d+(?:\.\d+)?)\s*$/.exec(String(aspect || '1:1'));
+  let w = 1, h = 1;
+  if (m) { w = parseFloat(m[1]) || 1; h = parseFloat(m[2]) || 1; }
+  const base = 1280;
+  if (w >= h) return { width: base, height: Math.max(1, Math.round(base * h / w)) };
+  return { width: Math.max(1, Math.round(base * w / h)), height: base };
+}
+function writePlaceholder(slot, reason) {
+  const aspect = slot.aspect || defaults.aspect || '1:1';
+  const { width, height } = aspectDims(aspect);
+  const min = Math.min(width, height);
+  const brand = plan.brand || {};
+  const surface = brand.surface || plan.surface || '#F1EEE8';
+  const ink = brand.ink || plan.ink || '#23201B';
+  const role = String(slot.role || slot.label || slot.id);
+  const label = svgEscape(role);
+  const sub = svgEscape(`${aspect}  ·  placeholder`);
+  const pad = Math.round(min * 0.06);
+  const fontMain = Math.round(min * 0.058);
+  const fontSub = Math.round(min * 0.034);
+  const stroke = Math.max(1, Math.round(min * 0.004));
+  const font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
+  // simple "image" glyph centered above the label so it reads as a deliberate placeholder
+  const ic = Math.round(min * 0.14);
+  const icx = Math.round(width / 2 - ic / 2);
+  const icy = Math.round(height * 0.34 - ic / 2);
+  const glyph = `<g stroke="${ink}" stroke-opacity="0.42" stroke-width="${stroke}" fill="none">
+    <rect x="${icx}" y="${icy}" width="${ic}" height="${ic}" rx="${Math.round(ic * 0.12)}"/>
+    <circle cx="${icx + Math.round(ic * 0.32)}" cy="${icy + Math.round(ic * 0.34)}" r="${Math.round(ic * 0.09)}"/>
+    <path d="M ${icx + Math.round(ic * 0.12)} ${icy + Math.round(ic * 0.82)} L ${icx + Math.round(ic * 0.42)} ${icy + Math.round(ic * 0.5)} L ${icx + Math.round(ic * 0.64)} ${icy + Math.round(ic * 0.7)} L ${icx + Math.round(ic * 0.8)} ${icy + Math.round(ic * 0.54)} L ${icx + Math.round(ic * 0.88)} ${icy + Math.round(ic * 0.82)} Z" stroke-linejoin="round"/>
+  </g>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="${label} placeholder">
+  <rect width="${width}" height="${height}" fill="${surface}"/>
+  <rect x="${pad}" y="${pad}" width="${width - 2 * pad}" height="${height - 2 * pad}" rx="${Math.round(min * 0.025)}" fill="none" stroke="${ink}" stroke-opacity="0.16" stroke-width="${stroke}"/>
+  ${glyph}
+  <text x="50%" y="${Math.round(height * 0.56)}" text-anchor="middle" font-family='${font}' font-size="${fontMain}" font-weight="600" fill="${ink}" fill-opacity="0.80" letter-spacing="0.5">${label}</text>
+  <text x="50%" y="${Math.round(height * 0.56) + Math.round(fontMain * 1.25)}" text-anchor="middle" font-family='${font}' font-size="${fontSub}" font-weight="500" fill="${ink}" fill-opacity="0.42" letter-spacing="2">${sub}</text>
+</svg>`;
+  const file = path.join(outDir, `${slot.id}.svg`);
+  fs.writeFileSync(file, svg);
+  return { id: slot.id, file, provider: slot.provider || DEFAULT_PROVIDER, aspect, role,
+    bytes: Buffer.byteLength(svg), ok: true, placeholder: true, reason };
+}
 
 const defaults = plan.defaults || {};
 const STYLE = plan.style ? plan.style.trim() + '\n\n' : '';
@@ -200,15 +331,33 @@ async function makeOne(slot) {
   for (let i = 0; i < slots.length; i += CONCURRENCY) {
     const batch = slots.slice(i, i + CONCURRENCY);
     const settled = await Promise.all(batch.map(async (s) => {
+      // No credentials for this slot's provider -> write a license-clear placeholder instead of failing.
+      const provider = s.provider || DEFAULT_PROVIDER;
+      if (!providerCanRun(provider)) {
+        const r = writePlaceholder(s, `no credentials for provider "${provider}"`);
+        console.error(`  ⚠ ${r.id}: placeholder.svg (no provider credentials — run --doctor)`);
+        return r;
+      }
       try { const r = await makeOne(s); const sc = r.score && r.score.overall != null ? `, judge=${r.score.overall}${r.n ? '/best-of-' + r.n : ''}${r.score.verdict === 'regen' ? ' ⚠regen' : ''}` : ''; console.error(`  ✓ ${r.id} (${r.provider}${r.authMode ? ':' + r.authMode : ''}/${r.model}, ${(r.bytes / 1024 | 0)}KB${r.ms ? ', ' + (r.ms / 1000 | 0) + 's' : ''}${sc})`); return r; }
-      catch (e) { console.error(`  ✗ ${s.id}: ${e.message}`); return { id: s.id, ok: false, error: e.message, provider: s.provider || DEFAULT_PROVIDER }; }
+      catch (e) {
+        // Generation failed for this slot -> fall back to a placeholder so the page stays renderable.
+        const r = writePlaceholder(s, 'generation failed: ' + e.message);
+        console.error(`  ✗ ${s.id}: ${e.message}  ->  wrote placeholder.svg`);
+        return r;
+      }
     }));
     results.push(...settled);
   }
+  const placeholders = results.filter((r) => r.placeholder).length;
   const manifest = { outDir, provider: DEFAULT_PROVIDER, openaiModel: OPENAI_MODEL, geminiModel: GEMINI_MODEL,
     judge: JUDGE, bestOfN: BEST_OF_N || undefined, styleDNA: !!plan.styleDNA, canonicalRefs: CANON_REFS.length,
-    total: results.length, ok: results.filter((r) => r.ok).length, slots: results };
+    total: results.length, ok: results.filter((r) => r.ok).length,
+    placeholders: placeholders || undefined,
+    note: placeholders
+      ? 'Slots with "placeholder":true are license-clear SVG stand-ins, not real photos. To upgrade them: enable a provider (run `node gen-assets.js --doctor` to see how — `codex login` is free), then re-run this same command; real images overwrite the placeholders.'
+      : undefined,
+    slots: results };
   fs.writeFileSync(path.join(outDir, 'manifest.json'), JSON.stringify(manifest, null, 2));
-  console.log(JSON.stringify({ outDir, ok: manifest.ok, total: manifest.total, files: results.filter((r) => r.ok).map((r) => r.file) }, null, 2));
+  console.log(JSON.stringify({ outDir, ok: manifest.ok, total: manifest.total, placeholders: placeholders || 0, files: results.filter((r) => r.ok).map((r) => r.file) }, null, 2));
   if (manifest.ok === 0) process.exit(2);
 })().catch((e) => { console.error('FATAL', e.message); process.exit(2); });

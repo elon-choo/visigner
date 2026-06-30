@@ -234,6 +234,96 @@ If you can't write the Then as an observable outcome, the requirement is still a
 - → **`design-system`** receives: the content model + the repeated component primitives you noticed (a "list row", a "stat", a "card") to seed tokens/components.
 - → **`marketing-conversion`** receives: the funnel + success metrics for CRO/A-B.
 
+## 7b · Shareable artifacts (the plan must leave the chat)
+
+A plan trapped as ASCII in one reply is dead on arrival. Emit it in forms a stakeholder can open, click, and paste into their tracker:
+
+**A · Mermaid flow** — renders natively on GitHub/Notion/Linear/GitLab and becomes a PNG via the same `shoot.js` loop. Mirror the step-3 flow as a `flowchart` (or `sequenceDiagram` for request/response timing); label every edge, keep the `✗` error paths.
+```mermaid
+flowchart TD
+  splash([Splash]) --> sess{session valid?}
+  sess -->|yes| home[Home]
+  sess -->|no| login[Login]
+  login -->|submit| cred{credentials?}
+  cred -->|valid| home
+  cred -->|wrong| loginErr[Login + inline error]:::err
+  cred -->|locked| locked[Account-locked + reset CTA]:::err
+  home -->|tap New| perm{has permission?}
+  perm -->|no| upsell[Upgrade prompt]:::err
+  classDef err stroke:#c00,stroke-dasharray:4;
+```
+PNG it via a CDN harness (no install) → screenshot: wrap the diagram in `<pre class=mermaid>…</pre>` + `<script type=module>import m from"https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";m.initialize({startOnLoad:true})</script>`, then `node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js /tmp/wire/flow.html /tmp/wire/shots`.
+
+**B · Ticket list (JIRA/Linear paste)** — one row per screen/state, copy-paste ready so the backlog is seeded from the plan, not re-derived. Title · acceptance criteria (from step 7) · route.
+
+| Title | Acceptance criteria (Given/When/Then) | Route |
+|---|---|---|
+| Order detail — loaded | Given owner opens `/orders/:id`, Then order + primary action render | `/orders/:id` |
+| Order detail — forbidden | Given a non-owner opens it, Then 404 + "not your order" | `/orders/:id` |
+| Refund — request | Given delivered order in window, When confirm, Then state→"Refund requested" | `/orders/:id` |
+
+**C · Clickable HTML prototype** — multiple greyscale wireframe screens in ONE file, linked by anchors/buttons so stakeholders click through the flow **before** any visual design. Reuse the `.box/.btn/.img` wireframe CSS from step 5; each screen is a `<section id=…hidden>` toggled by `:target`, navigation is plain `<a href="#screen">`. Deliberately ugly (system mono font) — same anti-polish rule as step 5.
+```html
+<!doctype html><meta name=viewport content="width=device-width,initial-scale=1">
+<style>section{display:none}section:target{display:block}section:first-of-type{display:block}
+section:target~section:first-of-type{display:none}
+body{font-family:ui-monospace,Menlo,monospace;max-width:420px;margin:auto;padding:16px;color:#333}
+.box{border:1.5px solid #999;background:#f2f2f2;padding:12px;margin:8px 0}
+.btn{border:1.5px solid #333;text-align:center;padding:12px;font-weight:700;display:block;text-decoration:none;color:#333}</style>
+<section id=home><b>Home</b><div class=box>order #1042 · Delivered</div><a class=btn href="#detail">Open order ›</a></section>
+<section id=detail><a href="#home">‹ back</a><div class="box">Order #1042</div><a class=btn href="#refund">Request refund</a></section>
+<section id=refund><a href="#detail">‹ back</a><div class=box>Confirm refund?</div><a class=btn href="#done">Confirm</a></section>
+<section id=done><div class=box>✓ Refund requested</div><a class=btn href="#home">Done</a></section>
+```
+Stakeholders click `home → detail → refund → done` — it proves the flow connects before a pixel is styled.
+
+## 7c · Scope & sequence (slice the MVP, then prioritize)
+
+**Walking skeleton via user-story mapping.** Lay the steps of the primary JTBD left→right as a backbone; stack candidate stories under each step top→down by necessity. The **thinnest horizontal slice that still completes the whole journey end-to-end is the MVP** — a vertical "feature column" that doesn't reach the end is not shippable. Slice releases as horizontal lines, not by completing one column first.
+```
+BACKBONE:  Browse ───▶ Select ───▶ Pay ───▶ Confirm        (the user's steps, left→right)
+MVP  ─────  list      one item    card      email          ← thinnest end-to-end walking skeleton (ship first)
+R2   ─────  search    compare     wallet    in-app + email
+R3   ─────  filters   reviews     installments  push
+```
+**Prioritize the backlog with RICE** (pick this OR MoSCoW; show the columns):
+
+| Item | Reach (users/qtr) | Impact (3/2/1/.5) | Confidence (%) | Effort (person-wk) | **RICE = R·I·C/E** |
+|---|---|---|---|---|---|
+| Self-serve refund | 4000 | 2 | 80 | 3 | **2133** |
+| Partial refunds | 900 | 1 | 50 | 4 | **113** |
+
+Higher score ships first. *(MoSCoW alternative: tag each story Must / Should / Could / Won't-this-release — Musts define the MVP slice; nothing else ships until every Must is done.)*
+
+## 7d · PRD skeleton (generated from the FRAME block — don't re-author)
+
+The §1 FRAME block already holds most of this; the PRD just reshapes it into a doc a stakeholder reads. Fill, don't pad:
+```
+# PRD — <feature>
+PROBLEM        ← FRAME.PROBLEM + EVIDENCE
+GOALS          the outcome(s) this release drives (tie each to SUCCESS).
+NON-GOALS      explicitly NOT doing (← FRAME.SCOPE OUT) — kills scope creep.
+USERS          the actor cards (§2), job-named.
+SUCCESS        north-star + guardrail metric, instrument, baseline→target (← FRAME.SUCCESS).
+SCOPE          IN / OUT (← FRAME.SCOPE) + the MVP slice (§7c).
+FLOWS          link the mermaid (§7b A) + the screen inventory (§7).
+EVENTS         the event-spec table (§7e).
+OPEN QUESTIONS unresolved decisions + who owns each + needed-by date.
+```
+**Optional one-page EXEC summary** (for sign-off, ≤ ~150 words): the problem in one sentence · the bet · who it's for · the one success metric · what's explicitly out · the riskiest assumption. If a VP can't decide go/no-go from this page, it's too long or too vague.
+
+## 7e · Event spec (instrument at plan time, not retrofit)
+
+Decide analytics **while planning the flow**, so the metric in §1 SUCCESS is actually measurable — not bolted on by marketing after launch. One row per event; name in `object_action` past tense; properties are what you'll segment/filter by.
+
+| Event | Fires when | Properties |
+|---|---|---|
+| `refund_requested` | user confirms on the refund screen | `order_id, order_age_days, reason, amount` |
+| `refund_blocked_window` | refund opened outside the 30-day window | `order_id, days_over` |
+| `refund_confirmed` | backend marks state "Refund requested" | `order_id, amount, self_served:true` |
+
+Tie each SUCCESS metric (§1) to the event(s) that compute it; an unmeasurable metric is a hole — fix it here, before build.
+
 ## Usability heuristics — Nielsen's 10 as a review checklist
 
 Walk the flow against each before handoff (these gate the plan, not the pixels):
@@ -279,10 +369,13 @@ Do not declare the plan done until every box is true:
 - [ ] **Nav labels** are user-task words, consistent everywhere, and validated (card/tree test for non-trivial IA).
 - [ ] **No screen** requires a decision the user lacks the information to make on that screen.
 - [ ] A developer can **estimate the work** without asking "but what happens when…". If they'd ask, the spec has a hole — fill it before handoff.
+- [ ] **Shareable artifacts** emitted (§7b): a mermaid flow, a paste-ready ticket list, a clickable HTML prototype — the plan can leave the chat without re-derivation.
+- [ ] **Scope is sliced** (§7c): an end-to-end MVP walking skeleton + a prioritized backlog (RICE or MoSCoW).
+- [ ] **Every SUCCESS metric** (§1) maps to an event in the §7e event spec — nothing is unmeasurable.
 
 If any box fails, fix that artifact and re-check — don't hand off a plan with holes; the hole becomes a mid-build interruption or a wrong build.
 
-Then get an **independent** read before handoff — a planner grading their own plan is the same trap the visual rubric bans (generator ≠ evaluator): run **`design-critic`** (does the flow actually serve the JTBD, or is it feature theatre with no spine?) and **`a11y-auditor`** (is every flow reachable by keyboard + screen reader, every state announced, before any visual pass?). Fold their findings back into the artifacts, not into a reply.
+Then get an **independent** read before handoff — a planner grading their own plan is the same trap the visual rubric bans (generator ≠ evaluator): run **`design-critic` with `MODE=plan`** (it grades the flow / IA / wireframe as a non-pixel artifact — does it serve the JTBD, or is it feature theatre with no spine?) and **`a11y-auditor`** (is every flow reachable by keyboard + screen reader, every state announced, before any visual pass?). Fold their findings back into the artifacts, not into a reply.
 
 ## References & the integrated suite
 - **Aesthetic two-pass token method** (plan tokens → critique vs the generic default → only then build) — `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/aesthetics.md`. You stop *before* this; `ui-design`/`detail-page` pick it up with your wireframe in hand.

@@ -29,7 +29,7 @@ Do 0–4 in thinking; only show output once the message is sharp. You are the **
 | **Awareness** | doesn't know you exist | earn the click/scroll-stop | CTR, hook rate, thumb-stop ratio | ad hook angle, scroll-stopping hero thesis, headline specificity |
 | **Consideration** | comparing options | prove it's for them | scroll depth, time-to-proof, micro-conversion (lead) | proof density, objection handling, comparison vs status-quo |
 | **Conversion** | ready, but hesitant | remove the last friction | CVR (page→action), form completion, add-to-cart | one primary CTA, risk-reversal, value-before-price, sticky CTA |
-| **Retention** | bought once | make the 2nd value moment | activation rate, D7/D30 return, repeat purchase | onboarding copy, empty states, lifecycle email (route to ux-flows for the flow) |
+| **Retention** | bought once | make the 2nd value moment | activation rate, D7/D30 return, repeat purchase | onboarding copy, empty states, lifecycle email sequences (own them here — see §Sequences) |
 | **Referral** | got value | turn into a channel | K-factor, share rate, NPS→referral | post-purchase ask timing, shareable artifact, incentive copy |
 
 Pick the stage FIRST. A page that tries to do awareness + conversion at once does neither — an unaware reader bounces off a pricing table, a most-aware reader is bored by a 6-section education arc. The stage decides where the copy starts (next step).
@@ -153,6 +153,25 @@ The **angle** is the test variable. Six ads = six angles, not six color swaps.
 
 **Push / SMS** (≤ ~10 words, one job, real reason to open now): `{benefit/event} + {action}`. "Your draft expires in 2h — finish it →". Never push without a genuine reason; it's the fastest channel to get muted.
 
+## Sequences & lifecycle — the campaign's second half
+
+A single email is one surface; a **sequence** is a funnel stretched over time. The whole arc moves the metric, so design the arc — not five disconnected blasts.
+
+- **One job per email.** Each send earns exactly one micro-yes (open the next one, click once, reply). An email that teaches AND sells AND surveys does none. Pick the job, cut the rest — same one-message discipline as a page section.
+- **Launch-runway arc** — the canonical 5-beat campaign, each beat a separate send: **teaser** (curiosity, no offer — "something's coming, here's the problem it kills") → **value** (teach one thing free; earn trust before asking) → **proof** (case study / before-after / named result) → **open** (cart/doors open — the offer, value-stacked before price) → **last-call** (deadline, scarcity that's real, single CTA). Cadence: teaser/value/proof ~1 send/day or every other day; once **open** fires, tighten to open → +2d reminder → last-call morning → last-call final hours (2–4 sends in the window — most revenue lands in the last 24h).
+- **Open loops between emails.** End each send with a cliffhanger the next one pays off: "Tomorrow I'll show you the 3-field fix that recovered 22% of those signups." The promise made at the bottom of #2 is the subject line of #3. A sequence retains like a TV season, not a folder of memos.
+- **Branch on behavior, not just `{first_name}`.** Split openers vs non-openers: to **non-openers**, *resend the same email with a new subject line* 24–48h later (cheapest re-open you'll ever get). To **openers who didn't click**, send a different angle (objection, proof) — they're interested but unconvinced. To **clickers who didn't convert**, retarget with risk-reversal. Suppress converters from the rest of the sell arc immediately (nothing torches trust like being sold what you just bought).
+- **Subject/preview as a pair** — subject = the open hook (curiosity or specific outcome, ≤~50 chars), preview = the payoff it implies (≤~90 chars), never a restatement and never "View in browser". e.g. Subject `"The fix you said you'd try"` / Preview `"3 fields, 22% more signups — here's the swap →"`.
+
+**Named archetypes** (trigger → cadence → per-email job):
+- **Welcome / nurture** — *trigger:* signup/opt-in. *Cadence:* #1 instant, then days 2·4·7. *Jobs:* deliver-the-promise + set expectation → quick win (first value moment) → proof/story → soft first offer. Onboarding's activation arc; the highest open rates you'll ever get — don't waste #1 on logistics.
+- **Abandoned-cart / browse** — *trigger:* cart or checkout-start with no purchase. *Cadence:* +1h · +24h · +72h. *Jobs:* reminder (no discount yet — friction may be the cause) → handle the objection (shipping, trust, sizing) → last-call, *then* an incentive if it fits margin. Most-recovered revenue of any sequence.
+- **Win-back / re-engagement** — *trigger:* N days inactive / lapsed. *Cadence:* 3 sends over ~2 weeks. *Jobs:* "we miss you / here's what's new" → the single strongest offer → break-up email ("last one — should we stop?"; the break-up often out-opens the rest). Then sunset the unresponsive to protect deliverability.
+- **Launch runway** — *trigger:* campaign calendar / waitlist. *Cadence:* the 5-beat arc above over ~5–10 days. *Jobs:* teaser → value → proof → open → last-call. Open loops mandatory; the cart-close window does the heavy lifting.
+- **Post-purchase** — *trigger:* purchase. *Jobs:* confirm/reassure (kill buyer's remorse) → onboard to first value → ask for review/UGC *after* value is felt → cross-sell/referral. This is the Retention→Referral bridge — timing the ask after the value moment is the whole game (§0).
+
+For independent grading of the *sequence's* voice consistency across sends (one persona, no drift, no AI tells creeping in by email #4), invoke the **design-critic** agent with `MODE=copy` — the builder must not grade its own arc.
+
 ## A/B & experimentation
 
 **Form one hypothesis — fill every slot, no blanks:**
@@ -171,6 +190,21 @@ The **angle** is the test variable. Six ads = six angles, not six color swaps.
 - **Pre-compute the runtime**: required n ÷ daily traffic per variant = days. If it's > ~4 weeks, your traffic can't support that small an MDE — test a **bigger swing** (new offer/hero), not a tweak.
 - **Don't peek and stop on the first "significant" blip** (inflates false positives). Fix the duration/sample up front, or use a tool with sequential testing built in: **GrowthBook** or **Statsig** (free tiers, feature-flag + experiment), **VWO**/**Optimizely** (visual editor). Run full weeks to absorb day-of-week effects.
 - **Don't test trivia.** Button color, a comma, one icon — the effect is smaller than the noise; you'll "win" on randomness. Reserve tests for things big enough to matter.
+
+### Run the test / pull the funnel (suite scripts — no external service, no npm deps)
+Don't eyeball the stats or the drop-off; the detail-page skill ships two zero-dependency Node helpers.
+```bash
+# Size it: required n per variant + test duration (two-proportion, normal approx).
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js plan --baseline 0.04 --mde 0.10 --daily 1200
+# Read the result: rates, abs/rel lift, z, p-value, 95% CI, SIGNIFICANT/NOT-YET + peeking warning.
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js test --a 120/4000 --b 156/4100
+# Ship the split: dependency-free client snippet (stable id → bucket, sets data-variant, fires exposure).
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ab.js snippet --name hero-cta --split 50
+# Pull the funnel read-only: ordered step counts + drop-off %, segmented by source × device.
+POSTHOG_API_KEY=... POSTHOG_PROJECT_ID=... \
+  node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/pull-funnel.js --provider posthog --steps "page_view,scroll_50,cta_click,purchase"
+# No key? It prints the exact event/UTM schema you need instrumented and exits 0 (useful offline).
+```
 
 ## Analytics — the few numbers that matter
 

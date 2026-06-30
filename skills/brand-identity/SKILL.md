@@ -144,6 +144,18 @@ Claude must **art-direct** the mark, not reflexively hand back an SVG swoosh. Pr
    # read the tiles: legible at 24px? holds in 1-color? survives reversed on the dominant color?
    ```
 
+### Producing the logo as SVG (not just directing it)
+A Claude Code session **can author the chosen mark as clean, editable SVG by hand** — do it here; don't punt to "rebuild in Illustrator". Image-pipeline output is for *exploration only*; the shipped logo is hand-built vector.
+1. **Construct on a unit grid.** Declare a `viewBox` you'll keep (e.g. `0 0 64 64`), lay the mark on a visible unit grid, and place every anchor on grid (or a stated half-unit). Apply the **optical corrections** from the direction: circles/triangles overshoot the cap line by ~1–2 %, the crossbar sits slightly above center, junctions are notched so ink doesn't pool. Keep **stroke contrast consistent** — pick one thick/thin ratio (e.g. 100/70) and hold it across every stem. Build with the fewest anchors that hold the curve; **`id`/`<title>` every path** (`mark-stem`, `mark-bowl`) and group `full` / `mark` / `logotype` so the file is editable, not a flattened blob.
+2. **Author the logotype as outlined paths.** Set the name in the chosen display face, tune **tracking** for the lockup, then **convert to outline and hand-edit**: cut a custom ligature, square or clip a terminal, correct the optical sidebearings the font got wrong at logo scale. Keep the live-text version in a comment so the wordmark is re-settable. Mark + logotype stay **separable groups** for the combination lockup.
+3. **Run the vector-native logo test (a raster gen can't pass this — SVG can).** Build one HTML sheet that `<img>`/inlines the SVG at **24px and 64px**, a **1-color (mono)** row via `fill:currentColor` on a single token, and a **knockout** row (white mark on the dominant brand surface). Assert each holds — anchors don't merge at 24px, the mark reads with all color removed, the knockout has no hairline gaps — then shoot it:
+   ```bash
+   NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js /tmp/brand/svg-test.html /tmp/brand/shots
+   # mono row legible with zero color cues? knockout clean on the brand color? 24px not a smudge?
+   ```
+4. **Ship the logo package — crops, not just the master.** From the one SVG, export **favicon** (16/32/48 in an `.ico` + `favicon.svg`), **app-icon** (1024px, safe-area inset, maskable padding), and a **social-avatar** crop (circular-safe, the mark only). Each crop is min-size-tested in the sheet above.
+5. **Raster→SVG fallback (documented, never the final logo).** If you only have a raster exploration: **trace it** — vendored option `@neplex/vectorizer` (or `potrace`) to a draft, then **redraw on the grid** in step 1 (auto-trace output is a reference, not a deliverable — it carries jagged anchors and no optical correction). If the handoff must go to a GUI, produce the **Illustrator/Figma handoff file here** — artboards `full · mono · knockout · favicon`, each with the **clear-space frame and min-size label** baked in — so even the GUI handoff is authored in-suite, not improvised by the recipient.
+
 ### Color — grounded in strategy + emotion, not vibes
 Start from the archetype's temperature and the brand idea, then commit to **one dominant brand color with a defensible reason** ("we own forest green because the product is the only carbon-negative one"), one sharp accent, and a neutral spine. Color psychology is a *starting heuristic, not law* (it's culture-bound — white = purity in the West, mourning in parts of Asia): use it to generate, then justify against strategy. A palette with **no dominant** (five timid equal pastels) reads generic — enforce 60-30-10, the 10% accent reserved for the primary action. Generate ramps in **OKLCH** (method in aesthetics.md). **Token mechanics live in the design-system skill** — produce primitives (the raw ramp) → semantic tokens (`brand/primary`, `brand/accent`, `text/default`) and hand those off; don't invent a parallel color config here.
 
@@ -224,6 +236,8 @@ Never hand a downstream skill a loose hex or a vibe — hand it the tokens + the
 - ❌ **Thesaurus-mashup / dropped-vowel / two-noun-glue** naming.
 - ❌ **Values that aren't trade-offs** ("Quality", "Integrity") and a **tagline that survives the swap test**.
 - ❌ Treating the **logo as the brand** — shipping a mark with no voice, no system, no application rules.
+- ❌ **Auto-traced raster shipped as the final logo** — `@neplex/vectorizer`/`potrace` output is a draft to redraw on the grid, never the deliverable (jagged anchors, no optical correction).
+- ❌ A **logo that fails mono or knockout** — if it needs its colors/gradient to be readable, or breaks reversed on the brand surface, it isn't a logo yet.
 
 ### VERIFY — brand coherence checklist (gates "done")
 - [ ] **Cover-the-logo test:** hide the wordmark across 3 touchpoints (a screen, a social tile, an email) — can you still tell it's the same brand from color/type/voice/imagery alone? If no, the system is too thin.

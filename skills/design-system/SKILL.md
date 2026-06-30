@@ -206,6 +206,13 @@ node $ROOT/scripts/emit-tokens.js <page.html> [out-dir]
    # exits 1 on ANY error-severity violation; writes brand-lint.json
    ```
    ERROR (block ship): `raw-hex` / `raw-rgb` / `raw-hsl` color **outside `@theme`** · `banned-font` (Inter/Roboto/Arial/Open Sans/Lato/system-ui in any font-family or font CDN href) · `ai-purple` (an OKLCH color at **hue 270–310 AND chroma > 0.04** — the chroma floor lets the brand's tinted grays at hue ~275/chroma ~0.012 pass). WARN (review): emoji-as-icon, Tailwind arbitrary-bracket class. `tokenCoverage.rawColorsOutsideTheme` must read **0**. (Opt-in `BRAND_LINT_PX=1` adds an off-8pt-grid spacing warning.)
+
+   **CI / source-tree governance** — point `brand-lint` at a **directory** to govern a whole component tree, not just one HTML page. It recurses `**/*.{html,htm,tsx,jsx,ts,js,css,scss,vue,svelte,astro}` (skips `node_modules`/`.git`/`dist`/`build`), catches **CSS-in-JS / quoted hex** (a hardcoded `#1a7f5a` in a className, inline `style`, styled-components template, JS string, or a `.css`/`.scss` value), and aggregates one report — the `@theme`/`:root` raw-color allowance applies **only inside an actual `@theme{}`/`:root{}` block**, so component source has zero hardcoded-color escape hatch. Exits 1 on any error-severity violation, so it drops straight into CI:
+   ```bash
+   node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/brand-lint.js ./src [out.json]
+   # DIR report: { pass, errorCount, warnCount, files:[{file,errorCount,warnCount,violations,tokenCoverage}], totals }
+   # totals.rawColorsOutsideTheme must read 0; totals.filesWithErrors must read 0
+   ```
 2. **Tokens-only-source diff** — prove the runtime `@theme` still equals the committed DTCG (no hand-edit drift):
    ```bash
    ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page

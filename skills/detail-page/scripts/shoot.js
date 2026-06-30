@@ -28,9 +28,33 @@
 // Env: MAX_TILES (default 90), AXE=1, AXE_IMPACT=serious|critical (default serious), ASSETS=0 (skip asset gate),
 //      GATE_EXIT=1 (exit 1 when gate.report.overall===false), BRANDS=a,b, VR=1 / VR_BASELINE=1 / VR_RATIO (default 0.02),
 //      PERF=1 / LCP_BUDGET_MS (2500) / CLS_BUDGET (0.1) / BYTE_BUDGET_KB (2500).
-const { chromium } = (() => {
-  try { return require('playwright'); } catch (_) { return require('patchright'); }
-})();
+//      STATIC=1 — NO-BROWSER lint mode: parse the HTML as text (no Chromium needed, works BEFORE /design-setup) and
+//        emit a partial gate to run.json — banned fonts (Inter/Roboto/Arial/Open Sans/Lato/system-ui), raw hex/rgb
+//        colors used OUTSIDE a @theme/:root/<style> token block, naive fixed-width mobile-overflow risk
+//        (width:NNNpx / w-[NNNpx] over 390), and <img> without alt. Prints a PASS/FAIL summary; never launches a browser.
+//      FILMSTRIP=1 (or MOTION=1) — capture ~6 frames over the first ~1500ms into <outDir>/filmstrip-*.png and read
+//        getComputedStyle on animated/transitioned elements → run.json.motion {frames, durations, layoutAnimated[]}:
+//        warns on durations >600ms or off-token, and FLAGS any element animating a layout property
+//        (width/height/top/left/right/bottom/margin) as a jank/banned-motion violation (prefer transform/opacity).
+//        The page itself still gates on prefers-reduced-motion; this only audits the motion that is defined.
+//
+// Browser launch: tries the patchright/playwright BUNDLED Chromium first (what /design-setup installs), then falls
+//   back to system Google Chrome (channel:'chrome'); on total failure it throws a plain-language fix message.
+// Resolve chromium LAZILY (only when a browser is actually launched) so STATIC=1 can text-lint with no browser
+// package installed at all — the pre-/design-setup signal path. The default browser path is unchanged.
+let _chromium = null;
+function loadChromium() {
+  if (_chromium) return _chromium;
+  try { _chromium = require('playwright').chromium; }
+  catch (_) {
+    try { _chromium = require('patchright').chromium; }
+    catch (e) {
+      throw new Error('Neither playwright nor patchright is installed. Run /design-setup (npm install + ' +
+        'npx patchright install chromium), or re-run with STATIC=1 for a no-browser text lint. (' + e.message + ')');
+    }
+  }
+  return _chromium;
+}
 const fs = require('fs');
 const path = require('path');
 
@@ -102,14 +126,164 @@ function initCwv() {
   obs('longtask', (es) => { for (const e of es) window.__cwv.blocking += Math.max(0, e.duration - 50); });
 }
 
+// Browser launch with fallback chain. /design-setup installs the patchright/playwright BUNDLED Chromium, so try
+// that FIRST; fall back to system Google Chrome (channel:'chrome'); on total failure throw a plain-language fix.
+async function launchBrowser() {
+  const chromium = loadChromium();
+  let bundledErr = null, chromeErr = null;
+  try { return await chromium.launch({ headless: true }); } // PRIMARY: bundled chromium (/design-setup installs this)
+  catch (e) { bundledErr = e; }
+  try { return await chromium.launch({ channel: 'chrome', headless: true }); } // fallback: system Google Chrome
+  catch (e) { chromeErr = e; }
+  throw new Error(
+    'Could not launch a browser. The bundled Chromium failed to launch (' + (bundledErr && bundledErr.message) +
+    ') and system Google Chrome was also unavailable (' + (chromeErr && chromeErr.message) + '). ' +
+    'Fix: run /design-setup — it runs `npm install` then `npx patchright install chromium` to install the bundled ' +
+    'browser this script expects — or install Google Chrome (https://www.google.com/chrome/). ' +
+    'If you only need a quick text-level lint without a browser, re-run with STATIC=1.'
+  );
+}
+
+// STATIC=1 — no-browser text lint. Parses the HTML file as a string and emits a partial gate so users get SOME
+// signal before /design-setup installs a browser. Heuristic by design (regex over source, not a rendered DOM).
+const BANNED_FONTS = ['Inter', 'Roboto', 'Arial', 'Open Sans', 'Lato', 'system-ui'];
+function runStaticLint() {
+  if (!fs.existsSync(target)) {
+    console.error('STATIC lint: file not found:', target);
+    process.exit(1);
+  }
+  const html = fs.readFileSync(target, 'utf8');
+  // (1) banned fonts — in any font-family declaration or a font-CDN href (Google Fonts / Fontshare / etc.).
+  const bannedFonts = [];
+  for (const f of BANNED_FONTS) {
+    const re = new RegExp('(font-family[^;}{]*|href\\s*=\\s*["\'][^"\']*(?:fonts\\.googleapis|fonts\\.gstatic|api\\.fontshare|fonts\\.bunny|use\\.typekit)[^"\']*)' + f.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&').replace(/\s+/g, '[\\s+]+'), 'i');
+    if (re.test(html)) bannedFonts.push(f);
+  }
+  // (2) raw hex / rgb() color used OUTSIDE a token block (@theme {...}, :root {...}, or any <style>...</style>).
+  // Blank out token/style regions, then any remaining hex/rgb in inline style attrs / class arbitrary values is raw.
+  let scrubbed = html
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/@theme[\s\S]*?\{[\s\S]*?\}/gi, ' ')
+    .replace(/:root[\s\S]*?\{[\s\S]*?\}/gi, ' ');
+  const RAW_COLOR = /#[0-9a-fA-F]{3,8}\b|rgba?\(\s*\d/g;
+  const rawColors = [...new Set((scrubbed.match(RAW_COLOR) || []))].slice(0, 24);
+  // (3) naive fixed-width overflow risk — inline width:NNNpx or w-[NNNpx] over the 390px mobile viewport.
+  const widthHits = [];
+  // Bare `width:NNNpx` or Tailwind `w-[NNNpx]` only — exclude max-width/min-width (constraints, never overflow).
+  const WIDTH_RE = /(?:(?<![a-z-])width\s*:\s*|\bw-\[)(\d{3,})px/gi;
+  let m;
+  while ((m = WIDTH_RE.exec(html)) && widthHits.length < 24) {
+    const px = Number(m[1]);
+    if (px > 390) widthHits.push(px);
+  }
+  // (4) <img> with no alt attribute.
+  const imgs = html.match(/<img\b[^>]*>/gi) || [];
+  const imgNoAlt = imgs.filter((t) => !/\balt\s*=/i.test(t)).length;
+
+  const checks = [
+    { name: 'bannedFonts', pass: bannedFonts.length === 0, detail: bannedFonts.length ? bannedFonts.join(',') : 'none', severity: 'block' },
+    { name: 'rawColorOutsideTokens', pass: rawColors.length === 0, detail: rawColors.length ? rawColors.join(' ') : 'none', severity: 'block' },
+    { name: 'fixedWidthOverflowRisk', pass: widthHits.length === 0, detail: widthHits.length ? widthHits.join(',') + 'px > 390' : 'none', severity: 'block' },
+    { name: 'imgMissingAlt', pass: imgNoAlt === 0, detail: imgNoAlt ? imgNoAlt + ' <img> without alt' : 'none', severity: 'block' },
+  ];
+  const overall = checks.filter((c) => c.severity === 'block').every((c) => c.pass !== false);
+  const summary = {
+    mode: 'static', url, outDir, file: target,
+    static: { bannedFonts, rawColors, fixedWidthOverPx: widthHits, imgMissingAlt: imgNoAlt },
+    gate: { report: { overall, checks } },
+    files: [],
+  };
+  fs.writeFileSync(path.join(outDir, 'run.json'), JSON.stringify(summary, null, 2));
+  console.log('STATIC lint ' + (overall ? 'PASS' : 'FAIL') + ':');
+  for (const c of checks) console.log('  [' + (c.pass ? 'PASS' : 'FAIL') + '] ' + c.name + ' — ' + c.detail);
+  console.log(JSON.stringify(summary));
+  if (process.env.GATE_EXIT && overall === false) process.exit(1); // same opt-in hard exit as the browser path
+}
+
+// FILMSTRIP=1 / MOTION=1 — capture frames across the entrance window, then audit motion via getComputedStyle.
+const MOTION_ON = !!process.env.FILMSTRIP || !!process.env.MOTION;
+async function captureFilmstrip(page) {
+  const stamps = [0, 120, 250, 400, 700, 1100, 1500];
+  const frames = [];
+  const start = Date.now();
+  for (const t of stamps) {
+    const wait = t - (Date.now() - start);
+    if (wait > 0) await sleep(wait);
+    const f = `filmstrip-${String(t).padStart(4, '0')}.png`;
+    try { await page.screenshot({ path: path.join(outDir, f) }); frames.push(f); } catch (_) {}
+  }
+  return frames;
+}
+async function analyzeMotion(page) {
+  return page.evaluate(() => {
+    const SANE = [120, 200, 250, 320, 400, 700];
+    const LAYOUT = ['width', 'height', 'top', 'left', 'right', 'bottom', 'margin', 'margin-top', 'margin-right', 'margin-bottom', 'margin-left'];
+    const parseDur = (s) => String(s || '').split(',').map((x) => {
+      x = x.trim();
+      if (x.endsWith('ms')) return parseFloat(x);
+      if (x.endsWith('s')) return parseFloat(x) * 1000;
+      return parseFloat(x) || 0;
+    });
+    // Map @keyframes name -> set of animated properties (so animation layout-jank is detectable too).
+    const kf = {};
+    for (const ss of document.styleSheets) {
+      let rules; try { rules = ss.cssRules; } catch (_) { continue; }
+      if (!rules) continue;
+      for (const r of rules) {
+        const isKf = (typeof CSSRule !== 'undefined' && r.type === CSSRule.KEYFRAMES_RULE) || (r.constructor && r.constructor.name === 'CSSKeyframesRule');
+        if (!isKf) continue;
+        const props = new Set();
+        for (const k of (r.cssRules || [])) { for (let i = 0; i < k.style.length; i++) props.add(k.style[i]); }
+        kf[r.name] = [...props];
+      }
+    }
+    const durations = [], layoutAnimated = [], warnings = [];
+    let scanned = 0;
+    for (const el of document.querySelectorAll('body *')) {
+      if (scanned > 4000) break; scanned++;
+      const cs = getComputedStyle(el);
+      const transProp = cs.transitionProperty || 'none';
+      const transDurs = parseDur(cs.transitionDuration).filter((d) => d > 0);
+      // The computed transition-property defaults to 'all' on EVERY element; only a non-zero duration means a real
+      // transition is actually defined — otherwise we'd flag the whole DOM (incl. <script>) as animated.
+      const hasTrans = transProp !== 'none' && transDurs.length > 0;
+      const animName = cs.animationName || 'none';
+      const animDurs = parseDur(cs.animationDuration).filter((d) => d > 0);
+      const hasAnim = animName !== 'none' && animName !== '' && animDurs.length > 0;
+      if (!hasTrans && !hasAnim) continue;
+      const sel = el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '');
+      const durs = [...(hasTrans ? transDurs : []), ...(hasAnim ? animDurs : [])];
+      for (const d of durs) {
+        durations.push(Math.round(d));
+        const sane = SANE.some((s) => Math.abs(s - d) <= 40);
+        if (d > 600 || !sane) warnings.push({ sel, durationMs: Math.round(d), reason: d > 600 ? 'too-long' : 'off-token' });
+      }
+      // layout-property animation (jank/banned motion) — from transition-property and/or keyframe props.
+      const layoutHit = new Set();
+      if (hasTrans) for (const p of transProp.split(',').map((s) => s.trim())) { if (p === 'all' || LAYOUT.includes(p)) layoutHit.add(p); }
+      if (hasAnim) for (const name of animName.split(',').map((s) => s.trim())) { for (const p of (kf[name] || [])) if (LAYOUT.includes(p)) layoutHit.add(p); }
+      if (layoutHit.size) layoutAnimated.push({ sel, props: [...layoutHit] });
+    }
+    return { durations, layoutAnimated, warnings };
+  }).catch(() => ({ durations: [], layoutAnimated: [], warnings: [], error: 'motion eval failed' }));
+}
+
 (async () => {
-  const browser = await chromium.launch({ channel: 'chrome', headless: true });
+  if (process.env.STATIC === '1') { runStaticLint(); return; } // no-browser text lint; never launches Chromium
+  const browser = await launchBrowser();
   // Desktop
   const dctx = await browser.newContext({ viewport: { width: 1280, height: 1600 }, deviceScaleFactor: 1 });
   const dp = await dctx.newPage();
   const badDesktop = ASSETS_ON ? watchAssets(dp) : null;
   if (PERF_ON) await dp.addInitScript(initCwv); // register CWV observers BEFORE the page loads
   await dp.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
+  // FILMSTRIP/MOTION (opt-in) — capture the entrance window FIRST (before the long settle below), then audit motion.
+  let motion = null;
+  if (MOTION_ON) {
+    const frames = await captureFilmstrip(dp);
+    const audit = await analyzeMotion(dp);
+    motion = { frames, durations: audit.durations, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.error ? { error: audit.error } : {}) };
+  }
   await sleep(800);
   // scroll to trigger lazy content + entrance animations, then back to top
   await dp.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 80)); } window.scrollTo(0, 0); });
@@ -269,6 +443,9 @@ function initCwv() {
   if (ASSETS_ON) checks.push({ name: 'assets', pass: assetsOk, detail: `badResponses=${assets.badResponses.length} brokenImages=${assets.brokenImages.length}`, severity: 'block' });
   if (PERF_ON) checks.push({ name: 'perf', pass: perfBudget, detail: perf ? `lcp=${perf.lcpMs} cls=${perf.cls} totalKB=${perf.totalKB}` : 'perf unavailable', severity: 'block' });
   if (VR_ON) checks.push({ name: 'visual', pass: visualClean, detail: visualRegression && visualRegression.error ? visualRegression.error : 'see visualRegression', severity: 'block' });
+  // Motion audit (opt-in) — layout-animated elements are a jank/banned-motion violation; surfaced as warn (never
+  // hard-blocks the default build), with the offenders listed under run.json.motion.layoutAnimated.
+  if (MOTION_ON && motion) checks.push({ name: 'motion', pass: (motion.layoutAnimated || []).length === 0, detail: `layoutAnimated=${(motion.layoutAnimated || []).length} warnings=${(motion.warnings || []).length}`, severity: 'warn' });
   const reportOverall = checks.filter((c) => c.severity === 'block').every((c) => c.pass !== false);
   const summary = {
     url, outDir, pageHeight: height, desktopTiles: tiles, coveredHeight: tiles * tileH, maxTiles,
@@ -277,6 +454,7 @@ function initCwv() {
     ...(ASSETS_ON ? { assets } : {}),
     ...(PERF_ON ? { perf } : {}),
     ...(VR_ON ? { visualRegression } : {}),
+    ...(motion ? { motion } : {}),
     ...(brands ? { brands } : {}),
     gate: {
       noOverflow, axeClean,
