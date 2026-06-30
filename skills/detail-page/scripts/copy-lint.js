@@ -81,6 +81,62 @@ const STOPWORDS = new Set([
   'has', 'will', 'can', 'but', 'not', 'out', 'how', 'why', 'who', 'what', 'when',
 ]);
 
+// ---- locale-pluggable lexicon (KO floor) ----------------------------------------------------------
+// Default behavior = the English lists above. `--locale ko` swaps in the built-in Korean pack and
+// `--voice voice.json` ({ locale, slopWords, spamWords, ctaVerbs, subjectMax, previewMax }) overrides
+// individual fields. A non-English locale also turns on grapheme-aware length counting so a Korean
+// syllable counts as 1 character (not its UTF-16 length). Korean has no word boundaries, so KO slop /
+// CTA entries are plain strings matched as substrings (English entries stay RegExp).
+const KO_SLOP = [
+  '최고', '최상', '최강', '혁신', '완벽', '무조건', '궁극', '압도적', '차세대',
+  '게임체인저', '단언컨대', '진정한', '신세계', '대박', '강력한', '획기적', '믿을 수 없는',
+];
+const KO_CTA = [
+  '지금 구매', '구매하기', '신청하기', '시작하기', '자세히', '알아보기', '더 알아보기',
+  '다운로드', '구독', '가입', '살펴보기', '둘러보기', '예약', '사전예약', '주문', '받기',
+  '신청', '구매', '바로가기', '지금 시작', '지금 신청',
+];
+
+const LOCALES = {
+  en: { locale: 'en', slop: SLOP, ctaVerbs: CTA_PHRASES, graphemeLen: false },
+  ko: { locale: 'ko', slop: KO_SLOP, ctaVerbs: KO_CTA, graphemeLen: true },
+};
+
+// grapheme-aware length (Korean syllable = 1); falls back to code-point count if no Intl.Segmenter.
+function graphemeLen(s) {
+  s = String(s);
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    try { let n = 0; for (const _ of new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(s)) n++; return n; } catch (_) { /* fall through */ }
+  }
+  return Array.from(s).length;
+}
+function clen(s, loc) { return loc && loc.graphemeLen ? graphemeLen(s) : String(s).length; }
+
+// resolve the active locale config from --locale and/or a --voice voice.json (voice overrides fields).
+function resolveLocale(localeArg, voice) {
+  const base = (voice && voice.locale) || localeArg || 'en';
+  const cfg = Object.assign({}, LOCALES[base] || LOCALES.en);
+  cfg.locale = base;
+  if (base !== 'en' && !LOCALES[base]) cfg.graphemeLen = true; // unknown non-en locale: assume CJK-aware
+  if (voice) {
+    if (Array.isArray(voice.slopWords)) cfg.slop = voice.slopWords;
+    if (Array.isArray(voice.ctaVerbs)) cfg.ctaVerbs = voice.ctaVerbs;
+    if (typeof voice.graphemeLen === 'boolean') cfg.graphemeLen = voice.graphemeLen;
+  }
+  return cfg;
+}
+
+// slop matcher tolerant of both RegExp (English) and plain-substring (Korean / JSON) entries.
+function findSlop(corpus, list) {
+  const hits = [];
+  const lc = String(corpus).toLowerCase();
+  for (const entry of (list || [])) {
+    if (entry instanceof RegExp) { const m = String(corpus).match(entry); if (m) hits.push(m[0]); }
+    else { const s = String(entry).trim(); if (s && lc.includes(s.toLowerCase())) hits.push(s); }
+  }
+  return hits;
+}
+
 // ---------- normalize one surface spec -> { channel, hero, primary, firstLine, cta, copy } ----------
 function normalize(s) {
   const channel = String(s.channel || s.surface || '').toLowerCase();
@@ -109,17 +165,21 @@ function normalize(s) {
   return { channel: channel || 'generic', hero, primary, firstLine, cta, copy };
 }
 
-function hasCta(model) {
+function hasCta(model, loc) {
   if (model.cta.trim()) return true;
   const lc = model.copy.toLowerCase();
-  return CTA_PHRASES.some((p) => lc.includes(p));
+  const verbs = (loc && loc.ctaVerbs) || CTA_PHRASES;
+  return verbs.some((p) => lc.includes(String(p).toLowerCase()));
 }
 
-function ideaTokens(idea) {
-  return String(idea)
-    .toLowerCase()
-    .split(/[^a-z0-9]+/)
-    .filter((t) => t.length >= 4 && !STOPWORDS.has(t));
+function ideaTokens(idea, loc) {
+  const lc = String(idea).toLowerCase();
+  if (loc && loc.graphemeLen) {
+    // CJK/Korean: split on whitespace + ASCII punctuation, keep tokens of length >= 2 (Latin path
+    // requires >= 4, but a 2-char Korean token carries content).
+    return lc.split(/[\s,./|·–—:;!?()[\]{}"'`]+/).map((t) => t.trim()).filter((t) => t.length >= 2 && !STOPWORDS.has(t));
+  }
+  return lc.split(/[^a-z0-9]+/).filter((t) => t.length >= 4 && !STOPWORDS.has(t));
 }
 
 function matchesIdea(hero, tokens) {
@@ -133,38 +193,43 @@ function lintOne(surface, file, opts) {
   const findings = [];
   const add = (rule, severity, message) => findings.push({ rule, severity, message });
   const { idea, ideaToks, lexicon } = opts;
+  const loc = opts.loc || LOCALES.en;
+  const strict = !!opts.strict;
 
-  // channel length budgets
+  // channel length budgets (grapheme-aware for CJK locales)
   if (model.channel === 'ad') {
-    const n = model.primary.length;
+    const n = clen(model.primary, loc);
     if (n > AD_PRIMARY_ERROR) add('ad-primary-long', 'error', `ad primary text ${n} chars > ${AD_PRIMARY_ERROR} — truncated mid-thought`);
     else if (n > AD_PRIMARY_WARN) add('ad-primary-long', 'warn', `ad primary text ${n} chars > ${AD_PRIMARY_WARN} — past the fold`);
-    if (model.hero.length > AD_HEADLINE_WARN) add('ad-headline-long', 'warn', `ad headline ${model.hero.length} chars > ${AD_HEADLINE_WARN}`);
+    const hn = clen(model.hero, loc);
+    if (hn > AD_HEADLINE_WARN) add('ad-headline-long', 'warn', `ad headline ${hn} chars > ${AD_HEADLINE_WARN}`);
   } else if (model.channel === 'social') {
-    const n = model.firstLine.length;
+    const n = clen(model.firstLine, loc);
     if (n > SOCIAL_FIRSTLINE_ERROR) add('social-firstline-long', 'error', `social first line ${n} chars > ${SOCIAL_FIRSTLINE_ERROR}`);
     else if (n > SOCIAL_FIRSTLINE_WARN) add('social-firstline-long', 'warn', `social first line ${n} chars > ${SOCIAL_FIRSTLINE_WARN} — past the "…more" fold`);
   } else if (model.channel === 'push') {
     const words = model.primary.trim() ? model.primary.trim().split(/\s+/).length : 0;
-    const n = model.primary.length;
+    const n = clen(model.primary, loc);
     if (words > PUSH_MAX_WORDS) add('push-too-many-words', 'error', `push body ${words} words > ${PUSH_MAX_WORDS}`);
     if (n > PUSH_CHARS_ERROR) add('push-too-long', 'error', `push body ${n} chars > ${PUSH_CHARS_ERROR}`);
     else if (n > PUSH_CHARS_WARN) add('push-too-long', 'warn', `push body ${n} chars > ${PUSH_CHARS_WARN}`);
   }
 
-  // AI-slop banned verbs (all channels)
-  for (const re of SLOP) {
-    const m = model.copy.match(re);
-    if (m) add('slop-verb', 'error', `AI-slop verb/phrase: "${m[0]}"`);
+  // AI-slop banned verbs / superlatives (all channels)
+  for (const hit of findSlop(model.copy, loc.slop)) {
+    add('slop-verb', 'error', `AI-slop verb/phrase: "${hit}"`);
   }
 
   // required CTA
-  if (!hasCta(model)) add('cta-missing', 'error', 'no CTA — neither a cta field nor a recognized action phrase');
+  if (!hasCta(model, loc)) add('cta-missing', 'error', 'no CTA — neither a cta field nor a recognized action phrase');
 
-  // cross-surface message-match (only with --idea)
+  // cross-surface message-match (only with --idea). Default = presence-only WARN floor; --strict
+  // ERRORS (fails the gate) when the hero shares ZERO idea content-tokens.
   if (idea && ideaToks.length) {
     if (!matchesIdea(model.hero || model.firstLine || model.primary, ideaToks)) {
-      add('message-match', 'warn', `hero does not restate the campaign idea ("${idea}") — message-match drift`);
+      add('message-match', strict ? 'error' : 'warn', strict
+        ? `hero shares ZERO content-tokens with the campaign idea ("${idea}") — message-match floor (--strict)`
+        : `hero does not restate the campaign idea ("${idea}") — message-match drift`);
     }
   }
 
@@ -212,16 +277,21 @@ const HELP = `copy-lint.js — deterministic per-channel copy linter (the floor 
 
 USAGE
   node copy-lint.js <spec.json|dir/>                 one surface, a campaign, or a dir of specs
-  node copy-lint.js <target> --idea "<one idea>"     + cross-surface message-match
+  node copy-lint.js <target> --idea "<one idea>"     + cross-surface message-match (presence floor)
+  node copy-lint.js <target> --idea "<x>" --strict   make message-match an ERROR (zero shared tokens)
+  node copy-lint.js <target> --locale ko             use the built-in Korean slop/CTA + char budgets
+  node copy-lint.js <target> --voice voice.json      custom locale pack (slopWords/ctaVerbs/...)
   node copy-lint.js <target> --lexicon voice.json    + owned/banned brand-lexicon check
   node copy-lint.js <target> [out.json]              also write the JSON report
   node copy-lint.js --help
 
 SPEC   one surface, an array, or { "surfaces": [...] }. channel ∈ ad | social | push (others: slop/CTA only).
+LOCALE --locale ko or --voice voice.json ({ locale, slopWords, spamWords, ctaVerbs, subjectMax, previewMax }).
+       Non-English locales count length in graphemes (a Korean syllable = 1). Default stays English.
 CHECKS (ERROR -> exit 1; WARN -> never fails)
   ad-primary >125 WARN / >175 ERROR · ad-headline >40 WARN · social-firstline >125 WARN / >280 ERROR ·
   push >10 words ERROR · push >90 chars WARN / >120 ERROR · slop-verb ERROR · cta-missing ERROR ·
-  message-match WARN (with --idea) · lexicon-banned ERROR · lexicon-no-owned WARN
+  message-match WARN (with --idea) / ERROR (with --strict) · lexicon-banned ERROR · lexicon-no-owned WARN
 `;
 
 function main() {
@@ -233,6 +303,10 @@ function main() {
   let idea = null;
   let lexicon = null;
   let lexiconPath = null;
+  let localeArg = null;
+  let voiceCfg = null;
+  let voicePath = null;
+  let strict = false;
   const pos = [];
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--idea') {
@@ -242,6 +316,15 @@ function main() {
       lexiconPath = argv[++i];
       if (!lexiconPath) { console.error('FATAL --lexicon needs a path'); process.exit(2); }
       lexicon = JSON.parse(fs.readFileSync(lexiconPath, 'utf8'));
+    } else if (argv[i] === '--locale') {
+      localeArg = argv[++i];
+      if (!localeArg) { console.error('FATAL --locale needs a code (e.g. ko)'); process.exit(2); }
+    } else if (argv[i] === '--voice') {
+      voicePath = argv[++i];
+      if (!voicePath) { console.error('FATAL --voice needs a path'); process.exit(2); }
+      voiceCfg = JSON.parse(fs.readFileSync(voicePath, 'utf8'));
+    } else if (argv[i] === '--strict') {
+      strict = true;
     } else {
       pos.push(argv[i]);
     }
@@ -250,11 +333,12 @@ function main() {
   const outArg = pos[1];
   if (!target) { console.error('FATAL no target'); process.exit(2); }
 
-  const opts = { idea, ideaToks: idea ? ideaTokens(idea) : [], lexicon };
+  const loc = resolveLocale(localeArg, voiceCfg);
+  const opts = { idea, ideaToks: idea ? ideaTokens(idea, loc) : [], lexicon, loc, strict };
   const st = fs.statSync(target);
   let reports = [];
   if (st.isDirectory()) {
-    const files = collectTargets(target, [outArg, lexiconPath].filter(Boolean));
+    const files = collectTargets(target, [outArg, lexiconPath, voicePath].filter(Boolean));
     if (files.length === 0) { console.error('FATAL no *.json specs in dir'); process.exit(2); }
     for (const f of files) {
       const surfaces = surfacesFromSpec(JSON.parse(fs.readFileSync(f, 'utf8')));

@@ -13,9 +13,10 @@
 // node_modules/.git/dist/build), runs the color/font checks per file, and aggregates one report.
 //
 // ERROR rules (unambiguous bans): raw-hex / raw-rgb / raw-hsl color OUTSIDE @theme/:root · banned-font
-//   (Inter/Roboto/Arial/Open Sans/Lato/system-ui) · ai-purple (a color at OKLCH hue 270-310 AND
-//   chroma>0.04 — the chroma floor is REQUIRED so the starter's gray neutrals at hue ~275 / chroma
-//   ~0.012 do NOT flag). In component source (.tsx/.jsx/.ts/.js/.vue/.svelte/.astro) and .css/.scss the
+//   (Inter/Roboto/Arial/Open Sans/Lato/system-ui) · ai-purple (a color at OKLCH hue 255-310 AND
+//   chroma>0.04 — floor lowered from 270 to 255 to catch the convergent indigo 255-270, incl. the 266
+//   "generic SaaS" accent; the chroma floor is REQUIRED so the starter's gray neutrals at hue ~275 /
+//   chroma ~0.012 do NOT flag, and ALLOW_PURPLE=1 opts a legitimately-purple brand out). In component source (.tsx/.jsx/.ts/.js/.vue/.svelte/.astro) and .css/.scss the
 //   @theme/:root allowance applies ONLY inside an actual @theme{}/:root{} block — any quoted/inline
 //   hex/rgb/hsl in a className/style/styled-components template, JS string, or a CSS value OUTSIDE such a
 //   block is a raw-color error.
@@ -36,8 +37,8 @@ const SKIP_DIRS = new Set(['node_modules', '.git', 'dist', 'build', '.next', 'co
 // (text-[15px]) are promoted from warn → ERROR in component/source files.
 const SPACING_PREFIX = /^(?:m[trblxy]?|p[trblxy]?|gap(?:-[xy])?|space-[xy])$/;
 const TYPE_SCALE = new Set([12, 14, 16, 18, 20, 24, 30, 36, 48, 64]);
-// ALLOW_PURPLE=1 — "earned purple" override: a brand whose identity is legitimately purple opts out of the
-// ai-purple gate (the OKLCH hue 270-310 / chroma>0.04 ban). Off by default; default behavior unchanged.
+// ALLOW_PURPLE=1 — "earned purple" override / justification escape: a brand whose identity is legitimately
+// purple opts out of the ai-purple gate (the OKLCH hue 255-310 / chroma>0.04 ban). Off by default.
 const ALLOW_PURPLE = process.env.ALLOW_PURPLE === '1';
 // SEMANTIC BRAND mode ΔE tolerance (OKLab distance). Override with BRAND_LINT_DELTAE.
 const BRAND_DELTAE = parseFloat(process.env.BRAND_LINT_DELTAE || '0.02');
@@ -397,10 +398,11 @@ function lintHtml(raw, file) {
   for (const m of stripped.matchAll(/<link[^>]+href\s*=\s*"([^"]*(?:fonts\.googleapis|api\.fontshare|fonts)[^"]*)"/gi)) fontValues.push(m[1]);
   for (const v of fontValues) { const b = v.match(BANNED_FONT); if (b) add('banned-font', 'font declaration', `${b[1]} in "${v.trim().slice(0, 60)}"`, 'error'); }
 
-  // (c) AI-purple: any OKLCH color at hue 270-310 AND chroma>0.04 (chroma floor protects gray neutrals)
+  // (c) AI-purple: any OKLCH color at hue 255-310 AND chroma>0.04 (chroma floor protects gray neutrals;
+  //     floor lowered 270->255 to catch convergent indigo; ALLOW_PURPLE=1 is the documented justification escape)
   for (const m of stripped.matchAll(/oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)/gi)) {
     const chroma = parseFloat(m[2]), hue = parseFloat(m[3]);
-    if (!ALLOW_PURPLE && hue >= 270 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
+    if (!ALLOW_PURPLE && hue >= 255 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
   }
 
   // (d) emoji used as content — WARN (a linter can't reliably tell icon-use from copy-use)
@@ -467,10 +469,11 @@ function lintSource(raw, file) {
   for (const m of stripped.matchAll(/<link[^>]+href\s*=\s*"([^"]*(?:fonts\.googleapis|api\.fontshare|fonts)[^"]*)"/gi)) fontValues.push(m[1]);
   for (const v of fontValues) { const b = v.match(BANNED_FONT); if (b) add('banned-font', 'font declaration', `${b[1]} in "${v.trim().slice(0, 60)}"`, 'error'); }
 
-  // (c) AI-purple: OKLCH at hue 270-310 AND chroma>0.04 (oklch() itself is the allowed token format).
+  // (c) AI-purple: OKLCH at hue 255-310 AND chroma>0.04 (oklch() itself is the allowed token format;
+  //     floor lowered 270->255 to catch convergent indigo; ALLOW_PURPLE=1 is the documented justification escape)
   for (const m of stripped.matchAll(/oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)/gi)) {
     const chroma = parseFloat(m[2]), hue = parseFloat(m[3]);
-    if (!ALLOW_PURPLE && hue >= 270 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
+    if (!ALLOW_PURPLE && hue >= 255 && hue <= 310 && chroma > 0.04) add('ai-purple', 'oklch color', `${m[0]}) hue${hue} c${chroma}`, 'error');
   }
 
   // (d) emoji-as-icon — WARN

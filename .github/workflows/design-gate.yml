@@ -23,6 +23,7 @@ env:
   SRC_DIR: ./src                                       # your design source tree (HTML/JSX/CSS) for brand-lint
   SERVE_DIR: skills/detail-page/assets/starter         # the built static site to screenshot+a11y-scan
   SERVE_FILE: index.html                               # entry file inside SERVE_DIR
+  BRAND_TOKENS: skills/detail-page/tokens/brand-default.tokens.json  # DTCG brand tokens for the ΔE on-brand gate
 
 jobs:
   # ---------------------------------------------------------------------------
@@ -62,6 +63,21 @@ jobs:
       - name: Token drift (@theme ↔ DTCG must be empty)
         working-directory: ${{ env.SKILL_DIR }}
         run: npm run lint:tokens
+
+      # GATE 1b — per-page ΔE on-brand check. brand-lint --brand statically diffs each page's DECLARED token
+      # colors against the brand.tokens.json SEMANTIC roles in OKLab; an off-brand color (ΔE over tolerance)
+      # is an error-severity finding → non-zero exit → red build. Runs over the whole design source tree
+      # (dir mode = per page) when SRC_DIR exists, else over the committed SERVE entry page so the gate always
+      # has teeth. Guarded: if BRAND_TOKENS is missing, emit a notice instead of failing the template.
+      - name: Brand ΔE on-brand (per page, gates merges)
+        run: |
+          if [ ! -f "${{ env.BRAND_TOKENS }}" ]; then
+            echo "::notice::BRAND_TOKENS '${{ env.BRAND_TOKENS }}' not found — set env.BRAND_TOKENS to enable the ΔE on-brand gate."
+          elif [ -d "${{ env.SRC_DIR }}" ]; then
+            node "${{ env.SKILL_DIR }}/scripts/brand-lint.js" "${{ env.SRC_DIR }}" --brand "${{ env.BRAND_TOKENS }}"
+          else
+            node "${{ env.SKILL_DIR }}/scripts/brand-lint.js" "${{ env.SERVE_DIR }}/${{ env.SERVE_FILE }}" --brand "${{ env.BRAND_TOKENS }}"
+          fi
 
   # ---------------------------------------------------------------------------
   # JOB 2 — visual + a11y gate: serve the page and screenshot-assert it with shoot.js.

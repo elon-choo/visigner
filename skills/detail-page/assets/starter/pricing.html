@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SCAFFOLD — plan-comparison pricing page (replace per brief)</title>
+
+<!--
+  STARTER VARIANT: plan-comparison PRICING page. Pick THIS file when the brief is "a pricing / plans /
+  compare-tiers page"; pick landing.html for a western marketing landing, app-shell.html for an app UI,
+  index.html for a Korean 상세페이지, settings.html for an app settings screen. Same @theme token discipline.
+  Palette is the SHIP brand default (warm-paper surface + green primary + reserved amber CTA accent) so it
+  passes brand-lint --brand as well as single-file. Distinctive non-banned pairing: Bricolage Grotesque
+  (variable grotesque display) + Switzer (neutral geometric body) + JetBrains Mono (price figures / data).
+  NOT Inter/Roboto/Arial/Open Sans/Lato/system-ui, and deliberately NOT Space Grotesk/Satoshi.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600&display=swap" rel="stylesheet" />
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1" integrity="sha384-OT3qnPBOZ0Z1BVC2R6WSI4cjBlIoSMeeZAUY8gZqaP1TgAJHbuo2gIM6KzQ8/viI" crossorigin="anonymous"></script>
+<style type="text/tailwindcss">
+  /* ============================================================
+     DESIGN TOKENS — single source. :root --brand-* OKLCH primitives → @theme maps each Tailwind token to a
+     --brand-* var (utilities AND inline var(--color-*) re-theme together). Values are the SHIP default from
+     tokens/brand-default.tokens.json: warm-paper surface, ink near-black, GREEN primary ramp (hue ~155), and a
+     single reserved warm-AMBER accent for the CTA. on-accent = ink (dark text on the light amber → WCAG AA).
+     8 token axes complete (color · font · shadow · space · text/leading · radius · motion). NEVER AI-purple.
+     ============================================================ */
+  :root {
+    /* neutrals — warm paper, near-black ink */
+    --brand-surface: oklch(0.985 0.008 95);
+    --brand-card:    oklch(1 0 0);
+    --brand-ink:     oklch(0.205 0.012 275);
+    --brand-muted:   oklch(0.520 0.015 270);
+    --brand-line:    oklch(0.205 0.012 275 / 0.12);
+    /* primary ramp — evergreen (hue ~155), L stepped near-even, chroma arced mid-ramp */
+    --brand-primary-50:  oklch(0.965 0.020 155);
+    --brand-primary-100: oklch(0.910 0.040 155);
+    --brand-primary-300: oklch(0.760 0.075 156);
+    --brand-primary-500: oklch(0.560 0.095 156);
+    --brand-primary-700: oklch(0.400 0.080 157);
+    --brand-primary-900: oklch(0.270 0.050 158);
+    --brand-primary: var(--brand-primary-700);
+    /* accent ramp — the reserved 10%: warm amber CTA pop (light → carries dark ink, not white) */
+    --brand-accent-300: oklch(0.845 0.105 65);
+    --brand-accent-500: oklch(0.720 0.160 58);
+    --brand-accent-700: oklch(0.605 0.150 50);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: var(--brand-ink); /* dark ink on the light amber → AA-safe (amber is a light tone) */
+    /* type — distinctive western pairing (see header comment) */
+    --brand-font-display: "Bricolage Grotesque", Georgia, serif;
+    --brand-font-body:    "Switzer", "Helvetica Neue", sans-serif;
+    --brand-font-latin:   "JetBrains Mono", ui-monospace, monospace;
+    /* elevation — 3 named tokens */
+    --brand-shadow-e1: 0 1px 2px oklch(0.20 0.02 270 / 0.06);
+    --brand-shadow-e2: 0 6px 16px oklch(0.20 0.02 270 / 0.10);
+    --brand-shadow-e3: 0 20px 48px oklch(0.20 0.02 270 / 0.16);
+  }
+
+  @theme {
+    --color-surface: var(--brand-surface);
+    --color-card:    var(--brand-card);
+    --color-ink:     var(--brand-ink);
+    --color-muted:   var(--brand-muted);
+    --color-line:    var(--brand-line);
+    --color-primary-50:  var(--brand-primary-50);
+    --color-primary-100: var(--brand-primary-100);
+    --color-primary-300: var(--brand-primary-300);
+    --color-primary-500: var(--brand-primary-500);
+    --color-primary-700: var(--brand-primary-700);
+    --color-primary-900: var(--brand-primary-900);
+    --color-primary: var(--brand-primary);
+    --color-accent-300: var(--brand-accent-300);
+    --color-accent-500: var(--brand-accent-500);
+    --color-accent-700: var(--brand-accent-700);
+    --color-accent: var(--brand-accent);
+    --color-on-accent: var(--brand-on-accent);
+    --font-display: var(--brand-font-display);
+    --font-body:    var(--brand-font-body);
+    --font-latin:   var(--brand-font-latin);
+    --shadow-e1: var(--brand-shadow-e1);
+    --shadow-e2: var(--brand-shadow-e2);
+    --shadow-e3: var(--brand-shadow-e3);
+    /* scale tokens — kept in sync with scripts/build-tokens.js --emit=theme (8 axes complete) */
+    --space-4: 4px; --space-8: 8px; --space-12: 12px; --space-16: 16px; --space-24: 24px;
+    --space-32: 32px; --space-48: 48px; --space-64: 64px; --space-96: 96px;
+    --text-12: 12px; --text-14: 14px; --text-16: 16px; --text-18: 18px; --text-20: 20px;
+    --text-24: 24px; --text-30: 30px; --text-36: 36px; --text-48: 48px; --text-64: 64px;
+    --leading-12: 16px; --leading-14: 20px; --leading-16: 24px; --leading-18: 28px; --leading-20: 28px;
+    --leading-24: 32px; --leading-30: 40px; --leading-36: 44px; --leading-48: 56px; --leading-64: 72px;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px; --radius-pill: 9999px;
+    --dur-1: 120ms; --dur-2: 200ms; --dur-3: 320ms;
+    --ease-out: cubic-bezier(0.2, 0, 0, 1); --ease-spring: cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* ---- Base ---- */
+  html { scroll-behavior: smooth; }
+  body { background: var(--color-surface); color: var(--color-ink); font-family: var(--font-body); margin: 0; }
+  img, svg, video, canvas { max-width: 100%; height: auto; }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.015em; overflow-wrap: anywhere; margin: 0; }
+  *:focus-visible { outline: 2px solid var(--color-accent-700); outline-offset: 2px; border-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto; } }
+
+  /* ---- One orchestrated entrance + scroll-in reveals (once). Hidden state arms ONLY after JS + motion
+     allowed; with JS off / reduced motion the page is fully visible. transform/opacity only. ---- */
+  .reveal { transition: opacity .34s var(--ease-out), transform .34s var(--ease-out); }
+  html.reveal-on .reveal { opacity: 0; transform: translateY(18px); }
+  html.reveal-on .reveal.is-in { opacity: 1; transform: none; }
+  html.reveal-on .reveal[data-d="1"] { transition-delay: .06s; }
+  html.reveal-on .reveal[data-d="2"] { transition-delay: .12s; }
+  html.reveal-on .reveal[data-d="3"] { transition-delay: .18s; }
+  html.reveal-on .reveal[data-d="4"] { transition-delay: .24s; }
+
+  /* ---- Content column ---- */
+  .col { max-width: 1120px; margin-inline: auto; padding-inline: 24px; }
+  @media (max-width: 480px) { .col { padding-inline: 16px; } }
+
+  /* ---- Buttons ---- */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px;
+    padding-inline: 22px; border-radius: 10px; font-weight: 600; line-height: 1; font-family: var(--font-body);
+    border: 0; cursor: pointer; text-decoration: none; width: 100%; }
+  .btn-accent { background: var(--color-accent); color: var(--color-on-accent); box-shadow: var(--shadow-e2); }
+  .btn-primary { background: var(--color-primary); color: oklch(0.99 0.005 95); }
+  .btn-ghost { border: 1px solid var(--color-line); color: var(--color-ink); background: transparent; }
+
+  .eyebrow { font-family: var(--font-latin); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-primary); }
+
+  /* ---- Billing segmented toggle ---- */
+  .seg { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--color-line);
+    border-radius: 9999px; background: var(--color-card); box-shadow: var(--shadow-e1); }
+  .seg button { border: 0; background: transparent; color: var(--color-muted); font-family: var(--font-body);
+    font-size: 14px; font-weight: 600; padding: 9px 18px; border-radius: 9999px; cursor: pointer;
+    transition: background-color .2s var(--ease-out), color .2s var(--ease-out); }
+  .seg button[aria-pressed="true"] { background: var(--color-primary); color: oklch(0.99 0.005 95); }
+  .seg .save { display: inline-block; margin-left: 6px; font-family: var(--font-latin); font-size: 11px;
+    letter-spacing: 0.04em; color: var(--color-primary); }
+  .seg button[aria-pressed="true"] .save { color: oklch(0.95 0.04 120); }
+
+  /* ---- Tier cards: ONE repeated primitive ---- */
+  .tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+  @media (max-width: 880px) { .tiers { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; } }
+  .tier { background: var(--color-card); border: 1px solid var(--color-line); border-radius: 16px;
+    box-shadow: var(--shadow-e1); padding: 26px; display: flex; flex-direction: column; position: relative; }
+  .tier.is-recommended { border-color: var(--color-accent); box-shadow: var(--shadow-e3);
+    outline: 2px solid var(--color-accent); outline-offset: -2px; }
+  .tier .ribbon { position: absolute; top: -13px; left: 26px; font-family: var(--font-latin); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-on-accent); background: var(--color-accent);
+    padding: 5px 12px; border-radius: 9999px; box-shadow: var(--shadow-e1); }
+  .tier .price { display: flex; align-items: baseline; gap: 6px; margin-top: 14px; }
+  .tier .amt { font-family: var(--font-latin); font-size: 44px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .tier .per { color: var(--color-muted); font-size: 15px; }
+  .tier .bill { font-size: 13px; color: var(--color-muted); margin-top: 8px; min-height: 20px; font-family: var(--font-latin); }
+  .tier ul { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 11px; }
+  .tier li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; }
+  .tier li svg { flex: none; margin-top: 2px; color: var(--color-primary); }
+  .tier .cta { margin-top: auto; }
+
+  /* ---- Comparison matrix: STICKY thead. No horizontal wrapper at desktop so the header sticks to the page
+     viewport; at narrow widths a table-layout:fixed grid + tightened cells keeps it inside 390px (no overflow). ---- */
+  .matrix { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .matrix col.feat { width: 40%; }
+  .matrix thead th { position: sticky; top: 0; z-index: 5; background: var(--color-surface);
+    border-bottom: 1px solid var(--color-line); padding: 16px 14px; text-align: center; vertical-align: bottom; }
+  .matrix thead th.feat { text-align: left; }
+  .matrix thead .t-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; }
+  .matrix thead .t-name.rec { color: var(--color-primary); }
+  .matrix thead .t-sub { display: block; font-size: 12px; color: var(--color-muted); font-weight: 400; margin-top: 2px; }
+  .matrix tbody th { text-align: left; font-weight: 500; font-size: 14px; padding: 13px 14px;
+    border-bottom: 1px solid var(--color-line); color: var(--color-ink); }
+  .matrix tbody td { text-align: center; font-size: 14px; padding: 13px 14px; border-bottom: 1px solid var(--color-line);
+    color: var(--color-muted); }
+  .matrix tbody td.val { color: var(--color-ink); font-family: var(--font-latin); font-size: 13px; }
+  .matrix .group th { font-family: var(--font-latin); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--color-primary); padding-top: 22px; background: transparent; }
+  .matrix col.rec, .matrix td.rec-col, .matrix th.rec-col { background: color-mix(in oklch, var(--color-primary-50) 70%, transparent); }
+  .yes { color: var(--color-primary); } .no { color: var(--color-line); }
+  @media (max-width: 600px) {
+    .matrix { font-size: 13px; }
+    .matrix thead th, .matrix tbody th, .matrix tbody td { padding: 11px 6px; }
+    .matrix col.feat { width: 46%; }
+    .matrix thead .t-name { font-size: 14px; }
+    .matrix thead .t-sub { display: none; }
+  }
+
+  .faq details { border-bottom: 1px solid var(--color-line); padding: 18px 4px; }
+  .faq summary { cursor: pointer; font-weight: 600; font-size: 16px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; color: var(--color-muted); font-family: var(--font-latin); }
+  .faq details[open] summary::after { content: "–"; }
+</style>
+</head>
+<body>
+
+<!-- ░░ NAV ░░ -->
+<header class="col" style="display:flex;align-items:center;justify-content:space-between;padding-block:20px;gap:16px">
+  <span class="font-display" style="font-size:22px;font-weight:800;letter-spacing:-0.02em">Cadence</span>
+  <nav style="display:flex;align-items:center;gap:22px;font-size:14px">
+    <a href="#plans" class="text-muted" style="text-decoration:none">Plans</a>
+    <a href="#compare" class="text-muted" style="text-decoration:none">Compare</a>
+    <a href="#faq" class="text-muted" style="text-decoration:none">FAQ</a>
+    <a href="#plans" class="btn btn-accent" style="width:auto;min-height:40px;padding-inline:18px;box-shadow:none">Start free</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ░░ 1 · HEADER + billing toggle (the one orchestrated entrance) ░░ -->
+  <section class="col" style="padding-block:56px 36px;text-align:center">
+    <p class="eyebrow reveal" data-d="1">pricing</p>
+    <h1 class="reveal" data-d="2" style="font-size:clamp(34px,5.5vw,56px);font-weight:800;line-height:1.04;margin-top:12px;max-width:16ch;margin-inline:auto">
+      One price per seat. Every feature scales with you.
+    </h1>
+    <p class="reveal text-muted" data-d="3" style="font-size:clamp(16px,2vw,19px);line-height:1.5;margin-top:18px;max-width:52ch;margin-inline:auto">
+      Switch to annual and keep two months. No setup fees, no per-action billing — just the plan that fits the team.
+    </p>
+
+    <div class="reveal" data-d="4" style="margin-top:28px">
+      <div class="seg" role="group" aria-label="Billing period">
+        <button id="billMonthly" type="button" aria-pressed="true">Monthly</button>
+        <button id="billAnnual" type="button" aria-pressed="false">Annual <span class="save">save 20%</span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ░░ 2 · TIER CARDS — 3 tiers, Pro = recommended default, Scale = high-anchor decoy, accent reserved for Pro CTA ░░ -->
+  <section id="plans" class="col" style="padding-block:24px 56px">
+    <div class="tiers">
+
+      <!-- Starter -->
+      <article class="tier reveal" data-d="1" aria-label="Starter plan">
+        <h2 style="font-size:18px;font-weight:700">Starter</h2>
+        <p class="text-muted" style="font-size:13px;margin-top:6px;min-height:36px">For a solo operator or a side project getting off the ground.</p>
+        <div class="price"><span class="amt" data-m="$19" data-a="$15">$19</span><span class="per">/seat · mo</span></div>
+        <p class="bill" data-m="Billed monthly" data-a="$180/seat billed yearly · save $48">Billed monthly</p>
+        <ul>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Up to 3 projects</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>7-day activity history</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Community support</li>
+        </ul>
+        <a href="#" class="btn btn-ghost cta">Start free</a>
+      </article>
+
+      <!-- Pro — RECOMMENDED default + focal accent CTA -->
+      <article class="tier is-recommended reveal" data-d="2" aria-label="Pro plan, recommended" aria-current="true">
+        <span class="ribbon">Most popular</span>
+        <h2 style="font-size:18px;font-weight:700">Pro</h2>
+        <p class="text-muted" style="font-size:13px;margin-top:6px;min-height:36px">For a growing team that needs history, roles and real support.</p>
+        <div class="price"><span class="amt" data-m="$39" data-a="$31">$39</span><span class="per">/seat · mo</span></div>
+        <p class="bill" data-m="Billed monthly" data-a="$372/seat billed yearly · save $96">Billed monthly</p>
+        <ul>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Unlimited projects</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>1-year history &amp; exports</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Roles &amp; granular permissions</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Priority email support</li>
+        </ul>
+        <a href="#" class="btn btn-accent cta">Start 14-day trial</a>
+      </article>
+
+      <!-- Scale — high anchor / decoy -->
+      <article class="tier reveal" data-d="3" aria-label="Scale plan">
+        <h2 style="font-size:18px;font-weight:700">Scale</h2>
+        <p class="text-muted" style="font-size:13px;margin-top:6px;min-height:36px">For an org with SSO, audit and procurement requirements.</p>
+        <div class="price"><span class="amt" data-m="$79" data-a="$63">$79</span><span class="per">/seat · mo</span></div>
+        <p class="bill" data-m="Billed monthly" data-a="$756/seat billed yearly · save $192">Billed monthly</p>
+        <ul>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Everything in Pro</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>SSO / SAML &amp; SCIM</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Audit log &amp; data residency</li>
+          <li><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>Dedicated success manager</li>
+        </ul>
+        <a href="#" class="btn btn-ghost cta">Contact sales</a>
+      </article>
+    </div>
+    <p class="text-muted reveal" style="text-align:center;font-size:13px;margin-top:18px">Prices in USD. Cancel or change plan anytime — proration is automatic.</p>
+  </section>
+
+  <!-- ░░ 3 · COMPARISON MATRIX — sticky header, every cell/state covered (✓ / — / value) ░░ -->
+  <section id="compare" class="col" style="padding-block:32px 56px">
+    <div class="reveal" style="max-width:36ch;margin-bottom:18px">
+      <p class="eyebrow">compare</p>
+      <h2 style="font-size:clamp(26px,4vw,38px);font-weight:800;line-height:1.06;margin-top:10px">Every plan, line by line.</h2>
+    </div>
+
+    <div class="reveal" role="region" aria-label="Plan comparison" tabindex="0">
+      <table class="matrix">
+        <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Feature comparison across Starter, Pro and Scale plans</caption>
+        <colgroup><col class="feat" /><col /><col class="rec" /><col /></colgroup>
+        <thead>
+          <tr>
+            <th scope="col" class="feat"><span class="text-muted" style="font-size:12px;font-weight:500">Compare features</span></th>
+            <th scope="col"><span class="t-name">Starter</span><span class="t-sub">$19 / seat</span></th>
+            <th scope="col" class="rec-col"><span class="t-name rec">Pro</span><span class="t-sub">$39 / seat</span></th>
+            <th scope="col"><span class="t-name">Scale</span><span class="t-sub">$79 / seat</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group"><th scope="colgroup" colspan="4">Workspace</th></tr>
+          <tr>
+            <th scope="row">Projects</th>
+            <td class="val">3</td><td class="val rec-col">Unlimited</td><td class="val">Unlimited</td>
+          </tr>
+          <tr>
+            <th scope="row">Team members</th>
+            <td class="val">5</td><td class="val rec-col">25</td><td class="val">Unlimited</td>
+          </tr>
+          <tr>
+            <th scope="row">Activity history</th>
+            <td class="val">7 days</td><td class="val rec-col">1 year</td><td class="val">Unlimited</td>
+          </tr>
+
+          <tr class="group"><th scope="colgroup" colspan="4">Collaboration</th></tr>
+          <tr>
+            <th scope="row">Roles &amp; permissions</th>
+            <td><span class="no" aria-label="Not included">—</span></td>
+            <td class="rec-col"><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
+            <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">Guest access</th>
+            <td><span class="no" aria-label="Not included">—</span></td>
+            <td class="rec-col"><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
+            <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">Audit log</th>
+            <td><span class="no" aria-label="Not included">—</span></td>
+            <td class="rec-col"><span class="no" aria-label="Not included">—</span></td>
+            <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
+          </tr>
+
+          <tr class="group"><th scope="colgroup" colspan="4">Security &amp; support</th></tr>
+          <tr>
+            <th scope="row">SSO / SAML</th>
+            <td><span class="no" aria-label="Not included">—</span></td>
+            <td class="rec-col"><span class="no" aria-label="Not included">—</span></td>
+            <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
+          </tr>
+          <tr>
+            <th scope="row">Support</th>
+            <td class="val">Community</td><td class="val rec-col">Priority email</td><td class="val">Dedicated CSM</td>
+          </tr>
+          <tr>
+            <th scope="row">Uptime SLA</th>
+            <td class="val">—</td><td class="val rec-col">99.9%</td><td class="val">99.99%</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" style="padding-top:20px"></th>
+            <td style="padding-top:20px"><a href="#" class="btn btn-ghost" style="min-height:40px">Start free</a></td>
+            <td class="rec-col" style="padding-top:20px"><a href="#" class="btn btn-accent" style="min-height:40px;box-shadow:none">Start trial</a></td>
+            <td style="padding-top:20px"><a href="#" class="btn btn-ghost" style="min-height:40px">Contact</a></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- ░░ 4 · FAQ — native <details>, no JS needed ░░ -->
+  <section id="faq" class="col faq" style="max-width:760px;padding-block:24px 56px">
+    <h2 class="reveal" style="font-size:clamp(24px,4vw,34px);font-weight:800;text-align:center;margin-bottom:18px">Pricing questions</h2>
+    <div class="reveal" style="border-top:1px solid var(--color-line)">
+      <details>
+        <summary>How does annual billing save 20%?</summary>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Annual plans are billed once a year at the discounted seat rate — effectively two months free. Pro is $39/seat monthly or $31/seat on annual ($372/seat/year), a $96 saving per seat.</p>
+      </details>
+      <details>
+        <summary>What happens when I add or remove a seat?</summary>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Seats are prorated to the day. Add one mid-cycle and you are charged only for the remaining days; remove one and the credit rolls to your next invoice.</p>
+      </details>
+      <details>
+        <summary>Can I switch plans later?</summary>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Yes — upgrade or downgrade anytime from the billing page. Upgrades take effect immediately; downgrades apply at the end of the current period so you keep what you have paid for.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ░░ 5 · FINAL CTA ░░ -->
+  <section class="bg-ink" style="background:var(--color-ink);padding-block:64px">
+    <div class="col reveal" style="text-align:center;color:oklch(0.97 0.01 95)">
+      <h2 style="font-size:clamp(28px,4.5vw,44px);font-weight:800;line-height:1.05">Start on Pro free for 14 days.</h2>
+      <p style="font-size:17px;opacity:0.82;margin-top:14px;max-width:46ch;margin-inline:auto">No card required. Invite the team, import your projects, and decide once you have seen it working.</p>
+      <div style="max-width:240px;margin:24px auto 0"><a href="#" class="btn btn-accent" style="min-height:54px;font-size:17px">Start free trial</a></div>
+    </div>
+  </section>
+</main>
+
+<!-- ░░ FOOTER ░░ -->
+<footer class="col" style="padding-block:36px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;border-top:1px solid var(--color-line)">
+  <span class="font-display" style="font-size:18px;font-weight:800">Cadence</span>
+  <p class="text-muted" style="font-size:13px">© 2026 Cadence, Inc. · Transparent pricing, no surprises</p>
+  <nav style="display:flex;gap:20px;font-size:13px">
+    <a href="#" class="text-muted" style="text-decoration:none">Security</a>
+    <a href="#" class="text-muted" style="text-decoration:none">Terms</a>
+    <a href="#" class="text-muted" style="text-decoration:none">Contact</a>
+  </nav>
+</footer>
+
+<script>
+(function () {
+  // ---- Billing toggle: swap each price/bill line from its data-m / data-a attributes. Monthly is the
+  //      default (works with JS off). aria-pressed mirrors the selected segment for AT. ----
+  var bm = document.getElementById('billMonthly');
+  var ba = document.getElementById('billAnnual');
+  function apply(period) {
+    var key = period === 'annual' ? 'a' : 'm';
+    document.querySelectorAll('[data-m][data-a]').forEach(function (el) {
+      var v = el.getAttribute('data-' + key);
+      if (v != null) el.textContent = v;
+    });
+    bm.setAttribute('aria-pressed', String(period === 'monthly'));
+    ba.setAttribute('aria-pressed', String(period === 'annual'));
+  }
+  if (bm && ba) {
+    bm.addEventListener('click', function () { apply('monthly'); });
+    ba.addEventListener('click', function () { apply('annual'); });
+  }
+
+  // ---- One orchestrated entrance + scroll-in reveals, gated by prefers-reduced-motion / no-JS. ----
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+  var els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+  document.documentElement.classList.add('reveal-on');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+  }, { threshold: 0 });
+  els.forEach(function (el) { io.observe(el); });
+  // Safety net: never leave content stuck hidden (fast scroll / no-scroll a11y scanner / 390px never scrolled).
+  setTimeout(function () { els.forEach(function (el) { el.classList.add('is-in'); }); }, 600);
+})();
+</script>
+</body>
+</html>

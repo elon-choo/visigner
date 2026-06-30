@@ -81,9 +81,10 @@ async function checkTrademark(base) {
     reach = res.ok || res.status < 500 ? 'reachable' : 'unreachable';
   } catch (_) { reach = 'unreachable'; }
   return [
-    { name: base, check: 'trademark:uspto', result: 'manual', source: 'https://tmsearch.uspto.gov/', note: `USPTO TESS — search manually (probe: ${reach})` },
-    { name: base, check: 'trademark:wipo',  result: 'manual', source: `https://branddb.wipo.int/en/quicksearch?q=${encodeURIComponent(base)}`, note: 'WIPO Global Brand DB — search manually' },
-    { name: base, check: 'trademark:euipo', result: 'manual', source: 'https://www.tmdn.org/tmview/', note: 'EUIPO TMview — search manually' },
+    { name: base, check: 'trademark:uspto',  result: 'manual', source: 'https://tmsearch.uspto.gov/', note: `USPTO TESS — search manually (probe: ${reach})` },
+    { name: base, check: 'trademark:kipris', result: 'manual', source: `https://www.kipris.or.kr/khome/search/searchResult.do?searchWord=${encodeURIComponent(base)}`, note: 'KIPRIS — Korea (KR) trademark search, the KR IP authority — search manually' },
+    { name: base, check: 'trademark:wipo',   result: 'manual', source: `https://branddb.wipo.int/en/quicksearch?q=${encodeURIComponent(base)}`, note: 'WIPO Global Brand DB — search manually' },
+    { name: base, check: 'trademark:euipo',  result: 'manual', source: 'https://www.tmdn.org/tmview/', note: 'EUIPO TMview — search manually' },
   ];
 }
 

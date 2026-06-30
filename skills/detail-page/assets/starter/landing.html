@@ -26,29 +26,29 @@
      token to a --brand-* var (so utilities AND inline var(--color-*) re-theme together). Same
      discipline as assets/starter/index.html; 8 token axes present so emit-tokens.js captures the
      full handoff. Subject: "Marrow", a CLI-first time tracker for engineers — palette grounded in a
-     warm-paper surface + terminal-ink hero + a single reserved coral CTA accent. NEVER AI-purple.
+     warm off-white surface + ink hero + a single reserved amber CTA accent. NEVER AI-purple.
      ============================================================ */
   :root {
-    /* neutrals — warm paper, near-black ink */
-    --brand-surface: oklch(0.984 0.006 85);
+    /* neutrals — semantic roles reconciled to tokens/brand-default.tokens.json (ΔE-match) */
+    --brand-surface: oklch(0.985 0.008 95);
     --brand-card:    oklch(1 0 0);
-    --brand-ink:     oklch(0.190 0.012 65);
-    --brand-muted:   oklch(0.500 0.016 66);
-    --brand-line:    oklch(0.190 0.012 65 / 0.12);
-    /* primary ramp — deep ink-teal (hue ~200), L stepped near-even, chroma arced mid-ramp */
-    --brand-primary-50:  oklch(0.965 0.018 200);
-    --brand-primary-100: oklch(0.910 0.035 200);
-    --brand-primary-300: oklch(0.745 0.065 201);
-    --brand-primary-500: oklch(0.560 0.080 202);
-    --brand-primary-700: oklch(0.405 0.070 203);
-    --brand-primary-900: oklch(0.260 0.045 204);
+    --brand-ink:     oklch(0.205 0.012 275);
+    --brand-muted:   oklch(0.520 0.015 270);
+    --brand-line:    oklch(0.205 0.012 275 / 0.12);
+    /* primary ramp — brand-default evergreen (hue ~155), L stepped near-even, chroma arced mid-ramp */
+    --brand-primary-50:  oklch(0.965 0.020 155);
+    --brand-primary-100: oklch(0.910 0.040 155);
+    --brand-primary-300: oklch(0.760 0.075 156);
+    --brand-primary-500: oklch(0.560 0.095 156);
+    --brand-primary-700: oklch(0.400 0.080 157);
+    --brand-primary-900: oklch(0.270 0.050 158);
     --brand-primary: var(--brand-primary-700);
-    /* accent ramp — the reserved 10%: warm coral CTA pop (chroma < 0.8 of gamut, no neon) */
-    --brand-accent-300: oklch(0.760 0.130 33);
-    --brand-accent-500: oklch(0.630 0.175 30);
-    --brand-accent-700: oklch(0.520 0.150 28);
-    --brand-accent: oklch(0.560 0.165 30); /* deepened coral so near-white on-accent clears WCAG AA (≈4.83:1, was 3.62:1 on accent-500) */
-    --brand-on-accent: oklch(0.985 0.004 85); /* near-white on the deep coral → AA-safe */
+    /* accent ramp — brand-default warm amber, the reserved 10% CTA pop */
+    --brand-accent-300: oklch(0.845 0.105 65);
+    --brand-accent-500: oklch(0.720 0.160 58);
+    --brand-accent-700: oklch(0.605 0.150 50);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: var(--brand-ink); /* bright amber accent can't carry white text (AA) → dark ink on it */
     /* type — distinctive western pairing (see header comment) */
     --brand-font-display: "Fraunces", Georgia, serif;
     --brand-font-body:    "General Sans", "Helvetica Neue", sans-serif;
@@ -115,6 +115,19 @@
   html.reveal-on .reveal[data-d="3"] { transition-delay: .18s; }
   html.reveal-on .reveal[data-d="4"] { transition-delay: .24s; }
 
+  /* ---- Signature entrance: the hero terminal (the grounded signature) gets a REAL @keyframes entrance
+     with DISTINCT enter vs exit easing — a spring overshoot on the way in (0%), settling on a different
+     ease-out (100%) — instead of the symmetric load-fire transition the rest of the page uses. It is above
+     the fold so it plays on load; reduced-motion disables it via the `* { animation:none }` rule above and,
+     because the static element carries no opacity:0, it stays fully visible. transform/opacity only → no
+     layout jank. Below-fold blocks keep the IntersectionObserver `.reveal` path. ---- */
+  .sig { animation: sig-enter var(--dur-3, 320ms) both; }
+  @keyframes sig-enter {
+    0%   { opacity: 0; transform: translateY(26px) scale(0.985); animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+    62%  { opacity: 1; animation-timing-function: cubic-bezier(0.2, 0, 0, 1); }
+    100% { transform: translateY(0) scale(1); animation-timing-function: cubic-bezier(0.2, 0, 0, 1); }
+  }
+
   /* ---- Content column ---- */
   .col { max-width: 1080px; margin-inline: auto; padding-inline: 24px; }
   .col-narrow { max-width: 720px; margin-inline: auto; padding-inline: 24px; }
@@ -179,7 +192,7 @@
         $ brew install marrow
       </p>
     </div>
-    <div class="terminal reveal" data-d="3" aria-hidden="true">
+    <div class="terminal sig" aria-hidden="true">
       <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
 <pre><span class="g">~/api</span> $ mar start "refactor auth"
 <span class="m">▸ tracking · refactor auth · 00:00</span>

@@ -73,6 +73,8 @@ Run the **two-pass method** from `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/refer
 | **Data-table workspace** | toolbar (search + filters + bulk actions) above a TanStack table; row → sheet for detail | the rows; toolbar recedes |
 | **Pricing / plan comparison** | 3 tier cards with ONE highlighted "Most popular" default (the decoy/center-stage default, see marketing-conversion §7) + a billing **segmented toggle** (monthly↔annual) that runs the **discount math** live (annual shown as monthly-equiv + "save N%") + a **comparison matrix** with a **sticky header row** so tier names stay pinned while scrolling features; cover every state — loading skeleton, current-plan badge, unavailable/`—`/"coming soon" cell, enterprise "contact us" | the recommended tier + its price, value stacked before the number |
 
+**Ready-made seeds for two of these archetypes** — `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter/` ships `pricing.html` (the **Pricing / plan comparison** archetype: 3 tiers + recommended decoy, monthly↔annual toggle with live discount math, sticky-header comparison matrix, every cell state) and `settings.html` (the **Settings** archetype: left section sub-nav with scroll-spy, ≤640px form column, dirty-only floating save bar, every field state incl. disabled/read-only/error). Both carry all 8 token axes, one orchestrated entrance + scroll reveals, and the reduced-motion / no-JS fallback — start from them when the screen IS a pricing or settings page rather than re-deriving the skeleton.
+
 ### Build scaffold (real commands — frontend-build owns the deeper code work)
 ```bash
 npx shadcn@latest init                    # Tailwind v4 + RSC; choose a NON-default base color, then overwrite it with your @theme
@@ -158,18 +160,22 @@ In React: `const reduce = useReducedMotion()` then drop transforms, keep opacity
 ```bash
 ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page
 # REDUCED_MOTION=1 → emulates prefers-reduced-motion:reduce, re-resolves @media, and FAILS the run if any active
-# transition/animation doesn't collapse to ~0 (a no-op @media(reduce) block is the common bug). Gate check
-# reducedMotion (block); offenders land in run.json.motion.reducedMotionOffenders[].
+# transition/animation doesn't collapse to ~0 (a no-op @media(reduce) block is the common bug) — it now ALSO fails
+# on a still-running WAAPI/Framer animation under reduce (offender carries source:'waapi'), and SHOOTS
+# reduced-motion-*.png frames as pixel proof (run.json.motion.reducedMotionFilmstrip[]). Gate check reducedMotion
+# (block); offenders land in run.json.motion.reducedMotionOffenders[].
 REDUCED_MOTION=1 NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out]
-# MOTION_TRIGGER='selector:event' → films a ~600ms window around a triggered state (hover/click/focus) and warns
-# if a triggered element animates a LAYOUT property (the jank ban above), not transform/opacity.
+# MOTION_TRIGGER='selector:event' → films a ~600ms window around a triggered state (hover/click/focus), SCOPES the
+# audit to the triggered subtree, and warns if a triggered element animates a LAYOUT property (the jank ban above),
+# not transform/opacity. The motionInteraction gate now reports pass:false (was vacuously true) when the trigger
+# selector isn't found or films no frames (detail adds `unproven=N`) — a quietly-missing trigger no longer passes.
 MOTION_TRIGGER='button:click|[data-row]:hover' NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out]
 # MOTION_TRIGGER='scroll:<selector>' → scrolls the element into view and films pre + a ~600ms reveal window
 # (interact-scroll_<sel>-*.png), running the same duration/easing/layout audit — for scroll-revealed sections.
 MOTION_TRIGGER='scroll:.reveal|button:click' NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js <url> [out]
 # FILMSTRIP=1 captures the orchestrated entrance at desktop AND 390px (filmstrip-mobile-*.png) so the "one moment" is screenshot-visible.
 ```
-Run `REDUCED_MOTION=1` before ship so the reduced-motion floor is machine-proven; use `MOTION_TRIGGER` to catch a dropdown/toggle quietly animating `width`/`height`/`top` instead of `transform`. **Easing is now machine-graded** — `run.json.motion.easings[]` records `{sel, enter, exit, fn}` per animated element, and `motion.warnings[]` flags `linear-or-default-entrance` (a flat/default entrance ease) and `no-enter-exit-asymmetry` (`enter===exit`, a non-blocking `warn`). The off-token duration band derives from the page's own `--dur-*` tokens unioned with `[120,150,200,250,320,400,700]`, so your committed motion tokens read as in-band; `design-critic MODE=motion` grades from these fields.
+Run `REDUCED_MOTION=1` before ship so the reduced-motion floor is machine-proven; use `MOTION_TRIGGER` to catch a dropdown/toggle quietly animating `width`/`height`/`top` instead of `transform`. **Easing is now machine-graded** — `run.json.motion.easings[]` records `{sel, enter, exit, fn}` per animated element, and `motion.warnings[]` flags `linear-or-default-entrance` (a flat/default entrance ease) and `no-enter-exit-asymmetry` (`enter===exit`, a non-blocking `warn`). The off-token duration band derives from the page's own `--dur-*` tokens unioned with `[120,150,200,250,320,400,700]`, so your committed motion tokens read as in-band, and the >600ms too-long warning now EXEMPTS infinite/looping animations (a skeleton pulse no longer reads as off-token). **Script-driven motion is captured too** — `run.json.motion.jsAnimations[]` logs one `{sel,durationMs,easing,props,iterations,playState}` per `document.getAnimations()` entry (Framer/WAAPI, script-generated only), on the full-page audit and each interaction, so a `motion`/Framer animation is graded by the same band/easing/layout rules as a CSS transition. `design-critic MODE=motion` grades from these fields.
 
 ### Motion BANNED defaults
 - ❌ Everything fades/slides in on scroll (whole-page `AOS`-style reveal) — it screams template.
@@ -213,7 +219,7 @@ Run AFTER shooting. Grade the **tiles**, not the code. Reuse the anti-slop audit
 
 **B · Accessibility floor** (the real check belongs to **a11y-auditor** + `frontend-build`; this is the gate):
 - [ ] **Visible focus** on every interactive element (`:focus-visible` ring, ≥2px, contrast ≥3:1 vs adjacent).
-- [ ] **Contrast**: text ≥4.5:1 (≥3:1 for ≥24px/bold), UI/graphics ≥3:1. Run `AXE=1 NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js …` — `axe.gatingCount` >0 at serious/critical is a fail.
+- [ ] **Contrast**: text ≥4.5:1 (≥3:1 for ≥24px/bold), UI/graphics ≥3:1. Run `AXE=1 NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js …` — `axe.gatingCount` >0 at serious/critical is a fail. (The color-contrast suggestion now reads "needs 4.5:1", names the resolved `--color-*` token when one matches the offending fg, and no longer proposes pure-black oklch.)
 - [ ] **Keyboard**: full tab order, logical sequence, no traps; modal traps+restores focus; `⌘K`/menus/combobox keyboard-operable; visible skip-to-content for heavy chrome.
 - [ ] **Semantics**: real `<button>`/`<a>`/`<nav>`/`<table>`; `aria-current` on active nav; `aria-invalid`+`aria-describedby` on errored fields; `aria-busy` on loading; live region for toasts.
 - [ ] **Touch targets ≥44×44px** (WCAG 2.5.5); ≥24px is the AA floor.

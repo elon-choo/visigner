@@ -169,6 +169,19 @@
   html.reveal-on .reveal { opacity: 0; transform: translateY(16px); }
   html.reveal-on .reveal.is-in { opacity: 1; transform: none; }
 
+  /* ---- Signature entrance: the hero headline (the page's signature element) gets a REAL @keyframes
+     entrance with DISTINCT enter vs exit easing — a spring overshoot on the way in (0%) settling on a
+     different ease-out (100%) — instead of the symmetric load-fire transition. Above the fold so it plays
+     on load; reduced-motion disables it via the `* { animation:none }` rule above and, since the static
+     element carries no opacity:0, it stays fully visible. transform/opacity only → no layout jank.
+     Below-fold blocks keep the IntersectionObserver `.reveal` path. ---- */
+  .sig { animation: sig-enter var(--dur-3, 320ms) both; }
+  @keyframes sig-enter {
+    0%   { opacity: 0; transform: translateY(20px) scale(0.99); animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+    62%  { opacity: 1; animation-timing-function: cubic-bezier(0.2, 0, 0, 1); }
+    100% { transform: translateY(0) scale(1); animation-timing-function: cubic-bezier(0.2, 0, 0, 1); }
+  }
+
   /* ---- Detail-page content column: 860px (Wadiz/Naver). Build images 1000–1200px and downscale. ---- */
   .col { max-width: 860px; margin-inline: auto; padding-inline: 16px; }
 
@@ -222,7 +235,7 @@
 <header class="col" style="padding-block:32px">
   <!-- 1 후킹 / hero: subject-grounded thesis. NOT big-number+gradient. Win the first 3 seconds. -->
   <p class="text-sm font-medium text-muted">eyebrow — only if it encodes something true</p>
-  <h1 class="reveal" style="font-size:clamp(40px,7vw,72px);font-weight:700;line-height:1.05;margin-top:8px">
+  <h1 class="sig" style="font-size:clamp(40px,7vw,72px);font-weight:700;line-height:1.05;margin-top:8px">
     [Hook headline — one sharp message, ideally with a number]
   </h1>
 </header>

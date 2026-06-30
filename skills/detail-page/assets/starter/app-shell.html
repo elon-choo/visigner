@@ -39,25 +39,26 @@
      inline var(--color-*) at once. The brand hues (primary/accent) are shared across modes. NEVER AI-purple.
      ============================================================ */
   :root {
-    /* neutrals — light */
-    --brand-surface: oklch(0.984 0.003 250);  /* app canvas */
+    /* neutrals — light; semantic roles reconciled to tokens/brand-default.tokens.json (ΔE-match) */
+    --brand-surface: oklch(0.985 0.008 95);   /* app canvas */
     --brand-card:    oklch(1 0 0);            /* panels, rows, cards */
-    --brand-ink:     oklch(0.215 0.018 262);  /* primary text */
-    --brand-muted:   oklch(0.530 0.018 262);  /* secondary text */
-    --brand-line:    oklch(0.215 0.018 262 / 0.12);
-    /* primary/accent ramp — indigo, OKLCH near-even L (shared by both themes) */
-    --brand-primary-50:  oklch(0.965 0.018 265);
-    --brand-primary-100: oklch(0.915 0.035 265);
-    --brand-primary-300: oklch(0.760 0.085 265);
-    --brand-primary-500: oklch(0.585 0.130 266);
-    --brand-primary-700: oklch(0.470 0.135 267);
-    --brand-primary-900: oklch(0.320 0.090 268);
+    --brand-ink:     oklch(0.205 0.012 275);  /* primary text */
+    --brand-muted:   oklch(0.520 0.015 270);  /* secondary text */
+    --brand-line:    oklch(0.205 0.012 275 / 0.12);
+    /* primary/accent ramp — brand-default product-data palette: evergreen primary + warm amber accent
+       (re-grounded OFF the convergent "generic SaaS" indigo). Shared by both themes; OKLCH near-even L. */
+    --brand-primary-50:  oklch(0.965 0.020 155);
+    --brand-primary-100: oklch(0.910 0.040 155);
+    --brand-primary-300: oklch(0.760 0.075 156);
+    --brand-primary-500: oklch(0.560 0.095 156);
+    --brand-primary-700: oklch(0.400 0.080 157);
+    --brand-primary-900: oklch(0.270 0.050 158);
     --brand-primary: var(--brand-primary-700);
-    --brand-accent-300: oklch(0.760 0.110 265);
-    --brand-accent-500: oklch(0.585 0.150 266);
-    --brand-accent-700: oklch(0.470 0.140 267);
-    --brand-accent: oklch(0.540 0.150 266); /* deepened indigo so on-accent (near-white) clears WCAG AA (≈5.05:1, was 4.17:1 on accent-500) */
-    --brand-on-accent: oklch(0.99 0.003 250); /* white on indigo → AA */
+    --brand-accent-300: oklch(0.845 0.105 65);
+    --brand-accent-500: oklch(0.720 0.160 58);
+    --brand-accent-700: oklch(0.605 0.150 50);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: var(--brand-ink); /* bright amber accent can't carry white text (AA) → dark ink on it */
     /* status hues (token-driven; used by row badges + table states) */
     --brand-ok:    oklch(0.620 0.130 150);
     --brand-warn:  oklch(0.720 0.130 75);
@@ -78,12 +79,12 @@
     --brand-ink:     oklch(0.955 0.005 250);
     --brand-muted:   oklch(0.705 0.012 255);
     --brand-line:    oklch(0.985 0.004 250 / 0.12);
-    --brand-primary-500: oklch(0.680 0.140 266);
-    --brand-primary-700: oklch(0.620 0.150 266);
+    --brand-primary-500: oklch(0.690 0.105 156);
+    --brand-primary-700: oklch(0.610 0.100 157);
     --brand-primary: var(--brand-primary-700);
-    --brand-accent-500: oklch(0.680 0.150 266);
+    --brand-accent-500: oklch(0.770 0.150 60);
     --brand-accent: var(--brand-accent-500);
-    --brand-on-accent: oklch(0.16 0.01 262);
+    --brand-on-accent: oklch(0.205 0.012 275);
     --brand-shadow-e1: 0 1px 2px oklch(0 0 0 / 0.30);
     --brand-shadow-e2: 0 8px 22px oklch(0 0 0 / 0.40);
     --brand-shadow-e3: 0 24px 56px oklch(0 0 0 / 0.55);
@@ -168,7 +169,7 @@
   .seg { display: inline-flex; border: 1px solid var(--color-line); border-radius: 10px; overflow: hidden; }
   .seg button { border: 0; background: transparent; color: var(--color-muted); font-size: 13px; font-weight: 500;
     padding: 7px 12px; cursor: pointer; font-family: var(--font-body); }
-  .seg button[aria-pressed="true"] { background: var(--color-primary); color: var(--color-on-accent); }
+  .seg button[aria-pressed="true"] { background: var(--color-accent); color: var(--color-on-accent); }
 
   /* ---- Table: wrapper scrolls horizontally on its own so a wide table never overflows the page ---- */
   .table-wrap { overflow-x: auto; }

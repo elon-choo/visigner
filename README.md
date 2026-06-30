@@ -60,7 +60,7 @@ You usually don't need to name anything — just describe the task in plain lang
 
 ### Skills (auto-trigger on relevant work)
 - **detail-page** — landing pages + Korean 상세페이지 / Wadiz·텀블벅 funding pages, image-asset generation, and the screenshot self-critique loop. Anti-AI-slop aesthetics + Korean conversion structure (PASONA, Schwartz awareness×sophistication). Ships with real Wadiz reference captures for calibration.
-- **ui-design** — app / web / product UI, dashboards, SaaS, forms, and components — every interactive state, motion discipline, the anti-slop bar applied to product UI.
+- **ui-design** — app / web / product UI, dashboards, SaaS, forms, and components — every interactive state, motion discipline, the anti-slop bar applied to product UI. Ships gate-passing HTML seeds incl. a `pricing.html` plan-comparison page and a `settings.html` account screen alongside the index/landing/app-shell scaffolds.
 - **design-system** — design tokens (DTCG + Tailwind v4 `@theme`), OKLCH ramps, semantic theming, multi-brand & dark mode, and dev handoff spec sheets.
 - **brand-identity** — brand strategy (positioning, archetypes), verbal identity (voice, naming, messaging), and visual identity (logo direction, color, type, imagery).
 - **ux-flows** — the planner's home: idea → user flows → information architecture → wireframes → acceptance spec.
@@ -75,7 +75,7 @@ You usually don't need to name anything — just describe the task in plain lang
 ### Commands
 `/design` (router) · `/landing` · `/ui` · `/brand` · `/plan` · `/campaign` · `/design-tokens` · `/design-review` · `/design-setup`
 
-`/campaign` pins ONE idea and ladders it across landing + paid ad + social + an email sequence, then enforces cross-surface message-match with the deterministic copy floor (`copy-lint.js --idea`) + the email floor + an independent `design-critic MODE=copy` grade.
+`/campaign` pins ONE idea and ladders it across landing + paid ad + social + an email sequence, then checks cross-surface message-match presence with the deterministic copy floor (`copy-lint.js --idea`, `--strict` to gate) + the email floor + an independent `design-critic MODE=copy` semantic grade.
 
 ---
 
@@ -94,8 +94,8 @@ Left alone, a model emits the high-probability **generic center** — the "AI sl
 Beyond the screenshot loop (`shoot.js`), the suite ships runnable helpers you invoke directly:
 - **`ab.js`** — A/B sizing + readouts: proportion z-test, Welch t-test for revenue/AOV, SRM guardrail (chi-square), Bayesian P(B>A) + expected loss, multi-variant Bonferroni/Šidák, and an N-bucket exposure snippet.
 - **`pull-funnel.js`** — read-only PostHog/GA4 funnel: ordered step counts + drop-off %, segmented by source × device (no key → prints the event/UTM schema to instrument).
-- **`email.js` / `email-lint.js`** — emit an ESP-pasteable responsive HTML email (600px table layout, inlined CSS, Outlook VML CTA) and a deterministic copy linter (spam/subject/CTA/lexicon) that's the machine floor under the LLM copy critique. (Spam severity is split: true spam tells stay ERROR, borderline launch phrases like "limited time" are now WARN.)
-- **`copy-lint.js`** — the non-email companion floor: a deterministic per-CHANNEL gate for paid-ad / social / push copy (length budgets, AI-slop banned verbs, a required CTA) + an optional `--idea` cross-surface message-match. Powers the new **`/campaign`** command's one-idea ladder.
+- **`email.js` / `email-lint.js`** — emit an ESP-pasteable responsive HTML email (600px table layout, inlined CSS, Outlook VML CTA) and a deterministic copy linter (spam/subject/CTA/lexicon) that's the machine floor under the LLM copy critique. (Spam severity is split: true spam tells stay ERROR, borderline launch phrases like "limited time" are now WARN.) Korean-aware via `--locale ko` (or a `--voice voice.json` pack): KR slop/spam tells + grapheme-counted subject/preview budgets.
+- **`copy-lint.js`** — the non-email companion floor: a deterministic per-CHANNEL gate for paid-ad / social / push copy (length budgets, AI-slop banned verbs, a required CTA) + an optional `--idea` cross-surface message-match (a **presence-only** floor — WARN by default, `--strict` to ERROR on zero shared tokens; *semantic* match stays `design-critic MODE=copy`). Same `--locale ko` Korean pack. Powers the **`/campaign`** command's one-idea ladder.
 - **`plan-lint.js`** — the deterministic floor under `design-critic MODE=plan`: lints a ux-flows PRD/plan markdown for 11 required sections + 3 structural floors (event-spec table, per-flow error path, inventory↔acceptance-criteria coverage).
 - **`name-check.js`** — brand-naming conflict sweep: authoritative `.com` domain availability via RDAP, best-effort GitHub/npm handle probes, and prefilled USPTO/WIPO/EUIPO trademark search URLs. (`.co`/`.io` report `unknown` — no RDAP coverage.)
 - **`serve-shoot.js`** — build/serve → shoot → teardown in one call (static dir or a spawned app), exiting with `shoot.js`'s code so it drops into **CI**.

@@ -69,6 +69,62 @@ const SLOP = [
   /\bcutting[- ]edge\b/i,
 ];
 
+// ---- locale-pluggable lexicon (KO floor) ----------------------------------------------------------
+// Default behavior = the English lists above. `--locale ko` swaps in the built-in Korean pack and
+// `--voice voice.json` ({ locale, slopWords, spamWords, ctaVerbs, subjectMax, previewMax }) overrides
+// individual fields. A non-English locale also turns on grapheme-aware length counting (a Korean
+// syllable = 1 char) and uses Korean-appropriate subject/preheader budgets — Korean carries ~2x the
+// information per character, so the English 50/90 caps would over-allow. Korean has no word
+// boundaries, so KO entries are plain strings matched as substrings.
+const KO_SLOP = [
+  '최고', '최상', '최강', '혁신', '완벽', '무조건', '궁극', '압도적', '차세대',
+  '게임체인저', '단언컨대', '진정한', '신세계', '대박', '강력한', '획기적', '믿을 수 없는',
+];
+const KO_SPAM = [
+  '무료', '공짜', '완전무료', '무료체험', '당첨', '현금', '꽁돈', '지금 즉시',
+  '100% 무료', '이벤트 당첨', '클릭하세요', '돈 버는',
+];
+const LOCALES = {
+  en: { locale: 'en', slop: SLOP, spam: SPAM_WORDS_ERROR, subjectMax: SUBJECT_MAX, previewMax: PREHEADER_MAX, graphemeLen: false },
+  ko: { locale: 'ko', slop: KO_SLOP, spam: KO_SPAM, subjectMax: 25, previewMax: 45, graphemeLen: true },
+};
+
+// grapheme-aware length (Korean syllable = 1); falls back to code-point count if no Intl.Segmenter.
+function graphemeLen(s) {
+  s = String(s);
+  if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+    try { let n = 0; for (const _ of new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(s)) n++; return n; } catch (_) { /* fall through */ }
+  }
+  return Array.from(s).length;
+}
+function clen(s, loc) { return loc && loc.graphemeLen ? graphemeLen(s) : String(s).length; }
+
+function resolveLocale(localeArg, voice) {
+  const base = (voice && voice.locale) || localeArg || 'en';
+  const cfg = Object.assign({}, LOCALES[base] || LOCALES.en);
+  cfg.locale = base;
+  if (base !== 'en' && !LOCALES[base]) cfg.graphemeLen = true; // unknown non-en locale: assume CJK-aware
+  if (voice) {
+    if (Array.isArray(voice.slopWords)) cfg.slop = voice.slopWords;
+    if (Array.isArray(voice.spamWords)) cfg.spam = voice.spamWords;
+    if (Number.isFinite(voice.subjectMax)) cfg.subjectMax = voice.subjectMax;
+    if (Number.isFinite(voice.previewMax)) cfg.previewMax = voice.previewMax;
+    if (typeof voice.graphemeLen === 'boolean') cfg.graphemeLen = voice.graphemeLen;
+  }
+  return cfg;
+}
+
+// slop matcher tolerant of both RegExp (English) and plain-substring (Korean / JSON) entries.
+function findSlop(corpus, list) {
+  const hits = [];
+  const lc = String(corpus).toLowerCase();
+  for (const entry of (list || [])) {
+    if (entry instanceof RegExp) { const m = String(corpus).match(entry); if (m) hits.push(m[0]); }
+    else { const s = String(entry).trim(); if (s && lc.includes(s.toLowerCase())) hits.push(s); }
+  }
+  return hits;
+}
+
 // ---------- spec/HTML -> normalized { subject, preheader, ctas[], bodyText, source } ----------
 function fromSpec(spec) {
   const blocks = Array.isArray(spec.blocks) ? spec.blocks : [];
@@ -109,19 +165,22 @@ function fromHtml(raw) {
 }
 
 // ---------- the checks ----------
-function lintOne(model, file, lexicon) {
+function lintOne(model, file, lexicon, loc) {
+  loc = loc || LOCALES.en;
   const findings = [];
   const add = (rule, severity, message) => findings.push({ rule, severity, message });
   const head = `${model.subject}\n${model.preheader}`; // spam-tells scanned in the visible inbox surface
 
-  // length / presence
+  // length / presence (grapheme-aware + locale budgets for CJK)
+  const subjLen = clen(model.subject, loc);
+  const preLen = clen(model.preheader, loc);
   if (!model.subject.trim()) add('subject-missing', 'error', 'no subject line');
-  else if (model.subject.length > SUBJECT_MAX)
-    add('subject-too-long', 'error', `subject ${model.subject.length} chars > ${SUBJECT_MAX}`);
+  else if (subjLen > loc.subjectMax)
+    add('subject-too-long', 'error', `subject ${subjLen} chars > ${loc.subjectMax}`);
 
   if (!model.preheader.trim()) add('preheader-missing', 'warn', 'no preheader — inbox will show body text');
-  else if (model.preheader.length > PREHEADER_MAX)
-    add('preheader-too-long', 'warn', `preheader ${model.preheader.length} chars > ${PREHEADER_MAX}`);
+  else if (preLen > loc.previewMax)
+    add('preheader-too-long', 'warn', `preheader ${preLen} chars > ${loc.previewMax}`);
 
   // single clear CTA
   if (model.ctas.length === 0) add('cta-missing', 'error', 'no CTA / no clear action');
@@ -132,8 +191,8 @@ function lintOne(model, file, lexicon) {
   if (caps) add('spam-allcaps', 'error', `ALL-CAPS shouting: ${[...new Set(caps)].slice(0, 3).join(', ')}`);
   if (/!{3,}/.test(head)) add('spam-bang', 'error', 'excessive "!!!"');
   const lower = head.toLowerCase();
-  for (const w of SPAM_WORDS_ERROR) {
-    if (lower.includes(w)) add('spam-words', 'error', `spam phrase: "${w}"`);
+  for (const w of loc.spam) {
+    if (lower.includes(String(w).toLowerCase())) add('spam-words', 'error', `spam phrase: "${w}"`);
   }
   for (const w of SPAM_WORDS_WARN) {
     if (lower.includes(w)) add('spam-words-soft', 'warn', `borderline phrase: "${w}" — fine for a real launch, but a spam-filter tell`);
@@ -144,11 +203,11 @@ function lintOne(model, file, lexicon) {
   // AI-slop banned verbs (subject + preheader + body) — same list/severity as copy-lint.js (ERROR).
   const slopCorpus = `${head}\n${model.bodyText}`;
   const slopSeen = new Set();
-  for (const re of SLOP) {
-    const m = slopCorpus.match(re);
-    if (m && !slopSeen.has(m[0].toLowerCase())) {
-      slopSeen.add(m[0].toLowerCase());
-      add('slop-verb', 'error', `AI-slop verb/phrase: "${m[0]}"`);
+  for (const hit of findSlop(slopCorpus, loc.slop)) {
+    const key = hit.toLowerCase();
+    if (!slopSeen.has(key)) {
+      slopSeen.add(key);
+      add('slop-verb', 'error', `AI-slop verb/phrase: "${hit}"`);
     }
   }
 
@@ -173,8 +232,8 @@ function lintOne(model, file, lexicon) {
     pass: errorCount === 0,
     errorCount,
     warnCount,
-    subjectLen: model.subject.length,
-    preheaderLen: model.preheader.length,
+    subjectLen: subjLen,
+    preheaderLen: preLen,
     ctaCount: model.ctas.length,
     findings,
   };
@@ -211,10 +270,13 @@ const HELP = `email-lint.js — deterministic email-copy linter (the floor under
 USAGE
   node email-lint.js <spec.json|email.html>          single email
   node email-lint.js <dir/>                          sequence: every *.json/*.html in the dir
+  node email-lint.js <target> --locale ko            built-in Korean spam/slop + Korean length budgets
+  node email-lint.js <target> --voice voice.json     custom locale pack (slopWords/spamWords/subjectMax/…)
   node email-lint.js <target> --lexicon voice.json   + owned/banned brand-lexicon check
   node email-lint.js <target> [out.json]             also write the JSON report
   node email-lint.js --help
 
+locale pack  { locale, slopWords, spamWords, ctaVerbs, subjectMax, previewMax } — non-en counts graphemes
 voice.json   { "owned": [...], "banned": [...] }
 CHECKS (ERROR -> exit 1; WARN -> never fails)
   subject>50 ERROR · subject-missing ERROR · preheader>90 WARN · preheader-missing WARN ·
@@ -228,9 +290,12 @@ function main() {
     process.stdout.write(HELP);
     process.exit(argv.length === 0 ? 1 : 0);
   }
-  // parse --lexicon and positionals
+  // parse --lexicon / --locale / --voice and positionals
   let lexicon = null;
   let lexiconPath = null;
+  let localeArg = null;
+  let voiceCfg = null;
+  let voicePath = null;
   const pos = [];
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--lexicon') {
@@ -238,6 +303,13 @@ function main() {
       if (!lp) { console.error('FATAL --lexicon needs a path'); process.exit(2); }
       lexiconPath = lp;
       lexicon = JSON.parse(fs.readFileSync(lp, 'utf8'));
+    } else if (argv[i] === '--locale') {
+      localeArg = argv[++i];
+      if (!localeArg) { console.error('FATAL --locale needs a code (e.g. ko)'); process.exit(2); }
+    } else if (argv[i] === '--voice') {
+      voicePath = argv[++i];
+      if (!voicePath) { console.error('FATAL --voice needs a path'); process.exit(2); }
+      voiceCfg = JSON.parse(fs.readFileSync(voicePath, 'utf8'));
     } else {
       pos.push(argv[i]);
     }
@@ -246,14 +318,15 @@ function main() {
   const outArg = pos[1];
   if (!target) { console.error('FATAL no target'); process.exit(2); }
 
+  const loc = resolveLocale(localeArg, voiceCfg);
   const st = fs.statSync(target);
   let reports;
   if (st.isDirectory()) {
-    const files = collectTargets(target, [outArg, lexiconPath].filter(Boolean));
+    const files = collectTargets(target, [outArg, lexiconPath, voicePath].filter(Boolean));
     if (files.length === 0) { console.error('FATAL no *.json/*.html in dir'); process.exit(2); }
-    reports = files.map((f) => lintOne(modelFromFile(f), path.resolve(f), lexicon));
+    reports = files.map((f) => lintOne(modelFromFile(f), path.resolve(f), lexicon, loc));
   } else {
-    reports = [lintOne(modelFromFile(target), path.resolve(target), lexicon)];
+    reports = [lintOne(modelFromFile(target), path.resolve(target), lexicon, loc)];
   }
 
   const errorCount = reports.reduce((a, r) => a + r.errorCount, 0);

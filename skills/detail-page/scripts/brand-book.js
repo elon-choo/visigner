@@ -107,8 +107,25 @@ try {
   let logoSvg = loadLogo(logoPath);
   const name = brandName || (tokens.$brand && tokens.$brand.name) || 'Brand';
   if (!logoSvg) {
-    // deterministic placeholder monogram from the brand initial in the accent color
-    const L = (String(name).match(/[A-Za-z0-9]/) || ['B'])[0].toUpperCase();
+    // deterministic placeholder monogram from the brand initial in the accent color.
+    // Prefer the first Latin letter/digit; for a CJK/Korean-only name fall back to the first GRAPHEME
+    // (e.g. 고요 -> 고) — same path as gen-assets.motifLogo — instead of a literal "B".
+    const latin = String(name).match(/[A-Za-z0-9]/);
+    let L;
+    if (latin) {
+      L = latin[0].toUpperCase();
+    } else {
+      let g = String(name).trim();
+      try {
+        if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+          const first = new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(g)[Symbol.iterator]().next().value;
+          if (first && first.segment) g = first.segment;
+        } else {
+          g = Array.from(g)[0] || g;
+        }
+      } catch (_) { g = Array.from(g)[0] || g; }
+      L = (g || 'B').toUpperCase(); // toUpperCase is a no-op for CJK; keeps the Latin path uppercase
+    }
     logoSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="${esc(name)} mark">`
       + `<circle cx="50" cy="50" r="44" fill="${C.accent}"/>`
       + `<text x="50" y="50" text-anchor="middle" dominant-baseline="central" font-family="Pretendard, sans-serif" font-weight="800" font-size="52" fill="${C.surface}">${esc(L)}</text>`

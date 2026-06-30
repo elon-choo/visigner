@@ -128,7 +128,10 @@ function _oklchToLin({ L, C, H }) {
 function suggestPassingOklch(fg, bg, required) {
   const fgRgb = _parseRgb(fg), bgRgb = _parseRgb(bg);
   if (!fgRgb || !bgRgb) return null;
-  const req = required || 4.5;
+  // axe delivers `required` as a STRING ("3:1" / "4.5:1"); a numeric `>=` against that string is always false, so the
+  // loop used to clamp lightness all the way to oklch(0 …) = pure black. Parse to a number so the loop stops at the
+  // minimal lightness that actually clears the ratio.
+  const req = parseFloat(String(required)) || 4.5;
   const bgY = _lumLin(_lin(bgRgb[0]), _lin(bgRgb[1]), _lin(bgRgb[2]));
   const base = _rgbToOklch(fgRgb);
   const contrastAt = (L) => { const [r, g, b] = _oklchToLin({ L, C: base.C, H: base.H }); const y = _lumLin(r, g, b); const hi = Math.max(y, bgY) + 0.05, lo = Math.min(y, bgY) + 0.05; return hi / lo; };
@@ -137,6 +140,17 @@ function suggestPassingOklch(fg, bg, required) {
   for (let i = 0; i < 60; i++) { if (contrastAt(L) >= req) break; L += dir * 0.02; if (L < 0 || L > 1) { L = Math.min(1, Math.max(0, L)); break; } }
   if (contrastAt(L) < req) return null;
   return `oklch(${L.toFixed(3)} ${base.C.toFixed(3)} ${base.H.toFixed(1)})`;
+}
+// Resolve a rendered rgb() color back to the --color-* design token that produced it (collected from :root), so the
+// contrast fix names the actual token to edit (e.g. "--color-text") instead of an anonymous "text" word.
+function _findColorToken(targetRgb, customProps) {
+  const t = _parseRgb(targetRgb);
+  if (!t) return null;
+  for (const [name, val] of Object.entries(customProps || {})) {
+    const c = _parseRgb(val);
+    if (c && Math.abs(c[0] - t[0]) <= 2 && Math.abs(c[1] - t[1]) <= 2 && Math.abs(c[2] - t[2]) <= 2) return name;
+  }
+  return null;
 }
 
 async function runAxe(page) {
@@ -161,14 +175,38 @@ async function runAxe(page) {
       return o;
     });
   });
+  // Collect the page's :root --color-* tokens resolved to rgb() (only when a contrast fix actually needs one), so the
+  // suggestion can name the token to edit rather than a generic "text".
+  let customProps = {};
+  if (violations.some((v) => v.id === 'color-contrast' && v.contrastData)) {
+    customProps = await page.evaluate(() => {
+      const out = {};
+      const rs = getComputedStyle(document.documentElement);
+      const probe = document.createElement('span');
+      probe.style.display = 'none';
+      document.body.appendChild(probe);
+      for (let i = 0; i < rs.length; i++) {
+        const p = rs[i];
+        if (!/^--color-/i.test(p)) continue;
+        probe.style.color = '';
+        probe.style.color = `var(${p})`;
+        const resolved = getComputedStyle(probe).color;
+        if (/^rgb/i.test(resolved)) out[p] = resolved;
+      }
+      probe.remove();
+      return out;
+    }).catch(() => ({}));
+  }
   // Enrich color-contrast in node (the OKLCH math lives here): name the offending text color and suggest a fix.
   for (const v of violations) {
     if (v.id === 'color-contrast' && v.contrastData) {
       const cd = v.contrastData;
       const sugg = suggestPassingOklch(cd.fg, cd.bg, cd.required);
+      const req = parseFloat(String(cd.required)) || 4.5; // axe gives "4.5:1" — parse so the message reads "needs 4.5:1", not "4.5:1:1"
+      const token = _findColorToken(cd.fg, customProps);
       v.contrast = { fg: cd.fg, bg: cd.bg, ratio: cd.ratio, required: cd.required, target: cd.target };
-      v.suggestion = `text ${cd.fg} on ${cd.bg} is ${cd.ratio}:1 (needs ${cd.required}:1) — ` +
-        (sugg ? `set the text token to ${sugg} (same hue/chroma, raised lightness/contrast)` : 'darken the text or lighten the background; no in-gamut OKLCH at this hue/chroma reaches the target');
+      v.suggestion = `text ${cd.fg} on ${cd.bg} is ${cd.ratio}:1 (needs ${req}:1) — ` +
+        (sugg ? `set the ${token || 'text'} token to ${sugg} (same hue/chroma, raised lightness/contrast)` : 'darken the text or lighten the background; no in-gamut OKLCH at this hue/chroma reaches the target');
       delete v.contrastData;
     }
   }
@@ -406,15 +444,18 @@ async function captureFilmstrip(page, prefix = 'filmstrip') {
   return frames;
 }
 
-// (A) REDUCED-MOTION capture gate. Emulate prefers-reduced-motion:reduce, let media queries re-resolve, then assert
-// every element's ACTIVE transition/animation duration collapses to ~0. A page whose @media (reduce) block is a no-op
-// duplicate (does not actually set transition/animation:none) leaves real durations alive → honored=false (BLOCK).
+// (A) REDUCED-MOTION capture gate. Emulate prefers-reduced-motion:reduce, let media queries re-resolve, SHOOT a
+// filmstrip (so the floor is proven from pixels, not just style reads), then assert every element's ACTIVE
+// transition/animation duration collapses to ~0 AND that document.getAnimations() holds no still-running WAAPI/Framer
+// animation (JS motion ignores @media reduce unless the page's own code honors it). A page whose @media (reduce) block
+// is a no-op duplicate — or that animates purely via JS — leaves real motion alive → honored=false (BLOCK).
 // honored=null only if the eval itself throws (unknown, never a silent pass). Emulation is restored before returning.
 async function auditReducedMotion(page) {
   let res;
   try {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await sleep(150);
+    const filmstrip = await captureFilmstrip(page, 'reduced-motion'); // prove the reduced-motion state from pixels
     res = await page.evaluate(() => {
       const parseDur = (s) => String(s || '').split(',').map((x) => {
         x = x.trim();
@@ -438,8 +479,26 @@ async function auditReducedMotion(page) {
           if (offenders.length >= 20) break;
         }
       }
+      // WAAPI / Web Animations (Framer Motion, element.animate(...)) do NOT respond to @media reduce on their own — a
+      // running animation here means the served/React reduced-motion floor is NOT actually honored. Assert empty/paused.
+      try {
+        for (const anim of ((typeof document.getAnimations === 'function') ? document.getAnimations() : [])) {
+          if (offenders.length >= 20) break;
+          const cn = anim.constructor && anim.constructor.name;
+          if (cn === 'CSSAnimation' || cn === 'CSSTransition') continue; // CSS motion already caught by the computed-style scan above
+          const eff = anim.effect;
+          const tm = (eff && typeof eff.getTiming === 'function') ? eff.getTiming() : null;
+          const dur = tm && typeof tm.duration === 'number' ? tm.duration : 0;
+          if (anim.playState === 'running' && dur > 1) {
+            const t = eff.target;
+            const sel = (t && t.tagName) ? t.tagName.toLowerCase() : '(waapi)';
+            offenders.push({ sel, transitionMs: 0, animationMs: Math.round(dur), source: 'waapi' });
+          }
+        }
+      } catch (_) {}
       return { honored: offenders.length === 0, offenders };
     });
+    res.filmstrip = filmstrip;
   } catch (e) { res = { honored: null, offenders: [], error: e.message }; }
   try { await page.emulateMedia({ reducedMotion: 'no-preference' }); } catch (_) {}
   return res;
@@ -480,8 +539,8 @@ async function filmOneInteraction(page, spec) {
   const stamps = [60, 160, 300, 450, 600];
   const start = Date.now();
   for (const t of stamps) { const w = t - (Date.now() - start); if (w > 0) await sleep(w); await shot(String(t)); }
-  const audit = await analyzeMotion(page);
-  result.durations = audit.durations; result.layoutAnimated = audit.layoutAnimated; result.warnings = audit.warnings; result.easings = audit.easings;
+  const audit = await analyzeMotion(page, selector); // scope the post-trigger read to the triggered subtree
+  result.durations = audit.durations; result.layoutAnimated = audit.layoutAnimated; result.warnings = audit.warnings; result.easings = audit.easings; result.jsAnimations = audit.jsAnimations || [];
   if (audit.error) result.error = (result.error ? result.error + '; ' : '') + audit.error;
   return result;
 }
@@ -491,8 +550,8 @@ async function filmInteractions(page, spec) {
   for (const s of specs) out.push(await filmOneInteraction(page, s));
   return out;
 }
-async function analyzeMotion(page) {
-  return page.evaluate(() => {
+async function analyzeMotion(page, scopeSelector = null) {
+  return page.evaluate((scopeSelector) => {
     // Fallback band when the page declares no --dur tokens. Includes 150 (a common committed token) so a 150ms
     // duration is never flagged off-token on a page that didn't expose its band as a custom property.
     const FALLBACK_BAND = [120, 150, 200, 250, 320, 400, 700];
@@ -534,8 +593,14 @@ async function analyzeMotion(page) {
     // CSS `ease` resolves to this cubic-bezier; treat it + `linear` as the "default/flat" entrance the critic dings.
     const DEFAULT_EASE = (e) => { e = String(e || '').trim().toLowerCase(); return e === '' || e === 'linear' || e === 'ease' || e === 'initial' || e === 'cubic-bezier(0.25, 0.1, 0.25, 1)'; };
     const durations = [], layoutAnimated = [], warnings = [], easings = [];
+    // When invoked after an interaction trigger, scope the audit to the triggered subtree (the element + its
+    // descendants) instead of the whole page, so the post-trigger motion read reflects what the trigger actually moved.
+    const scopeRoot = scopeSelector ? document.querySelector(scopeSelector) : null;
+    const scanList = scopeSelector
+      ? (scopeRoot ? [scopeRoot, ...scopeRoot.querySelectorAll('*')] : [])
+      : document.querySelectorAll('body *');
     let scanned = 0;
-    for (const el of document.querySelectorAll('body *')) {
+    for (const el of scanList) {
       if (scanned > 4000) break; scanned++;
       const cs = getComputedStyle(el);
       const transProp = cs.transitionProperty || 'none';
@@ -548,11 +613,19 @@ async function analyzeMotion(page) {
       const hasAnim = animName !== 'none' && animName !== '' && animDurs.length > 0;
       if (!hasTrans && !hasAnim) continue;
       const sel = el.tagName.toLowerCase() + (el.className && typeof el.className === 'string' ? '.' + el.className.trim().split(/\s+/).slice(0, 2).join('.') : '');
-      const durs = [...(hasTrans ? transDurs : []), ...(hasAnim ? animDurs : [])];
-      for (const d of durs) {
-        durations.push(Math.round(d));
-        const onToken = band.some((s) => Math.abs(s - d) <= 40);
-        if (d > 600 || !onToken) warnings.push({ sel, durationMs: Math.round(d), reason: d > 600 ? 'too-long' : 'off-token' });
+      // Read animation-iteration-count (index-aligned, cycling, with the CSS modulo rule) so an INFINITE/looping
+      // animation — e.g. a skeleton pulse — is EXEMPT from the >600ms too-long rule (a loop is meant to be slow).
+      // Transitions run once and never loop, so they always face the full too-long rule.
+      const iterList = splitTop(cs.animationIterationCount || '');
+      const isInfinite = (s) => /infinite/i.test(String(s || ''));
+      const durEntries = [];
+      if (hasTrans) for (const d of transDurs) durEntries.push({ ms: d, looping: false });
+      if (hasAnim) animDurs.forEach((d, i) => durEntries.push({ ms: d, looping: isInfinite(iterList.length ? iterList[i % iterList.length] : '') }));
+      for (const { ms, looping } of durEntries) {
+        durations.push(Math.round(ms));
+        const onToken = band.some((s) => Math.abs(s - ms) <= 40);
+        const tooLong = ms > 600 && !looping;
+        if (tooLong || !onToken) warnings.push({ sel, durationMs: Math.round(ms), reason: tooLong ? 'too-long' : 'off-token' });
       }
       // Easing audit (the critic grades easing). enter vs exit easing + the raw timing function: for a transition the
       // computed transition-timing-function is the symmetric ease; for an animation, prefer the per-keyframe 0%/100%
@@ -577,8 +650,43 @@ async function analyzeMotion(page) {
       if (hasAnim) for (const name of animName.split(',').map((s) => s.trim())) { for (const p of (kf[name] || [])) if (LAYOUT.includes(p)) layoutHit.add(p); }
       if (layoutHit.size) layoutAnimated.push({ sel, props: [...layoutHit] });
     }
-    return { durations, layoutAnimated, warnings, easings, band };
-  }).catch(() => ({ durations: [], layoutAnimated: [], warnings: [], easings: [], error: 'motion eval failed' }));
+    // WAAPI / Web Animations (Framer Motion, element.animate(...)) — invisible to getComputedStyle, so the CSS scan
+    // above misses them entirely. Read them from document.getAnimations(): duration + easing via effect.getTiming(),
+    // animated properties via effect.getKeyframes(), and the effect target for a selector. Fold into the SAME
+    // duration/layout audit (infinite/looping animations stay exempt from the too-long rule).
+    const jsAnimations = [];
+    try {
+      const anims = (typeof document.getAnimations === 'function') ? document.getAnimations() : [];
+      for (const anim of anims) {
+        const eff = anim.effect;
+        if (!eff || typeof eff.getTiming !== 'function') continue;
+        const cn = anim.constructor && anim.constructor.name;
+        if (cn === 'CSSAnimation' || cn === 'CSSTransition') continue; // CSS-declared motion is already covered by the computed-style scan above
+        const target = eff.target || null;
+        if (scopeRoot && target && !scopeRoot.contains(target) && target !== scopeRoot) continue; // scope to triggered subtree
+        const tm = eff.getTiming();
+        const ms = typeof tm.duration === 'number' ? tm.duration : 0;
+        const looping = tm.iterations === Infinity;
+        const easing = tm.easing || '';
+        const sel = target && target.tagName
+          ? target.tagName.toLowerCase() + (target.className && typeof target.className === 'string' ? '.' + target.className.trim().split(/\s+/).slice(0, 2).join('.') : '')
+          : '(waapi)';
+        const props = new Set();
+        try { for (const k of eff.getKeyframes()) for (const key of Object.keys(k)) { if (key === 'offset' || key === 'computedOffset' || key === 'easing' || key === 'composite') continue; props.add(key.replace(/[A-Z]/g, (c) => '-' + c.toLowerCase())); } } catch (_) {}
+        const propList = [...props];
+        jsAnimations.push({ sel, durationMs: Math.round(ms), easing, props: propList, iterations: looping ? 'infinite' : tm.iterations, playState: anim.playState });
+        if (ms > 0) {
+          durations.push(Math.round(ms));
+          const onToken = band.some((s) => Math.abs(s - ms) <= 40);
+          const tooLong = ms > 600 && !looping;
+          if (tooLong || !onToken) warnings.push({ sel, durationMs: Math.round(ms), reason: tooLong ? 'too-long' : 'off-token', source: 'waapi' });
+        }
+        const layoutHit = propList.filter((p) => LAYOUT.includes(p));
+        if (layoutHit.length) layoutAnimated.push({ sel, props: layoutHit, source: 'waapi' });
+      }
+    } catch (_) {}
+    return { durations, layoutAnimated, warnings, easings, band, jsAnimations };
+  }, scopeSelector).catch(() => ({ durations: [], layoutAnimated: [], warnings: [], easings: [], jsAnimations: [], error: 'motion eval failed' }));
 }
 
 (async () => {
@@ -598,7 +706,7 @@ async function analyzeMotion(page) {
     if (MOTION_ON) {
       const frames = await captureFilmstrip(dp, 'filmstrip');
       const audit = await analyzeMotion(dp);
-      Object.assign(motion, { frames, durations: audit.durations, easings: audit.easings, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.band ? { band: audit.band } : {}), ...(audit.error ? { error: audit.error } : {}) });
+      Object.assign(motion, { frames, durations: audit.durations, easings: audit.easings, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, jsAnimations: audit.jsAnimations || [], ...(audit.band ? { band: audit.band } : {}), ...(audit.error ? { error: audit.error } : {}) });
     }
     if (MOTION_TRIGGER) {
       motion.interactions = await filmInteractions(dp, MOTION_TRIGGER); // (B) state→state transitions, screenshot-proven
@@ -607,6 +715,7 @@ async function analyzeMotion(page) {
       const rm = await auditReducedMotion(dp); // (A) emulate reduce, assert durations collapse to ~0
       motion.reducedMotionHonored = rm.honored;
       motion.reducedMotionOffenders = rm.offenders;
+      if (rm.filmstrip) motion.reducedMotionFilmstrip = rm.filmstrip;
       if (rm.error) motion.reducedMotionError = rm.error;
     }
   }
@@ -783,7 +892,10 @@ async function analyzeMotion(page) {
   if (motion && motion.interactions) {
     const li = motion.interactions.reduce((n, i) => n + (i.layoutAnimated || []).length, 0);
     const er = motion.interactions.filter((i) => i.error).length;
-    checks.push({ name: 'motionInteraction', pass: li === 0, detail: `interactions=${motion.interactions.length} layoutAnimated=${li} errors=${er}`, severity: 'warn' });
+    // A trigger whose selector was NOT found (error set) or that captured NO frames proved nothing — it must NOT read
+    // as pass:true. FAIL the check whenever any interaction errored or produced an empty filmstrip.
+    const unproven = motion.interactions.filter((i) => i.error || (i.frames || []).length === 0).length;
+    checks.push({ name: 'motionInteraction', pass: unproven > 0 ? false : li === 0, detail: `interactions=${motion.interactions.length} layoutAnimated=${li} errors=${er} unproven=${unproven}`, severity: 'warn' });
   }
   const reportOverall = checks.filter((c) => c.severity === 'block').every((c) => c.pass !== false);
   const summary = {
