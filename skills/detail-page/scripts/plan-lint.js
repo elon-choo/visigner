@@ -79,7 +79,7 @@ const REQUIRED = [
   { key: 'users',               label: 'Users / audience',       re: /\busers?\b|personas?|audience|사용자|대상/i },
   { key: 'success-metrics',     label: 'Success metrics',        re: /success\s*metrics?|\bmetrics?\b|\bKPIs?\b|north\s*star|성공\s*지표/i },
   { key: 'scope-in',            label: 'Scope — in',             re: /in[-\s]?scope|scope\b.*\bin\b|포함\s*범위/i, body: /in[-\s]?scope|scope\s*:?\s*\n?\s*(?:[-*]|in\b)/i },
-  { key: 'scope-out',           label: 'Scope — out',            re: /out[-\s]?of[-\s]?scope|out[-\s]?scope|범위\s*제외|제외\s*범위/i, body: /out[-\s]?of[-\s]?scope|out[-\s]?scope/i },
+  { key: 'scope-out',           label: 'Scope — out',            re: /out[-\s]?of[-\s]?scope|out[-\s]?scope|scope[\s—:–-]+out\b|범위\s*제외|제외\s*범위/i, body: /out[-\s]?of[-\s]?scope|out[-\s]?scope|scope[\s—:–-]+out\b/i },
   { key: 'flows',               label: 'Flows',                  re: /\bflows?\b|user\s*journeys?|journeys?|시나리오/i },
   { key: 'acceptance-criteria', label: 'Acceptance criteria',    re: /acceptance|criteria|완료\s*기준|수용\s*기준/i },
   { key: 'event-spec',          label: 'Event spec',             re: /event[-\s]*spec|event\s*tracking|analytics\s*events?|tracking\s*plan|이벤트\s*스펙/i },
@@ -156,7 +156,15 @@ const GWT = /\bgiven\b[\s\S]{0,600}?\bwhen\b[\s\S]{0,600}?\bthen\b/i;
 // What a success-metric line must carry to be measurable: a number/target AND a named instrument.
 const METRIC_INSTRUMENT = /posthog|mixpanel|amplitude|google\s*analytics|\bga4?\b|\banalytics\b|dashboard|funnel|\bevent\b|tracking|\bquery\b|\bsql\b|metabase|looker|tableau|survey|cohort|\breport\b|측정|대시보드|이벤트|지표\s*출처|쿼리|설문/i;
 
+// A prose line reads as a success-metric line when it carries one of the canonical metric framings.
+// The suite's own FRAME / PRD skeletons write the success metric as a prose sentence
+// ("North-star: … target … measured by …") rather than a list item or table row.
+const PROSE_METRIC = /north[\s-]?star|guardrail|measured[\s-]?by|\btarget\b|목표|지표|\bKPI\b/i;
+
 // Pull metric lines out of a success-metrics section body: list items OR table data rows.
+// Prose fallback: if no list/table metric lines are present, the skeletons often write the metric as a
+// plain prose sentence — extract any such line so a template-style PRD is judged on its content, not its
+// formatting. When the fallback fires, the returned array is tagged `.prose = true` so callers can say so.
 function metricLines(body) {
   if (!body) return [];
   const out = [];
@@ -173,6 +181,14 @@ function metricLines(body) {
     }
     const li = line.match(/^(?:[-*]|\d+[.)])\s+(.*\S)/);
     if (li) out.push(li[1]);
+  }
+  if (out.length === 0) {
+    for (const raw of body.split(/\r?\n/)) {
+      const line = raw.trim();
+      if (!line) continue;
+      if (PROSE_METRIC.test(line)) out.push(line.replace(/^(?:\*\*|__)?/, '').trim());
+    }
+    if (out.length) out.prose = true;
   }
   return out;
 }
@@ -205,15 +221,19 @@ function lintPlan(md, file) {
   const evTable = evSection ? hasMarkdownTable(evSection.body) : hasMarkdownTable(md) && /event|track/i.test(md);
   add('event-spec-table', 'Event-spec table exists', 'error', !!evTable, evTable ? '' : 'no markdown table in the event-spec section');
 
-  // 3) flows each name an error / edge path
+  // 3) the flows section names an error / edge path.
+  // Coverage is evaluated across the WHOLE flows section, not per sub-flow: the suite's own template
+  // splits a flow into happy-path and error-path SIBLING H3s, so penalizing the happy-path H3 for not
+  // naming an error within itself is wrong. The section as a whole must name an error/edge/unhappy path
+  // (or a decision with >=2 labeled outcomes). flowsSection.body already includes every child H3's body.
   const flowsSection = findSection(sections, REQUIRED.find((r) => r.key === 'flows').re);
   const flows = extractFlows(sections, flowsSection);
-  const flowsMissingError = flows.filter((f) => !ERROR_PATH.test(f.text) && !hasBranchOutcomes(f.text));
   if (flows.length === 0) {
-    add('flow-error-path', 'Every flow names an error/edge path', 'error', false, 'no discrete flows found to check');
+    add('flow-error-path', 'Flows name an error/edge path', 'error', false, 'no discrete flows found to check');
   } else {
-    add('flow-error-path', 'Every flow names an error/edge path', 'error', flowsMissingError.length === 0,
-      flowsMissingError.length ? `${flowsMissingError.length} flow(s) lack an error/edge path: ${flowsMissingError.map((f) => `"${f.name}"`).slice(0, 5).join(', ')}` : '');
+    const covered = ERROR_PATH.test(flowsSection.body) || hasBranchOutcomes(flowsSection.body);
+    add('flow-error-path', 'Flows name an error/edge path', 'error', covered,
+      covered ? '' : 'no error/edge/unhappy path named anywhere in the flows section');
   }
 
   // 4) inventory -> acceptance criteria cross-check
@@ -242,12 +262,13 @@ function lintPlan(md, file) {
   if (smSection) {
     const mlines = metricLines(smSection.body);
     const bad = mlines.filter((l) => !/\d/.test(l) || !METRIC_INSTRUMENT.test(l));
+    const where = mlines.prose ? 'metrics found but not in a list/table; ' : '';
     if (mlines.length === 0) {
       add('metric-shape', 'Success metrics carry a number + instrument', 'error', false,
         'no metric lines parsed — success metrics need a number/target and a measurement instrument');
     } else {
       add('metric-shape', 'Success metrics carry a number + instrument', 'error', bad.length === 0,
-        bad.length ? `${bad.length}/${mlines.length} metric line(s) lack a number/target or instrument: ${bad.slice(0, 4).map((l) => `"${l.slice(0, 50)}"`).join(', ')}` : `${mlines.length} metric line(s) all measurable`);
+        bad.length ? `${where}${bad.length}/${mlines.length} metric line(s) lack a number/target or instrument: ${bad.slice(0, 4).map((l) => `"${l.slice(0, 50)}"`).join(', ')}` : `${mlines.length} metric line(s) all measurable`);
     }
   }
 

@@ -118,6 +118,18 @@
   html.reveal-on .reveal[data-d="2"] { transition-delay: .11s; }
   html.reveal-on .reveal[data-d="3"] { transition-delay: .17s; }
 
+  /* ---- Signature hero entrance: the page header gets a REAL @keyframes entrance with DISTINCT enter vs exit
+     easing — a spring overshoot on the way in (0%), settling on a faster ease-out (100%) — instead of the
+     symmetric load-fire transition the .reveal columns use. Plays on load. Reduced-motion disables it via the
+     `* { animation:none }` rule above; the static element carries no opacity:0 so it stays fully visible.
+     transform/opacity only → no layout jank. ---- */
+  .sig { animation: sig-enter var(--dur-3, 320ms) both; }
+  @keyframes sig-enter {
+    0%   { opacity: 0; transform: translateY(18px) scale(0.99); animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1); }
+    60%  { opacity: 1; animation-timing-function: cubic-bezier(0.3, 0, 0, 1); }
+    100% { transform: translateY(0) scale(1); animation-timing-function: cubic-bezier(0.3, 0, 0, 1); }
+  }
+
   /* ---- Page frame ---- */
   .page { max-width: 1000px; margin-inline: auto; padding: 28px 24px 0; }
   @media (max-width: 480px) { .page { padding-inline: 16px; } }
@@ -193,7 +205,9 @@
   .switch input:disabled + .track { opacity: 0.5; cursor: not-allowed; }
 
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px;
-    padding-inline: 18px; border-radius: 10px; font-weight: 600; font-size: 14px; border: 0; cursor: pointer; font-family: var(--font-body); }
+    padding-inline: 18px; border-radius: 10px; font-weight: 600; font-size: 14px; border: 0; cursor: pointer; font-family: var(--font-body);
+    transition: transform 120ms var(--ease-out), background-color 120ms var(--ease-out); }
+  .btn:active { transform: translateY(1px); }
   .btn-accent { background: var(--color-accent); color: var(--color-on-accent); }
   .btn-ghost { background: transparent; color: var(--color-ink); border: 1px solid var(--color-line); }
 
@@ -218,7 +232,7 @@
 
 <div class="page">
   <!-- ░░ HEADER ░░ -->
-  <header class="reveal" data-d="1" style="margin-bottom:24px">
+  <header class="sig" style="margin-bottom:24px">
     <p style="font-family:var(--font-latin);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary)">Workspace · Northwind</p>
     <h1 style="font-size:clamp(26px,4vw,34px);font-weight:700;margin-top:6px">Settings</h1>
     <p class="text-muted" style="font-size:15px;margin-top:6px">Manage your profile, notifications and security for this workspace.</p>

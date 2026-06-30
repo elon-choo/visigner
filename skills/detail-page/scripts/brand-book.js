@@ -39,10 +39,28 @@ try {
   const tokens = JSON.parse(fs.readFileSync(tokensFile, 'utf8'));
 
   // ---- color flatten + resolve (handles nested ramps + "{color.x.y}" aliases) ----
+  // A LITERAL color string $value ("oklch(...)", "#hex" 3/4/6/8, or "rgb()/rgba()") — the shape the
+  // brand-identity SKILL / strategy view documents — is itself valid CSS, so it can back a swatch verbatim.
+  // Same recognition set brand-lint's parseColorString accepts (kept in sync so a strategy file lints + books).
+  const isAlias = (v) => typeof v === 'string' && /^\{.+\}$/.test(v.trim());
+  const literalColorCss = (v) => {
+    if (typeof v !== 'string') return null;
+    const s = v.trim();
+    if (/^oklch\(/i.test(s)) return s;
+    if (/^#[0-9a-fA-F]{3,8}$/.test(s)) return s;
+    if (/^rgba?\(/i.test(s)) return s;
+    return null;
+  };
   const colorLeaves = {}; // dotted name -> node
   (function walkColor(node, prefix) {
     if (!node || typeof node !== 'object') return;
     if (node.$type === 'color') { colorLeaves[prefix] = node; return; }
+    // strategy-file leaf: no (color) $type but a $value that is a literal color / alias / structured components.
+    if (!node.$type && ('$value' in node) &&
+        (isAlias(node.$value) || literalColorCss(node.$value) ||
+         (node.$value && Array.isArray(node.$value.components)))) {
+      colorLeaves[prefix] = node; return;
+    }
     for (const [k, v] of Object.entries(node)) { if (k.startsWith('$')) continue; walkColor(v, prefix ? prefix + '.' + k : k); }
   })(tokens.color || {}, '');
   function colorCss(node, seen) {
@@ -50,11 +68,14 @@ try {
     const ext = node.$extensions && node.$extensions['com.detail-page'];
     if (ext && ext.css) return ext.css;
     const v = node.$value;
-    if (typeof v === 'string') { // alias {color.path}
-      const ref = v.replace(/[{}]/g, '').trim();
-      if (seen && seen.has(ref)) return null;
-      const s = new Set(seen); s.add(ref);
-      return colorLeaves[ref] ? colorCss(colorLeaves[ref], s) : null;
+    if (typeof v === 'string') {
+      if (isAlias(v)) { // alias {color.path}
+        const ref = v.replace(/[{}]/g, '').trim();
+        if (seen && seen.has(ref)) return null;
+        const s = new Set(seen); s.add(ref);
+        return colorLeaves[ref] ? colorCss(colorLeaves[ref], s) : null;
+      }
+      return literalColorCss(v); // literal oklch()/#hex/rgb() → valid CSS verbatim
     }
     if (v && Array.isArray(v.components) && v.components.length === 3) {
       const c = v.components;
@@ -65,6 +86,16 @@ try {
   const colorEntries = Object.entries(colorLeaves)
     .map(([name, node]) => [name, colorCss(node, new Set())])
     .filter(([, css]) => css);
+
+  // LOUD guard: a compiled ramp has numbered steps (primary.50 … accent.700). Zero numbered ramps means we
+  // were almost certainly handed the strategy/brand-identity file (bare roles only) — render what we can but
+  // warn so a 0/few-swatch book is never produced silently.
+  const hasNumberedRamp = colorEntries.some(([name]) => /(^|[.\-])\d{2,3}($|[.\-])/.test(name));
+  const strategyFileWarning = !hasNumberedRamp;
+  if (strategyFileWarning) {
+    console.error('!! WARNING: ' + (colorEntries.length ? colorEntries.length + ' bare role(s), ' : '') +
+      'zero numbered ramps — this looks like the strategy file, not the compiled ramp. Run build-tokens.js first to compile the full palette ramp, then re-run brand-book.js.');
+  }
 
   // pick a few key roles for the logo tiles / page chrome (with safe fallbacks)
   const pick = (name, fallback) => (colorEntries.find(([n]) => n === name) || [null, fallback])[1];
@@ -217,7 +248,7 @@ ${voiceHtml}
 
   const outFile = path.join(outDir, 'guidelines.html');
   fs.writeFileSync(outFile, html);
-  console.log(JSON.stringify({ ok: true, outFile: path.resolve(outFile), colors: colorEntries.length, fonts: fontFamilies.length, sizes: sizeKeys.length, voice: !!voice, logo: !!logoPath }, null, 2));
+  console.log(JSON.stringify({ ok: true, outFile: path.resolve(outFile), colors: colorEntries.length, fonts: fontFamilies.length, sizes: sizeKeys.length, voice: !!voice, logo: !!logoPath, strategyFileWarning }, null, 2));
 } catch (e) {
   console.error('FATAL', e.message);
   process.exit(2);

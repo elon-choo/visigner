@@ -30,7 +30,10 @@
 //   push-too-long        WARN/ERROR  push body > 90 chars (WARN) / > 120 (ERROR)
 //   slop-verb            ERROR       AI-slop banned verb/phrase (Empower / Unlock / Transform / Build the future / …)
 //   cta-missing          ERROR       no CTA field and no CTA phrase in the copy
-//   message-match        WARN        (with --idea) hero/subject does not restate the single campaign idea
+//   message-match        WARN        (with --idea) hero shares no STEMS/owned-terms with the idea (advisory;
+//                                     an in-voice paraphrase that shares stems/owned-terms is NOT drift)
+//   verbatim-lock        ERROR       (with --strict) a surface-declared verbatim tagline/claim lock string is absent
+//   voice-fingerprint    WARN        (with --voice-fingerprint) register outlier vs the rest of the campaign
 //   lexicon-banned       ERROR       a banned brand-lexicon term appears
 //   lexicon-no-owned     WARN        none of the owned brand-lexicon terms appear
 //
@@ -38,6 +41,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { fingerprintText, flagOutliers } = require('./lib-voice-fingerprint');
 
 // ---- channel length budgets ----
 const AD_PRIMARY_WARN = 125;      // Meta primary text truncates ~125 chars
@@ -182,9 +186,55 @@ function ideaTokens(idea, loc) {
   return lc.split(/[^a-z0-9]+/).filter((t) => t.length >= 4 && !STOPWORDS.has(t));
 }
 
-function matchesIdea(hero, tokens) {
-  const h = hero.toLowerCase();
-  return tokens.some((t) => h.includes(t) || h.includes(t.slice(0, 5)));
+// light inflectional stemmer (lowercase + strip a common plural/verb ending). Latin tokens only; CJK
+// tokens have no inflection to strip and are returned unchanged. Deterministic — longest ending first.
+function stem(tok) {
+  const t = String(tok).toLowerCase().trim();
+  if (!/[a-z]/.test(t) || t.length <= 3) return t;
+  for (const suf of ['ingly', 'edly', 'ing', 'ied', 'ies', 'ed', 'es', 'ly', 's']) {
+    if (t.endsWith(suf) && t.length - suf.length >= 3) {
+      let base = t.slice(0, -suf.length);
+      if (suf === 'ied' || suf === 'ies') base += 'y';
+      return base;
+    }
+  }
+  return t;
+}
+
+// two stems "share content" if equal, or one is a >=4-char prefix of the other — tolerant of over- or
+// under-stemming (morn/morning). Short stems must match exactly to avoid car/card-style false hits.
+function stemShare(a, b) {
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const [s, l] = a.length <= b.length ? [a, b] : [b, a];
+  return s.length >= 4 && l.startsWith(s);
+}
+
+// build the idea's content STEMS from the one-line idea PLUS any owned brand-lexicon terms. A paraphrase
+// in the brand's OWN voice legitimately restates the idea via owned terms / inflected forms, so those
+// must count as "restated", not drift — this is the fix for --idea being too literal.
+function ideaStemSet(idea, loc, owned) {
+  const set = new Set(ideaTokens(idea, loc).map(stem));
+  for (const term of (owned || [])) {
+    for (const t of ideaTokens(String(term), loc)) set.add(stem(t));
+  }
+  return [...set].filter(Boolean);
+}
+
+function matchesIdea(text, ideaStems, loc) {
+  const heroStems = ideaTokens(String(text), loc).map(stem);
+  return ideaStems.some((s) => heroStems.some((h) => stemShare(s, h)));
+}
+
+// normalize declared verbatim-lock fields (string or array) off a surface spec into a clean string list.
+function lockList(surface) {
+  const out = [];
+  for (const v of [surface.locks, surface.verbatimLocks, surface.verbatim]) {
+    if (!v) continue;
+    if (Array.isArray(v)) out.push(...v);
+    else out.push(v);
+  }
+  return out.map((x) => String(x).trim()).filter(Boolean);
 }
 
 // ---------- the checks ----------
@@ -192,9 +242,10 @@ function lintOne(surface, file, opts) {
   const model = normalize(surface);
   const findings = [];
   const add = (rule, severity, message) => findings.push({ rule, severity, message });
-  const { idea, ideaToks, lexicon } = opts;
+  const { idea, ideaStems, lexicon } = opts;
   const loc = opts.loc || LOCALES.en;
   const strict = !!opts.strict;
+  const locks = lockList(surface);
 
   // channel length budgets (grapheme-aware for CJK locales)
   if (model.channel === 'ad') {
@@ -223,13 +274,26 @@ function lintOne(surface, file, opts) {
   // required CTA
   if (!hasCta(model, loc)) add('cta-missing', 'error', 'no CTA — neither a cta field nor a recognized action phrase');
 
-  // cross-surface message-match (only with --idea). Default = presence-only WARN floor; --strict
-  // ERRORS (fails the gate) when the hero shares ZERO idea content-tokens.
-  if (idea && ideaToks.length) {
-    if (!matchesIdea(model.hero || model.firstLine || model.primary, ideaToks)) {
-      add('message-match', strict ? 'error' : 'warn', strict
-        ? `hero shares ZERO content-tokens with the campaign idea ("${idea}") — message-match floor (--strict)`
-        : `hero does not restate the campaign idea ("${idea}") — message-match drift`);
+  // cross-surface message-match (only with --idea) — ADVISORY. A paraphrase in the channel's OWN voice
+  // that shares STEMS or owned brand-terms with the idea is a correct restatement, NOT drift; only a hero
+  // that shares no idea content at all gets a WARN. --strict no longer ERRORs on paraphrase — it enforces
+  // verbatim tagline/claim locks instead (below).
+  if (idea && ideaStems.length) {
+    if (!matchesIdea(model.hero || model.firstLine || model.primary, ideaStems, loc)) {
+      add('message-match', 'warn', `hero does not restate the campaign idea ("${idea}") — message-match drift (shares no stems/owned-terms with the idea)`);
+    }
+  }
+
+  // verbatim tagline/claim LOCKS — the only thing --strict enforces as an ERROR. A surface may DECLARE
+  // exact strings that must appear verbatim (spec field `locks` / `verbatimLocks` / `verbatim`). Under
+  // --strict each declared lock that is absent from the copy fails the gate. With no declared locks,
+  // --strict adds no errors (a paraphrase is allowed to stand).
+  if (strict) {
+    const corpus = model.copy.toLowerCase();
+    for (const lock of locks) {
+      if (!corpus.includes(lock.toLowerCase())) {
+        add('verbatim-lock', 'error', `declared verbatim lock missing from copy: "${lock}" (--strict)`);
+      }
     }
   }
 
@@ -250,6 +314,7 @@ function lintOne(surface, file, opts) {
   return {
     file,
     channel: model.channel,
+    text: model.copy,
     pass: errorCount === 0,
     errorCount,
     warnCount,
@@ -277,21 +342,26 @@ const HELP = `copy-lint.js — deterministic per-channel copy linter (the floor 
 
 USAGE
   node copy-lint.js <spec.json|dir/>                 one surface, a campaign, or a dir of specs
-  node copy-lint.js <target> --idea "<one idea>"     + cross-surface message-match (presence floor)
-  node copy-lint.js <target> --idea "<x>" --strict   make message-match an ERROR (zero shared tokens)
+  node copy-lint.js <target> --idea "<one idea>"     + message-match (advisory: paraphrase OK)
+  node copy-lint.js <target> --idea "<x>" --strict   enforce verbatim tagline/claim LOCKS only (ERROR)
+  node copy-lint.js <target> --voice-fingerprint     advisory voice-drift outlier pass (owned/grade/rhythm)
   node copy-lint.js <target> --locale ko             use the built-in Korean slop/CTA + char budgets
   node copy-lint.js <target> --voice voice.json      custom locale pack (slopWords/ctaVerbs/...)
-  node copy-lint.js <target> --lexicon voice.json    + owned/banned brand-lexicon check
+  node copy-lint.js <target> --lexicon voice.json    + owned/banned brand-lexicon check (owned -> idea-tokens)
   node copy-lint.js <target> [out.json]              also write the JSON report
   node copy-lint.js --help
 
 SPEC   one surface, an array, or { "surfaces": [...] }. channel ∈ ad | social | push (others: slop/CTA only).
+       a surface may declare verbatim LOCKS via "locks"/"verbatimLocks"/"verbatim" (string or array).
 LOCALE --locale ko or --voice voice.json ({ locale, slopWords, spamWords, ctaVerbs, subjectMax, previewMax }).
        Non-English locales count length in graphemes (a Korean syllable = 1). Default stays English.
+MATCH  --idea restates as STEMS + owned brand-terms, so an in-voice paraphrase (shared stems/owned-terms)
+       is NOT drift. --strict enforces verbatim tagline/claim locks only — NOT message-match.
 CHECKS (ERROR -> exit 1; WARN -> never fails)
   ad-primary >125 WARN / >175 ERROR · ad-headline >40 WARN · social-firstline >125 WARN / >280 ERROR ·
   push >10 words ERROR · push >90 chars WARN / >120 ERROR · slop-verb ERROR · cta-missing ERROR ·
-  message-match WARN (with --idea) / ERROR (with --strict) · lexicon-banned ERROR · lexicon-no-owned WARN
+  message-match WARN (with --idea, advisory) · verbatim-lock ERROR (with --strict, declared lock absent) ·
+  voice-fingerprint WARN (with --voice-fingerprint, register outlier) · lexicon-banned ERROR · lexicon-no-owned WARN
 `;
 
 function main() {
@@ -307,6 +377,7 @@ function main() {
   let voiceCfg = null;
   let voicePath = null;
   let strict = false;
+  let fingerprint = false;
   const pos = [];
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--idea') {
@@ -325,6 +396,8 @@ function main() {
       voiceCfg = JSON.parse(fs.readFileSync(voicePath, 'utf8'));
     } else if (argv[i] === '--strict') {
       strict = true;
+    } else if (argv[i] === '--voice-fingerprint' || argv[i] === '--fingerprint') {
+      fingerprint = true;
     } else {
       pos.push(argv[i]);
     }
@@ -334,7 +407,8 @@ function main() {
   if (!target) { console.error('FATAL no target'); process.exit(2); }
 
   const loc = resolveLocale(localeArg, voiceCfg);
-  const opts = { idea, ideaToks: idea ? ideaTokens(idea, loc) : [], lexicon, loc, strict };
+  const ownedTerms = lexicon && Array.isArray(lexicon.owned) ? lexicon.owned : null;
+  const opts = { idea, ideaStems: idea ? ideaStemSet(idea, loc, ownedTerms) : [], lexicon, loc, strict };
   const st = fs.statSync(target);
   let reports = [];
   if (st.isDirectory()) {
@@ -347,6 +421,22 @@ function main() {
   } else {
     const surfaces = surfacesFromSpec(JSON.parse(fs.readFileSync(target, 'utf8')));
     surfaces.forEach((s, i) => reports.push(lintOne(s, `${path.resolve(target)}#${i}`, opts)));
+  }
+
+  // optional deterministic voice-fingerprint pass (advisory): flags surfaces whose register (owned-term
+  // coverage / sentence-length variance / reading-grade) is an outlier vs the rest of the campaign.
+  if (fingerprint) {
+    const recs = reports.map((r) => ({ id: r.file, metrics: fingerprintText(r.text, ownedTerms) }));
+    const flagged = flagOutliers(recs);
+    const byId = new Map(flagged.map((f) => [f.id, f]));
+    for (const r of reports) {
+      const f = byId.get(r.file);
+      r.fingerprint = f ? f.metrics : null;
+      if (f && f.outlier) {
+        r.findings.push({ rule: 'voice-fingerprint', severity: 'warn', message: `voice-drift outlier: ${f.reasons.join('; ')}` });
+        r.warnCount += 1;
+      }
+    }
   }
 
   const errorCount = reports.reduce((a, r) => a + r.errorCount, 0);

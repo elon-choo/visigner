@@ -25,6 +25,8 @@ This skill is the orchestrator. Depth lives in `references/` (load on demand). S
 ```
 Do steps 1–3 mostly in your head/thinking; only show the user output once you have confidence it will delight them. Iterate 4→5→6 at least once before declaring done — "I reviewed the code and it looks right" is not allowed; a screenshot is.
 
+**Setup tiers:** the lint + token gates (`brand-lint.js`, `build-tokens.js`, `STATIC=1` source pass) are **ZERO-SETUP** — pure Node, no install. The screenshot/axe loop (`shoot.js`) needs a one-time **`/design-setup`** (installs the browser), and the image-asset path (§4.5) needs that or a free `codex login`. So a **STATIC-only run** (no browser, no asset-gen) leaves these **UNVERIFIED**: rendered pixels/hierarchy/rhythm, 390px mobile overflow, axe a11y (contrast/labels), broken-asset gate, the motion/reduced-motion proofs, and any generated images — don't report a static pass as "looks right"; name what wasn't shot.
+
 ## 1 · Brief
 
 If the brief is thin, pin it yourself and state your choice: one concrete **subject**, its **audience**, and the page's **single job** (the one action). Decide the **mode**:

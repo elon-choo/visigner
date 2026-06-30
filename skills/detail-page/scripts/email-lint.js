@@ -32,6 +32,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { fingerprintText, flagOutliers } = require('./lib-voice-fingerprint');
 
 const SUBJECT_MAX = 50;
 const PREHEADER_MAX = 90;
@@ -229,6 +230,7 @@ function lintOne(model, file, lexicon, loc) {
   const warnCount = findings.filter((f) => f.severity === 'warn').length;
   return {
     file,
+    text: `${model.subject}\n${model.preheader}\n${model.bodyText}`,
     pass: errorCount === 0,
     errorCount,
     warnCount,
@@ -273,6 +275,7 @@ USAGE
   node email-lint.js <target> --locale ko            built-in Korean spam/slop + Korean length budgets
   node email-lint.js <target> --voice voice.json     custom locale pack (slopWords/spamWords/subjectMax/…)
   node email-lint.js <target> --lexicon voice.json   + owned/banned brand-lexicon check
+  node email-lint.js <target> --voice-fingerprint    advisory voice-drift outlier pass across the sequence
   node email-lint.js <target> [out.json]             also write the JSON report
   node email-lint.js --help
 
@@ -296,9 +299,12 @@ function main() {
   let localeArg = null;
   let voiceCfg = null;
   let voicePath = null;
+  let fingerprint = false;
   const pos = [];
   for (let i = 0; i < argv.length; i++) {
-    if (argv[i] === '--lexicon') {
+    if (argv[i] === '--voice-fingerprint' || argv[i] === '--fingerprint') {
+      fingerprint = true;
+    } else if (argv[i] === '--lexicon') {
       const lp = argv[++i];
       if (!lp) { console.error('FATAL --lexicon needs a path'); process.exit(2); }
       lexiconPath = lp;
@@ -327,6 +333,23 @@ function main() {
     reports = files.map((f) => lintOne(modelFromFile(f), path.resolve(f), lexicon, loc));
   } else {
     reports = [lintOne(modelFromFile(target), path.resolve(target), lexicon, loc)];
+  }
+
+  // optional deterministic voice-fingerprint pass (advisory): flags an email whose register (owned-term
+  // coverage / sentence-length variance / reading-grade) is an outlier vs the rest of the sequence.
+  if (fingerprint) {
+    const owned = lexicon && Array.isArray(lexicon.owned) ? lexicon.owned : null;
+    const recs = reports.map((r) => ({ id: r.file, metrics: fingerprintText(r.text, owned) }));
+    const flagged = flagOutliers(recs);
+    const byId = new Map(flagged.map((f) => [f.id, f]));
+    for (const r of reports) {
+      const f = byId.get(r.file);
+      r.fingerprint = f ? f.metrics : null;
+      if (f && f.outlier) {
+        r.findings.push({ rule: 'voice-fingerprint', severity: 'warn', message: `voice-drift outlier: ${f.reasons.join('; ')}` });
+        r.warnCount += 1;
+      }
+    }
   }
 
   const errorCount = reports.reduce((a, r) => a + r.errorCount, 0);

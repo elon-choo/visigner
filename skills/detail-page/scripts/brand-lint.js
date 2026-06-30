@@ -462,8 +462,12 @@ function lintSource(raw, file) {
   for (const m of masked.matchAll(/\bhsla?\(/gi)) { add('raw-hsl', 'source outside @theme/:root', masked.slice(m.index, m.index + 24), 'error'); rawColorCount++; }
 
   // (b) banned font families — CSS font-family, JS/JSX fontFamily, --font-* tokens, font CDN hrefs.
+  //     CSS multi-word families MUST be quoted (font-family:"Inter", "Open Sans"); capture the whole value
+  //     (do NOT exclude quote chars, which dropped quoted families entirely) then strip quotes per family.
   const fontValues = [];
-  for (const m of stripped.matchAll(/font-family\s*:\s*([^;}"'\n]+)/gi)) fontValues.push(m[1]);
+  for (const m of stripped.matchAll(/font-family\s*:\s*([^;}\n]+)/gi)) {
+    for (const fam of m[1].split(',')) fontValues.push(fam.replace(/['"]/g, '').trim());
+  }
   for (const m of stripped.matchAll(/fontFamily\s*:\s*([^,;}\n]+)/gi)) fontValues.push(m[1]);
   for (const m of stripped.matchAll(/--(?:brand-)?font-[a-z0-9-]+\s*:\s*([^;}]+)/gi)) fontValues.push(m[1]);
   for (const m of stripped.matchAll(/<link[^>]+href\s*=\s*"([^"]*(?:fonts\.googleapis|api\.fontshare|fonts)[^"]*)"/gi)) fontValues.push(m[1]);
@@ -482,24 +486,49 @@ function lintSource(raw, file) {
     add('emoji', 'document', `emoji present (${hit && hit[0]}) — confirm it is copy, not an icon/bullet (banned as icon)`, 'warn');
   }
 
-  // (e) Tailwind arbitrary-value brackets in class/className. GOVERNANCE promotion: an arbitrary SPACING
-  //     bracket off the 4px grid (mt-[13px], p-[7px]) and an arbitrary font-size off the type scale
-  //     (text-[15px]) are ERRORs; every other arbitrary bracket stays a WARN (one per class, as before).
-  for (const m of masked.matchAll(/\sclass(?:Name)?\s*=\s*(?:"([^"]*)"|'([^']*)'|\{`([^`]*)`\})/gi)) {
-    const cls = m[1] || m[2] || m[3] || '';
+  // (e) Tailwind arbitrary-value brackets. GOVERNANCE promotion: an arbitrary SPACING bracket off the 4px
+  //     grid (mt-[13px], p-[7px]) and an arbitrary font-size off the type scale (text-[15px]) are ERRORs;
+  //     every other arbitrary bracket stays a WARN (one per scanned string, as before). The same logic runs
+  //     over (e1) class/className attributes, (e2) string-literal args of class-builder calls
+  //     (cva/tv/cn/clsx/twMerge — frontend-build §4's exact pattern, which would otherwise bypass the gate
+  //     since attribute-only scanning never sees them), and (e3) strings assigned to a *className/*Variants
+  //     identifier.
+  const scanArbitrary = (cls, where) => {
     let warned = false;
     for (const bm of cls.matchAll(/(-?[a-z][a-z0-9]*(?:-[a-z]+)?)-\[([^\]]+)\]/gi)) {
       const prefix = bm[1].replace(/^-/, '');
       const pxm = bm[2].match(/^(\d+(?:\.\d+)?)px$/);
       if (SPACING_PREFIX.test(prefix) && pxm && Number(pxm[1]) % 4 !== 0) {
-        add('spacing-arbitrary-off-grid', 'class attribute', bm[0], 'error');
+        add('spacing-arbitrary-off-grid', where, bm[0], 'error');
       } else if (prefix === 'text' && pxm && !TYPE_SCALE.has(Number(pxm[1]))) {
-        add('type-scale-arbitrary', 'class attribute', bm[0], 'error');
+        add('type-scale-arbitrary', where, bm[0], 'error');
       } else if (!warned) {
-        add('tailwind-arbitrary', 'class attribute', bm[0], 'warn');
+        add('tailwind-arbitrary', where, bm[0], 'warn');
         warned = true;
       }
     }
+  };
+  const STR_LIT = /"([^"]*)"|'([^']*)'|`([^`]*)`/g;
+  // (e1) class/className attributes
+  for (const m of masked.matchAll(/\sclass(?:Name)?\s*=\s*(?:"([^"]*)"|'([^']*)'|\{`([^`]*)`\})/gi)) {
+    scanArbitrary(m[1] || m[2] || m[3] || '', 'class attribute');
+  }
+  // (e2) class-builder call args: scan every string literal inside the call's (balanced) parens.
+  for (const m of masked.matchAll(/\b(?:cva|tv|cn|clsx|twMerge)\s*\(/gi)) {
+    const open = m.index + m[0].length - 1;
+    let depth = 0, end = -1;
+    for (let i = open; i < masked.length; i++) {
+      if (masked[i] === '(') depth++;
+      else if (masked[i] === ')') { depth--; if (depth === 0) { end = i; break; } }
+    }
+    if (end === -1) continue;
+    for (const sm of masked.slice(open + 1, end).matchAll(STR_LIT)) {
+      scanArbitrary(sm[1] || sm[2] || sm[3] || '', 'class-builder call');
+    }
+  }
+  // (e3) strings assigned to a *className/*Variants identifier (e.g. const buttonVariants = "...").
+  for (const m of masked.matchAll(/\b[a-z_$][\w$]*(?:className|Variants)\s*=\s*(?:"([^"]*)"|'([^']*)'|`([^`]*)`)/gi)) {
+    scanArbitrary(m[1] || m[2] || m[3] || '', 'className identifier');
   }
 
   // (f) GOVERNANCE: a component referencing a --brand-* PRIMITIVE directly (outside a :root/@theme block,
