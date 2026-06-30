@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Visigner — design that doesn't look AI-generated, in one Claude Code install</title>
+<meta name="description" content="Visigner is one Claude Code plugin for everything design — landing & 상세페이지, app UI, design systems, brand, UX, design-to-code, conversion — that verifies every page from real screenshots, not vibes.">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1"></script>
+<style type="text/tailwindcss">
+  @theme {
+    --color-paper:      oklch(0.976 0.008 85);   /* 60% — warm off-white */
+    --color-surface:    oklch(0.945 0.012 80);   /* panels */
+    --color-ink:        oklch(0.215 0.016 60);   /* 30% — warm near-black */
+    --color-muted:      oklch(0.50 0.018 60);
+    --color-line:       oklch(0.215 0.016 60 / 0.14);
+    --color-accent:     oklch(0.620 0.200 32);   /* 10% — vermilion signature; reserved for the focal action */
+    --color-accent-700: oklch(0.520 0.175 30);
+    --color-on-accent:  oklch(0.980 0.012 85);
+    --color-term:       oklch(0.205 0.018 265);  /* terminal slab */
+    --color-term-ink:   oklch(0.90 0.02 150);
+    --color-term-dim:   oklch(0.70 0.02 200);
+    --font-display: "Clash Display", system-ui, sans-serif;
+    --font-body:    "General Sans", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+    --shadow-e1: 0 1px 2px oklch(0.21 0.016 60 / 0.07);
+    --shadow-e2: 0 14px 40px oklch(0.21 0.016 60 / 0.12);
+    --shadow-e3: 0 28px 70px oklch(0.21 0.016 60 / 0.16);
+  }
+  :root { --maxw: 1080px; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *{ animation: none !important; transition: none !important; } }
+  body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); -webkit-font-smoothing: antialiased; }
+
+  /* bilingual: show the active language only */
+  html[data-lang="ko"] [lang="en"], html[data-lang="en"] [lang="ko"] { display: none; }
+
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: 24px; }
+  .eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--color-accent-700); }
+  .secnum { font-family: var(--font-mono); font-size: 13px; color: var(--color-accent); font-weight: 600; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 3px; }
+
+  /* terminal signature */
+  .term { background: var(--color-term); border-radius: 14px; box-shadow: var(--shadow-e3); overflow: hidden; }
+  .term-bar { display:flex; align-items:center; gap:7px; padding:13px 16px; border-bottom:1px solid oklch(1 0 0 / .08); }
+  .dot { width:11px; height:11px; border-radius:50%; }
+  .term-body { padding: 18px 18px 20px; font-family: var(--font-mono); font-size: 14px; line-height: 1.9; color: var(--color-term-ink); }
+  .term-body .c { color: var(--color-term-dim); }
+  .term-body .p { color: var(--color-accent); }
+  .copybtn { font-family: var(--font-mono); font-size: 11px; color: var(--color-term-dim); background: oklch(1 0 0 / .06); border: 1px solid oklch(1 0 0 / .1); border-radius: 7px; padding: 4px 9px; cursor: pointer; }
+  .copybtn:hover { color: var(--color-term-ink); }
+
+  .btn { display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:16px; padding:13px 22px; border-radius:11px; text-decoration:none; min-height:48px; transition: transform 120ms cubic-bezier(.2,0,0,1), background-color 120ms cubic-bezier(.2,0,0,1); }
+  .btn:active { transform: translateY(1px); }
+  .btn-accent { background: var(--color-accent); color: var(--color-on-accent); box-shadow: var(--shadow-e2); }
+  .btn-accent:hover { background: var(--color-accent-700); }
+  .btn-ghost { border: 1.5px solid var(--color-line); color: var(--color-ink); }
+  .btn-ghost:hover { border-color: var(--color-ink); }
+
+  .card { background: var(--color-paper); border: 1px solid var(--color-line); border-radius: 14px; padding: 22px; }
+  .pill { font-family: var(--font-mono); font-size: 12px; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 999px; padding: 5px 12px; white-space: nowrap; }
+
+  /* one orchestrated entrance + scroll reveals (reduced-motion disables) */
+  @keyframes rise { from { opacity:0; transform: translateY(18px); } to { opacity:1; transform:none; } }
+  .reveal { opacity: 0; }
+  .reveal.in { animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-stagger > * { opacity:0; animation: rise .8s cubic-bezier(.2,.7,.2,1) forwards; }
+  .hero-stagger > *:nth-child(1){ animation-delay:.05s } .hero-stagger > *:nth-child(2){ animation-delay:.15s }
+  .hero-stagger > *:nth-child(3){ animation-delay:.25s } .hero-stagger > *:nth-child(4){ animation-delay:.35s }
+  @media (prefers-reduced-motion: reduce){ .reveal,.hero-stagger>*{ opacity:1 !important; animation:none !important; } }
+
+  .lang-toggle button { font-family: var(--font-mono); font-size:12px; padding:5px 9px; border-radius:7px; border:1px solid var(--color-line); background:transparent; color:var(--color-muted); cursor:pointer; }
+  .lang-toggle button[aria-pressed="true"] { background: var(--color-ink); color: var(--color-paper); border-color: var(--color-ink); }
+  .skip { position:absolute; left:-9999px; top:0; background:var(--color-ink); color:var(--color-paper); padding:10px 16px; z-index:50; }
+  .skip:focus { left:8px; top:8px; border-radius:8px; }
+</style>
+</head>
+<body>
+<a href="#main" class="skip" lang="ko">본문으로 건너뛰기</a><a href="#main" class="skip" lang="en">Skip to content</a>
+
+<!-- ───────────────────────── header ───────────────────────── -->
+<header class="wrap" style="display:flex;align-items:center;justify-content:space-between;padding-block:20px;gap:16px">
+  <div style="display:flex;align-items:baseline;gap:10px">
+    <span style="font-family:var(--font-display);font-weight:700;font-size:24px;letter-spacing:-.01em">Visigner</span>
+    <span class="eyebrow" style="font-size:11px" lang="ko">바이브코딩 × 디자이너</span>
+    <span class="eyebrow" style="font-size:11px" lang="en">vibe-coding × designer</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button id="ko-btn" aria-pressed="true" onclick="setLang('ko')">KO</button>
+      <button id="en-btn" aria-pressed="false" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="https://github.com/elon-choo/visigner" class="pill" style="text-decoration:none">GitHub ↗</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ───────────────────────── hero ───────────────────────── -->
+<section class="wrap" style="padding-block:48px 72px">
+  <div style="display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center" class="hero-grid">
+    <div class="hero-stagger">
+      <p class="eyebrow" lang="ko">클로드 코드 플러그인 · 설치 한 번</p>
+      <p class="eyebrow" lang="en">A Claude Code plugin · one install</p>
+      <h1 style="font-family:var(--font-display);font-weight:700;line-height:1.04;letter-spacing:-.02em;font-size:clamp(40px,6.4vw,68px);margin:14px 0 0">
+        <span lang="ko">AI 티 안 나는 디자인.<br><span style="color:var(--color-accent)">설치 한 번</span>으로.</span>
+        <span lang="en">Design that doesn't<br>look AI-made. <span style="color:var(--color-accent)">One install.</span></span>
+      </h1>
+      <p style="font-size:19px;line-height:1.6;color:var(--color-muted);max-width:30em;margin-top:20px">
+        <span lang="ko">Visigner는 디자인에 필요한 모든 걸 클로드 코드에 한 번에 넣습니다 — 랜딩·상세페이지, 앱 UI, 디자인 시스템, 브랜드, UX, 디자인→코드, 전환까지. 그리고 모든 화면을 <strong style="color:var(--color-ink)">실제 스크린샷으로 채점</strong>합니다. 느낌이 아니라.</span>
+        <span lang="en">Visigner gives Claude Code everything design — landing &amp; 상세페이지, app UI, design systems, brand, UX, design-to-code, conversion — and grades every screen from <strong style="color:var(--color-ink)">real screenshots</strong>, not vibes.</span>
+      </p>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:30px">
+        <a href="#install" class="btn btn-accent"><span lang="ko">설치하기</span><span lang="en">Install it</span> →</a>
+        <a href="#how" class="btn btn-ghost"><span lang="ko">어떻게 동작하나</span><span lang="en">How it works</span></a>
+      </div>
+    </div>
+
+    <!-- signature: the actual install, as a terminal -->
+    <div class="reveal in" aria-label="install commands">
+      <div class="term">
+        <div class="term-bar">
+          <span class="dot" style="background:#ff5f57"></span><span class="dot" style="background:#febc2e"></span><span class="dot" style="background:#28c840"></span>
+          <span style="margin-left:8px;font-family:var(--font-mono);font-size:12px;color:var(--color-term-dim)">claude code</span>
+          <button class="copybtn" style="margin-left:auto" onclick="copyInstall(this)">copy</button>
+        </div>
+        <div class="term-body" id="install-cmds">
+          <div><span class="c"># <span lang="ko">1) 마켓플레이스 추가</span><span lang="en">1) add the marketplace</span></span></div>
+          <div><span class="p">/</span>plugin marketplace add elon-choo/visigner</div>
+          <div style="margin-top:10px"><span class="c"># <span lang="ko">2) 플러그인 설치 — 끝</span><span lang="en">2) install the plugin — done</span></span></div>
+          <div><span class="p">/</span>plugin install visigner@visigner</div>
+        </div>
+      </div>
+      <p style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);margin-top:12px;text-align:center">
+        <span lang="ko">스킬 7 · 에이전트 3 · 커맨드 8 — 다른 건 설치 안 해도 됩니다</span>
+        <span lang="en">7 skills · 3 agents · 8 commands — nothing else to install</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── 01 problem ───────────────────────── -->
+<section class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">01</p>
+  <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 0;max-width:18em">
+    <span lang="ko">AI로 디자인하면 두 가지가 어긋납니다</span>
+    <span lang="en">Two things go wrong when you design with AI</span>
+  </h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px" class="two-col">
+    <div class="card reveal">
+      <p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent)">↘ <span lang="ko">뻔해진다</span><span lang="en">it comes out generic</span></p>
+      <p style="font-size:17px;line-height:1.6;margin-top:8px">
+        <span lang="ko">Inter 폰트, 흰 배경에 보라 그라데이션, 똑같이 생긴 카드 4개, 전부 가운데 정렬. 모델이 학습 데이터의 "평균"을 뱉기 때문에 노력 없이는 항상 이 모습이 나옵니다.</span>
+        <span lang="en">Inter font, a purple gradient on white, four identical cards, everything centered. Left alone a model samples the high-probability center of its training data — and that center <em>is</em> the AI-slop look.</span>
+      </p>
+    </div>
+    <div class="card reveal">
+      <p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent)">↘ <span lang="ko">도구가 흩어진다</span><span lang="en">the tooling scatters</span></p>
+      <p style="font-size:17px;line-height:1.6;margin-top:8px">
+        <span lang="ko">그걸 고치려고 스킬 하나, 플러그인 하나, npm 패키지 몇 개를 이어 붙입니다. 팀원마다 설치한 게 다르고, 결과물 품질도 들쭉날쭉해집니다.</span>
+        <span lang="en">To fix it you stitch together one skill, one plugin, a few npm packages. Everyone installs something different, and quality drifts from person to person.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── 02 what it is ───────────────────────── -->
+<section class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">02</p>
+  <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 18px;max-width:20em">
+    <span lang="ko">Visigner는 그걸 하나로 묶고, 채점까지 합니다</span>
+    <span lang="en">Visigner is the one bundle — and it grades its own work</span>
+  </h2>
+  <p style="font-size:19px;line-height:1.65;max-width:34em">
+    <span lang="ko">플러그인 하나입니다. 한 번 설치하면 클로드 코드가 <strong>토큰 시스템을 먼저 설계</strong>하고, <strong>뻔한 기본값을 거부</strong>하고, 페이지를 만들고, <strong>자기 결과물을 스크린샷으로 찍어</strong> 루브릭으로 채점한 뒤 — 당신이 보기도 전에 고칩니다. "코드 봤는데 괜찮아 보여요"는 금지. 스크린샷이 증거입니다.</span>
+    <span lang="en">It's one plugin. Install it once and Claude Code will <strong>plan a real token system</strong>, <strong>reject the generic defaults</strong>, build the page, <strong>screenshot its own output</strong>, and grade it against a rubric — fixing it before you ever see it. "I reviewed the code and it looks right" is banned; a screenshot is the proof.</span>
+  </p>
+</section>
+
+<!-- ───────────────────────── 03 who it's for ───────────────────────── -->
+<section class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">03</p>
+  <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 6px">
+    <span lang="ko">누가 쓰나 — 그냥 평소 말로 시키세요</span>
+    <span lang="en">Who it's for — just say it in plain language</span>
+  </h2>
+  <p style="color:var(--color-muted);margin-bottom:22px">
+    <span lang="ko">스킬 이름을 외울 필요 없습니다. 알맞은 스킬이 알아서 켜집니다. 커맨드는 지름길일 뿐.</span>
+    <span lang="en">No need to learn skill names — the right one auto-triggers. The commands are just shortcuts.</span>
+  </p>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px" class="who-grid">
+    <div class="card reveal"><p style="font-weight:600"><span lang="ko">잘 모름 / 바이브코더</span><span lang="en">Not sure / vibe-coder</span></p><p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent);margin:8px 0 6px">/design …</p><p style="color:var(--color-muted);font-size:15px"><span lang="ko">설명만 하면 알아서 라우팅·제작·검수.</span><span lang="en">Describe it; it routes, builds, gates.</span></p></div>
+    <div class="card reveal"><p style="font-weight:600"><span lang="ko">마케터 / 창업자</span><span lang="en">Marketer / founder</span></p><p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent);margin:8px 0 6px">/landing · /campaign</p><p style="color:var(--color-muted);font-size:15px"><span lang="ko">전환되는 랜딩·상세페이지, 캠페인.</span><span lang="en">A converting landing/상세페이지, a campaign.</span></p></div>
+    <div class="card reveal"><p style="font-weight:600"><span lang="ko">프로덕트 디자이너</span><span lang="en">Product designer</span></p><p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent);margin:8px 0 6px">/ui</p><p style="color:var(--color-muted);font-size:15px"><span lang="ko">앱·웹 UI, 컴포넌트 전 상태까지.</span><span lang="en">App/web UI, components with every state.</span></p></div>
+    <div class="card reveal"><p style="font-weight:600"><span lang="ko">브랜드 디자이너 / CEO</span><span lang="en">Brand designer / CEO</span></p><p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent);margin:8px 0 6px">/brand · /design-review</p><p style="color:var(--color-muted);font-size:15px"><span lang="ko">전략→정체성, 그리고 SHIP/NO-SHIP 판정.</span><span lang="en">Strategy→identity, and a ship/no-ship call.</span></p></div>
+    <div class="card reveal"><p style="font-weight:600"><span lang="ko">기획자 / PM</span><span lang="en">Planner / PM</span></p><p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent);margin:8px 0 6px">/plan</p><p style="color:var(--color-muted);font-size:15px"><span lang="ko">아이디어→플로우·IA·와이어프레임·스펙.</span><span lang="en">Idea→flows, IA, wireframes, a spec.</span></p></div>
+    <div class="card reveal"><p style="font-weight:600"><span lang="ko">개발자</span><span lang="en">Developer</span></p><p style="font-family:var(--font-mono);font-size:13px;color:var(--color-accent);margin:8px 0 6px">/ui · /design-tokens</p><p style="color:var(--color-muted);font-size:15px"><span lang="ko">React/Tailwind/shadcn 구현, 접근성·반응형.</span><span lang="en">React/Tailwind/shadcn, accessible &amp; responsive.</span></p></div>
+  </div>
+</section>
+
+<!-- ───────────────────────── 04 install ───────────────────────── -->
+<section id="install" class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">04</p>
+  <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 18px">
+    <span lang="ko">설치 — 명령 두 줄</span><span lang="en">Install — two lines</span>
+  </h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start" class="two-col">
+    <div>
+      <p style="color:var(--color-muted);margin-bottom:12px"><span lang="ko">클로드 코드 안에서 (v2.1.100+):</span><span lang="en">In Claude Code (v2.1.100+):</span></p>
+      <div class="term"><div class="term-body" style="font-size:13.5px">
+        <div><span class="p">/</span>plugin marketplace add elon-choo/visigner</div>
+        <div><span class="p">/</span>plugin install visigner@visigner</div>
+      </div></div>
+      <p style="color:var(--color-muted);font-size:14px;margin-top:14px">
+        <span lang="ko">끝입니다. 스킬·에이전트·커맨드가 전부 켜집니다. 스크린샷 루프 같은 파워 기능만 한 번 <code style="font-family:var(--font-mono);color:var(--color-accent)">/design-setup</code> (브라우저 설치) 가 필요합니다 — 기획·디자인·코드·검수는 설치 없이 바로.</span>
+        <span lang="en">That's it — all skills, agents, and commands load. Only the power features (the screenshot loop) need a one-time <code style="font-family:var(--font-mono);color:var(--color-accent)">/design-setup</code> (a browser); planning, designing, coding, and reviewing work immediately.</span>
+      </p>
+    </div>
+    <div>
+      <p style="color:var(--color-muted);margin-bottom:12px"><span lang="ko">팀 전체에 자동 적용 — 프로젝트 <code style="font-family:var(--font-mono)">.claude/settings.json</code>:</span><span lang="en">Auto-enable for the whole team — project <code style="font-family:var(--font-mono)">.claude/settings.json</code>:</span></p>
+      <div class="term"><div class="term-body" style="font-size:12.5px;line-height:1.7"><pre style="margin:0;white-space:pre-wrap">{
+  "extraKnownMarketplaces": {
+    "visigner": { "source": {
+      "source": "github",
+      "repo": "elon-choo/visigner" } }
+  },
+  "enabledPlugins": { "visigner@visigner": true }
+}</pre></div></div>
+      <p style="color:var(--color-muted);font-size:14px;margin-top:14px"><span lang="ko">커밋해 두면 팀원은 워크스페이스를 신뢰하는 순간 자동으로 받습니다.</span><span lang="en">Commit it and teammates get it automatically on trusting the workspace.</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── 05 what's inside ───────────────────────── -->
+<section class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">05</p>
+  <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 20px">
+    <span lang="ko">안에 든 것</span><span lang="en">What's inside</span>
+  </h2>
+  <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px" class="two-col">
+    <div class="card reveal">
+      <p style="font-family:var(--font-mono);font-size:12px;color:var(--color-accent);letter-spacing:.1em">SKILLS · 7</p>
+      <ul style="list-style:none;padding:0;margin:12px 0 0;display:grid;gap:10px;font-size:15px;line-height:1.5">
+        <li><strong>detail-page</strong> — <span lang="ko">랜딩 + 한국형 상세페이지/와디즈, 이미지 에셋, 스크린샷 루프</span><span lang="en">landing + Korean 상세페이지/Wadiz, image assets, the screenshot loop</span></li>
+        <li><strong>ui-design</strong> — <span lang="ko">앱·웹·대시보드 UI, 컴포넌트 전 상태, 모션</span><span lang="en">app/web/dashboard UI, every component state, motion</span></li>
+        <li><strong>design-system</strong> — <span lang="ko">디자인 토큰(DTCG + Tailwind v4 @theme), 멀티브랜드·다크모드, 핸드오프</span><span lang="en">tokens (DTCG + Tailwind v4 @theme), multi-brand/dark, handoff</span></li>
+        <li><strong>brand-identity</strong> — <span lang="ko">전략·아키타입·보이스·네이밍, SVG 로고 제작</span><span lang="en">strategy, archetypes, voice, naming, SVG logo production</span></li>
+        <li><strong>ux-flows</strong> — <span lang="ko">플로우·IA·와이어프레임·PRD·티켓·클릭 프로토타입</span><span lang="en">flows, IA, wireframes, PRD, tickets, clickable prototype</span></li>
+        <li><strong>frontend-build</strong> — <span lang="ko">디자인→코드: React/Next + Tailwind v4 + shadcn, a11y</span><span lang="en">design→code: React/Next + Tailwind v4 + shadcn, a11y</span></li>
+        <li><strong>marketing-conversion</strong> — <span lang="ko">퍼널·CRO·카피·이메일 시퀀스·A/B 통계</span><span lang="en">funnel, CRO, copy, email sequences, A/B stats</span></li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:24px">
+      <div class="card reveal">
+        <p style="font-family:var(--font-mono);font-size:12px;color:var(--color-accent);letter-spacing:.1em">AGENTS · 3</p>
+        <ul style="list-style:none;padding:0;margin:12px 0 0;display:grid;gap:8px;font-size:15px">
+          <li><strong>design-critic</strong> — <span lang="ko">독립 안티슬롭 채점 (plan/copy/motion)</span><span lang="en">independent anti-slop grading (plan/copy/motion)</span></li>
+          <li><strong>a11y-auditor</strong> — <span lang="ko">WCAG 2.2 AA 감사</span><span lang="en">WCAG 2.2 AA audit</span></li>
+          <li><strong>design-director</strong> — <span lang="ko">아트 디렉션 (토큰·시그니처)</span><span lang="en">art direction (tokens + signature)</span></li>
+        </ul>
+      </div>
+      <div class="card reveal">
+        <p style="font-family:var(--font-mono);font-size:12px;color:var(--color-accent);letter-spacing:.1em">COMMANDS · 8</p>
+        <p style="font-family:var(--font-mono);font-size:13.5px;line-height:1.9;margin-top:10px;color:var(--color-muted)">/design · /landing · /ui · /brand · /design-tokens · /design-review · /plan · /campaign</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── 06 how it works ───────────────────────── -->
+<section id="how" class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">06</p>
+  <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 6px">
+    <span lang="ko">어떻게 "AI 티"를 없애나</span><span lang="en">How it kills the AI-slop look</span>
+  </h2>
+  <p style="color:var(--color-muted);margin-bottom:24px;max-width:34em"><span lang="ko">모든 스킬이 같은 척추를 씁니다 — 느낌이 아니라 픽셀로 검증합니다.</span><span lang="en">Every skill runs the same spine — it verifies from pixels, not from vibes.</span></p>
+  <ol style="list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:16px" class="loop-grid">
+    <li class="card reveal"><span class="secnum">①</span><p style="font-weight:600;margin:8px 0 4px"><span lang="ko">토큰 먼저</span><span lang="en">Plan tokens</span></p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">색·타입·레이아웃·시그니처를 코드 전에 설계</span><span lang="en">color/type/layout/signature, before any code</span></p></li>
+    <li class="card reveal"><span class="secnum">②</span><p style="font-weight:600;margin:8px 0 4px"><span lang="ko">기본값 거부</span><span lang="en">Reject defaults</span></p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">금지 목록 — 어떤 브리프에도 나올 법한 건 바꾼다</span><span lang="en">banned lists — change anything that'd fit any brief</span></p></li>
+    <li class="card reveal"><span class="secnum">③</span><p style="font-weight:600;margin:8px 0 4px"><span lang="ko">찍어서 본다</span><span lang="en">Screenshot</span></p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">자기 출력물을 렌더·캡처 (390px 오버플로·axe 게이트)</span><span lang="en">render &amp; capture its own output (390px overflow + axe gate)</span></p></li>
+    <li class="card reveal"><span class="secnum">④</span><p style="font-weight:600;margin:8px 0 4px"><span lang="ko">채점·반복</span><span lang="en">Score &amp; iterate</span></p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">10개 차원 루브릭, 게이트 통과까지 수정</span><span lang="en">a 10-dimension rubric; fix until it clears the gate</span></p></li>
+  </ol>
+</section>
+
+<!-- ───────────────────────── 07 proof ───────────────────────── -->
+<section class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">07</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center" class="two-col">
+    <div>
+      <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 14px">
+        <span lang="ko">13명의 깐깐한 리뷰어로 압박 테스트</span><span lang="en">Pressure-tested by 13 demanding reviewers</span>
+      </h2>
+      <p style="font-size:17px;line-height:1.6;color:var(--color-muted)">
+        <span lang="ko">디자이너 6종, 마케터들, 기획자, 바이브코더, CEO, 개발자 — 각자 자기 일을 끝까지 시뮬레이션하며 보수적으로 채점했습니다. 전원이 "시니어급, 자급자족 가능"으로 평가했고, 결과물은 주장이 아니라 <strong style="color:var(--color-ink)">실제 스크린샷 + 접근성</strong>으로 게이트됩니다.</span>
+        <span lang="en">Six kinds of designer, marketers, a planner, a vibe-coder, a CEO, a developer — each simulated their real job end-to-end and scored conservatively. Every one rated it senior-grade and self-sufficient, and output is gated on <strong style="color:var(--color-ink)">real screenshots + accessibility</strong>, not claims.</span>
+      </p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div class="card reveal" style="text-align:center"><p style="font-family:var(--font-display);font-weight:700;font-size:40px;color:var(--color-accent)">13</p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">리뷰어 페르소나</span><span lang="en">reviewer personas</span></p></div>
+      <div class="card reveal" style="text-align:center"><p style="font-family:var(--font-display);font-weight:700;font-size:40px;color:var(--color-accent)">0</p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">추가 설치 필요</span><span lang="en">extra installs needed</span></p></div>
+      <div class="card reveal" style="text-align:center"><p style="font-family:var(--font-display);font-weight:700;font-size:40px;color:var(--color-accent)">10</p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">차원 채점 루브릭</span><span lang="en">scoring dimensions</span></p></div>
+      <div class="card reveal" style="text-align:center"><p style="font-family:var(--font-display);font-weight:700;font-size:40px;color:var(--color-accent)">2</p><p style="color:var(--color-muted);font-size:14px"><span lang="ko">줄이면 설치 끝</span><span lang="en">lines to install</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── 08 FAQ ───────────────────────── -->
+<section class="wrap" style="padding-block:40px;border-top:1px solid var(--color-line)">
+  <p class="secnum">08</p>
+  <h2 style="font-family:var(--font-display);font-weight:600;font-size:clamp(26px,3.6vw,38px);letter-spacing:-.01em;margin:6px 0 20px">FAQ</h2>
+  <div style="display:grid;gap:14px;max-width:48em">
+    <details class="card reveal"><summary style="font-weight:600;cursor:pointer"><span lang="ko">API 키가 꼭 필요한가요?</span><span lang="en">Do I need an API key?</span></summary><p style="color:var(--color-muted);font-size:15px;margin-top:10px"><span lang="ko">아니요. 기획·디자인·코드·검수·토큰·카피는 키 없이 동작합니다. 실제 사진/일러스트 생성만 OpenAI/Gemini 키 또는 무료 ChatGPT 로그인이 필요하고, 없으면 온브랜드 SVG 컴프로 대체합니다.</span><span lang="en">No. Planning, design, code, review, tokens, and copy all work without one. Only real photo/illustration generation needs an OpenAI/Gemini key (or a free ChatGPT login); without it you get on-brand SVG comps.</span></p></details>
+    <details class="card reveal"><summary style="font-weight:600;cursor:pointer"><span lang="ko">오프라인에서도 되나요?</span><span lang="en">Does it work offline?</span></summary><p style="color:var(--color-muted);font-size:15px;margin-top:10px"><span lang="ko">디자인 가이드와 토큰·린트 게이트는 설치 없이 됩니다. 스크린샷/접근성 게이트는 한 번 <code style="font-family:var(--font-mono)">/design-setup</code> 으로 브라우저를 깔면 됩니다.</span><span lang="en">The design guidance and the token/lint gates are zero-setup. The screenshot/accessibility gate needs a one-time browser install via <code style="font-family:var(--font-mono)">/design-setup</code>.</span></p></details>
+    <details class="card reveal"><summary style="font-weight:600;cursor:pointer"><span lang="ko">한국어 페이지 전용인가요?</span><span lang="en">Is it only for Korean pages?</span></summary><p style="color:var(--color-muted);font-size:15px;margin-top:10px"><span lang="ko">아니요. 한국형 상세페이지/와디즈 구조에 강하지만, 서구권 랜딩·앱 UI·브랜드도 같은 기준으로 만듭니다. 카피 린트는 한국어 로케일도 지원합니다.</span><span lang="en">No. It's strong on Korean 상세페이지/Wadiz structure, but it builds western landing/app UI/brand to the same bar — and the copy lint supports a Korean locale too.</span></p></details>
+    <details class="card reveal"><summary style="font-weight:600;cursor:pointer"><span lang="ko">Figma를 대체하나요?</span><span lang="en">Does it replace Figma?</span></summary><p style="color:var(--color-muted);font-size:15px;margin-top:10px"><span lang="ko">아니요 — 대체하지 않고 <em>공급</em>합니다. 코드·SVG·토큰·스펙·다이어그램·카피를 만들어 Figma·호스팅·이메일 발송 같은 다운스트림 도구에 넘깁니다. 설치형 디자인 스킬/패키지를 대체하는 거지, GUI 캔버스를 대체하는 게 아닙니다.</span><span lang="en">No — it <em>feeds</em> them, it doesn't become them. It produces the code/SVG/tokens/specs/diagrams/copy that Figma, your host, and your ESP consume. It replaces other installable design skills/packages, not the GUI canvas.</span></p></details>
+  </div>
+</section>
+
+<!-- ───────────────────────── final CTA ───────────────────────── -->
+<section class="wrap" style="padding-block:64px 72px;border-top:1px solid var(--color-line)">
+  <div class="card reveal" style="background:var(--color-ink);color:var(--color-paper);border:none;text-align:center;padding:48px 28px;box-shadow:var(--shadow-e3)">
+    <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(28px,4vw,44px);letter-spacing:-.01em;margin:0 0 14px">
+      <span lang="ko">팀원에게 링크 하나만 주세요</span><span lang="en">Give your teammate one link</span>
+    </h2>
+    <p style="color:oklch(0.85 0.01 85);font-size:17px;margin:0 auto 26px;max-width:34em">
+      <span lang="ko">그 다음부터 디자인 작업에 다른 오픈소스·스킬·패키지를 더 설치할 일이 없습니다.</span>
+      <span lang="en">From there, no more open-source, skills, or packages to install for design work.</span>
+    </p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center">
+      <a href="https://github.com/elon-choo/visigner" class="btn btn-accent">github.com/elon-choo/visigner ↗</a>
+      <a href="https://github.com/elon-choo/visigner/stargazers" class="btn btn-ghost" style="border-color:oklch(1 0 0 / .25);color:var(--color-paper)">★ <span lang="ko">스타</span><span lang="en">Star</span></a>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:12.5px;color:oklch(0.78 0.01 85);margin-top:24px">/plugin marketplace add elon-choo/visigner &nbsp;·&nbsp; /plugin install visigner@visigner</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="wrap" style="padding-block:28px;border-top:1px solid var(--color-line);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center;color:var(--color-muted);font-size:14px">
+  <span>Visigner · MIT · <span lang="ko">바이브코딩 × 디자이너</span><span lang="en">vibe-coding × designer</span></span>
+  <span class="eyebrow"><span lang="ko">Anthropic frontend-design 규율 + 스크린샷 자기비평 루프 기반</span><span lang="en">Built on Anthropic's frontend-design discipline + a screenshot self-critique loop</span></span>
+</footer>
+
+<script>
+  function setLang(l){
+    document.documentElement.setAttribute('data-lang', l);
+    document.documentElement.setAttribute('lang', l);
+    document.getElementById('ko-btn').setAttribute('aria-pressed', l==='ko');
+    document.getElementById('en-btn').setAttribute('aria-pressed', l==='en');
+    try { localStorage.setItem('visigner-lang', l); } catch(e){}
+  }
+  (function(){ try { var s=localStorage.getItem('visigner-lang'); if(s) setLang(s); } catch(e){} })();
+
+  function copyInstall(btn){
+    var txt = "/plugin marketplace add elon-choo/visigner\n/plugin install visigner@visigner";
+    navigator.clipboard && navigator.clipboard.writeText(txt).then(function(){
+      var o=btn.textContent; btn.textContent='copied ✓'; setTimeout(function(){ btn.textContent=o; }, 1400);
+    });
+  }
+
+  // scroll reveals (disabled under reduced-motion). SAFETY: never leave content trapped at
+  // opacity:0 — a non-scrolling viewer, a screenshot tool, or a missing IO must still see everything.
+  function revealAll(){ document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ el.classList.add('in'); }); }
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ io.observe(el); });
+    // anything still hidden after load (below the fold, never scrolled to) is shown so it can't vanish
+    window.addEventListener('load', function(){ setTimeout(revealAll, 700); });
+  } else {
+    revealAll();
+  }
+</script>
+
+<style>
+  /* responsive: collapse to one column on mobile (no horizontal overflow at 390px) */
+  @media (max-width: 860px){
+    .hero-grid, .two-col, .who-grid, .loop-grid { grid-template-columns: 1fr !important; }
+    .hero-grid { gap: 36px !important; }
+  }
+  @media (max-width: 560px){
+    .who-grid { grid-template-columns: 1fr !important; }
+  }
+</style>
+</body>
+</html>
