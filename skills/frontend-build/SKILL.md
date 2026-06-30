@@ -41,6 +41,11 @@ npx create-next-app@latest app --ts --tailwind --eslint --app --src-dir --import
 cd app && npx shadcn@latest init        # Tailwind v4, CSS variables: yes, base color: neutral (recolor in @theme)
 ```
 
+**Or start from the shipped runnable React scaffold** — `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter-react/` is a **Vite + React 18 + Tailwind v4** (`@tailwindcss/vite`) + `class-variance-authority` app, the suite's first installable React/shadcn-style example. `src/index.css` holds `@import 'tailwindcss'` + the generated `:root`/`@theme` token blocks (single source = `tokens/brand-default.tokens.json`); `Button.tsx` is a cva recipe of semantic Tailwind tokens rendering every interaction state; `App.tsx` is one accessible, stateful screen. Build it:
+```bash
+cd ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter-react && npm i && npm run build   # → dist/  (npm run preview pins :4173)
+```
+
 ## 3 · Consume tokens AS CODE — one `@theme` block, no exceptions
 
 The Step-2/`design-system` plan is the single source of truth. Express **every** color/font/shadow ONCE inside a Tailwind v4 `@theme` block; v4 emits BOTH a CSS variable AND a utility for each token, so there is no parallel `tailwind.config` colors object or second `:root` hex list to drift. For React this lives in `app/globals.css`:
@@ -223,6 +228,11 @@ export default [
     rules: { "readable-tailwind/no-unregistered-classes": "warn" } },  // flags a class outside your @theme utilities
 ];
 ```
+**The suite ships this preset ready-made** — `${CLAUDE_PLUGIN_ROOT}/eslint.config.js` is a CommonJS flat config wiring `eslint-plugin-jsx-a11y` (with an optional `@typescript-eslint/parser` for `.tsx`). It **degrades to a no-op with a notice if those peer deps are absent** rather than crashing, and carries a note that brand governance stays in `brand-lint.js` + `npm run lint:tokens` (ESLint does not duplicate it). Install the peers and point it at the React source:
+```bash
+npm i -D eslint eslint-plugin-jsx-a11y @typescript-eslint/parser
+npx eslint ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter-react
+```
 The Tailwind plugin can't read your `@theme` for raw-hex leaks the way `brand-lint.js` does, so **pair the preset with a brand-lint editor hook**: run `${CLAUDE_PLUGIN_ROOT}/bin/brand-lint ./src` (dir mode — it already lints `.tsx/.jsx/.css`, see design-system §VERIFY) as an **editor task / on-save watcher** or a lint-staged step, so the token-leak / banned-font / ai-purple ERRORs surface in-editor, not only at the `.husky/pre-commit` hook. Net: jsx-a11y + the Tailwind rule give live a11y/class feedback; the brand-lint wrapper gives live token feedback — the same governance the CI gate (§8) enforces, moved left to keystroke time.
 
 ## 8 · Verify by screenshot — the gate that makes it real
@@ -250,6 +260,16 @@ AXE=1 GATE_EXIT=1 node $ROOT/scripts/serve-shoot.js --serve "npx next start -p \
 # All shoot.js env knobs (AXE, GATE_EXIT, MAX_TILES…) pass through; anything after `--` is forwarded to shoot.js.
 ```
 This is the React/Next gate wired for **CI**: the suite ships `.github/workflows/design-gate.yml` (a `gate` job that runs `npx patchright install --with-deps chromium` then `serve-shoot.js` with `AXE=1 GATE_EXIT=1` and uploads the screenshots) plus the `npm run gate` / `npm run lint:brand` scripts in the detail-page `package.json` and a `.husky/pre-commit` that brand-lints staged files. Drop them in to make "screenshot + axe pass" a merge requirement, not a manual step. (design-system owns the full CI-scaffold doc.)
+
+**Gate the shipped React starter the same way** — after `npm i && npm run build` in `assets/starter-react/`, shoot its build with `serve-shoot.js` in either mode:
+```bash
+ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page
+# (a) static dist:
+AXE=1 GATE_EXIT=1 NODE_PATH=$(npm root -g) node $ROOT/scripts/serve-shoot.js --dir $ROOT/assets/starter-react/dist --file index.html
+# (b) the pinned preview server (npm run preview → :4173):
+AXE=1 GATE_EXIT=1 NODE_PATH=$(npm root -g) node $ROOT/scripts/serve-shoot.js --serve "npm --prefix $ROOT/assets/starter-react run preview" --url http://127.0.0.1:4173/
+```
+The local `NODE_PATH` prefix lets patchright's Chromium resolve (CI uses `npx patchright install --with-deps chromium`). Extend the token-drift gate to this app with `TOKENS_TARGET=skills/detail-page/assets/starter-react/src/index.css npm run lint:tokens`, and point a `brand-lint` step at `assets/starter-react`.
 
 It writes a full-page desktop PNG, viewport tiles, a 390px mobile PNG, and `run.json`. **Read the tiles** (hierarchy, rhythm, the banned-default tells) AND **read `run.json.gate`:**
 

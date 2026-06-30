@@ -33,6 +33,7 @@
 const fs = require('fs');
 const path = require('path');
 const { fingerprintText, flagOutliers } = require('./lib-voice-fingerprint');
+const { EN_BANNED, KO_BANNED, findBanned } = require('./lib-banned-words');
 
 const SUBJECT_MAX = 50;
 const PREHEADER_MAX = 90;
@@ -52,23 +53,10 @@ const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u
 // an ALL-CAPS run of >=4 letters (whole "word"); excludes things like "I" or "OK".
 const ALLCAPS = /\b[A-Z]{4,}\b/g;
 
-// ---- AI-slop banned verbs / phrases (auto-fail, the SAME list copy-lint.js uses; design-critic §8b) ----
-// Scanned over subject + preheader + body so a sequence full of Empower/Unlock/Transform can't pass clean.
-const SLOP = [
-  /\bempower(s|ing|ed)?\b/i,
-  /\bunlock(s|ing|ed)?\b/i,
-  /\btransform(s|ing)?\b/i,
-  /\bbuild the future\b/i,
-  /\brevolutioniz(e|es|ing|ed)\b/i,
-  /\bsupercharg(e|es|ing|ed)\b/i,
-  /\bunleash(es|ing|ed)?\b/i,
-  /\breimagin(e|es|ing|ed)\b/i,
-  /\belevat(e|es|ing|ed)\b/i,
-  /\bdisrupt(s|ing|ed)?\b/i,
-  /\bgame[- ]changer\b/i,
-  /\bnext[- ]level\b/i,
-  /\bcutting[- ]edge\b/i,
-];
+// ---- AI-slop banned verbs / phrases (auto-fail) — the ONE canonical list, shared with copy-lint.js ----
+// Imported from lib-banned-words.js so the two linters can never drift. Scanned over subject + preheader
+// + body so a sequence full of Empower/Unlock/Transform can't pass clean. See lib for the full set.
+const SLOP = EN_BANNED;
 
 // ---- locale-pluggable lexicon (KO floor) ----------------------------------------------------------
 // Default behavior = the English lists above. `--locale ko` swaps in the built-in Korean pack and
@@ -77,10 +65,7 @@ const SLOP = [
 // syllable = 1 char) and uses Korean-appropriate subject/preheader budgets — Korean carries ~2x the
 // information per character, so the English 50/90 caps would over-allow. Korean has no word
 // boundaries, so KO entries are plain strings matched as substrings.
-const KO_SLOP = [
-  '최고', '최상', '최강', '혁신', '완벽', '무조건', '궁극', '압도적', '차세대',
-  '게임체인저', '단언컨대', '진정한', '신세계', '대박', '강력한', '획기적', '믿을 수 없는',
-];
+const KO_SLOP = KO_BANNED; // canonical Korean banned list, shared with copy-lint.js
 const KO_SPAM = [
   '무료', '공짜', '완전무료', '무료체험', '당첨', '현금', '꽁돈', '지금 즉시',
   '100% 무료', '이벤트 당첨', '클릭하세요', '돈 버는',
@@ -115,16 +100,7 @@ function resolveLocale(localeArg, voice) {
   return cfg;
 }
 
-// slop matcher tolerant of both RegExp (English) and plain-substring (Korean / JSON) entries.
-function findSlop(corpus, list) {
-  const hits = [];
-  const lc = String(corpus).toLowerCase();
-  for (const entry of (list || [])) {
-    if (entry instanceof RegExp) { const m = String(corpus).match(entry); if (m) hits.push(m[0]); }
-    else { const s = String(entry).trim(); if (s && lc.includes(s.toLowerCase())) hits.push(s); }
-  }
-  return hits;
-}
+// slop matching is delegated to lib-banned-words.findBanned (tolerant of RegExp + plain-substring entries).
 
 // ---------- spec/HTML -> normalized { subject, preheader, ctas[], bodyText, source } ----------
 function fromSpec(spec) {
@@ -204,7 +180,7 @@ function lintOne(model, file, lexicon, loc) {
   // AI-slop banned verbs (subject + preheader + body) — same list/severity as copy-lint.js (ERROR).
   const slopCorpus = `${head}\n${model.bodyText}`;
   const slopSeen = new Set();
-  for (const hit of findSlop(slopCorpus, loc.slop)) {
+  for (const hit of findBanned(slopCorpus, loc.slop)) {
     const key = hit.toLowerCase();
     if (!slopSeen.has(key)) {
       slopSeen.add(key);

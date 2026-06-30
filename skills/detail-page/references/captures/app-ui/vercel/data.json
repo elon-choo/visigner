@@ -1,0 +1,41 @@
+{
+  "url": "https://vercel.com",
+  "status": 200,
+  "title": "Agentic Infrastructure",
+  "headings": [
+    "H3: Agent Stack",
+    "H3: Core Platform",
+    "H3: Tools",
+    "H3: Learn",
+    "H3: Build",
+    "H3: Explore",
+    "H1: Agentic Infrastructure",
+    "H2: Build agents on infrastructure that thinks like them",
+    "H2: Ship apps that scale from zero to millions instantly",
+    "H2: Host platforms that serve every customer",
+    "H2: Recently shipped",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: ",
+    "H2: "
+  ],
+  "imageCount": 6,
+  "bigImages": [
+    "https://vercel.com/vc-ap-vercel-marketing/_next/image?url=%2Fvc-ap-vercel-marketing%2F_next%2Fstatic%2Fimmutable%2Fmedia%2Ffallback-dark-glow-mobile.3b4fyu5pe7opg.webp&w=1920&q=95",
+    "https://vercel.com/vc-ap-vercel-marketing/_next/image?url=%2Fvc-ap-vercel-marketing%2F_next%2Fstatic%2Fimmutable%2Fmedia%2Ffallback-dark-glow-desktop.25ylksegigbc-.webp&w=1920&q=95",
+    "https://lishhsx6kmthaacj.public.blob.vercel-storage.com/notion-desktop-light.webp",
+    "https://lishhsx6kmthaacj.public.blob.vercel-storage.com/mintlify-desktop-light.webp",
+    "https://lishhsx6kmthaacj.public.blob.vercel-storage.com/ship-26-homepage-bottom-left.svg"
+  ],
+  "pageHeight": 6019,
+  "bodyTextLen": 1260
+}

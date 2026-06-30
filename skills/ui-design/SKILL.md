@@ -117,6 +117,15 @@ Then REPLACE shadcn's default tokens with your Step-2 `@theme` block — the sto
 - [ ] **Dropdown / Popover / Tooltip / Combobox** — Radix primitives; keyboard nav, typeahead, controlled open. Tooltips never carry essential info (not keyboard/touch reachable).
 - [ ] **Data viz** — **Recharts** default, **Tremor** for quick KPI dashboards, **visx/D3** when bespoke. Rules: max ~5 series before switching encoding; color encodes a categorical/semantic meaning (not decoration); always axis labels + units; a chart has its OWN empty + loading + no-data states; never a pie chart for >5 slices or for precise comparison.
 
+### Generate a coherent first-party icon set (no icon dependency)
+When the brief wants an *owned* icon family instead of Phosphor/Lucide, generate one from a small spec — deterministic, license-clear, all glyphs sharing one grid / stroke / caps:
+```bash
+node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/icon-set.js [spec.json] [out-dir]
+# no spec → the default core set of 12 (search settings check arrow-right user bell heart star plus x menu chevron-right)
+# spec (all optional): { grid:24, stroke:1.75, radius:2, icons:[…] }  ·  flags --grid= --stroke= --radius= --icons=a,b,c override spec values
+```
+It emits one `<icon>.svg` per icon (shared `viewBox 0 0 <grid> <grid>`, identical stroke-width, round caps/joins, per-icon optical-size correction) plus **`icon-grid.html`** — a self-contained verification sheet showing every icon at 16/24/32px on light + dark that `shoot.js` renders with `gate.report.overall:true`. Extra in-library icons a spec may name: `home`, `mail`, `lock`; unknown names are skipped with a WARN (the run still succeeds if ≥1 icon is valid). Extend the family by adding a `(radius)=>inner-SVG` entry to `LIBRARY` drawn on the 24-unit grid. Still **one** family per UI — don't mix the generated set with Phosphor.
+
 ## 5 · Motion & micro-interaction
 
 Motion is interaction feedback and spatial continuity — not decoration. **One orchestrated moment beats ten scattered micro-animations** (scattered animation is itself an AI tell). Library: **`motion`** (Framer Motion) for React; CSS transitions for simple hover/focus. The canonical motion discipline (tokens, enter≠exit, transform/opacity-only, banned defaults) is shared via `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/aesthetics.md §Motion`; this section carries the React/app-state depth on top of it.
@@ -189,6 +198,8 @@ Run `REDUCED_MOTION=1` before ship so the reduced-motion floor is machine-proven
 
 Apps usually ship light + dark. Mechanics live in **design-system** — here, the discipline: dark mode is a **separate token set, never `filter: invert`**. Don't reuse light shadows (use lighter elevated surfaces); reduce saturation of accents in dark (vivid light-mode colors vibrate on dark); maintain the SAME contrast ratios. Drive via `class="dark"` / `[data-theme]` over the `@theme` tokens (Tailwind v4 `@variant dark`). Test EVERY component in both — a focus ring or disabled state invisible in dark is a real bug. Multi-brand/runtime theming → defer to **design-system**.
 
+**Turnkey in both starters (zero markup edits to re-theme).** `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter/index.html` now ships an active `[data-theme="dark"]` block (re-declares the neutral primitives + lifted primary/accent + heavier elevation, AA-safe — 0 axe contrast violations light or dark), a 44px `#themeToggle`, and a pre-paint restore script (`localStorage` key `page-theme`, stored choice only so the default render stays light); `app-shell.html` already shipped active dark + a toggle. Setting `document.documentElement.dataset.theme="dark"` re-themes the whole page. **Multi-brand is equally turnkey:** compile the shipped second brand `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/tokens/brand-alt.tokens.json` (a deliberately non-purple cobalt+coral DTCG override) into a `[data-brand="alt"]` block and set `data-brand="alt"` to reskin — mechanics in **design-system**.
+
 ## BANNED defaults for app UI (override only if the brief demands)
 - ❌ The generic dashboard: 4 equal stat cards in a row above one line chart. Plan a real information hierarchy — what does this persona check first?
 - ❌ Every card identical radius + identical soft shadow + identical padding → a wall of sameness. Vary by role; concentrate emphasis.
@@ -216,6 +227,7 @@ Run AFTER shooting. Grade the **tiles**, not the code. Reuse the anti-slop audit
 - [ ] **Every interactive component shows all states** — screenshot proof of default/hover/focus-visible/active/disabled/loading + empty/error for containers. (The big one for app UI.)
 - [ ] Motion: ONE orchestrated moment max; durations within tokens (≤400ms); enter ease-out / exit ease-in; no scroll-fade-everything, no parallax, no animating layout props.
 - [ ] Both light and dark mode verified per component (focus + disabled visible in both).
+- [ ] **Distinctiveness is capped by a deterministic tell-count, not vibe** — run `NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/tell-count.js <file|url>`; it measures the uniform-grid / centered-everything / monotone-accent tells from computed styles and returns a `distinctivenessCap`. The aesthetic-distinctiveness score — graded by **design-critic `MODE=ui`** against the app-UI captures in `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/captures/app-ui/{linear,stripe,vercel,raycast}/`, NOT the Wadiz pair — may not exceed that cap.
 
 **B · Accessibility floor** (the real check belongs to **a11y-auditor** + `frontend-build`; this is the gate):
 - [ ] **Visible focus** on every interactive element (`:focus-visible` ring, ≥2px, contrast ≥3:1 vs adjacent).

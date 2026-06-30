@@ -42,6 +42,7 @@
 const fs = require('fs');
 const path = require('path');
 const { fingerprintText, flagOutliers } = require('./lib-voice-fingerprint');
+const { EN_BANNED, KO_BANNED, findBanned } = require('./lib-banned-words');
 
 // ---- channel length budgets ----
 const AD_PRIMARY_WARN = 125;      // Meta primary text truncates ~125 chars
@@ -53,22 +54,9 @@ const PUSH_MAX_WORDS = 10;
 const PUSH_CHARS_WARN = 90;
 const PUSH_CHARS_ERROR = 120;
 
-// ---- AI-slop banned verbs / phrases (auto-fail, matches design-critic §8b slop list) ----
-const SLOP = [
-  /\bempower(s|ing|ed)?\b/i,
-  /\bunlock(s|ing|ed)?\b/i,
-  /\btransform(s|ing)?\b/i,
-  /\bbuild the future\b/i,
-  /\brevolutioniz(e|es|ing|ed)\b/i,
-  /\bsupercharg(e|es|ing|ed)\b/i,
-  /\bunleash(es|ing|ed)?\b/i,
-  /\breimagin(e|es|ing|ed)\b/i,
-  /\belevat(e|es|ing|ed)\b/i,
-  /\bdisrupt(s|ing|ed)?\b/i,
-  /\bgame[- ]changer\b/i,
-  /\bnext[- ]level\b/i,
-  /\bcutting[- ]edge\b/i,
-];
+// ---- AI-slop banned verbs / phrases (auto-fail) — the ONE canonical list, shared with email-lint.js ----
+// Imported from lib-banned-words.js so the two linters can never drift; see that file for the full set.
+const SLOP = EN_BANNED;
 
 // ---- CTA detection: an explicit `cta` field, OR a recognized action phrase in the copy ----
 const CTA_PHRASES = [
@@ -91,10 +79,7 @@ const STOPWORDS = new Set([
 // individual fields. A non-English locale also turns on grapheme-aware length counting so a Korean
 // syllable counts as 1 character (not its UTF-16 length). Korean has no word boundaries, so KO slop /
 // CTA entries are plain strings matched as substrings (English entries stay RegExp).
-const KO_SLOP = [
-  '최고', '최상', '최강', '혁신', '완벽', '무조건', '궁극', '압도적', '차세대',
-  '게임체인저', '단언컨대', '진정한', '신세계', '대박', '강력한', '획기적', '믿을 수 없는',
-];
+const KO_SLOP = KO_BANNED; // canonical Korean banned list, shared with email-lint.js
 const KO_CTA = [
   '지금 구매', '구매하기', '신청하기', '시작하기', '자세히', '알아보기', '더 알아보기',
   '다운로드', '구독', '가입', '살펴보기', '둘러보기', '예약', '사전예약', '주문', '받기',
@@ -130,16 +115,7 @@ function resolveLocale(localeArg, voice) {
   return cfg;
 }
 
-// slop matcher tolerant of both RegExp (English) and plain-substring (Korean / JSON) entries.
-function findSlop(corpus, list) {
-  const hits = [];
-  const lc = String(corpus).toLowerCase();
-  for (const entry of (list || [])) {
-    if (entry instanceof RegExp) { const m = String(corpus).match(entry); if (m) hits.push(m[0]); }
-    else { const s = String(entry).trim(); if (s && lc.includes(s.toLowerCase())) hits.push(s); }
-  }
-  return hits;
-}
+// slop matching is delegated to lib-banned-words.findBanned (tolerant of RegExp + plain-substring entries).
 
 // ---------- normalize one surface spec -> { channel, hero, primary, firstLine, cta, copy } ----------
 function normalize(s) {
@@ -267,7 +243,7 @@ function lintOne(surface, file, opts) {
   }
 
   // AI-slop banned verbs / superlatives (all channels)
-  for (const hit of findSlop(model.copy, loc.slop)) {
+  for (const hit of findBanned(model.copy, loc.slop)) {
     add('slop-verb', 'error', `AI-slop verb/phrase: "${hit}"`);
   }
 

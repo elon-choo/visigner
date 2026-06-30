@@ -6,6 +6,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>SCAFFOLD — replace per brief</title>
 
+<!-- Restore a stored dark/light choice BEFORE paint (no flash). No stored value → no data-theme → light
+     default, so the page's out-of-the-box look is unchanged. (OS preference is intentionally NOT auto-applied
+     here so the scaffold's default render stays the light reference; the toggle below opts a visitor in.) -->
+<script>
+(function () { try { var t = localStorage.getItem('page-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
+</script>
+
 <!-- Fonts: Korean detail pages need Korean fonts. Pretendard body + bold KR display + optional Latin accent. -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,6 +71,27 @@
     --brand-shadow-e1: 0 1px 2px oklch(0.20 0.02 270 / 0.06);
     --brand-shadow-e2: 0 6px 16px oklch(0.20 0.02 270 / 0.10);
     --brand-shadow-e3: 0 20px 48px oklch(0.20 0.02 270 / 0.16);
+  }
+  /* DARK MODE — ACTIVE. Re-declare ONLY the neutral primitives (+ lift accent/primary + heavier elevation);
+     because @theme maps every Tailwind token to a --brand-* var, setting document.documentElement.dataset.theme
+     = "dark" re-themes utilities (bg-surface/text-ink/…) AND every inline var(--color-*) with ZERO markup edits.
+     Tinted-dark (warm-neutral hue echoing the light theme), AA-safe: ink ~16:1 on surface, muted clears AA. */
+  [data-theme="dark"] {
+    --brand-surface: oklch(0.205 0.012 275);        /* tinted-dark page canvas (not pure black) */
+    --brand-card:    oklch(0.255 0.013 275);        /* raised card/artifact surface */
+    --brand-ink:     oklch(0.960 0.005 95);         /* warm near-white body text */
+    --brand-muted:   oklch(0.715 0.012 270);        /* secondary text — clears AA on the dark surface */
+    --brand-line:    oklch(0.985 0.004 95 / 0.14);  /* hairlines lighten on dark */
+    /* lift the green primary + amber accent so they stay vivid on a dark surface */
+    --brand-primary-500: oklch(0.700 0.100 156);
+    --brand-primary-700: oklch(0.620 0.095 157);
+    --brand-primary: var(--brand-primary-700);
+    --brand-accent-500: oklch(0.775 0.150 60);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: oklch(0.205 0.012 275);      /* bright amber still carries DARK ink (AA), not the light ink */
+    --brand-shadow-e1: 0 1px 2px oklch(0 0 0 / 0.32);
+    --brand-shadow-e2: 0 6px 16px oklch(0 0 0 / 0.42);
+    --brand-shadow-e3: 0 20px 48px oklch(0 0 0 / 0.55);
   }
   /* Example second brand — uncomment, override ONLY what differs; it re-themes the whole page at runtime.
   [data-brand="alt"] {
@@ -225,6 +253,17 @@
 <body>
 <a href="#main" class="skip-link">본문 바로가기</a>
 <!--
+  Dark-mode toggle (token-driven proof). Flips document.documentElement.dataset.theme; every var(--brand-*)
+  neutral re-resolves under [data-theme="dark"] above — no per-element class edits. 44px touch target, fixed in
+  the top-right out of the content column; uses token colors so it re-themes with the page. Real pages can move
+  this into the header — it just needs to set data-theme on <html>.
+-->
+<button id="themeToggle" type="button" aria-label="다크 모드 전환" title="다크 모드"
+  style="position:fixed;top:16px;right:16px;z-index:60;width:44px;height:44px;border-radius:9999px;border:1px solid var(--color-line);background:var(--color-card);color:var(--color-ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--shadow-e1)">
+  <svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+  <svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" style="display:none"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/></svg>
+</button>
+<!--
   SECTION SKELETON — detail mode arc (delete what the brief doesn't need; reorder per references/korean-detailpage.md).
   Each band is full-width; inner content sits in .col. Bake critical copy as real text, not into images,
   unless you also test it at 390px. Put ONE benefit headline above each feature; trust numbers repeat mid-scroll.
@@ -278,6 +317,27 @@
   IntersectionObserver is missing) we never arm the hidden state, so content stays visible and nothing
   animates. Hero is above the fold → intersects immediately → entrance on load; rest reveal on scroll-in.
 -->
+<!-- Dark-mode toggle: flip data-theme on <html>, persist the choice, swap the sun/moon glyph. Defensive: no-ops
+     cleanly if the button is removed, and localStorage failures (private mode) never throw. -->
+<script>
+(function () {
+  var root = document.documentElement;
+  var btn = document.getElementById('themeToggle');
+  function syncIcon() {
+    var dark = root.getAttribute('data-theme') === 'dark';
+    var sun = document.querySelector('#themeToggle .i-sun');
+    var moon = document.querySelector('#themeToggle .i-moon');
+    if (sun && moon) { sun.style.display = dark ? 'none' : ''; moon.style.display = dark ? '' : 'none'; }
+  }
+  syncIcon();
+  if (btn) btn.addEventListener('click', function () {
+    var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('page-theme', next); } catch (e) {}
+    syncIcon();
+  });
+})();
+</script>
 <script>
 (function () {
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;

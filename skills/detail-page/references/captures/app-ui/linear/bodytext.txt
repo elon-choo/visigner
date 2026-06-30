@@ -1,0 +1,462 @@
+Skip to content →
+Product
+Resources
+Customers
+Pricing
+Now
+Contact
+Log in
+Sign up
+The product development
+system for teams and agents
+The product development system for teams and agents
+
+Purpose-built for planning and building products. Designed for the AI era.
+
+New
+Coding Sessions →
+Linear
+Inbox
+My issues
+Reviews
+Pulse
+Workspace
+Initiatives
+Projects
+More
+Favorites
+Faster app launch
+Agent tasks
+UI Refresh
+Agents Insights
+Faster app launch
+02
+/
+145
+Faster app launch
+
+Render UI before vehicle_state sync when minimum required state is present, instead of blocking on full refresh during iOS startup.
+
+Activity
+Linear created the issue via Slack on behalf of karri · 2min ago
+Triage Intelligence added the label Performance and iOS · 2min ago
+karri
+· 4 min ago
+Right now we show a spinner forever, which makes it look like the car disappeared...
+jori
+· just now
+@Linear can you take a stab at this?
+Linear
+connected by
+jori
+·
+2 min ago
+Changed 2 files
+Draft PR awaiting your review
+·
+2 min ago
+Linear moved from Todo to In Progress · just now
+LinearOpus 4.8
+jori
+connected Linear to ENG-2703
+Examining the startup path...
+Worked for 7s 
+Pushed and opened a draft PR. Changes:
+useRideHistory.ts : build a waitingStatusById map and use it as the getLastAction by line
+RideHistoryPage.tsx : dimmed rows reset
+Preview
+Changed
+2 files
++4
+-4
+Draft
+Update homepage H1
+master
+←
+ride/drv-899-update-homepage-h1-65a6
+ENG-2703
+In Progress
+High
+jori
+Linear
+Labels
+Performance
+iOS
+Cycle
+Cycle 144
+Project
+Core Performance
+A new species of product tool. Purpose-built for modern teams with AI workflows at its core, Linear sets a new standard for planning and building products.
+FIG 0.2
+Built for purpose
+
+Linear is shaped by the practices and principles of world-class product teams.
+
+FIG 0.3
+Powered by AI agents
+
+Designed for workflows shared by humans and agents, from PRD to PR.
+
+FIG 0.4
+Designed for speed
+
+Reduces noise and restores momentum to help teams ship with high velocity and focus.
+
+Make product operations self-driving
+
+Turn conversations and customer feedback into actionable issues that are routed, labeled, and prioritized for the right team.
+
+1.0Intake→
+Backlog
+8
+ENG-2085
+Reduce UI flicker during autonomy...
+ENG-2094
+Add buffering for autonomy event streams
+ENG-2092
+Reduce startup delay caused by vehicle sync
+ENG-2200
+Fix delayed route updates during rerouting
+Todo
+71
+ENG-926
+Remove UI inconsistencies
+Bug
+Design
+ENG-2088
+TypeError: Cannot read properties
+Bug
+ENG-924
+Upgrade to Claude Opus 4.8
+AI
+ENG-1882
+Optimize load times
+Performance
+In Progress
+3
+ENG-1487
+Remove contentData from GraphQL API
+61039
+MKT-1028
+Launch page assets
+Design
+ENG-2187
+Prevent duplicate ride requests on poor...
+Bug
+62048
+Done
+53
+ENG-2074
+Clean up deprecated APIs...
+API
+61002
+ENG-1912
+Reduce latency in autonomy st...
+61005
+ENG-1951
+Reduce ETA fluctuations durin...
+61202
+ENG-1960
+Improve fallback messaging
+UI
+61149
+ENG-1991
+Improve rider visibility into veh...
+Thread in #feedback
+didier
+5:41 PM
+Has anyone been looking into the iOS startup performance issues?
+lena
+5:41 PM
+Anyone else noticing the iOS app feels slow to open if you haven't used it in a bit?
+didier
+5:41 PM
+Yea, we're still blocking initial render on a full vehicle_state sync every time...
+andreas
+5:41 PM
+Feels like we could render sooner and load the rest in the background. Probably also worth tracking startup timing so we know how often this happens!
+@Linear
+create urgent issues and assign to me
+1.1
+Linear Agent +
+1.2
+Triage +
+1.3
+Customer Requests +
+1.4
+Linear Asks +
+Define the product direction
+
+Plan and navigate from idea to launch. Align your team with product initiatives, strategic roadmaps, and clear, up-to-date PRDs.
+
+2.0Plan→
+FEB
+MAR
+APR
+MAY
+JUN
+JUL
+AUG
+SEP
+2
+9
+16
+23
+2
+9
+16
+23
+30
+6
+13
+20
+27
+4
+11
+18
+25
+1
+8
+15
+22
+29
+6
+13
+20
+27
+3
+10
+17
+24
+31
+7
+14
+21
+28
+UI Refresh
+Core screens
+Polish
+Split fares
+Internal
+Public Beta
+Autonomy status clarity
+Alpha
+GA
+Initiatives
+Core Product
+99
+Infra stability
+28
+Autonomous systems
+16
+Mobile apps
+8
+APAC Expansion
+21
+Japan Launch
+12
+Customer-driven priorities
+9
+2.1
+Projects +
+2.2
+Documents +
+2.3
+Initiatives +
+2.4
+Visual planning +
+Move work forward across teams and agents
+
+Build and deploy AI agents that work alongside your team. Work on complex tasks together or delegate entire issues end-to-end.
+
+3.0Build→
+Codex
+On it! I've received your request.
+Kicked off a task in
+kinetic/kinetic-iOS environment.
+Searching for root AGENTS file
+kinetic/kinetic-iOS$ /bin/bash -lc rg --files -g 'AGENTS.md'
+AGENTS.md
+Locating initialization logic for
+vehicle_state
+Thinking...
+Agents Command Menu
+Codex
+Agent
+Steven
+Ema
+GitHub Copilot
+Agent
+Cursor
+Agent
+Meg
+3.1
+Issues +
+3.2
+Agents +
+3.3
+Linear MCP +
+3.4
+Git automations +
+3.5
+Cycles +
+Review PRs and agent output
+
+Understand code changes at a glance with structural diffs for human and agent output. Review, discuss, and merge — all within Linear.
+
+4.0Diffs→
+kinetic-ios/src/screens/Home/HomeScreen.tsx
+Linear
+import React from 'react'
+import { View, ActivityIndicator } from 'react-native'
+import { useVehicleState } from '@hooks/useVehicleState'
+import { Dashboard } from '@components/Dashboard'
+export const HomeScreen = () => {
+  const { vehicleState, isFullySynced } = useVehicleState()
+  if (!isFullySynced) {
+    return <ActivityIndicator size="large" />
+  }
+  return (
+    <View>
+      <Dashboard state={vehicleState} />
+    </View>
+  )
+}
+import React from 'react'
+import { View, ActivityIndicator } from 'react-native'
+import { useVehicleState, SyncStatus } from '@hooks/useVehicleState'
+import { Dashboard } from '@components/Dashboard'
+export const HomeScreen = () => {
+  const { vehicleState, syncStatus } = useVehicleState()
+  if (syncStatus === SyncStatus.PENDING) {
+    return <ActivityIndicator size="large" />
+  }
+  return (
+    <View>
+      <Dashboard state={vehicleState} syncStatus={syncStatus} />
+    </View>
+  )
+}
+Understand progress at scale
+
+Take the guesswork out of product development with project updates, analytics, and dashboards that surface what needs your attention.
+
+5.0Monitor→
+Issue count by created date
+18
+16
+14
+12
+10
+8
+6
+4
+2
+0
+Feb 2025
+May 2025
+Aug 2025
+Nov 2025
+Cycle time by agent
+Cursor
+Codex
+No Agent
+Weekly Pulse for Jun 30
+Listen
+1.0×
+Projects
+UI refresh
+At risk
+By romain · 1 day ago
+
+iOS implementation is mostly complete, but Android updates are still work in progress
+
+Risk of timeline slip if remaining design decisions aren’t finalized soon
+
+Tokyo launch
+On track
+By julian · 3 hours ago
+
+Localization efforts have been completed
+
+Everything else on track for launch in early September
+
+5.1
+Pulse +
+5.2
+Insights +
+5.3
+Dashboards +
+Changelog
+Agent assisted project updates
+Project and initiative updates keep teams aligned, but writing them means pulling out recent changes from issues, documents, and discussions.
+JUN 17, 2026
+Coding sessions in Linear
+Earlier this year, we launched Linear Agent, giving teams a new way to plan and coordinate their issues and projects. Since then, we've added Code Intelligence to extend that understanding to the codebase, and MCP support to bring all of your context together.
+JUN 10, 2026
+Team documents
+Important team context doesn’t always belong in a specific issue, project, or initiative. Teams also need a dedicated place for the notes, docs, and shared references that support their work over time. Now, every team has a page to keep its context organized and easy to access.
+JUN 3, 2026
+View all
+→
+
+You’ll probably build a better product, just because of the craft that using Linear infuses on your brain.
+
+Gabriel Peal
+Staff Software Engineer, OpenAI
+
+Our speed is intense and Linear helps us be action biased.
+
+Nik Koblov
+Head of Engineering, Ramp
+
+Linear powers over 33,000 product teams. From ambitious startups to major enterprises.
+
+Customer stories
+→
+Built for the future. Available today.
+Get started
+Contact sales
+Product
+Intake
+Plan
+Build
+Diffs
+Monitor
+Pricing
+Security
+Features
+Asks
+Agents
+Coding Sessions
+Customer Requests
+Insights
+Mobile
+Integrations
+Changelog
+Company
+About
+Customers
+Careers
+Blog
+Method
+Quality
+Brand
+Resources
+Switch
+Download
+Documentation
+Developers
+Status
+Enterprise
+Startups
+Connect
+Contact us
+Community
+X (Twitter)
+GitHub
+YouTube
+Privacy
+Terms
+DPA
+AUP

@@ -352,6 +352,73 @@ function brandCheck(raw, brandTokens, lexicon, brandFile) {
 }
 
 // ============================================================================
+// UNDEFINED-TOKEN-REF (source/dir mode) — enforce the "token rename = API break" story: a var(--color-typo)
+// that resolves to NOTHING (because the token was renamed/removed) must fail CI, not compile to empty and pass.
+// We build the DEFINED design-token set from @theme{}/:root{} (and optional DTCG) across the WHOLE tree, then
+// flag any var(--color/font/shadow/brand-*) reference whose name is not in that set. Only the four design-token
+// namespaces are checked (an arbitrary --x css var is never flagged). Definitions are collected tree-wide BEFORE
+// refs are checked so a token defined in one file and used in another resolves correctly.
+// ============================================================================
+
+// strip HTML/CSS/JS comments to spaces (length- and newline-position-preserving, so a match index still maps to
+// the original raw for accurate line numbers). The line-comment strip skips `://` so URLs in strings survive.
+function stripCommentsToSpace(raw) {
+  return raw
+    .replace(/<!--[\s\S]*?-->/g, (m) => ' '.repeat(m.length))
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => ' '.repeat(m.length))
+    .replace(/(^|[^:])\/\/[^\n]*/g, (m, p1) => p1 + ' '.repeat(m.length - p1.length));
+}
+
+// design-token namespaces that form the DEFINED allowlist (the names actually declared in @theme/:root).
+const DEFINED_TOKEN_DEF = /(--(?:color|font|shadow|brand|space|radius|dur|ease)-[a-z0-9-]+)\s*:/gi;
+// the four namespaces whose var() REFERENCES are checked against the defined set.
+const REF_TOKEN = /var\(\s*(--(?:color|font|shadow|brand)-[a-z0-9-]+)/gi;
+
+// collect design-token NAMES defined in @theme{}/:root{} blocks of one file into `into` (a Set, lowercased).
+function collectDefinedTokens(stripped, into) {
+  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g)) {
+    for (const m of stripped.slice(s, e).matchAll(DEFINED_TOKEN_DEF)) into.add(m[1].toLowerCase());
+  }
+  return into;
+}
+
+// collect candidate css token NAMES from a DTCG brand.tokens.json so a var() ref to a token that lives only in
+// the DTCG source (not yet in a built @theme) is not falsely flagged. Purely ADDITIVE — it only widens the
+// allowlist, so over-collection can never cause a false positive. Adds the full dashed path plus a
+// wrapper-stripped --color-/--brand- variant for every leaf.
+function collectDtcgTokens(tokens, into) {
+  const isLeaf = (v) => v && typeof v === 'object' && ('$value' in v || '$type' in v);
+  const walk = (obj, segs) => {
+    for (const [k, v] of Object.entries(obj || {})) {
+      if (k.startsWith('$') || v == null || typeof v !== 'object') continue;
+      const p = [...segs, k];
+      if (isLeaf(v)) {
+        into.add(`--${p.join('-').toLowerCase()}`);
+        const rest = [...p];
+        while (rest.length > 1 && (rest[0] === 'brand' || rest[0] === 'color')) rest.shift();
+        const r = rest.join('-').toLowerCase();
+        into.add(`--color-${r}`); into.add(`--brand-${r}`);
+      } else walk(v, p);
+    }
+  };
+  walk(tokens || {}, []);
+  return into;
+}
+
+// check var(--color/font/shadow/brand-*) references in one file against the tree-wide DEFINED set; a ref to a
+// name not in the set is an `undefined-token-ref` ERROR (offending name in snippet, file:line in `where`).
+function checkTokenRefs(raw, defined, relFile, violations) {
+  const add = mkAdd(violations);
+  const stripped = stripCommentsToSpace(raw);
+  for (const m of stripped.matchAll(REF_TOKEN)) {
+    const name = m[1].toLowerCase();
+    if (defined.has(name)) continue;
+    const line = raw.slice(0, m.index).split('\n').length;
+    add('undefined-token-ref', `${relFile}:${line}`, `${m[1]} — references no defined token (renamed/removed?)`, 'error');
+  }
+}
+
+// ============================================================================
 // HTML linter — preserves the original single-file behavior EXACTLY (byte-for-byte report).
 // ============================================================================
 function lintHtml(raw, file) {
@@ -606,9 +673,22 @@ try {
     let errorCount = 0, warnCount = 0, rawColorsTotal = 0, definedTokensTotal = 0;
     let brandCheckedTotal = 0, brandOffTotal = 0, brandFilesOff = 0, brandFilesChecked = 0;
 
+    // PASS 1 (undefined-token-ref): build the DEFINED token set from @theme/:root (+ DTCG) across the WHOLE
+    // tree BEFORE checking any refs, so a token defined in one file and used in another resolves correctly.
+    const definedTokens = new Set();
+    const fileRaws = new Map();
     for (const f of files) {
       const raw = fs.readFileSync(f, 'utf8');
+      fileRaws.set(f, raw);
+      collectDefinedTokens(stripCommentsToSpace(raw), definedTokens);
+    }
+    if (flags.brand) collectDtcgTokens(brandTokens, definedTokens);
+
+    for (const f of files) {
+      const raw = fileRaws.get(f);
       const { violations, tokenCoverage } = lintByExt(raw, f);
+      // PASS 2: flag var(--token) refs not in the tree-wide defined set (token rename = API break).
+      checkTokenRefs(raw, definedTokens, path.relative(root, f), violations);
       // SEMANTIC BRAND check per file (color ΔE + logo + lexicon); its violations join the gate.
       let brand = null;
       if (flags.brand && BRAND_CHECK_EXTS.has(path.extname(f).toLowerCase())) {
@@ -662,6 +742,15 @@ try {
   const raw = fs.readFileSync(target, 'utf8');
   const outPath = positionals[1] || path.join(path.dirname(path.resolve(target)), 'brand-lint.json');
   const { violations, tokenCoverage } = lintByExt(raw, target);
+
+  // UNDEFINED-TOKEN-REF (source mode only — NOT single-file HTML, which stays byte-for-byte unchanged):
+  // build this file's defined token set (+ optional DTCG) and flag var() refs to renamed/removed tokens.
+  const targetExt = path.extname(target).toLowerCase();
+  if (targetExt !== '.html' && targetExt !== '.htm') {
+    const defined = collectDefinedTokens(stripCommentsToSpace(raw), new Set());
+    if (flags.brand) collectDtcgTokens(brandTokens, defined);
+    checkTokenRefs(raw, defined, path.basename(target), violations);
+  }
 
   // SEMANTIC BRAND mode (opt-in): diff declared colors vs brand roles, check logo + lexicon, emit one line.
   // Off-brand colors / banned terms are added to the SAME violations list so they count toward the gate.

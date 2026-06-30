@@ -1,0 +1,790 @@
+Store
+Pro
+AI
+iOS
+Windows
+Teams
+Enterprise
+Blog
+Pricing
+Log in
+Download
+Your shortcut to everything.
+
+A collection of powerful productivity tools all within an extendable launcher. Fast, ergonomic and reliable.
+
+Download for Mac
+Download for Windows (beta)
+v1.104.20
+macOS 13+
+Install via homebrew
+Try the new Raycast
+Learn more
+Take shortcuts, not detours.
+
+One interface, everything you need.
+
+Type to filter entries...
+All Types
+Today
+Image (1200 x 1000)
+#FF6363
+#59D499
+#56C2FF
+#FFC531
+https://raycast.com
+https://github.com/raycast/extensions
+The first Macintosh computer was introduced
+hello@raycast.com
+Two Mangos (640 x 427)
+magic.png (640 x 360)
+Image (842 x 420)
+#FF6363
+Information
+Application	VS Code
+Content Type	Color
+Copied	Today, 13:35:07
+Clipboard History
+Copy to Clipboard
+↵
+Actions
+⌘
+K
+Search for apps and commands...
+Search Emoji & Symbols...
+Pinned
+❤️
+👋
+👍
+🚀
+🎉
+🙏
+Smileys & People
+😀
+😃
+😄
+😁
+😆
+😅
+🤣
+😂
+🙂
+🙃
+🫠
+😉
+😊
+😇
+🥰
+😍
+🤩
+😘
+😗
+☺️
+😚
+😙
+🥲
+😋
+😛
+😜
+🤪
+😝
+🤑
+🤗
+🤭
+🫢
+👆
+🫵
+👈
+👉
+☝️
+👇
+💯
+😞
+❤️
+👋
+👍
+🙏
+Unicode Symbols
+☝
+‧
+←
+↑
+→
+↓
+⇅
+⇆
+▲
+△
+▵
+▷
+▸
+▹
+▴
+►
+▻
+▼
+▽
+▾
+▿
+◁
+◂
+◃
+◄
+◅
+Travel & Places
+🚀
+🏯
+🏰
+🎉
+Symbols
+🔯
+✴️
+🔺
+🔻
+Search Emoji & Symbols
+Copy to Clipboard
+↵
+Actions
+⌘
+K
+Search for apps and commands...
+Ask AI
+Tab
+Suggestions
+Store
+Raycast
+Command
+Clipboard History
+Raycast
+Command
+Search Files
+Raycast
+Command
+My Schedule
+Calendar
+Command
+Define Word
+Dictionary
+Command
+Commands
+Calculator History
+Calculator
+Command
+My Schedule
+Calendar
+Command
+Clipboard History
+Raycast
+Command
+Calculator
+Use "" with...
+Search Files
+File Search
+Command
+Define Word
+Dictionary
+Command
+Search Google
+Google Chrome
+Quicklink
+Search DuckDuckGo
+Google Chrome
+Quicklink
+Open Command
+↵
+Actions
+⌘
+K
+window management
+Results
+Left Half
+Window Management
+Right Half
+Window Management
+Almost Maximize
+Window Management
+iOS Development
+Window Management
+Last Third
+Window Management
+Last Two Thirds
+Window Management
+Toggle Full Screen
+Window Management
+Top Right Quarter
+Window Management
+Top Left Quarter
+Window Management
+Bottom Half
+Window Management
+Open Command
+↵
+Actions
+⌘
+K
+Clipboard History
+Remember Everything. Stop playing Clipboard ping pong - with Clipboard History you’ll never forget anything.
+It’s not about saving time.
+
+It’s about feeling like you’re never wasting it.
+
+Download
+esc
+F1
+F2
+F3
+F4
+F5
+F6
+F7
+F8
+F9
+F10
+F11
+F12
+±
+§
+!
+1
+@
+2
+#
+3
+$
+4
+%
+5
+^
+6
+&
+7
+*
+8
+(
+9
+)
+0
+_
+-
++
+=
+delete
+Fast. Think in milliseconds.
+Ergonomic.
+Keyboard First.
+E
+R
+T
+Y
+U
+I
+O
+P
+{
+[
+}
+]
+|
+\
+Native. Pure performance.
+Reliable. 99.8%
+crash-free rate.
+S
+D
+F
+G
+H
+J
+K
+L
+:
+;
+"
+,
+~
+`
+Z
+X
+C
+V
+B
+N
+M
+<
+,
+>
+.
+?
+/
+fn
+control
+option
+command
+command
+option
+There’s an extension for that.
+
+Use your favorite tools without even opening them.
+
+Productivity
+Engineering
+Design
+Writing
+Linear
+
+Create, search and modify your issues without leaving your keyboard.
+
+Google Translate
+
+Use Google Translate to effortlessly translate into multiple languages
+
+Spotify
+
+Search for music and podcasts, browse your library, and control playback.
+
+Arc
+
+Navigate your open tabs or search through your browser history.
+
+TinyPNG
+
+Compress the selected images in Finder with TinyPNG.
+
+1Password
+
+Easily grab any password or credential from your 1Password vaults.
+
+JIRA
+
+Manage your JIRA issues and sprints without leaving your keyboard.
+
+Slack
+
+Set your presence, see unread messages and search your chats.
+
+Zoom
+
+See your upcoming calls and jump straight into them from Raycast.
+
+Timers
+
+Start stopwatches and timers to keep track of your daily tasks.
+
+Pomodoro
+
+Control pomodoro timers and see the current interval in the menu bar.
+
+Notion
+
+The fastest way to search and create Notion pages.
+
+Todoist
+
+Check your Todoist tasks and quickly create new ones
+
+Google Search
+
+Need to know something fast? Google it straight from Raycast.
+
+Obsidian
+
+Capture information, manage tasks and pin notes to your menu bar.
+
+Google Chrome
+
+Search open tabs, bookmarks and history in Google Chrome.
+
+CleanShot X
+
+Trigger CleanShot X screen captures right from your keyboard.
+
+Plus thousands more...
+Browse the store
+Browse thousands more
+AI
+Your Mac just got smarter.
+
+AI where it’s most useful - on your OS.
+
+How do I quit Vim?
+Ask Anything, Anytime, Anywhere. Quick AI combines the power of AI with the web to answer any question.
+Always On ChatGPT. Stuck while coding? Need help writing an email? Meet your new virtual assistant.
+Your Automation Assistant. Create your own AI Commands to automate repetitive tasks and eliminate chores.
+More about AI
+Built for professionals like you.
+
+Used by seriously productive people.
+
+Guillermo Rauch
+@rauchg
+CEO, Vercel
+Marques Brownlee
+@MKBHD
+Creator, MKBHD
+Koen Bok
+@koenbok
+Founder, Framer
+Andreas Storm
+@avstorm
+Designer & Iconograph
+Adam Wathan
+@adamwathan
+Creator, Tailwind CSS
+Wes Bos
+@wesbos
+Co-host, SyntaxFM
+Ridd
+@ridd_design
+Creator, Dive Club
+Max Stoiber
+@mxstbr
+CEO, Stellate
+Zach Holman
+@holman
+Angel Investor
+Ansub
+@justansub
+Founding Engineer
+Kitze
+@thekitze
+Founder
+Florian Kiem
+@flornkm
+Design Engineer
+Wojtek Witkowski
+@pugson
+Design Engineer
+Reece Atkinson
+@reece_dev
+Student
+Mariana Castilho
+@mrncst
+Designer
+Oliur
+@UltraLinx
+Designer
+Jia
+@upinthezone
+Student
+Tomek Sułkowski
+@sulco
+Developer Advocate
+Nicolas Neubert
+@iamneubert
+Runway AI
+Jaime Creixems
+@webjac
+Design Advocate
+Gavin Nelson
+@gavmn
+Designer, OpenAI
+Isabel Sá
+@isabelsoasa
+Designer
+Steven Tey
+@steventey
+Founder, Dub
+Adam Whitcroft
+@AdamWhitcroft
+Designer, Owner
+Favorite Feature:
+AI Chat
+
+Realtime knowledge, anywhere in your OS.
+
+Top Extension:
+Notion Search
+
+I forked the Notion Search extension so I can easily paste "tokenized" doc links into Slack.
+
+Raycast is incrementally turning my Mac into an AI-native operating system and I’m so here for it.
+
+Don't repeat yourself.
+
+Automate the things you do all the time.
+
+Snippets
+
+Tired of typing the same thing? Create a snippet and insert it by simply typing its keyword.
+
+Sure, here you go:
+
+3rd Floor 1 Ashley Road, WA14 2DT Altrincham, Cheshire
+
+Send
+Quicklinks
+
+Say goodbye to open tabs. Create quicklinks to launch anything from anywhere.
+
+option
++
+command
++
+L
+Hotkeys and Aliases
+
+Speed up your workflow by assigning hotkeys or aliases to common commands or apps.
+
+What else can Raycast do?
+It can take notes. Track your flights. Convert anything. Search files. Run scripts. Manage your windows. Plan your day. Remind you of stuff. Translate into any language. Block distractions. Find text in screenshots. Insert Emojis.
+And much, much more.
+Raycast Notes
+
+A quick way to capture a thought while working on something else. Learn more
+
+Stay in the loop.
+
+Join the community and learn how other people get the most out of Raycast.
+
+Slack
+37k members
+
+Get the inside track on new features and learn how other people use Raycast.
+
+Join
+X/Twitter
+90k followers
+
+Keep up to date with the latest releases, features and improvements.
+
+Follow
+
+Introducing Raycast Focus
+
+Mastering Quicklinks in Raycast
+
+Raycast Notes is Finally Out
+
+We Tested Apple's New Window Management Against Raycast
+
+You MUST change these Raycast settings ⚙️
+
+101 Things You Can Do With Raycast
+
+7 more Raycast tricks to level up your productivity
+
+Kitze shows Pedro his Raycast setup in Barcelona
+
+12 months of Raycast Pro 🎉
+
+Max Stoiber Owns His Workflow with Raycast
+
+Introducing Raycast AI Presets
+
+All About Raycast Snippets: Stop Repeating Yourself!
+
+Introducing a revamped AI Chat
+
+He's a Raycast newbie. What can he do?
+
+How we built the best emoji picker 🤖
+
+What's in Wes Bos's Raycast
+
+9 hidden Raycast tricks to up your game
+
+Our Extension Picks for UI Developers
+
+Check out our YouTube channel to learn about features you didn’t even know existed.
+
+Build the perfect tools.
+
+Our extension API is designed to allow anyone with web development skills to unleash the power of Raycast.
+
+Read the docs
+FIG_0
+FIG_0
+React to macOS
+
+Build rich, native extensions with the technologies you already know: React, TypeScript and Node.
+
+FIG_0
+Built-in UI
+
+Our UI component library allows you to concentrate on the logic while we push the pixels.
+
+FIG_0
+Batteries included
+
+A strongly typed API, hot-reloading and modern tooling that make it a blast to work with.
+
+FIG_0
+FIG_0
+Publish to the Store
+
+Submit your extension to the Raycast Store and share it with thousands of users.
+
+Get started
+esc
+F1
+F2
+F3
+F4
+F5
+F6
+F7
+F8
+F9
+F10
+F11
+F12
+±
+§
+!
+1
+@
+2
+#
+3
+$
+4
+%
+5
+^
+6
+&
+7
+*
+8
+(
+9
+)
+0
+_
+-
++
+=
+delete
+Q
+W
+E
+R
+T
+Y
+U
+I
+O
+P
+{
+[
+}
+]
+|
+\
+A
+S
+D
+F
+G
+H
+J
+K
+L
+:
+;
+"
+,
+~
+`
+Z
+X
+C
+V
+B
+N
+M
+<
+,
+>
+.
+?
+/
+fn
+control
+option
+command
+command
+option
+Take the short way.
+
+Download and use Raycast for free.
+
+Download for Mac
+Download for Windows (beta)
+v1.104.20
+macOS 13+
+Install via homebrew
+Product
+Store
+Pro
+Teams
+Pricing
+Changelog
+Browser Extension
+Developers
+iOS
+Windows
+Raycast 2.0
+API Docs
+Manual
+Troubleshooting
+Raycast vs Alfred
+FAQ
+Core Features
+Raycast AI
+Raycast Notes
+Raycast Focus
+Clipboard History
+Window Management
+Snippets
+File Search
+Quicklinks
+Calculator
+Calendar
+System
+Emoji Picker
+Top Extensions
+Design Tools
+Developer Tools
+Pomodoro Timer
+Productivity
+Project Management
+Time Management
+Transcript
+Translation
+Work From Home
+AI
+Company
+Manifesto
+Customers
+Careers
+Terms of Service
+Privacy Policy
+Acceptable Use Policy
+DPA
+Trust Center
+Press Kit
+Contact
+Community
+Community Stories
+Ambassadors
+Slack
+X/Twitter
+GitHub
+Dribbble
+By Raycast
+Glaze
+Try Raycast AI
+Explore Snippets
+Explore Quicklinks
+Prompts
+Chat Presets
+ray.so
+Icon Maker
+Merch
+Wallpapers
+Subscribe to our newsletter.
+
+Get product updates and news in your inbox. No spam.
+
+By submitting your email address, you agree to receive Raycast’s monthly newsletter. For more information, please read our privacy policy. You can always withdraw your consent.

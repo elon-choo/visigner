@@ -21,10 +21,19 @@
 //     metric-shape     every success-metric line carries a number/target AND a named instrument
 //   Structural floors (WARN — never fail the gate):
 //     no-inventory     no screen/state inventory section to cross-check acceptance criteria against
+//   Semantic heuristics (WARN by default; ERROR under --strict — additive, never change exit alone):
+//     actor-quality    an actor reads as fictional persona theatre ("Sarah, 32, loves lattes") with no
+//                      job-to-be-done / goal / "needs to" / "trying to" clause tying it to a real task
+//     flow-decision    a flow that claims error handling but contains no real decision/branch node
+//                      (if/when/otherwise/실패/성공/조건/분기 or a >=2-outcome arrow branch list)
 //
 // Sections are detected from markdown headings (#..######) OR bold labels at line start (**Problem:**),
 // so a plan written either way passes. Exit: 1 if any required section or structural ERROR is missing;
 // 0 if the floor is met; 2 on fatal (bad args / unreadable file).
+//
+// FLAGS
+//   --strict   promote the WARN-level semantic heuristics (actor-quality, flow-decision) to ERROR
+//              so they participate in the exit-1 gate.
 
 const fs = require('fs');
 
@@ -100,6 +109,22 @@ function hasBranchOutcomes(text) {
   if (OUTCOME_PAIR.test(text)) return true;            // two labeled outcomes spelled out
   const arrows = (text.match(/→|->|=>/g) || []).length;
   return DECISION_MARK.test(text) && arrows >= 2;       // a decision with >=2 arrow-labeled outcomes
+}
+
+// A "real" decision/branch node inside a SINGLE flow. Broader than hasBranchOutcomes (which gates the
+// section-level error-path floor): a flow that names a decision marker (if/when/else/otherwise/unless/
+// 분기/조건/실패/성공), spells out an explicit outcome pair, OR lists >=2 arrow-labeled branch items
+// ("- unauthorized → …" on >=2 lines) has a genuine branch. A flow that merely asserts "errors are
+// handled" — one error keyword, zero branch structure — does NOT, and is what flow-decision flags.
+const DECISION_NODE_MARK = /\bif\b|\bwhen\b|\belse\b|otherwise|\bunless\b|\bdepending\b|분기|조건|실패|성공/i;
+function hasDecisionNode(text) {
+  if (!text) return false;
+  if (DECISION_NODE_MARK.test(text)) return true;
+  if (OUTCOME_PAIR.test(text)) return true;
+  // branch list: >=2 list items that each carry an outcome arrow (distinct from a single linear chain)
+  const arrowItems = text.split(/\r?\n/).filter((l) => /^\s*(?:[-*]|\d+[.)]).*(?:→|->|=>)/.test(l)).length;
+  if (arrowItems >= 2) return true;
+  return false;
 }
 
 // Pull the discrete flows out of the flows section: prefer child headings, else top-level list items.
@@ -202,8 +227,35 @@ function hasMarkdownTable(body) {
   return false;
 }
 
+// ---------- actor-quality (semantic) ----------
+// Persona theatre = a "Capitalized first name, age" stage character ("Sarah, 32") or demographic fluff
+// (loves/lives in/married/coffee/years old …). A REAL actor instead states a job-to-be-done — what it
+// is trying to accomplish ("needs to cancel before shipping", "trying to …", "goal: …", 목표/필요/하려).
+const PERSONA_THEATRE = /\b[A-Z][a-z]+,\s*\d{1,2}\b/;            // "Sarah, 32"
+const ACTOR_FLUFF = /\bloves?\b|\benjoys?\b|\bmarried\b|\bsingle\b|\blives?\s+in\b|\bfavou?rite\b|\bhobby\b|\bhobbies\b|\blatt[eé]s?\b|\bcoffee\b|\byears?\s*old\b|\bborn\s+in\b/i;
+const ACTOR_JTBD = /\bneeds?\s+to\b|\btrying\s+to\b|\bwants?\s+to\b|\bwould\s+like\s+to\b|\bin\s+order\s+to\b|\bso\s+(?:that|they|he|she|i|we)\b|job[\s-]*to[\s-]*be[\s-]*done|\bjtbd\b|\bgoals?\b|\bin\s+order\b|하려|하고\s*싶|필요|목표/i;
+
+// Pull discrete actor entries out of the users section: child sub-headings (their title+body), else
+// list items, else the whole body as a single entry. Each entry is judged on its own text so one real
+// actor's job clause cannot launder a sibling persona-theatre entry.
+function extractActors(sections, usersSection) {
+  if (!usersSection) return [];
+  const children = sections.filter((s) => s.line > usersSection.line && s.line < usersSection.end && s.level === usersSection.level + 1);
+  if (children.length) return children.map((c) => ({ name: c.title, text: `${c.title}\n${c.body}` }));
+  const entries = [];
+  for (const raw of usersSection.body.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    const li = line.match(/^(?:[-*]|\d+[.)])\s+(.*\S)/);
+    if (li) entries.push({ name: li[1].slice(0, 60), text: li[1] });
+  }
+  if (entries.length === 0 && usersSection.body.trim()) entries.push({ name: '(users section)', text: usersSection.body });
+  return entries;
+}
+
 // ---------- the lint ----------
-function lintPlan(md, file) {
+function lintPlan(md, file, opts) {
+  const strict = !!(opts && opts.strict);
   const sections = parseSections(md);
   const labelCorpus = [...sections.map((s) => s.title), ...boldLabels(md)].join('\n');
   const checks = []; // { key, label, severity, pass, detail }
@@ -272,6 +324,23 @@ function lintPlan(md, file) {
     }
   }
 
+  // 7) actor-quality (semantic): flag persona-theatre actors with no job-to-be-done clause.
+  const usersSection = findSection(sections, REQUIRED.find((r) => r.key === 'users').re);
+  const actors = extractActors(sections, usersSection);
+  if (actors.length) {
+    const theatre = actors.filter((a) => (PERSONA_THEATRE.test(a.text) || ACTOR_FLUFF.test(a.text)) && !ACTOR_JTBD.test(a.text));
+    add('actor-quality', 'Actors state a job-to-be-done (not persona theatre)', strict ? 'error' : 'warn', theatre.length === 0,
+      theatre.length ? `${theatre.length}/${actors.length} actor(s) read as persona theatre without a job/goal ("needs to"/"trying to"/goal): ${theatre.slice(0, 4).map((a) => `"${a.name.slice(0, 40)}"`).join(', ')}` : `${actors.length} actor(s) tie to a job/goal`);
+  }
+
+  // 8) flow-decision (semantic): a flow that CLAIMS error handling must carry a real decision/branch
+  // node, not merely one error keyword ("errors are handled").
+  if (flows.length) {
+    const noBranch = flows.filter((f) => ERROR_PATH.test(f.text) && !hasDecisionNode(f.text));
+    add('flow-decision', 'Flows that claim error handling have a real decision/branch node', strict ? 'error' : 'warn', noBranch.length === 0,
+      noBranch.length ? `${noBranch.length}/${flows.length} flow(s) name an error but have no branch structure (if/when/otherwise/실패/성공/조건/분기 or a >=2-outcome arrow list): ${noBranch.slice(0, 4).map((f) => `"${f.name.slice(0, 40)}"`).join(', ')}` : `${flows.length} flow(s) with error handling carry a decision node`);
+  }
+
   const errorFails = checks.filter((c) => c.severity === 'error' && !c.pass);
   const warnFails = checks.filter((c) => c.severity === 'warn' && !c.pass);
   return {
@@ -292,6 +361,7 @@ const HELP = `plan-lint.js — deterministic floor under design-critic MODE=plan
 USAGE
   node plan-lint.js <plan.md>            lint one plan/PRD
   node plan-lint.js <plan.md> [out.json] also write the JSON report
+  node plan-lint.js <plan.md> --strict   promote semantic heuristics (actor/flow) to ERROR
   node plan-lint.js --help
 
 REQUIRED SECTIONS (ERROR -> exit 1)
@@ -300,6 +370,8 @@ REQUIRED SECTIONS (ERROR -> exit 1)
 STRUCTURAL FLOORS
   event-spec-table ERROR · flow-error-path ERROR · inventory-ac ERROR ·
   ac-gwt ERROR (Given/When/Then) · metric-shape ERROR (number + instrument) · no-inventory WARN
+SEMANTIC HEURISTICS (WARN; ERROR under --strict)
+  actor-quality (persona theatre w/o a job-to-be-done) · flow-decision (error claim w/o a branch node)
 Exit 1 if any required section / structural ERROR is missing; 0 if the floor is met; 2 on fatal.
 `;
 
@@ -309,10 +381,13 @@ function main() {
     process.stdout.write(HELP);
     process.exit(argv.length === 0 ? 1 : 0);
   }
-  const target = argv[0];
-  const outArg = argv[1];
+  const strict = argv.includes('--strict');
+  const positional = argv.filter((a) => !a.startsWith('-'));
+  const target = positional[0];
+  const outArg = positional[1];
+  if (!target) { console.error('FATAL no plan file given'); process.exit(2); }
   const md = fs.readFileSync(target, 'utf8');
-  const report = lintPlan(md, require('path').resolve(target));
+  const report = lintPlan(md, require('path').resolve(target), { strict });
 
   if (outArg) fs.writeFileSync(outArg, JSON.stringify(report, null, 2));
 
@@ -330,4 +405,4 @@ if (require.main === module) {
   catch (e) { console.error('FATAL', e.message); process.exit(2); }
 }
 
-module.exports = { lintPlan, parseSections, extractFlows, extractInventory, hasMarkdownTable };
+module.exports = { lintPlan, parseSections, extractFlows, extractInventory, extractActors, hasMarkdownTable, hasDecisionNode };

@@ -16,6 +16,8 @@ Read `MODE` from the hand-off. **No MODE, or a built page/URL/HTML → default v
 - `MODE=plan` — a ux-flows plan / flow / IA / wireframe (markdown or ASCII) → §8a.
 - `MODE=copy` — headlines / landing copy / an email sequence → §8b.
 - `MODE=motion` — the FILMSTRIP frames + `run.json.motion` from shoot.js, or a described motion plan → §8c.
+- `MODE=logo` — a candidate logo MARK (an SVG source or a rendered tile) → §8d. **Exception to the "skip rendering" rule above:** a mark IS a pixel artifact, so you DO re-render it (through `logo-grid.html`); §8d grades mark-CRAFT, not just survival.
+- `MODE=ui` — an app / SaaS / product UI page → it IS a built page, so it stays on the **full §1–§7 pixel loop** (NOT a skip-render branch); §8e only adapts WHERE you anchor (the app-UI captures, not the Wadiz pair) and adds the deterministic tell-count cap.
 
 Every mode keeps the same discipline: grade from evidence (the plan's words, the copy itself, the frames/easing values), name the specific tell behind each deduction, return the structured verdict block, and decide the gate mechanically. You still **CRITIQUE ONLY — never edit.**
 
@@ -59,6 +61,7 @@ Walk the tiles and mark each. Embedded here is the essential set; the full list 
 - [ ] **Machine gates** (from §1 `run.json`) — overflow ≤1px, axe serious/critical = 0, assets all OK. (The axe count here is a smoke **floor**, not full coverage — deep WCAG 2.2 AA is `a11y-auditor`'s lane; see "Lane boundaries".)
 - [ ] **Brand consistency** (when a token system / `[data-brand]` exists) — run the deterministic gate, don't eyeball it: `${CLAUDE_PLUGIN_ROOT}/bin/brand-lint <file.html>` (long fallback `node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/brand-lint.js <file.html>`); a non-clean result (raw hex outside `@theme`, banned font, ungrounded AI-purple) is a fail. Cite the reported violation.
 - [ ] **Detail mode** — mobile sticky thumb-zone CTA present at ≤680px (recaps price/benefit + scarcity line + ≥48px action), body reserves space so it never covers the last section.
+- [ ] **MODE=ui tell-count floor** (app-UI only) — run `tell-count.js` (§4) and record `maxEqualCards` / `centeredTextBlocks` / `accentOccurrences` + the returned `distinctivenessCap`; the cap binds the distinctiveness score you assign in §3/§4.
 
 ## Lane boundaries (you are one judge in a panel — don't reinvent siblings)
 You own the **visual + conversion** slice. Stay in lane; defer the rest so the suite reads as one gate, not three opinions:
@@ -71,14 +74,24 @@ You own the **visual + conversion** slice. Stay in lane; defer the rest so the s
 Score every dimension and write a one-line justification anchored to a tile you can point to:
 **Hook · Structure · Benefit-vs-feature · Empathy · Proof · One-message · Visual craft · Urgency/CTA · Trust/risk-reversal · Aesthetic distinctiveness** (+ **Story & rewards** in detail mode, **Tangibility** for AI/digital Wadiz). A `5/10` looks like a feature dump / generic title / brand-voice self-praise / could-be-any-AI-page; a `9/10` stops the scroll, runs a clear 후킹→공감→해결→증명→CTA arc, frames every feature as a benefit, proves with specific numbers, and reads as designed for *this* subject.
 
-**Aesthetic distinctiveness is the highest-leverage dimension** — it is what most separates a real page from slop. Never let it ride on a free-floating vibe. **Label it honestly in the verdict as a *calibrated LLM judgment vs the N reference anchors* — NOT an objective measurement** like the deterministic ΔE on-brand check or the axe count. It is your reasoned call pinned to the §4 captures, not a number a machine produced; a CEO reading the verdict must not mistake "distinctiveness 7/10" for a measured fact.
+**Aesthetic distinctiveness is the highest-leverage dimension** — it is what most separates a real page from slop. Never let it ride on a free-floating vibe. **Label it honestly in the verdict as a *calibrated LLM judgment vs the N reference anchors* — NOT an objective measurement** like the deterministic ΔE on-brand check or the axe count. It is your reasoned call pinned to the §4 captures, not a number a machine produced; a CEO reading the verdict must not mistake "distinctiveness 7/10" for a measured fact. (For `MODE=ui`, the deterministic `tell-count.js` cap — §4 — is the one objective number here: it *bounds* this judgment from above, it does not replace it.)
 
 ## 4 · Capture-anchored calibration (pin "good" to pages that actually shipped)
 Before assigning the distinctiveness number, open the two saved **real Wadiz** captures as few-shot anchors:
 - `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/captures/400620/index.html` — AI/automation tone (dark + lime).
 - `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/captures/403454/index.html` — template/digital tone (blue-purple + mint).
 
-**MODE=ui anchor note:** the two saved captures are **Wadiz commerce** pages — the right anchors for a 상세페이지/landing critique. For an **app / SaaS / product UI** (`MODE=ui`), they are the wrong reference class; calibrate distinctiveness against **app-UI exemplars (Linear / Stripe / Vercel-class)** instead, and say so in the verdict. Don't down-score a clean product dashboard for not looking like a Wadiz funding page.
+**MODE=ui anchor note:** the two saved captures above are **Wadiz commerce** pages — the right anchors for a 상세페이지/landing critique, the wrong reference class for an **app / SaaS / product UI** (`MODE=ui`). For an app/SaaS/product UI, calibrate distinctiveness against the saved **app-UI exemplars** in `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/captures/app-ui/{linear,stripe,vercel,raycast}/` (open their `tile_NN.png` the same way you open the Wadiz captures — full-page tiles top→bottom, plus `data.json`/`bodytext.txt`). If that directory is absent on a given install, fall back to the named exemplars (Linear / Stripe / Vercel / Raycast-class) from memory and say so in the verdict. Don't down-score a clean product dashboard for not looking like a Wadiz funding page.
+
+**MODE=ui tell-count floor (run BEFORE you fix the distinctiveness number).** The pairwise call above is the judgment; the tell-count is the objective FLOOR under it. Render the page in real Chrome and measure three slop tells from COMPUTED styles (not regex):
+```bash
+NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/tell-count.js <file-or-url>
+# smoke-tested form on this machine:
+# NODE_PATH=/Users/elon/.claude/skills/detail-page/node_modules node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/tell-count.js <file>
+```
+It emits JSON with **`maxEqualCards`** (largest group of sibling cards sharing identical border-radius+box-shadow — the uniform-grid tell), **`centeredTextBlocks`** (elements with `text-align:center` carrying their own text, headings h1–h6 excluded — the centered-everything tell), and **`accentColor`/`accentOccurrences`/`distinctAccents`** (the dominant non-neutral color and how heavily it is reused — the monotone-accent tell), plus a transparent **`distinctivenessCap`** (10 = uncapped) from a documented mapping: `maxEqualCards ≥3 → cap 7 / ≥5 → cap 6`; `centeredTextBlocks ≥5 → cap 7 / ≥8 → cap 6`; a single accent used `≥40×` with `≤2` distinct accents → cap 7; the cap is the **minimum** of all triggered rules, and `tellsTriggered` lists the reasons.
+
+**GATE RULE:** Aesthetic distinctiveness MAY NOT be scored above `distinctivenessCap`. Report the raw counts and the cap verbatim in the verdict (e.g. `tell-count: maxEqualCards=5, centeredTextBlocks=10, accentOccurrences=26 → cap 6`). The cap is a deterministic measurement; the final distinctiveness number remains a **calibrated LLM judgment pinned to the app-UI captures** (§3's honesty label still holds), but it is now **bounded by the cap, not pure vibe** — the tell-count is the objective floor/cap, the pairwise-vs-captures call is the judgment within that bound.
 
 **Do the pairwise comparison first, then the 1–10.** Put the candidate hero + 3 representative tiles beside the matching tiles of the relevant capture and rank: does the candidate look **more / equally / less** convincingly hand-designed? Name the *specific* tell that decides it — e.g. "less hand-designed than `400620` tile_03: flat equal cards vs its layered evidence objects." Then map: **≥ the capture → 8+**, roughly equal → 7–8, **clearly less → <7** (a hard block). Anchor the number to the comparison, not to memory of "a nice page".
 
@@ -178,3 +191,31 @@ Read the FILMSTRIP frames and `run.json.motion`, or the described plan. The fiel
 - **Reduced-motion path** — a REAL `prefers-reduced-motion: reduce` branch that removes/cuts motion (not a no-op duplicate); `motion.reducedMotionHonored === false` (with `reducedMotionOffenders[]`) is a fail; `null` = eval threw → unknown, re-run, never a pass.
 
 **FAIL if** any banned technique is present (`motion.layoutAnimated[]` non-empty / scroll-fade / parallax), OR >1 dominant moment competes, OR a `linear-or-default-entrance` warning on the signature entrance, OR there is no genuine reduced-motion path. **PASS** = one focused moment, asymmetric in-band easing, transform/opacity only, reduced-motion honored. (`no-enter-exit-asymmetry` alone never fails the gate.)
+
+### 8d · MODE=logo — mark-craft of a candidate logo (verify "good", not just "survives")
+The robustness sheet proves a mark *survives* (mono / knockout / small); it never grades whether the mark is *crafted*. This branch closes that gap: a model-drawn mark that clears the grid can still be merely "competent" — vector-jittery, optically off, unevenly spaced. Grade the CRAFT.
+
+**Unlike §8a–§8c, you DO render** — a mark is visual. Re-shoot the candidate through the verification sheet (one pass renders the full 9-cell size×color matrix):
+```bash
+NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js \
+  "${CLAUDE_PLUGIN_ROOT}/skills/brand-identity/assets/logo-grid.html?svg=/abs/path/to/mark.svg&min=16" /tmp/logo-<id>
+# wrapper equivalent: ${CLAUDE_PLUGIN_ROOT}/bin/shoot "<logo-grid.html?svg=…>" /tmp/logo-<id>
+```
+Read the 9-cell tile + `run.json`: `gate.report.overall === true` means all 9 cells rendered with no overflow / broken art. A `null` gate = unknown → re-run, never score it a pass. If the candidate was adapted from a starter in `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/logo-archetypes/`, confirm the `#construction-grid` (and `#clear-space`) guide group was **deleted** from the shipped mark — leftover grid/guide lines in a production SVG are an automatic FAIL.
+
+Score each **1–10**, anchoring every deduction to a specific cell or an SVG fact (no hand-wave):
+- **Anchor economy** — count path anchor points (`getBBox`/node count, or read the `d`). A crafted geometric mark is economical: a clean monogram/motif lands around ≤ ~12 anchors, a wordmark glyph proportionally more. Redundant nodes, auto-trace stair-stepping, stray sub-paths, or hand-jitter on what should be a straight/circular edge is the tell — cite the node count or the offending path.
+- **Optical overshoot** — round and pointed extremes (apex, bowl, the bottom of a curve) must slightly **break** the cap line / baseline so they read as optically aligned; a circle or triangle snapped *mathematically flush* to the cap line looks too short. Flag a curved/pointed extreme with zero overshoot; cite the form.
+- **Sidebearings & spacing** — even clear space around a symbol; in a wordmark/ligature, consistent sidebearings and rhythmic letter-fit (no single gap visibly looser/tighter than its neighbours, no collision at the ligature join). Cite the uneven gap.
+- **Stroke-contrast consistency** — limbs share one logic: either *truly monoline* (equal weight throughout) OR a *deliberate, consistent* thick/thin contrast — never accidental drift. Cite two limbs whose weights disagree for no reason.
+- **Survival at 24px / mono / knockout** (cross-ref the grid rows in `logo-grid.html`) — read the **min** row (legible tiny?), the **1-color mono** row (counters stay open, doesn't collapse to a blob as a single ink?), and the **knockout-on-dark** row (silhouette still reads reversed?). A mark that turns to mush in any of those cells fails regardless of how polished it looks full-color. Cite the exact cell, e.g. "knockout · 16px: the A's counter fills in".
+
+Verdict: use the §8 shape with `MODE: logo`. **GATE — FAIL if any of:** `gate.report.overall !== true` (a cell breaks / overflows / asset broken), OR the mark collapses in the **min / mono / knockout** row, OR construction-grid guides survived into the shipped SVG, OR any craft dimension (anchor economy / overshoot / sidebearings / stroke-contrast) scores **< 6**. **PASS** = renders clean across all 9 cells AND every craft dimension ≥ 6 AND no survival-row collapse — i.e. the mark is verified *good*, not merely *usable*.
+
+### 8e · MODE=ui — app / SaaS / product UI (the §1–§7 pixel loop, app-UI-anchored)
+`MODE=ui` is a built page, so you DO run the full §1–§7 loop (render → anti-slop audit → 10 dims → calibrate → tell → verdict → gate) — this branch is not a skip-render mode; it only adapts WHERE you anchor and adds the deterministic floor. The pixel discipline of §1–§7 is unchanged; the differences:
+- **Anchor to the app-UI captures, NOT the Wadiz pair** (§4 anchor note): calibrate distinctiveness against `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/captures/app-ui/{linear,stripe,vercel,raycast}/`, and run the **tell-count floor** (§4) so the distinctiveness number is bounded by `distinctivenessCap`, not vibe. Report the raw counts + cap in the verdict.
+- **Grade the app's craft, not a funding-page arc:** judge information hierarchy (does the bento/layout earn its emphasis, or is it the 4-stat-card + line-chart template?), state coverage (empty / loading / error tiles, not just the happy path), chrome-recedes-data-leads, one real icon set + tabular numerals, motion restraint — the §1–§7 anti-slop tells apply, the conversion-arc dimensions (Story & rewards, Tangibility, reward ladder, scarcity) do NOT.
+- **Do NOT down-score a clean product dashboard for failing to look like a Wadiz 상세페이지.** A quiet, dense, left-aligned admin tool that anchors well against Linear/Stripe/Vercel/Raycast is *good*; penalizing it for lacking a hero scroll or a scarcity line is a miscalibration, not a deduction.
+
+**GATE** = the §7 gate (OVERALL ≥ 8, no dim < 7, zero §2 fails, distinctiveness ≥ 8) AND the distinctiveness score honors `distinctivenessCap`.

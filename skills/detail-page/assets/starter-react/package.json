@@ -1,0 +1,27 @@
+{
+  "name": "detail-page-starter-react",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Minimal Vite + React + Tailwind v4 starter for the detail-page skill. Compiles the brand-default @theme (generated from tokens/brand-default.tokens.json) in a real production build and ships one tokenized, accessible, stateful screen plus a cva Button rendering every interaction state. Buildable with `npm i && npm run build`.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.0"
+  }
+}

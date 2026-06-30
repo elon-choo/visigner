@@ -1,0 +1,22 @@
+{
+  "$description": "Second-brand override tokens (DTCG shape) for the detail-page starter. OKLCH-native, same shape as brand-default.tokens.json. Overrides ONLY the tokens that differ from the default — a distinct, deliberately non-purple identity: a cobalt-blue primary ramp (hue ~250-260, NOT the AI-purple 270-310 band) + a coral accent (hue ~28) on a faintly cool surface. scripts/build-tokens.js reads this AFTER brand-default and compiles it into a [data-brand=alt] override block (the brand name comes from $brand, else the filename); --emit=theme is unaffected. Neutrals (card/ink/muted/line), type, shadows, and the whole scale layer (space/type/radius/motion) are intentionally left to the default so they cascade unchanged.",
+  "$brand": "alt",
+  "color": {
+    "surface": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.984, 0.006, 250] }, "$extensions": { "com.detail-page": { "css": "oklch(0.984 0.006 250)" } } },
+    "primary": {
+      "50":  { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.965, 0.020, 250] }, "$extensions": { "com.detail-page": { "css": "oklch(0.965 0.020 250)" } } },
+      "100": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.910, 0.045, 252] }, "$extensions": { "com.detail-page": { "css": "oklch(0.910 0.045 252)" } } },
+      "300": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.760, 0.105, 254] }, "$extensions": { "com.detail-page": { "css": "oklch(0.760 0.105 254)" } } },
+      "500": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.560, 0.150, 256] }, "$extensions": { "com.detail-page": { "css": "oklch(0.560 0.150 256)" } } },
+      "700": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.470, 0.150, 258] }, "$extensions": { "com.detail-page": { "css": "oklch(0.470 0.150 258)" } } },
+      "900": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.330, 0.105, 260] }, "$extensions": { "com.detail-page": { "css": "oklch(0.330 0.105 260)" } } },
+      "DEFAULT": { "$type": "color", "$value": "{color.primary.700}" }
+    },
+    "accent": {
+      "300": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.840, 0.080, 32] }, "$extensions": { "com.detail-page": { "css": "oklch(0.840 0.080 32)" } } },
+      "500": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.705, 0.165, 28] }, "$extensions": { "com.detail-page": { "css": "oklch(0.705 0.165 28)" } } },
+      "700": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.590, 0.155, 26] }, "$extensions": { "com.detail-page": { "css": "oklch(0.590 0.155 26)" } } },
+      "DEFAULT": { "$type": "color", "$value": "{color.accent.500}" }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Badge/emblem archetype — enclosed ring with centred glyph">
+  <title>Badge/emblem archetype — enclosed ring with centred glyph</title>
+  <desc>Enclosed badge: one thick concentric ring with consistent clear space and a centred peak chevron glyph; all strokes solid so it survives 1-color mono and knockout. Starter construction template, license CC0 / public domain. Adapt the #mark group; delete #construction-grid before shipping.</desc>
+  <!-- construction-grid: DELETE this whole group for production use. -->
+  <g id="construction-grid" fill="none">
+    <path d="M0 0V512 M32 0V512 M64 0V512 M96 0V512 M128 0V512 M160 0V512 M192 0V512 M224 0V512 M256 0V512 M288 0V512 M320 0V512 M352 0V512 M384 0V512 M416 0V512 M448 0V512 M480 0V512 M512 0V512 M0 0H512 M0 32H512 M0 64H512 M0 96H512 M0 128H512 M0 160H512 M0 192H512 M0 224H512 M0 256H512 M0 288H512 M0 320H512 M0 352H512 M0 384H512 M0 416H512 M0 448H512 M0 480H512 M0 512H512" stroke="#23201B" stroke-width="1" opacity="0.08"/>
+    <path d="M0 0V512 M128 0V512 M256 0V512 M384 0V512 M512 0V512 M0 0H512 M0 128H512 M0 256H512 M0 384H512 M0 512H512" stroke="#23201B" stroke-width="1" opacity="0.20"/>
+    <!-- center cross -->
+    <path d="M256 0V512 M0 256H512" stroke="#B4654A" stroke-width="1" opacity="0.30"/>
+    <!-- cap line / baseline / x-height (solid) + overshoot guides (dashed) -->
+    <path d="M64 96H448 M64 416H448" stroke="#B4654A" stroke-width="1.5" opacity="0.55"/>
+    <path d="M64 240H448" stroke="#B4654A" stroke-width="1" opacity="0.35" stroke-dasharray="2 4"/>
+    <path d="M64 90H448 M64 422H448" stroke="#B4654A" stroke-width="1" opacity="0.40" stroke-dasharray="6 5"/>
+    <!-- clear-space boundary (min 2-unit margin around the mark) -->
+    <rect x="64" y="64" width="384" height="384" stroke="#23201B" stroke-width="1.5" stroke-dasharray="6 6" opacity="0.40"/>
+  </g>
+  <g id="mark">
+    <circle cx="256" cy="256" r="158" fill="none" stroke="#23201B" stroke-width="22"/>
+    <path d="M176 312 L256 190 L336 312" fill="none" stroke="#23201B" stroke-width="26"
+      stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="256" cy="312" r="13" fill="#23201B"/>
+  </g>
+</svg>
