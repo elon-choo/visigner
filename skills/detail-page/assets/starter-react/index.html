@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>detail-page · Vite + React + Tailwind v4 @theme</title>
 
+  <!-- Restore a stored dark/light choice BEFORE paint (no flash). No stored value → no data-theme → light
+       default, so the out-of-the-box render is unchanged. Defensive: localStorage failures (private mode) never throw. -->
+  <script>
+    (function () { try { var t = localStorage.getItem('page-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();
+  </script>
+
   <!-- Fonts: Korean detail pages need Korean fonts. Pretendard body + bold KR display + optional Latin accent.
        These are the SAME families the brand-default tokens reference (--brand-font-*). Swap per brief. -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />

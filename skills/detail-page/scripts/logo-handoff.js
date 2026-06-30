@@ -18,6 +18,61 @@ const outDir = positional[1] || path.join(path.dirname(path.resolve(markFile)), 
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
+// ---- guide stripping (anti-contamination) ----
+// The documented logo-archetypes ship with a <g id="construction-grid"> (and/or <g id="clear-space">)
+// holding faint grid + dashed clear-space/overshoot guides. Nesting the source mark VERBATIM bakes those
+// guide lines into every artboard. Before nesting we DELETE those guide groups + any data-guide elements,
+// then re-scan; if any guide marker survives we hard-refuse (mirroring the MODE=logo auto-FAIL) so no
+// artboard ever ships contaminated. A clean mark (no guides) is left byte-for-byte unchanged.
+class GuideError extends Error {}
+
+// Remove every <g id="<id>">…</g> with balanced <g>/</g> nesting. Throws GuideError if a group opens but
+// never cleanly closes (so the caller refuses rather than shipping a half-stripped mark).
+function stripGroupById(s, id) {
+  const openRe = new RegExp('<g\\b[^>]*\\bid\\s*=\\s*["\\\']' + id + '["\\\'][^>]*>', 'i');
+  let guard = 0;
+  for (;;) {
+    if (guard++ > 2000) throw new GuideError('strip loop guard tripped for id="' + id + '"');
+    const m = openRe.exec(s);
+    if (!m) break;
+    const start = m.index;
+    if (/\/\s*>$/.test(m[0])) { s = s.slice(0, start) + s.slice(start + m[0].length); continue; } // empty <g .../>
+    const tagRe = /<\s*(\/?)g\b[^>]*?>/gi;
+    tagRe.lastIndex = start + m[0].length;
+    let depth = 1, t, end = -1;
+    while ((t = tagRe.exec(s))) {
+      if (t[1] === '/') depth--;
+      else if (!/\/\s*>$/.test(t[0])) depth++; // ignore self-closing nested <g .../>
+      if (depth === 0) { end = tagRe.lastIndex; break; }
+    }
+    if (end === -1) throw new GuideError('unbalanced <g id="' + id + '"> — cannot cleanly strip');
+    s = s.slice(0, start) + s.slice(end);
+  }
+  return s;
+}
+
+// Strip known guide groups + self-closing data-guide elements, then return { inner, residual }.
+// residual lists any guide marker still present (caller refuses if non-empty).
+function stripGuides(inner) {
+  let s = inner;
+  // Drop construction-template metadata that must never ride into a shipped artboard: XML comments
+  // (e.g. "<!-- construction-grid: DELETE ... -->") and the source <title>/<desc> (they carry the
+  // "delete #construction-grid before shipping" instruction text). Non-painting; the artboards supply
+  // their own role/aria-label. Removing them also keeps the output free of the guide marker strings.
+  s = s.replace(/<!--[\s\S]*?-->/g, '');
+  s = s.replace(/<title\b[^>]*>[\s\S]*?<\/title>/gi, '');
+  s = s.replace(/<desc\b[^>]*>[\s\S]*?<\/desc>/gi, '');
+  s = stripGroupById(s, 'construction-grid');
+  s = stripGroupById(s, 'clear-space');
+  // self-closing elements explicitly tagged as guides
+  s = s.replace(/<[a-zA-Z][\w:.-]*\b[^>]*\bdata-guide\b[^>]*\/\s*>/gi, '');
+  const residual = [];
+  if (/\bid\s*=\s*["'](?:construction-grid|clear-space)["']/i.test(s)) residual.push('id="construction-grid|clear-space"');
+  if (/\bdata-guide\b/i.test(s)) residual.push('data-guide');
+  if (/stroke-dasharray/i.test(s)) residual.push('stroke-dasharray (dashed guide)');
+  return { inner: s, residual };
+}
+
 try {
   fs.mkdirSync(outDir, { recursive: true });
   const raw = fs.readFileSync(markFile, 'utf8');
@@ -34,7 +89,27 @@ try {
   }
   const openEnd = open.index + openTag.length;
   const closeIdx = raw.lastIndexOf('</svg>');
-  const inner = raw.slice(openEnd, closeIdx === -1 ? undefined : closeIdx).trim();
+  const rawInner = raw.slice(openEnd, closeIdx === -1 ? undefined : closeIdx).trim();
+
+  // ---- strip construction/guide layers BEFORE nesting, or hard-refuse if they can't be cleaned ----
+  let inner;
+  try {
+    const stripped = stripGuides(rawInner);
+    if (stripped.residual.length) {
+      console.error('GUIDE-FAIL: guides present — strip before handoff. ' + markFile +
+        ' still contains guide markers after auto-strip [' + stripped.residual.join(', ') +
+        ']; remove the construction-grid / clear-space / dashed-guide layers from the source mark first.');
+      process.exit(3);
+    }
+    inner = stripped.inner.trim();
+  } catch (e) {
+    if (e instanceof GuideError) {
+      console.error('GUIDE-FAIL: guides present — strip before handoff. ' + markFile + ': ' + e.message +
+        '. Remove the construction-grid / clear-space layers from the source mark first.');
+      process.exit(3);
+    }
+    throw e;
+  }
 
   // place the mark as a nested svg inside a square box [x,y,size]
   const placeMark = (x, y, size) =>

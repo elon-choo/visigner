@@ -1,0 +1,26 @@
+{
+  "$description": "Dark-MODE override tokens (DTCG shape) for the detail-page starter. OKLCH-native, same shape as brand-default.tokens.json. This is a THEME (light/dark) override, not a second brand — so its `$selector` targets [data-theme=\"dark\"] (an attribute the no-flash toggle flips on <html>), NOT data-brand. scripts/build-tokens.js reads this AFTER brand-default and compiles it into a [data-theme=\"dark\"] override block whose selector comes from $selector. Because @theme maps every Tailwind token to its --brand-* primitive, re-declaring ONLY the neutral primitives (+ lifting primary/accent + heavier elevation) here re-themes the utilities AND every inline var(--color-*) with zero markup edits. Tinted-dark (warm-neutral hue echoing the light theme), AA-safe: ink ~16:1 on surface, muted clears AA. Composes with [data-brand=\"alt\"] (brand sets hue, theme sets neutrals).",
+  "$selector": "[data-theme=\"dark\"]",
+  "color": {
+    "surface": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.205, 0.012, 275] }, "$extensions": { "com.detail-page": { "css": "oklch(0.205 0.012 275)" } } },
+    "card":    { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.255, 0.013, 275] }, "$extensions": { "com.detail-page": { "css": "oklch(0.255 0.013 275)" } } },
+    "ink":     { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.960, 0.005, 95] }, "$extensions": { "com.detail-page": { "css": "oklch(0.960 0.005 95)" } } },
+    "muted":   { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.715, 0.012, 270] }, "$extensions": { "com.detail-page": { "css": "oklch(0.715 0.012 270)" } } },
+    "line":    { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.985, 0.004, 95], "alpha": 0.14 }, "$extensions": { "com.detail-page": { "css": "oklch(0.985 0.004 95 / 0.14)" } } },
+    "primary": {
+      "500": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.700, 0.100, 156] }, "$extensions": { "com.detail-page": { "css": "oklch(0.700 0.100 156)" } } },
+      "700": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.620, 0.095, 157] }, "$extensions": { "com.detail-page": { "css": "oklch(0.620 0.095 157)" } } },
+      "DEFAULT": { "$type": "color", "$value": "{color.primary.700}" }
+    },
+    "accent": {
+      "500": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.775, 0.150, 60] }, "$extensions": { "com.detail-page": { "css": "oklch(0.775 0.150 60)" } } },
+      "DEFAULT": { "$type": "color", "$value": "{color.accent.500}" }
+    },
+    "on-accent": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.205, 0.012, 275] }, "$extensions": { "com.detail-page": { "css": "oklch(0.205 0.012 275)" } } }
+  },
+  "shadow": {
+    "e1": { "$type": "shadow", "$value": "0 1px 2px oklch(0 0 0 / 0.32)" },
+    "e2": { "$type": "shadow", "$value": "0 6px 16px oklch(0 0 0 / 0.42)" },
+    "e3": { "$type": "shadow", "$value": "0 20px 48px oklch(0 0 0 / 0.55)" }
+  }
+}

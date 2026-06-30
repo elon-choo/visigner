@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "Minimal Vite + React + Tailwind v4 starter for the detail-page skill. Compiles the brand-default @theme (generated from tokens/brand-default.tokens.json) in a real production build and ships one tokenized, accessible, stateful screen plus a cva Button rendering every interaction state. Buildable with `npm i && npm run build`.",
+  "description": "Minimal Vite + React + Tailwind v4 starter for the detail-page skill. Compiles the brand-default @theme (generated from tokens/brand-default.tokens.json) in a real production build and ships one tokenized, accessible, stateful screen plus a cva Button rendering every interaction state, and one worked Framer Motion (motion) example: a shared-layoutId card→modal that honors useReducedMotion(). Buildable with `npm i && npm run build`.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "class-variance-authority": "^0.7.0",
+    "motion": "^11.11.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },

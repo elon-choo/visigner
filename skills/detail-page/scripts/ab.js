@@ -1,8 +1,11 @@
 // ab.js — A/B test calculator + variant-split snippet generator. No external service, no npm deps.
-// Built-in Node only. Three subcommands: plan | test | snippet. Run `node ab.js --help` for formulas.
+// Built-in Node only. Subcommands: plan | test | seq | srm | bayes | roas | snippet.
+// Run `node ab.js --help` for formulas.
 //
 //   node ab.js plan    --baseline 0.04 --mde 0.10 [--power 0.8 --alpha 0.05 --daily 1200 --variants 2]
 //   node ab.js test    --a 120/4000 --b 156/4100 [--alpha 0.05]
+//   node ab.js seq     --a 120/4000 --b 156/4100 [--alpha 0.05 --tau 0.01]   (always-valid; peek-safe)
+//   node ab.js roas    --spend 1000 --conv 40 --rev 3200 [--margin 0.6]
 //   node ab.js snippet --name hero-cta [--split 50 --storage local|cookie]
 //
 // Numerics are self-contained: inverse-normal (Acklam, ~1e-9) for z-quantiles, and a normal CDF
@@ -631,6 +634,138 @@ function snippetNBuckets(key, n, storage) {
   console.log(snippet);
 }
 
+// ---------- subcommand: seq (always-valid sequential readout — mixture SPRT) ----------
+//
+// Always-valid mixture SPRT (Robbins 1970, "Statistical methods related to the law of the iterated
+// logarithm"; Johari, Pekelis & Walsh 2017, "Always Valid Inference" — the engine behind Optimizely's
+// Stats Engine). Unlike the fixed-horizon `test`, you may PEEK as often as you like and stop the moment
+// the boundary is crossed WITHOUT inflating the false-positive rate, because the mixture likelihood
+// ratio Λ is a nonnegative martingale under H0 with E[Λ]=1, so by Ville's inequality
+// P(∃n: Λ_n ≥ 1/α) ≤ α. The always-valid p-value p = min(1, 1/Λ) can be monitored continuously.
+function cmdSeq(args) {
+  const A = parseFrac(args.a, 'a');               // control:   conversions/visitors
+  const B = parseFrac(args.b, 'b');               // treatment: conversions/visitors
+  const alpha = args.alpha !== undefined ? num(args.alpha, 'alpha') : 0.05;
+  if (!(alpha > 0 && alpha < 1)) { console.error('error: --alpha must be in (0,1)'); process.exit(1); }
+
+  const pA = A.x / A.n, pB = B.x / B.n;
+  const absLift = pB - pA;                         // δ̂ = p̂_B − p̂_A
+
+  // Null-model (pooled) sampling variance of the difference — the H0 scale (same SE the fixed `test` uses).
+  const pPool = (A.x + B.x) / (A.n + B.n);
+  const V = pPool * (1 - pPool) * (1 / A.n + 1 / B.n);
+
+  // τ = prior SD on the TRUE absolute difference (p_B−p_A). It MUST be pre-committed (chosen from your MDE,
+  // NOT read off this data). Type-I validity holds for ANY fixed τ>0; τ only tunes which effect sizes are
+  // detected fastest. Default: derive from --baseline·--mde if both given, else 0.01 (1 percentage point).
+  let tau, tauSrc;
+  if (args.tau !== undefined && args.tau !== true) {
+    tau = num(args.tau, 'tau');
+    if (!(tau > 0)) { console.error('error: --tau must be > 0 (prior SD on the true difference, in proportion units)'); process.exit(1); }
+    tauSrc = '--tau';
+  } else if (args.baseline !== undefined && args.mde !== undefined) {
+    const base = num(args.baseline, 'baseline'), mde = num(args.mde, 'mde');
+    tau = Math.abs(base * mde);
+    if (!(tau > 0)) { console.error('error: --baseline·--mde gives τ=0; pass a positive --tau'); process.exit(1); }
+    tauSrc = '|baseline·mde|';
+  } else {
+    tau = 0.01;
+    tauSrc = 'default 1pp';
+  }
+  const tau2 = tau * tau;
+
+  // Λ = √(V/(V+τ²)) · exp( δ̂²·τ² / (2·V·(V+τ²)) ).  Always-valid p = min(1, 1/Λ).
+  let lambda, avp;
+  if (!(V > 0)) {
+    lambda = 0; avp = 1;                            // no information yet (e.g. zero conversions both arms) → can't reject
+  } else {
+    lambda = Math.sqrt(V / (V + tau2)) * Math.exp(absLift * absLift * tau2 / (2 * V * (V + tau2)));
+    if (!Number.isFinite(lambda)) { avp = 0; }     // overflow (huge effect / tiny V) → decisive
+    else if (lambda <= 0) { avp = 1; }
+    else { avp = Math.min(1, 1 / lambda); }
+  }
+  const boundary = 1 / alpha;                       // stop-for-significance when Λ ≥ 1/α  (⇔ p ≤ α)
+  const decisive = V > 0 && lambda >= boundary;
+
+  // Fixed-horizon two-sided p (same pooled SE) for an apples-to-apples conservativeness check.
+  const z = V > 0 ? absLift / Math.sqrt(V) : 0;
+  const fixedP = 2 * (1 - normCdf(Math.abs(z)));
+
+  console.log('Always-valid sequential A/B readout (mixture SPRT — peek as often as you like)');
+  console.log('  method:  Robbins (1970) mixture SPRT / Johari–Pekelis–Walsh 2017 "Always Valid Inference".');
+  console.log('  formula: Λ = √(V/(V+τ²))·exp( δ̂²·τ²/(2·V·(V+τ²)) ),  V = p̂(1−p̂)(1/n_A+1/n_B),  δ̂ = p̂_B−p̂_A');
+  console.log('           always-valid p = min(1, 1/Λ);  STOP for significance when Λ ≥ 1/α  (Ville\'s inequality).');
+  console.log('');
+  console.log(`  A (control)    ${A.x}/${A.n}  =  ${pct(pA, 3)}`);
+  console.log(`  B (treatment)  ${B.x}/${B.n}  =  ${pct(pB, 3)}`);
+  console.log('');
+  console.log(`  absolute lift  ${absLift >= 0 ? '+' : ''}${pct(absLift, 3)}  (B − A)`);
+  console.log(`  τ (prior SD)   ${tau}  (${tauSrc}) — must be pre-committed; any fixed τ>0 stays valid`);
+  console.log(`  Λ (mixture LR) ${Number.isFinite(lambda) ? lambda.toFixed(4) : '∞'}`);
+  console.log(`  boundary 1/α   ${boundary.toFixed(4)}   (α=${alpha}: stop iff Λ ≥ 1/α)`);
+  console.log(`  always-valid p ${avp < 0.0001 ? '< 0.0001' : avp.toFixed(4)}`);
+  console.log(`  (fixed-horizon p for the same data: ${fixedP < 0.0001 ? '< 0.0001' : fixedP.toFixed(4)} — always-valid p ≥ it, the premium for unlimited peeking)`);
+  console.log('');
+  if (decisive) {
+    const leader = absLift >= 0 ? 'B' : 'A';
+    console.log(`  ✅ STOP — significant at α=${alpha}: Λ=${lambda.toFixed(4)} ≥ ${boundary.toFixed(4)}. ${leader} ${absLift >= 0 ? 'beats' : 'loses to'} ${leader === 'B' ? 'A' : 'B'}. Safe to call it now, even mid-flight.`);
+  } else {
+    console.log(`  ⏳ CONTINUE — not yet significant at α=${alpha} (Λ=${Number.isFinite(lambda) ? lambda.toFixed(4) : '∞'} < ${boundary.toFixed(4)}). Keep collecting; re-run any time — peeking does NOT cost you here.`);
+  }
+}
+
+// ---------- subcommand: roas (paid-channel CAC / ROAS sanity — deterministic arithmetic) ----------
+
+function cmdRoas(args) {
+  const spend = num(args.spend, 'spend');                       // ad spend on the channel/campaign
+  if (!(spend > 0)) { console.error('error: --spend must be > 0'); process.exit(1); }
+  const conv = args.conv !== undefined ? num(args.conv, 'conv') : NaN;   // conversions / orders attributed
+  const rev = args.rev !== undefined ? num(args.rev, 'rev') : NaN;       // revenue attributed
+  if (!Number.isFinite(conv) || conv < 0) { console.error('error: --conv (conversions/orders) must be ≥ 0'); process.exit(1); }
+  if (!Number.isFinite(rev) || rev < 0) { console.error('error: --rev (revenue attributed) must be ≥ 0'); process.exit(1); }
+
+  const cac = conv > 0 ? spend / conv : Infinity;               // cost to acquire one conversion
+  const roas = rev / spend;                                     // revenue per ad dollar
+  const aov = conv > 0 ? rev / conv : Infinity;                 // avg revenue per conversion
+  const fmt = n => n.toLocaleString(undefined, { maximumFractionDigits: 2 });
+
+  console.log('Paid-channel sanity — CAC / ROAS (deterministic arithmetic)');
+  console.log('  formulas:  CAC = spend / conversions ;  ROAS = revenue / spend ;  AOV = revenue / conversions');
+  console.log('');
+  console.log(`  spend          ${fmt(spend)}`);
+  console.log(`  conversions    ${fmt(conv)}`);
+  console.log(`  revenue        ${fmt(rev)}`);
+  console.log('');
+  console.log(`  CAC            ${conv > 0 ? fmt(cac) : '∞ (no conversions)'}`);
+  console.log(`  ROAS           ${roas.toFixed(2)}x  (revenue per ad dollar)`);
+  console.log(`  AOV            ${conv > 0 ? fmt(aov) : 'n/a (no conversions)'}`);
+
+  if (args.margin !== undefined && args.margin !== true) {
+    const margin = num(args.margin, 'margin');                  // gross margin fraction, e.g. 0.6
+    if (!(margin > 0 && margin <= 1)) { console.error('error: --margin must be in (0,1] (gross margin fraction, e.g. 0.6)'); process.exit(1); }
+    const grossProfit = rev * margin;
+    const poas = grossProfit / spend;                           // profit ROAS = gross profit per ad dollar
+    const breakeven = 1 / margin;                               // ROAS needed just to break even
+    const net = grossProfit - spend;                            // contribution after ad spend
+    console.log('');
+    console.log('  formulas:  POAS = revenue·margin / spend ;  breakeven ROAS = 1 / margin');
+    console.log(`  gross margin   ${pct(margin, 0)}`);
+    console.log(`  gross profit   ${fmt(grossProfit)}  (revenue × margin)`);
+    console.log(`  profit-ROAS    ${poas.toFixed(2)}x  (gross profit per ad dollar)`);
+    console.log(`  breakeven ROAS ${breakeven.toFixed(2)}x  (= 1 / margin — below this you LOSE money)`);
+    console.log(`  net after ad   ${net >= 0 ? '+' : ''}${fmt(net)}`);
+    console.log('');
+    if (roas >= breakeven) {
+      console.log(`  ✅ PROFITABLE: ROAS ${roas.toFixed(2)}x ≥ breakeven ${breakeven.toFixed(2)}x — each ad dollar returns ${poas.toFixed(2)} in gross profit.`);
+    } else {
+      console.log(`  🚨 UNPROFITABLE: ROAS ${roas.toFixed(2)}x < breakeven ${breakeven.toFixed(2)}x — at ${pct(margin, 0)} margin you lose money on every order.`);
+    }
+  } else {
+    console.log('');
+    console.log('  (pass --margin <gross margin 0–1, e.g. 0.6> for profit-ROAS, breakeven ROAS, and a profit verdict)');
+  }
+}
+
 // ---------- help ----------
 
 function help() {
@@ -641,8 +776,10 @@ USAGE
   node ab.js plan    --metric mean --mu <baseline> --sd <stddev> --mde <relLift> [--power 0.8] [--alpha 0.05] [--daily N] [--variants 2]
   node ab.js test    --a <conv/visitors> --b <conv/visitors> [--alpha 0.05] [--variants 2]
   node ab.js test    --metric mean --a "mean,sd,n" --b "mean,sd,n" [--alpha 0.05] [--variants 2]
+  node ab.js seq     --a <conv/visitors> --b <conv/visitors> [--alpha 0.05] [--tau 0.01 | --baseline r --mde l]
   node ab.js srm     --observed "a:4001,b:3999" [--expected 50:50]
   node ab.js bayes   --a <conv/visitors> --b <conv/visitors> [--prior 1,1]
+  node ab.js roas    --spend <amt> --conv <n> --rev <amt> [--margin 0.6]
   node ab.js snippet --name <key> [--split 50] [--storage local|cookie] [--buckets 2]
 
 PLAN — required sample size per variant
@@ -673,6 +810,19 @@ TEST --metric mean — continuous metric (revenue/AOV), Welch two-sample t-test
   --a / --b take "mean,sd,n" (sample mean, sample SD, n). Does NOT assume equal variances.
   e.g.  node ab.js test --metric mean --a "52.1,18.3,1200" --b "55.4,19.1,1180"
 
+SEQ — always-valid sequential readout (mixture SPRT). PEEK-SAFE: stop/continue any time, no peeking penalty
+  Method: Robbins (1970) mixture SPRT; Johari, Pekelis & Walsh 2017 "Always Valid Inference"
+  (the always-valid p-value engine behind Optimizely Stats Engine).
+  Λ = √(V/(V+τ²))·exp( δ̂²·τ²/(2·V·(V+τ²)) ),  V = p̂(1−p̂)(1/n_A+1/n_B),  δ̂ = p̂_B−p̂_A (pooled, H0 scale).
+  Λ is a nonnegative martingale under H0 (E[Λ]=1) ⇒ by Ville's inequality P(∃n: Λ_n ≥ 1/α) ≤ α, so you
+  may monitor continuously. STOP for significance when Λ ≥ 1/α; always-valid p = min(1, 1/Λ).
+  --tau is the prior SD on the TRUE absolute difference — PRE-COMMIT it (from your MDE), do NOT read it off
+  the data. Validity holds for ANY fixed τ>0; τ only tunes which effect sizes resolve fastest. Default:
+  |--baseline·--mde| if both given, else 0.01 (1pp). The always-valid p is ≥ the fixed-horizon 'test' p —
+  that gap is the price of unlimited peeking.
+  e.g.  node ab.js seq --a 120/4000 --b 156/4100
+        node ab.js seq --a 120/4000 --b 156/4100 --baseline 0.03 --mde 0.20
+
 SRM — Sample-Ratio-Mismatch guardrail (Pearson chi-square goodness-of-fit)
   χ² = Σ (Oᵢ − Eᵢ)²/Eᵢ ,  Eᵢ = N·rᵢ/Σr ,  df = k−1 ,  p = P(χ²_df > χ²_obs)
   Warns (🚨) if p < 0.001 — the split is broken and the conversion results are untrustworthy.
@@ -682,6 +832,13 @@ BAYES — beta-binomial Bayesian readout (deterministic, NO RNG)
   Posterior_X = Beta(prior_a + conv, prior_b + (visitors−conv)).
   P(B>A) = ∫₀¹ f_B(p)·F_A(p) dp ;  expected loss(ship B) = E[max(p_A−p_B, 0)]  (Simpson grid).
   e.g.  node ab.js bayes --a 120/4000 --b 156/4100
+
+ROAS — paid-channel CAC / ROAS sanity (deterministic arithmetic)
+  CAC = spend / conversions ;  ROAS = revenue / spend ;  AOV = revenue / conversions.
+  With --margin (gross margin 0–1): profit-ROAS = revenue·margin / spend ;  breakeven ROAS = 1 / margin
+  (ROAS below it loses money) ;  net after ad = revenue·margin − spend, plus a PROFITABLE/UNPROFITABLE verdict.
+  e.g.  node ab.js roas --spend 1000 --conv 40 --rev 3200
+        node ab.js roas --spend 1000 --conv 40 --rev 3200 --margin 0.6
 
 SNIPPET — dependency-free client-side variant split
   Stable visitor id (localStorage/cookie) → cyrb53 hash → bucket by --split% (2-bucket),
@@ -706,11 +863,13 @@ function main() {
   switch (cmd) {
     case 'plan': return cmdPlan(args);
     case 'test': return cmdTest(args);
+    case 'seq': return cmdSeq(args);
     case 'srm': return cmdSrm(args);
     case 'bayes': return cmdBayes(args);
+    case 'roas': return cmdRoas(args);
     case 'snippet': return cmdSnippet(args);
     default:
-      console.error(`unknown subcommand "${cmd}". Try: plan | test | srm | bayes | snippet  (or --help)`);
+      console.error(`unknown subcommand "${cmd}". Try: plan | test | seq | srm | bayes | roas | snippet  (or --help)`);
       process.exit(1);
   }
 }

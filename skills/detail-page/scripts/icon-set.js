@@ -44,29 +44,72 @@ function starPath(cx, cy, rOuter, rInner, points) {
 }
 
 // ---- the hand-drawn library (geometry only; root <svg> + stroke attrs are added by iconSvg) ----
-// Each entry is (radius) => inner-markup string, drawn for stroke-width ~1.75 on the 24-grid with ~3u optical margin.
+// Each entry is a function `(radius) => inner-markup string`, drawn for stroke-width ~1.75 on the 24-grid
+// with ~3u optical margin. Round caps/joins are inherited from the root <svg>, so DON'T set them per-shape.
+//
+// ===== HOW TO ADD A LIBRARY ENTRY (recipe) =====
+//   1. Draw on the canonical 24x24 grid. Keep marks inside ~x:3..21 / y:3..21 (≈3u optical margin) so the
+//      icon's optical weight matches the rest of the family; never run a stroke to the 0/24 edge.
+//   2. Add `'<name>': () => \`<svg-children/>\`,` below. Use ONLY these primitives (all xmllint-clean,
+//      self-closing, double-quoted attrs): <circle> <line> <polyline> <rect> <path>. No <polygon> (use a
+//      closed <path ... Z>), no per-shape stroke/fill/cap attrs (they're inherited), no <text>.
+//   3. If the icon has a rounded *rectangle*, take the radius param: `'<name>': (rx) => \`<rect ... rx="${r3(rx)}"/>\``
+//      so it tracks the spec's `radius`. Arcs inside <path> data are hand-tuned constants (as in bell/lock/heart).
+//   4. If the mark reads optically heavy or spans edge-to-edge (like +, ×, ≡), add an OPTICAL[name] < 1 scale.
+//   5. Add the name to DEFAULT_ICONS if it belongs in the default emit set. Re-run `node icon-set.js out/`,
+//      then `xmllint --noout out/<name>.svg` and open out/icon-grid.html to eyeball it at 16/24/32 on both panels.
+// ================================================
 const LIBRARY = {
+  // --- core ---
   search: () => `<circle cx="11" cy="11" r="6"/><line x1="15.4" y1="15.4" x2="20" y2="20"/>`,
   settings: () => `<path d="${gearPath(12, 12, 9.5, 7.2, 7)}"/><circle cx="12" cy="12" r="3.1"/>`,
   check: () => `<polyline points="5 12.5 10 17 19 7.5"/>`,
-  'arrow-right': () => `<line x1="4" y1="12" x2="19.5" y2="12"/><polyline points="13 5.5 19.5 12 13 18.5"/>`,
   user: () => `<circle cx="12" cy="8" r="3.75"/><path d="M5.5 19.5a6.5 6.5 0 0 1 13 0"/>`,
   bell: () => `<path d="M17.5 16.5c0-1-1.5-2-1.5-6a4 4 0 0 0-8 0c0 4-1.5 5-1.5 6Z"/><path d="M10.5 20a1.5 1.5 0 0 0 3 0"/>`,
   heart: () => `<path d="M12 20s-7-4.4-7-9.4a3.9 3.9 0 0 1 7-2.4 3.9 3.9 0 0 1 7 2.4c0 5-7 9.4-7 9.4Z"/>`,
   star: () => `<path d="${starPath(12, 12.4, 8, 3.2, 5)}"/>`,
-  plus: () => `<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>`,
-  x: () => `<line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="6.5" y2="17.5"/>`,
-  menu: () => `<line x1="5" y1="7" x2="19" y2="7"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="17" x2="19" y2="17"/>`,
-  'chevron-right': () => `<polyline points="9.5 5.5 16 12 9.5 18.5"/>`,
-  // extras (not in the default set, but first-party + on the same grid, so a spec may request them):
   home: () => `<polyline points="4 11.5 12 5 20 11.5"/><path d="M6.5 10V20h11V10"/>`,
   mail: (rx) => `<rect x="4" y="6.5" width="16" height="11" rx="${r3(rx)}"/><path d="M4.5 8 12 13 19.5 8"/>`,
   lock: (rx) => `<rect x="5.5" y="11" width="13" height="8.5" rx="${r3(rx)}"/><path d="M8 11V8.5a4 4 0 0 1 8 0V11"/>`,
+  // --- arrows & chevrons (one consistent arrowhead language) ---
+  'arrow-right': () => `<line x1="4" y1="12" x2="19.5" y2="12"/><polyline points="13 5.5 19.5 12 13 18.5"/>`,
+  'arrow-left': () => `<line x1="20" y1="12" x2="4.5" y2="12"/><polyline points="11 5.5 4.5 12 11 18.5"/>`,
+  'arrow-up': () => `<line x1="12" y1="20" x2="12" y2="4.5"/><polyline points="5.5 11 12 4.5 18.5 11"/>`,
+  'arrow-down': () => `<line x1="12" y1="4" x2="12" y2="19.5"/><polyline points="5.5 13 12 19.5 18.5 13"/>`,
+  'chevron-right': () => `<polyline points="9.5 5.5 16 12 9.5 18.5"/>`,
+  'chevron-left': () => `<polyline points="14.5 5.5 8 12 14.5 18.5"/>`,
+  'chevron-up': () => `<polyline points="5.5 14.5 12 8 18.5 14.5"/>`,
+  'chevron-down': () => `<polyline points="5.5 9.5 12 16 18.5 9.5"/>`,
+  // --- +/-/x (edge-spanning → optically corrected below) ---
+  plus: () => `<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>`,
+  minus: () => `<line x1="5" y1="12" x2="19" y2="12"/>`,
+  x: () => `<line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="6.5" y2="17.5"/>`,
+  close: () => `<line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="17.5" y1="6.5" x2="6.5" y2="17.5"/>`,
+  menu: () => `<line x1="5" y1="7" x2="19" y2="7"/><line x1="5" y1="12" x2="19" y2="12"/><line x1="5" y1="17" x2="19" y2="17"/>`,
+  // --- actions ---
+  trash: () => `<polyline points="4 6.5 20 6.5"/><path d="M9.5 6.5V5A1.5 1.5 0 0 1 11 3.5h2A1.5 1.5 0 0 1 14.5 5v1.5"/><path d="M6.5 6.5 7.4 19a1.6 1.6 0 0 0 1.6 1.5h6a1.6 1.6 0 0 0 1.6-1.5l.9-12.5"/><line x1="10" y1="10" x2="10.2" y2="16.5"/><line x1="14" y1="10" x2="13.8" y2="16.5"/>`,
+  download: () => `<path d="M5 17.5V19A1.5 1.5 0 0 0 6.5 20.5h11A1.5 1.5 0 0 0 19 19v-1.5"/><line x1="12" y1="4" x2="12" y2="14.5"/><polyline points="7.5 10 12 14.5 16.5 10"/>`,
+  upload: () => `<path d="M5 17.5V19A1.5 1.5 0 0 0 6.5 20.5h11A1.5 1.5 0 0 0 19 19v-1.5"/><line x1="12" y1="15" x2="12" y2="4.5"/><polyline points="7.5 9 12 4.5 16.5 9"/>`,
+  share: () => `<circle cx="17" cy="6" r="2.5"/><circle cx="6.5" cy="12" r="2.5"/><circle cx="17" cy="18" r="2.5"/><line x1="8.8" y1="10.8" x2="14.7" y2="7.2"/><line x1="8.8" y1="13.2" x2="14.7" y2="16.8"/>`,
+  copy: (rx) => `<rect x="8" y="8" width="11.5" height="11.5" rx="${r3(rx)}"/><path d="M5 15.5H4.5A1.5 1.5 0 0 1 3 14V5A1.5 1.5 0 0 1 4.5 3.5H13A1.5 1.5 0 0 1 14.5 5v.5"/>`,
+  edit: () => `<path d="M16.5 3.8 20.2 7.5 8.5 19.2 4.5 19.5 4.8 15.5 16.5 3.8Z"/><line x1="14.5" y1="5.8" x2="18.2" y2="9.5"/>`,
+  'external-link': () => `<path d="M16 13.5V18A1.5 1.5 0 0 1 14.5 19.5H6A1.5 1.5 0 0 1 4.5 18V9.5A1.5 1.5 0 0 1 6 8h4.5"/><polyline points="14 4 20 4 20 10"/><line x1="20" y1="4" x2="11" y2="13"/>`,
+  link: () => `<path d="M10 13.5A3.5 3.5 0 0 1 10 8.5L13 5.5A3.5 3.5 0 0 1 18 10.5L16.5 12"/><path d="M14 10.5A3.5 3.5 0 0 1 14 15.5L11 18.5A3.5 3.5 0 0 1 6 13.5L7.5 12"/>`,
+  filter: () => `<path d="M4.5 5.5H19.5L13.5 12.5V18L10.5 19.5V12.5L4.5 5.5Z"/>`,
+  eye: () => `<path d="M3 12C3 12 6.5 5.5 12 5.5 17.5 5.5 21 12 21 12 21 12 17.5 18.5 12 18.5 6.5 18.5 3 12 3 12Z"/><circle cx="12" cy="12" r="2.75"/>`,
+  play: () => `<path d="M7.5 5.5 18.5 12 7.5 18.5Z"/>`,
+  // --- status / info ---
+  info: () => `<circle cx="12" cy="12" r="8.5"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="12" y1="8" x2="12.01" y2="8"/>`,
+  warning: () => `<path d="M12 4.5 20.5 19.5H3.5L12 4.5Z"/><line x1="12" y1="10" x2="12" y2="14.5"/><line x1="12" y1="17" x2="12.01" y2="17"/>`,
+  clock: () => `<circle cx="12" cy="12" r="8.5"/><polyline points="12 7 12 12 15.5 14"/>`,
+  calendar: (rx) => `<rect x="4" y="5.5" width="16" height="14.5" rx="${r3(rx)}"/><line x1="4" y1="9.5" x2="20" y2="9.5"/><line x1="8" y1="3.5" x2="8" y2="7"/><line x1="16" y1="3.5" x2="16" y2="7"/>`,
+  cart: () => `<circle cx="9.5" cy="19" r="1.3"/><circle cx="16.5" cy="19" r="1.3"/><path d="M3.5 4.5H5.5L7.2 14.5A1.5 1.5 0 0 0 8.7 15.8H16.5A1.5 1.5 0 0 0 18 14.6L19.2 8H6.2"/>`,
 };
 // optical-size correction (scale about the 24-grid center) — keep heavy/edge-spanning marks from reading oversized.
-const OPTICAL = { plus: 0.95, x: 0.92, menu: 0.96 };
-// the curated default core set (~12), used when the spec names no icons.
-const DEFAULT_ICONS = ['search', 'settings', 'check', 'arrow-right', 'user', 'bell', 'heart', 'star', 'plus', 'x', 'menu', 'chevron-right'];
+const OPTICAL = { plus: 0.95, minus: 0.95, x: 0.92, close: 0.92, menu: 0.96 };
+// the default emit set, used when the spec names no icons. Defaults to the whole library so a real product UI
+// (30-60 marks) gets a full first-party set without having to enumerate names; pass `--icons=a,b,c` to narrow.
+const DEFAULT_ICONS = Object.keys(LIBRARY);
 
 function iconSvg(name, { grid, stroke, radius }) {
   const draw = LIBRARY[name];

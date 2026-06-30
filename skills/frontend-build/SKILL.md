@@ -41,9 +41,15 @@ npx create-next-app@latest app --ts --tailwind --eslint --app --src-dir --import
 cd app && npx shadcn@latest init        # Tailwind v4, CSS variables: yes, base color: neutral (recolor in @theme)
 ```
 
-**Or start from the shipped runnable React scaffold** — `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter-react/` is a **Vite + React 18 + Tailwind v4** (`@tailwindcss/vite`) + `class-variance-authority` app, the suite's first installable React/shadcn-style example. `src/index.css` holds `@import 'tailwindcss'` + the generated `:root`/`@theme` token blocks (single source = `tokens/brand-default.tokens.json`); `Button.tsx` is a cva recipe of semantic Tailwind tokens rendering every interaction state; `App.tsx` is one accessible, stateful screen. Build it:
+**Or start from the shipped runnable React scaffold** — `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter-react/` is a **Vite + React 18 + Tailwind v4** (`@tailwindcss/vite`) + `class-variance-authority` app, the suite's first installable React/shadcn-style example. `src/index.css` holds `@import 'tailwindcss'` + the generated `:root`/`@theme` token blocks (single source = `tokens/brand-default.tokens.json`) plus a compiled **`[data-theme="dark"]`** block + a no-flash `data-theme` restore in `index.html` and a ☾/☀ toggle; `Button.tsx` is a cva recipe of semantic Tailwind tokens rendering every interaction state; `App.tsx` is one accessible, stateful screen that now includes a worked **shared-`layoutId` card→modal** built with the `motion` (Framer, `^11.11.0`) dependency, gated by `useReducedMotion()` (it drops the `layoutId`/hover/scale and zeroes tweens when reduced). Build it:
 ```bash
 cd ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/assets/starter-react && npm i && npm run build   # → dist/  (npm run preview pins :4173)
+```
+**Film the two motion examples** (the card→modal here, and the token-driven slide-over **drawer** in `assets/starter/app-shell.html` — `transform`+`opacity` only, durations/easing from `--dur-*`/`--ease-*`, parked off-screen in a fixed overflow-clipped `.drawer-root` so it never widens the doc, with `role="dialog"`/`aria-modal`, Esc + scrim/close, and focus to/from the trigger):
+```bash
+ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page
+MOTION_TRIGGER='[data-card]:click' NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js http://127.0.0.1:4173/ /tmp/out   # starter-react card→modal
+FILMSTRIP=1 MOTION_TRIGGER='#openDrawer:click' NODE_PATH=$(npm root -g) node $ROOT/scripts/shoot.js $ROOT/assets/starter/app-shell.html /tmp/out   # app-shell drawer
 ```
 
 ## 3 · Consume tokens AS CODE — one `@theme` block, no exceptions

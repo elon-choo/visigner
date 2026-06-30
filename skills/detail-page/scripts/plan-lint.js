@@ -21,7 +21,7 @@
 //     metric-shape     every success-metric line carries a number/target AND a named instrument
 //   Structural floors (WARN — never fail the gate):
 //     no-inventory     no screen/state inventory section to cross-check acceptance criteria against
-//   Semantic heuristics (WARN by default; ERROR under --strict — additive, never change exit alone):
+//   Semantic heuristics (ERROR by default — they DO participate in the exit-1 gate; --lenient -> WARN):
 //     actor-quality    an actor reads as fictional persona theatre ("Sarah, 32, loves lattes") with no
 //                      job-to-be-done / goal / "needs to" / "trying to" clause tying it to a real task
 //     flow-decision    a flow that claims error handling but contains no real decision/branch node
@@ -32,8 +32,12 @@
 // 0 if the floor is met; 2 on fatal (bad args / unreadable file).
 //
 // FLAGS
-//   --strict   promote the WARN-level semantic heuristics (actor-quality, flow-decision) to ERROR
-//              so they participate in the exit-1 gate.
+//   (default)  the semantic heuristics (actor-quality, flow-decision) are ERROR and participate in the
+//              exit-1 gate, so /plan gets the semantic teeth without needing an extra flag.
+//   --lenient  downgrade those two heuristics back to WARN (the legacy behavior) so they never fail the
+//              gate on their own — use when you want structure-only gating.
+//   --strict   accepted for backward compatibility; it is now the default (a no-op), kept so existing
+//              `--strict` invocations do not break.
 
 const fs = require('fs');
 
@@ -150,19 +154,55 @@ function extractFlows(sections, flowsSection) {
   return flows;
 }
 
-// Pull screen/state names out of the inventory section: list items or table rows; first cell/token = name.
+// Pull screen/state names out of the inventory section: list items or table rows.
+// For a markdown table the screen name is NOT always the first cell — the skill's own §7 inventory
+// template leads with a "#" index column ("| # | Screen | Route | … |"), so reading cell 0 yields the
+// index ("1", "2"), which the length>=2 filter then drops, collapsing the table to ZERO screens and
+// silently downgrading the inventory↔AC ERROR check to a no-inventory WARN. So we choose the NAME
+// column deterministically: (1) the header cell matching /screen|view|화면|상태|state|name|surface|page/;
+// else (2) if every data row's first cell is a pure integer or "#", advance past that index column;
+// else (3) the first cell (original behavior).
+const INV_NAME_HEADER = /screen|view|화면|상태|state|name|surface|page/i;
+const INV_INDEX_CELL = /^(?:#|\d+)$/;                                  // an index/number cell, not a name
+const INV_HEADER_CELL = /^(?:#|no\.?|idx|index|번호|screen|state|name|view|화면|상태)$/i; // a header row's name cell
+
 function extractInventory(sections) {
   const inv = findSection(sections, /\binventory\b|screen[\s/&,-]*state|state[\s/&,-]*inventory|screen\s*list|surface\s*inventory|화면\s*목록/i);
   if (!inv) return { found: false, items: [] };
+  const rows = inv.body.split(/\r?\n/);
+
+  // Decide the name column from the FIRST markdown table in the inventory body.
+  const tableRows = rows
+    .map((l) => l.trim())
+    .filter((l) => /^\|/.test(l) && !/^\|[\s:|-]+\|?$/.test(l))
+    .map((l) => l.split('|').map((c) => c.trim()).filter(Boolean))
+    .filter((cells) => cells.length);
+  let nameCol = 0;
+  if (tableRows.length) {
+    const byHeader = tableRows[0].findIndex((c) => INV_NAME_HEADER.test(c));
+    if (byHeader >= 0) {
+      nameCol = byHeader;
+    } else if (tableRows.length > 1 && tableRows.slice(1).every((cells) => INV_INDEX_CELL.test(cells[0]))) {
+      nameCol = 1; // no name header, but every data row leads with an index → name is the next cell
+    }
+  }
+
   const items = [];
-  for (const raw of inv.body.split(/\r?\n/)) {
+  for (const raw of rows) {
     const line = raw.trim();
     if (!line) continue;
     // markdown table row (skip the |---| separator and the header row heuristically)
     if (/^\|/.test(line)) {
       if (/^\|[\s:|-]+\|?$/.test(line)) continue;
       const cells = line.split('|').map((c) => c.trim()).filter(Boolean);
-      if (cells.length && !/^(screen|state|name|view|화면|상태)$/i.test(cells[0])) items.push(cells[0]);
+      if (!cells.length) continue;
+      let cell = cells[nameCol];
+      // ragged row, or an index leaked into the chosen column → fall back to the next non-index cell.
+      if (!cell || INV_INDEX_CELL.test(cell)) {
+        cell = cells.find((c, i) => i >= nameCol && c && !INV_INDEX_CELL.test(c)) || cells[0];
+      }
+      if (!cell || INV_HEADER_CELL.test(cell)) continue; // header row
+      items.push(cell);
       continue;
     }
     const li = line.match(/^(?:[-*]|\d+[.)])\s+(.*)$/);
@@ -255,7 +295,10 @@ function extractActors(sections, usersSection) {
 
 // ---------- the lint ----------
 function lintPlan(md, file, opts) {
-  const strict = !!(opts && opts.strict);
+  // Semantic heuristics (actor-quality, flow-decision) are ERROR by DEFAULT for BOTH the CLI and any
+  // module consumer, so they participate in the exit-1 gate without a flag. opts.lenient (CLI --lenient)
+  // downgrades them back to WARN (the legacy behavior). opts.strict is accepted for back-compat (no-op).
+  const strict = !(opts && opts.lenient);
   const sections = parseSections(md);
   const labelCorpus = [...sections.map((s) => s.title), ...boldLabels(md)].join('\n');
   const checks = []; // { key, label, severity, pass, detail }
@@ -361,7 +404,7 @@ const HELP = `plan-lint.js — deterministic floor under design-critic MODE=plan
 USAGE
   node plan-lint.js <plan.md>            lint one plan/PRD
   node plan-lint.js <plan.md> [out.json] also write the JSON report
-  node plan-lint.js <plan.md> --strict   promote semantic heuristics (actor/flow) to ERROR
+  node plan-lint.js <plan.md> --lenient  downgrade semantic heuristics (actor/flow) back to WARN
   node plan-lint.js --help
 
 REQUIRED SECTIONS (ERROR -> exit 1)
@@ -370,7 +413,7 @@ REQUIRED SECTIONS (ERROR -> exit 1)
 STRUCTURAL FLOORS
   event-spec-table ERROR · flow-error-path ERROR · inventory-ac ERROR ·
   ac-gwt ERROR (Given/When/Then) · metric-shape ERROR (number + instrument) · no-inventory WARN
-SEMANTIC HEURISTICS (WARN; ERROR under --strict)
+SEMANTIC HEURISTICS (ERROR by default — participate in the gate; --lenient -> WARN)
   actor-quality (persona theatre w/o a job-to-be-done) · flow-decision (error claim w/o a branch node)
 Exit 1 if any required section / structural ERROR is missing; 0 if the floor is met; 2 on fatal.
 `;
@@ -381,13 +424,15 @@ function main() {
     process.stdout.write(HELP);
     process.exit(argv.length === 0 ? 1 : 0);
   }
-  const strict = argv.includes('--strict');
+  // Semantic heuristics are ERROR by DEFAULT (they participate in the exit-1 gate). --lenient
+  // restores the legacy WARN-only behavior; --strict is still accepted (now the default) for back-compat.
+  const lenient = argv.includes('--lenient');
   const positional = argv.filter((a) => !a.startsWith('-'));
   const target = positional[0];
   const outArg = positional[1];
   if (!target) { console.error('FATAL no plan file given'); process.exit(2); }
   const md = fs.readFileSync(target, 'utf8');
-  const report = lintPlan(md, require('path').resolve(target), { strict });
+  const report = lintPlan(md, require('path').resolve(target), { lenient });
 
   if (outArg) fs.writeFileSync(outArg, JSON.stringify(report, null, 2));
 

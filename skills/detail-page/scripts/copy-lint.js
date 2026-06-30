@@ -7,6 +7,7 @@
 //
 // Usage:   node copy-lint.js <spec.json|dir/>                       lint one surface, a campaign, or a dir
 //          node copy-lint.js <target> --idea "<one idea>"           + cross-surface message-match
+//          node copy-lint.js <target> --idea "<x>" --synonyms s.json + per-campaign synonym/paraphrase map
 //          node copy-lint.js <target> --lexicon voice.json          + owned/banned brand-lexicon check
 //          node copy-lint.js <target> [out.json]                    also write the JSON report
 //          node copy-lint.js --help
@@ -30,8 +31,9 @@
 //   push-too-long        WARN/ERROR  push body > 90 chars (WARN) / > 120 (ERROR)
 //   slop-verb            ERROR       AI-slop banned verb/phrase (Empower / Unlock / Transform / Build the future / …)
 //   cta-missing          ERROR       no CTA field and no CTA phrase in the copy
-//   message-match        WARN        (with --idea) hero shares no STEMS/owned-terms with the idea (advisory;
-//                                     an in-voice paraphrase that shares stems/owned-terms is NOT drift)
+//   message-match        WARN        (with --idea) the WHOLE surface copy (hero + primary + subhead/body)
+//                                     shares no STEMS/owned-terms/synonyms with the idea (advisory; an
+//                                     in-voice body paraphrase that shares stems/owned-terms is NOT drift)
 //   verbatim-lock        ERROR       (with --strict) a surface-declared verbatim tagline/claim lock string is absent
 //   voice-fingerprint    WARN        (with --voice-fingerprint) register outlier vs the rest of the campaign
 //   lexicon-banned       ERROR       a banned brand-lexicon term appears
@@ -202,6 +204,25 @@ function matchesIdea(text, ideaStems, loc) {
   return ideaStems.some((s) => heroStems.some((h) => stemShare(s, h)));
 }
 
+// flatten an optional --synonyms map into a flat list of extra idea-equivalent terms. Accepts either an
+// array of terms (["renewal", "재생"]) or a map of idea-term -> synonym list/string
+// ({ "sleep": ["rest", "수면"] }); map KEYS count too. Defensive: ignores non-string entries, never throws.
+function flattenSynonyms(syn) {
+  if (!syn) return [];
+  const out = [];
+  const pushStr = (v) => { if (typeof v === 'string' && v.trim()) out.push(v.trim()); };
+  if (Array.isArray(syn)) {
+    for (const v of syn) pushStr(v);
+  } else if (typeof syn === 'object') {
+    for (const [k, v] of Object.entries(syn)) {
+      pushStr(k);
+      if (Array.isArray(v)) v.forEach(pushStr);
+      else pushStr(v);
+    }
+  }
+  return out;
+}
+
 // normalize declared verbatim-lock fields (string or array) off a surface spec into a clean string list.
 function lockList(surface) {
   const out = [];
@@ -250,13 +271,16 @@ function lintOne(surface, file, opts) {
   // required CTA
   if (!hasCta(model, loc)) add('cta-missing', 'error', 'no CTA — neither a cta field nor a recognized action phrase');
 
-  // cross-surface message-match (only with --idea) — ADVISORY. A paraphrase in the channel's OWN voice
-  // that shares STEMS or owned brand-terms with the idea is a correct restatement, NOT drift; only a hero
-  // that shares no idea content at all gets a WARN. --strict no longer ERRORs on paraphrase — it enforces
-  // verbatim tagline/claim locks instead (below).
+  // cross-surface message-match (only with --idea) — ADVISORY. Scans the WHOLE surface copy (hero +
+  // primary + subhead/body, via model.copy), not just the hero/first line: a legitimate hook-first
+  // surface that restates the idea in line 2 or paraphrases it in the body is NOT drift. A paraphrase in
+  // the channel's OWN voice that shares STEMS / owned brand-terms / --synonyms with the idea is a correct
+  // restatement; only a surface that shares no idea content ANYWHERE gets a WARN. (Scanning model.copy is
+  // a strict superset of the old hero-only scan, so this only ever REMOVES false WARNs — never adds one.)
+  // --strict no longer ERRORs on paraphrase — it enforces verbatim tagline/claim locks instead (below).
   if (idea && ideaStems.length) {
-    if (!matchesIdea(model.hero || model.firstLine || model.primary, ideaStems, loc)) {
-      add('message-match', 'warn', `hero does not restate the campaign idea ("${idea}") — message-match drift (shares no stems/owned-terms with the idea)`);
+    if (!matchesIdea(model.copy, ideaStems, loc)) {
+      add('message-match', 'warn', `surface copy does not restate the campaign idea ("${idea}") — message-match drift (no field shares stems/owned-terms/synonyms with the idea)`);
     }
   }
 
@@ -318,7 +342,8 @@ const HELP = `copy-lint.js — deterministic per-channel copy linter (the floor 
 
 USAGE
   node copy-lint.js <spec.json|dir/>                 one surface, a campaign, or a dir of specs
-  node copy-lint.js <target> --idea "<one idea>"     + message-match (advisory: paraphrase OK)
+  node copy-lint.js <target> --idea "<one idea>"     + message-match (advisory; scans the WHOLE surface)
+  node copy-lint.js <target> --idea "<x>" --synonyms s.json  paraphrase/synonym map (array or term->[syn])
   node copy-lint.js <target> --idea "<x>" --strict   enforce verbatim tagline/claim LOCKS only (ERROR)
   node copy-lint.js <target> --voice-fingerprint     advisory voice-drift outlier pass (owned/grade/rhythm)
   node copy-lint.js <target> --locale ko             use the built-in Korean slop/CTA + char budgets
@@ -331,8 +356,10 @@ SPEC   one surface, an array, or { "surfaces": [...] }. channel ∈ ad | social 
        a surface may declare verbatim LOCKS via "locks"/"verbatimLocks"/"verbatim" (string or array).
 LOCALE --locale ko or --voice voice.json ({ locale, slopWords, spamWords, ctaVerbs, subjectMax, previewMax }).
        Non-English locales count length in graphemes (a Korean syllable = 1). Default stays English.
-MATCH  --idea restates as STEMS + owned brand-terms, so an in-voice paraphrase (shared stems/owned-terms)
-       is NOT drift. --strict enforces verbatim tagline/claim locks only — NOT message-match.
+MATCH  --idea is scanned against the WHOLE surface copy (hero + primary + subhead/body), as STEMS + owned
+       brand-terms + --synonyms, so an in-voice body paraphrase (shared stems/owned-terms/synonyms) is NOT
+       drift. --synonyms takes an array of terms or a { idea-term: [syn,...] } map. --strict enforces
+       verbatim tagline/claim locks only — NOT message-match.
 CHECKS (ERROR -> exit 1; WARN -> never fails)
   ad-primary >125 WARN / >175 ERROR · ad-headline >40 WARN · social-firstline >125 WARN / >280 ERROR ·
   push >10 words ERROR · push >90 chars WARN / >120 ERROR · slop-verb ERROR · cta-missing ERROR ·
@@ -352,6 +379,8 @@ function main() {
   let localeArg = null;
   let voiceCfg = null;
   let voicePath = null;
+  let synonyms = null;
+  let synonymsPath = null;
   let strict = false;
   let fingerprint = false;
   const pos = [];
@@ -370,6 +399,10 @@ function main() {
       voicePath = argv[++i];
       if (!voicePath) { console.error('FATAL --voice needs a path'); process.exit(2); }
       voiceCfg = JSON.parse(fs.readFileSync(voicePath, 'utf8'));
+    } else if (argv[i] === '--synonyms') {
+      synonymsPath = argv[++i];
+      if (!synonymsPath) { console.error('FATAL --synonyms needs a path'); process.exit(2); }
+      synonyms = JSON.parse(fs.readFileSync(synonymsPath, 'utf8'));
     } else if (argv[i] === '--strict') {
       strict = true;
     } else if (argv[i] === '--voice-fingerprint' || argv[i] === '--fingerprint') {
@@ -383,12 +416,16 @@ function main() {
   if (!target) { console.error('FATAL no target'); process.exit(2); }
 
   const loc = resolveLocale(localeArg, voiceCfg);
-  const ownedTerms = lexicon && Array.isArray(lexicon.owned) ? lexicon.owned : null;
-  const opts = { idea, ideaStems: idea ? ideaStemSet(idea, loc, ownedTerms) : [], lexicon, loc, strict };
+  const ownedTerms = lexicon && Array.isArray(lexicon.owned) ? lexicon.owned : [];
+  // an in-voice paraphrase counts as a message-match if it shares stems with the idea OR with any
+  // owned brand-term (--lexicon or voice.json `owned`) OR any --synonyms entry — all fold into the idea stems.
+  const voiceOwned = voiceCfg && Array.isArray(voiceCfg.owned) ? voiceCfg.owned : [];
+  const extraIdeaTerms = [...ownedTerms, ...voiceOwned, ...flattenSynonyms(synonyms)];
+  const opts = { idea, ideaStems: idea ? ideaStemSet(idea, loc, extraIdeaTerms) : [], lexicon, loc, strict };
   const st = fs.statSync(target);
   let reports = [];
   if (st.isDirectory()) {
-    const files = collectTargets(target, [outArg, lexiconPath, voicePath].filter(Boolean));
+    const files = collectTargets(target, [outArg, lexiconPath, voicePath, synonymsPath].filter(Boolean));
     if (files.length === 0) { console.error('FATAL no *.json specs in dir'); process.exit(2); }
     for (const f of files) {
       const surfaces = surfacesFromSpec(JSON.parse(fs.readFileSync(f, 'utf8')));

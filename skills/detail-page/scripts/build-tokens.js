@@ -3,7 +3,8 @@
 // This is Style Dictionary's role reimplemented in ~150 lines — no npm/eval/network (supply-chain clean).
 //
 // Usage:
-//   node build-tokens.js tokens/brand-default.tokens.json [brand-alt.tokens.json ...]   # prints :root{--brand-*} (+ [data-brand] per extra file)
+//   node build-tokens.js tokens/brand-default.tokens.json [brand-alt.tokens.json ...]   # prints :root{--brand-*} (+ one override block per extra file)
+//   each extra file's override-block selector = its `$selector` (any css selector, e.g. [data-theme="dark"] / .dark), else [data-brand="<$brand|filename>"]
 //   node build-tokens.js tokens/brand-default.tokens.json --emit=theme                  # prints the @theme{ --color-*: var(--brand-*) } block
 // CSS goes to STDOUT (pipe/paste it). A one-line JSON summary goes to STDERR. FATAL (exit 2) on alias cycle / missing ref.
 
@@ -226,12 +227,24 @@ try {
       emittedCount++;
     }
     lines.push('}');
-    // each EXTRA file -> a [data-brand="<name>"] override block (only the tokens it defines)
+    // each EXTRA file -> an override block (only the tokens it defines). The block's SELECTOR is:
+    //   1. the file's `$selector` (an ARBITRARY css selector — e.g. [data-theme="dark"], .dark, [data-mode="hc"]),
+    //      so a dark/mode override is compiled-from-DTCG and is NOT forced onto data-brand; else
+    //   2. the legacy default [data-brand="<name>"] (name from $brand, else the filename) — unchanged path.
     for (const f of files.slice(1)) {
       const obj = readTokens(f);
-      const brand = obj.$brand || path.basename(f).replace(/\.tokens\.json$/, '').replace(/^brand-/, '');
+      let selector;
+      if (obj.$selector != null) {
+        if (typeof obj.$selector !== 'string' || !obj.$selector.trim()) {
+          throw new Error(`$selector in ${path.basename(f)} must be a non-empty string (got ${JSON.stringify(obj.$selector)})`);
+        }
+        selector = obj.$selector.trim();
+      } else {
+        const brand = obj.$brand || path.basename(f).replace(/\.tokens\.json$/, '').replace(/^brand-/, '');
+        selector = `[data-brand="${brand}"]`;
+      }
       const leaves = flatten(obj, [], []);
-      lines.push(`[data-brand="${brand}"] {`);
+      lines.push(`${selector} {`);
       for (const t of leaves) {
         const val = isAlias(t.token) ? `var(${rootVar(refOf(t.token))})` : leafValue(t.token);
         lines.push(decl(rootVar(t.path), val));
