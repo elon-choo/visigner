@@ -180,7 +180,7 @@ function flattenBrandColors(tokens) {
 // primitive :root layer). Used to resolve var() chains back to a painted color before the ΔE diff.
 function rootPropMap(stripped) {
   const props = {};
-  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g)) {
+  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root|\[data-(?:theme|brand|mode)[^\]]*\]|\.dark|\.theme-[\w-]+)[^{]*\{/g)) {
     for (const m of stripped.slice(s, e).matchAll(/(--[a-z0-9-]+)\s*:\s*([^;}]+)/gi)) {
       const name = m[1].toLowerCase();
       if (!(name in props)) props[name] = m[2].trim(); // first definition wins (the --brand-* primitive layer)
@@ -228,7 +228,7 @@ function extractDeclaredColors(stripped) {
   // (2) var(--brand-*/--color-*) USES in component/inline CSS (outside the token blocks) — resolve back to the
   //     painted :root value so an inline-referenced color is covered by the ΔE diff too.
   let masked = stripped;
-  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g)) masked = masked.slice(0, s) + ' '.repeat(e - s) + masked.slice(e);
+  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root|\[data-(?:theme|brand|mode)[^\]]*\]|\.dark|\.theme-[\w-]+)[^{]*\{/g)) masked = masked.slice(0, s) + ' '.repeat(e - s) + masked.slice(e);
   for (const m of masked.matchAll(/var\(\s*(--(?:brand|color)-[a-z0-9-]+)/gi)) {
     const full = m[1].toLowerCase();
     const role = full.replace(/^--(?:brand|color)-/, '');
@@ -376,7 +376,7 @@ const REF_TOKEN = /var\(\s*(--(?:color|font|shadow|brand)-[a-z0-9-]+)/gi;
 
 // collect design-token NAMES defined in @theme{}/:root{} blocks of one file into `into` (a Set, lowercased).
 function collectDefinedTokens(stripped, into) {
-  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g)) {
+  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root|\[data-(?:theme|brand|mode)[^\]]*\]|\.dark|\.theme-[\w-]+)[^{]*\{/g)) {
     for (const m of stripped.slice(s, e).matchAll(DEFINED_TOKEN_DEF)) into.add(m[1].toLowerCase());
   }
   return into;
@@ -513,7 +513,7 @@ function lintSource(raw, file) {
 
   // Token-definition blocks: @theme { ... } AND :root { ... } (brace-matched) are the ONLY allowed homes for
   // raw color values. Everything else is component/markup territory.
-  const tokenBlocks = braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g);
+  const tokenBlocks = braceBlocks(stripped, /(?:@theme|:root|\[data-(?:theme|brand|mode)[^\]]*\]|\.dark|\.theme-[\w-]+)[^{]*\{/g);
   const tokenNames = new Set();
   for (const [s, e] of tokenBlocks) {
     for (const tm of stripped.slice(s, e).matchAll(/(--(?:color|font|shadow)-[a-z0-9-]+)\s*:/gi)) tokenNames.add(tm[1]);
