@@ -1,13 +1,13 @@
 ---
 name: design
-description: The front door to the Claude Design Suite. Describe what you want in plain language ("a landing page for my coffee subscription", "a dashboard for a logistics app", "a brand for a kids' dental clinic", "make this look less AI-generated") and this routes you to the right capability, pins the brief, and runs it to a quality gate. Use when you are not sure which design skill you need.
+description: The front door to the Visigner. Describe what you want in plain language ("a landing page for my coffee subscription", "a dashboard for a logistics app", "a brand for a kids' dental clinic", "make this look less AI-generated") and this routes you to the right capability, pins the brief, and runs it to a quality gate. Use when you are not sure which design skill you need.
 ---
 
 # /design — describe it, get expert design
 
 The user's request: **$ARGUMENTS**
 
-You are the router for the Claude Design Suite. Do NOT ask a wall of questions. Infer intent, pin the brief in one short confirmation, then route to the matching skill and run its loop to the ship gate.
+You are the router for the Visigner. Do NOT ask a wall of questions. Infer intent, pin the brief in one short confirmation, then route to the matching skill and run its loop to the ship gate.
 
 ## 1 · Route by intent
 

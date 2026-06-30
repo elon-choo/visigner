@@ -1,14 +1,14 @@
 {
-  "name": "design-suite",
-  "displayName": "Claude Design Suite",
+  "name": "visigner",
+  "displayName": "Visigner",
   "version": "1.0.0",
   "description": "Everything design in one install: anti-AI-slop landing & Korean 상세페이지/Wadiz pages, app/web UI design, design tokens & systems, brand identity, UX flows & wireframes, design-to-code (React/Tailwind/shadcn), and conversion/marketing — plus independent design-critic & accessibility-audit agents and friendly slash commands. Built on Anthropic's frontend-design aesthetic discipline + a screenshot self-critique loop.",
   "author": {
     "name": "elon-choo",
     "email": "sbmelon1@gmail.com"
   },
-  "homepage": "https://github.com/elon-choo/claude-design-suite",
-  "repository": "https://github.com/elon-choo/claude-design-suite",
+  "homepage": "https://github.com/elon-choo/visigner",
+  "repository": "https://github.com/elon-choo/visigner",
   "license": "MIT",
   "keywords": [
     "design",

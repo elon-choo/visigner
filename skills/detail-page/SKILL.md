@@ -11,7 +11,7 @@ A page is good when a skeptical human cannot tell it was AI-generated AND it mov
 
 This skill is the orchestrator. Depth lives in `references/` (load on demand). Scripts in `scripts/` render and screenshot pages so you critique pixels, not just code.
 
-> **Paths:** every `scripts/…` and `references/…` reference below is relative to this skill's own folder. When this is installed as part of the **design-suite** plugin, that folder is `${CLAUDE_PLUGIN_ROOT}/skills/detail-page` — run scripts from there (`cd "${CLAUDE_PLUGIN_ROOT}/skills/detail-page"`). The screenshot/capture/asset scripts need a one-time `npm install` of their deps; run **`/design-setup`** once (it installs Patchright + the Chromium browser into this skill folder). Pure design guidance (steps 1–4, 6) needs no install.
+> **Paths:** every `scripts/…` and `references/…` reference below is relative to this skill's own folder. When this is installed as part of the **visigner** plugin, that folder is `${CLAUDE_PLUGIN_ROOT}/skills/detail-page` — run scripts from there (`cd "${CLAUDE_PLUGIN_ROOT}/skills/detail-page"`). The screenshot/capture/asset scripts need a one-time `npm install` of their deps; run **`/design-setup`** once (it installs Patchright + the Chromium browser into this skill folder). Pure design guidance (steps 1–4, 6) needs no install.
 
 ## The loop (never skip a step)
 

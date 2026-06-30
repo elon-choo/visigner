@@ -1,4 +1,4 @@
-# Claude Design Suite
+# Visigner
 
 **Everything design, in one install.** Add this one repo to Claude Code and you get the whole design toolchain — landing pages, Korean 상세페이지/Wadiz pages, app & web UI, design tokens & systems, brand identity, UX flows & wireframes, design-to-code, and conversion/marketing — plus independent design-critic and accessibility-audit agents and a set of friendly slash commands. **No other installable design skill, plugin, or npm package needed for design work in Claude Code.**
 
@@ -17,8 +17,8 @@ It's built on Anthropic's `frontend-design` aesthetic discipline (plan a token s
 In Claude Code:
 
 ```
-/plugin marketplace add elon-choo/claude-design-suite
-/plugin install design-suite@design-suite
+/plugin marketplace add elon-choo/visigner
+/plugin install visigner@visigner
 ```
 
 That's it — all skills, agents, and commands are now available. Requires Claude Code **v2.1.100+** (`claude --version`).
@@ -32,9 +32,9 @@ Commit this to your project's `.claude/settings.json` and teammates get it autom
 ```json
 {
   "extraKnownMarketplaces": {
-    "design-suite": { "source": { "source": "github", "repo": "elon-choo/claude-design-suite" } }
+    "visigner": { "source": { "source": "github", "repo": "elon-choo/visigner" } }
   },
-  "enabledPlugins": { "design-suite@design-suite": true }
+  "enabledPlugins": { "visigner@visigner": true }
 }
 ```
 
