@@ -13,7 +13,7 @@ Invoke the **detail-page** skill and run its full loop — do not improvise a ge
 2. **Plan the token system** before any code (color / type / layout / signature); reject the banned defaults.
 3. **Structure** the section arc for the mode (PASONA for detail mode; hero→proof→value→CTA for landing).
 4. **Build** with HTML+Tailwind v4 `@theme` tokens (Korean pages: load Pretendard + a KR display). For detail mode add the mobile sticky thumb-zone CTA and verify zero horizontal overflow at 390px.
-5. **Shoot** — render and screenshot via the skill's `scripts/shoot.js` (run `/design-setup` once if not yet installed), then READ the tiles.
+5. **Shoot** — render and screenshot via the suite's short wrapper `${CLAUDE_PLUGIN_ROOT}/bin/shoot <file>` (it resolves the global `node_modules` + the skill's `scripts/shoot.js`; long fallback `NODE_PATH=$(npm root -g) node …/scripts/shoot.js`). Run `/design-setup` once if not yet installed, then READ the tiles.
 6. **Score** against the 10-dimension rubric; fix the lowest dims and re-shoot until it clears the ship gate (≥8/10, no dim <7, distinctiveness ≥8, zero anti-slop fails).
 
 If image assets would lift it (real 상세페이지 are image-dominant), generate them via the skill's asset-generation flow. Under ultracode, run the skill's `ultracode-workflow.js` so plan candidates compete and every round gates on real pixels. Deliver the file, then note the one thing to improve next.

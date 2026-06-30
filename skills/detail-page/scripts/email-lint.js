@@ -51,6 +51,24 @@ const EMOJI = /[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2190}-\u{21FF}\u{2B00}-\u
 // an ALL-CAPS run of >=4 letters (whole "word"); excludes things like "I" or "OK".
 const ALLCAPS = /\b[A-Z]{4,}\b/g;
 
+// ---- AI-slop banned verbs / phrases (auto-fail, the SAME list copy-lint.js uses; design-critic §8b) ----
+// Scanned over subject + preheader + body so a sequence full of Empower/Unlock/Transform can't pass clean.
+const SLOP = [
+  /\bempower(s|ing|ed)?\b/i,
+  /\bunlock(s|ing|ed)?\b/i,
+  /\btransform(s|ing)?\b/i,
+  /\bbuild the future\b/i,
+  /\brevolutioniz(e|es|ing|ed)\b/i,
+  /\bsupercharg(e|es|ing|ed)\b/i,
+  /\bunleash(es|ing|ed)?\b/i,
+  /\breimagin(e|es|ing|ed)\b/i,
+  /\belevat(e|es|ing|ed)\b/i,
+  /\bdisrupt(s|ing|ed)?\b/i,
+  /\bgame[- ]changer\b/i,
+  /\bnext[- ]level\b/i,
+  /\bcutting[- ]edge\b/i,
+];
+
 // ---------- spec/HTML -> normalized { subject, preheader, ctas[], bodyText, source } ----------
 function fromSpec(spec) {
   const blocks = Array.isArray(spec.blocks) ? spec.blocks : [];
@@ -122,6 +140,17 @@ function lintOne(model, file, lexicon) {
   }
   const emo = head.match(EMOJI);
   if (emo && emo.length > 2) add('spam-emoji', 'warn', `${emo.length} emoji in subject/preheader (>2)`);
+
+  // AI-slop banned verbs (subject + preheader + body) — same list/severity as copy-lint.js (ERROR).
+  const slopCorpus = `${head}\n${model.bodyText}`;
+  const slopSeen = new Set();
+  for (const re of SLOP) {
+    const m = slopCorpus.match(re);
+    if (m && !slopSeen.has(m[0].toLowerCase())) {
+      slopSeen.add(m[0].toLowerCase());
+      add('slop-verb', 'error', `AI-slop verb/phrase: "${m[0]}"`);
+    }
+  }
 
   // brand lexicon (optional)
   if (lexicon) {

@@ -57,11 +57,14 @@
 let _chromium = null;
 function loadChromium() {
   if (_chromium) return _chromium;
-  try { _chromium = require('playwright').chromium; }
+  // package.json declares patchright (and the skill's node_modules bundles patchright/-core), so resolve it FIRST
+  // to match what /design-setup installs; fall back to a local playwright install if present. require() resolves
+  // the local node_modules (NODE_PATH=$(npm root -g)). The launch fallback chain below is unchanged.
+  try { _chromium = require('patchright').chromium; }
   catch (_) {
-    try { _chromium = require('patchright').chromium; }
+    try { _chromium = require('playwright').chromium; }
     catch (e) {
-      throw new Error('Neither playwright nor patchright is installed. Run /design-setup (npm install + ' +
+      throw new Error('Neither patchright nor playwright is installed. Run /design-setup (npm install + ' +
         'npx patchright install chromium), or re-run with STATIC=1 for a no-browser text lint. (' + e.message + ')');
     }
   }
@@ -83,6 +86,59 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 // caller's try/catch sets axeClean=null (unknown), never a silent pass. Read-only; returns [{id,impact,help,nodes}].
 const AXE_RANK = { minor: 1, moderate: 2, serious: 3, critical: 4 };
 const AXE_CDN = { url: 'https://cdn.jsdelivr.net/npm/axe-core@4.12.1/axe.min.js', integrity: 'sha384-JQegRXq6EhTiWoGPFDmqbJNsDow5BoSsGhnaeDzGp+qyOFCuMZZ24qY2fz3FxZF5' };
+
+// Color helpers — turn axe's color-contrast finding into a concrete one-line fix: name the offending text color and
+// suggest a passing OKLCH (keep hue+chroma, move lightness) so a non-designer knows exactly what to set the token to.
+// Compact Björn-Ottosson sRGB<->OKLab transforms; WCAG luminance is read off the linear-RGB intermediate.
+function _parseRgb(s) {
+  s = String(s || '').trim();
+  let m = s.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+  if (m) { let h = m[1]; if (h.length === 3) h = h.split('').map((c) => c + c).join(''); const n = parseInt(h, 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+  m = s.match(/rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/i);
+  if (m) return [+m[1], +m[2], +m[3]];
+  return null;
+}
+const _lin = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
+const _lumLin = (r, g, b) => 0.2126 * r + 0.7152 * g + 0.0722 * b; // r,g,b already linear (0..1)
+function _rgbToOklch([r, g, b]) {
+  const lr = _lin(r), lg = _lin(g), lb = _lin(b);
+  const l = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
+  const m = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
+  const s = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
+  const L = 0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s;
+  const A = 1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s;
+  const B = 0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s;
+  return { L, C: Math.hypot(A, B), H: (Math.atan2(B, A) * 180 / Math.PI + 360) % 360 };
+}
+function _oklchToLin({ L, C, H }) {
+  const a = C * Math.cos(H * Math.PI / 180), b = C * Math.sin(H * Math.PI / 180);
+  const l_ = L + 0.3963377774 * a + 0.2158037573 * b;
+  const m_ = L - 0.1055613458 * a - 0.0638541728 * b;
+  const s_ = L - 0.0894841775 * a - 1.2914855480 * b;
+  const l = l_ ** 3, m = m_ ** 3, s = s_ ** 3;
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  return [
+    clamp(4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s),
+    clamp(-1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s),
+    clamp(-0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s),
+  ];
+}
+// Keep the failing FG's hue+chroma, step its lightness toward the bg until WCAG ratio >= required. Returns an
+// `oklch(L C H)` string, or null if no in-gamut lightness at that hue/chroma reaches the target.
+function suggestPassingOklch(fg, bg, required) {
+  const fgRgb = _parseRgb(fg), bgRgb = _parseRgb(bg);
+  if (!fgRgb || !bgRgb) return null;
+  const req = required || 4.5;
+  const bgY = _lumLin(_lin(bgRgb[0]), _lin(bgRgb[1]), _lin(bgRgb[2]));
+  const base = _rgbToOklch(fgRgb);
+  const contrastAt = (L) => { const [r, g, b] = _oklchToLin({ L, C: base.C, H: base.H }); const y = _lumLin(r, g, b); const hi = Math.max(y, bgY) + 0.05, lo = Math.min(y, bgY) + 0.05; return hi / lo; };
+  const dir = bgY > 0.18 ? -1 : 1; // light bg → darken the text; dark bg → lighten it
+  let L = base.L;
+  for (let i = 0; i < 60; i++) { if (contrastAt(L) >= req) break; L += dir * 0.02; if (L < 0 || L > 1) { L = Math.min(1, Math.max(0, L)); break; } }
+  if (contrastAt(L) < req) return null;
+  return `oklch(${L.toFixed(3)} ${base.C.toFixed(3)} ${base.H.toFixed(1)})`;
+}
+
 async function runAxe(page) {
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.evaluate(({ url, integrity }) => new Promise((resolve, reject) => {
@@ -93,10 +149,30 @@ async function runAxe(page) {
     s.onerror = () => reject(new Error('axe-core failed to load (SRI mismatch or network)'));
     document.head.appendChild(s);
   }), AXE_CDN);
-  return page.evaluate(async () => {
+  const violations = await page.evaluate(async () => {
     const r = await window.axe.run(document, { resultTypes: ['violations'] });
-    return r.violations.map((v) => ({ id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length }));
+    return r.violations.map((v) => {
+      const o = { id: v.id, impact: v.impact, help: v.help, nodes: v.nodes.length };
+      if (v.id === 'color-contrast') { // carry axe's computed fg/bg + ratio out to node for a concrete OKLCH fix
+        const node = (v.nodes || []).find((n) => (n.any || []).some((c) => c.data && c.data.fgColor));
+        const chk = node && (node.any || []).find((c) => c.data && c.data.fgColor);
+        if (chk) o.contrastData = { fg: chk.data.fgColor, bg: chk.data.bgColor, ratio: chk.data.contrastRatio, required: chk.data.expectedContrastRatio, target: (node.target || [])[0] };
+      }
+      return o;
+    });
   });
+  // Enrich color-contrast in node (the OKLCH math lives here): name the offending text color and suggest a fix.
+  for (const v of violations) {
+    if (v.id === 'color-contrast' && v.contrastData) {
+      const cd = v.contrastData;
+      const sugg = suggestPassingOklch(cd.fg, cd.bg, cd.required);
+      v.contrast = { fg: cd.fg, bg: cd.bg, ratio: cd.ratio, required: cd.required, target: cd.target };
+      v.suggestion = `text ${cd.fg} on ${cd.bg} is ${cd.ratio}:1 (needs ${cd.required}:1) — ` +
+        (sugg ? `set the text token to ${sugg} (same hue/chroma, raised lightness/contrast)` : 'darken the text or lighten the background; no in-gamut OKLCH at this hue/chroma reaches the target');
+      delete v.contrastData;
+    }
+  }
+  return violations;
 }
 
 // Broken-asset gate (always-on; ASSETS=0 opts out). watchAssets must be wired BEFORE goto().
@@ -265,7 +341,12 @@ function runStaticLint() {
   const classSig = {};
   for (const cm2 of html.matchAll(/class\s*=\s*"([^"]{8,})"/gi)) {
     const k = cm2[1].trim().replace(/\s+/g, ' ');
-    if (!/(?:^|[\s-])(?:card|tile)(?:[\s-]|$)/i.test(k)) continue;
+    // Only COMPOUND card/tile signatures (feature-card, product-card, tile…) count as a uniform-card-grid tell.
+    // Reuse of the ONE documented base primitive `card` (the suite's prescribed class, e.g. class="card reveal")
+    // is intended structure, not slop — so exclude a signature whose only card/tile token is the bare base `card`.
+    const cardTokens = k.split(' ').filter((t) => /(?:^|-)(?:card|tile)(?:-|$)/i.test(t));
+    if (cardTokens.length === 0) continue;
+    if (cardTokens.length === 1 && /^card$/i.test(cardTokens[0])) continue;
     classSig[k] = (classSig[k] || 0) + 1;
   }
   const maxRepeat = Object.entries(classSig).sort((a, b) => b[1] - a[1])[0];
@@ -289,13 +370,17 @@ function runStaticLint() {
   const overall = checks.filter((c) => c.severity === 'block').every((c) => c.pass !== false);
   const summary = {
     mode: 'static', url, outDir, file: target,
+    // STATIC mode renders NO pixels — flag it so a static pass is never mistaken for a verified, pixel-gated ship.
+    rendered: false,
+    note: 'advisory - static lint only, run /design-setup for the full pixel gate',
     static: { bannedFonts, rawColors, aiDefaults, fixedWidthOverPx: widthHits, imgMissingAlt: imgNoAlt, lowContrast, structuralSlop },
     gate: { report: { overall, checks } },
     files: [],
   };
   fs.writeFileSync(path.join(outDir, 'run.json'), JSON.stringify(summary, null, 2));
   console.log('STATIC lint ' + (overall ? 'PASS' : 'FAIL') + ':');
-  for (const c of checks) console.log('  [' + (c.pass ? 'PASS' : 'FAIL') + '] ' + c.name + ' — ' + c.detail);
+  // warn-severity checks (lowContrast, structuralSlop) are advisory — label them [WARN], not [FAIL].
+  for (const c of checks) console.log('  [' + (c.pass ? 'PASS' : (c.severity === 'warn' ? 'WARN' : 'FAIL')) + '] ' + c.name + ' — ' + c.detail);
   console.log(JSON.stringify(summary));
   if (process.env.GATE_EXIT && overall === false) process.exit(1); // same opt-in hard exit as the browser path
 }
@@ -513,7 +598,7 @@ async function analyzeMotion(page) {
     if (MOTION_ON) {
       const frames = await captureFilmstrip(dp, 'filmstrip');
       const audit = await analyzeMotion(dp);
-      Object.assign(motion, { frames, durations: audit.durations, easings: audit.easings, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.error ? { error: audit.error } : {}) });
+      Object.assign(motion, { frames, durations: audit.durations, easings: audit.easings, layoutAnimated: audit.layoutAnimated, warnings: audit.warnings, ...(audit.band ? { band: audit.band } : {}), ...(audit.error ? { error: audit.error } : {}) });
     }
     if (MOTION_TRIGGER) {
       motion.interactions = await filmInteractions(dp, MOTION_TRIGGER); // (B) state→state transitions, screenshot-proven

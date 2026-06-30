@@ -343,7 +343,25 @@ function motifLogo(ctx) {
   }
   const brandName = (plan.brand && plan.brand.name) || plan.brandName || slot.word || 'Brand';
   const word = String(slot.word || brandName);
-  const letter = (word.match(/[A-Za-z0-9]/) || ['A'])[0].toUpperCase();
+  // Prefer the first Latin letter / digit; for a CJK/Korean (or other non-Latin) brand with none,
+  // fall back to the first GRAPHEME of the word (e.g. 고요 -> 고) instead of a literal "A".
+  const latin = word.match(/[A-Za-z0-9]/);
+  let letter;
+  if (latin) {
+    letter = latin[0].toUpperCase();
+  } else {
+    let g = word.trim();
+    try {
+      if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+        const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+        const first = seg.segment(g)[Symbol.iterator]().next().value;
+        if (first && first.segment) g = first.segment;
+      } else {
+        g = Array.from(g)[0] || g;
+      }
+    } catch { g = Array.from(g)[0] || g; }
+    letter = (g || 'A').toUpperCase(); // toUpperCase is a no-op for CJK; keeps Latin path uppercase
+  }
   const minPx = Math.max(8, Math.round(Number(slot.minSize) || 24));
   const font = '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif';
 

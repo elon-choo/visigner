@@ -21,10 +21,14 @@ for (let i = 0; i < argv.length; i++) {
   if (a.startsWith('--')) { flags.push(a); continue; }
   files.push(a);
 }
-const emitTheme = flags.includes('--emit=theme');
+const emitFlag = flags.find((f) => f.startsWith('--emit='));
+const emitMode = emitFlag ? emitFlag.slice('--emit='.length) : null;
+const EMIT_MODES = new Set(['theme', 'ts', 'js', 'json-flat']);
+if (emitMode !== null && !EMIT_MODES.has(emitMode)) { console.error(`usage: --emit must be one of ${[...EMIT_MODES].join('|')} (got "${emitMode}")`); process.exit(1); }
+const emitTheme = emitMode === 'theme';
 const FROM_TOOLS = new Set(['tokens-studio', 'style-dictionary']);
 if (fromTool && !FROM_TOOLS.has(fromTool)) { console.error(`usage: --from must be one of ${[...FROM_TOOLS].join('|')} (got "${fromTool}")`); process.exit(1); }
-if (!files.length) { console.error('usage: node build-tokens.js <default.tokens.json> [brand-*.tokens.json ...] [--emit=theme] [--from tokens-studio|style-dictionary]'); process.exit(1); }
+if (!files.length) { console.error('usage: node build-tokens.js <default.tokens.json> [brand-*.tokens.json ...] [--emit=theme|ts|js|json-flat] [--from tokens-studio|style-dictionary]'); process.exit(1); }
 
 try {
   // --- flatten a DTCG tree into leaf tokens {path:[...], token} ---
@@ -178,7 +182,22 @@ try {
     }
   }
 
-  // --- emit ---
+  // --- emit: data formats (ts/js/json-flat) — resolved values, flat, keyed by token path ---
+  if (emitMode === 'ts' || emitMode === 'js' || emitMode === 'json-flat') {
+    const resolveLeaf = (tok) => { let cur = tok; while (isAlias(cur)) cur = byPath.get(key(refOf(cur))).token; return leafValue(cur); };
+    const flat = {};
+    for (const t of base) flat[key(t.path)] = resolveLeaf(t.token);
+    const json = JSON.stringify(flat, null, 2);
+    let out;
+    if (emitMode === 'json-flat') out = json;
+    else if (emitMode === 'ts') out = `export const tokens = ${json} as const;`;
+    else out = `export const tokens = ${json};`;
+    process.stdout.write(out + '\n');
+    console.error(JSON.stringify({ ok: true, mode: emitMode, files: [files[0]], declarations: Object.keys(flat).length }));
+    process.exit(0);
+  }
+
+  // --- emit: CSS ---
   const lines = [];
   const decl = (name, val) => `  ${name}: ${val};`;
   let emittedCount = 0;

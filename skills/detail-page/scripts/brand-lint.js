@@ -175,17 +175,65 @@ function flattenBrandColors(tokens) {
   return roles;
 }
 
-// extract the page's DECLARED token colors: --brand-*/--color-* whose value is a literal oklch(),
-// scanned ONLY inside :root{}/@theme{} blocks. Returns { name: {L,C,H} } keyed by role (prefix stripped).
-function extractDeclaredColors(stripped) {
-  const decls = {};
-  const blocks = braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g);
-  for (const [s, e] of blocks) {
-    for (const m of stripped.slice(s, e).matchAll(/--(?:brand|color)-([a-z0-9-]+)\s*:\s*(oklch\([^;}]+)/gi)) {
+// build a map of EVERY custom property defined in :root{}/@theme{} → its raw value string (first-wins on the
+// primitive :root layer). Used to resolve var() chains back to a painted color before the ΔE diff.
+function rootPropMap(stripped) {
+  const props = {};
+  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g)) {
+    for (const m of stripped.slice(s, e).matchAll(/(--[a-z0-9-]+)\s*:\s*([^;}]+)/gi)) {
       const name = m[1].toLowerCase();
-      const ok = parseOklch(m[2]);
-      if (ok && !decls[name]) decls[name] = ok; // first literal wins (the --brand-* primitive layer)
+      if (!(name in props)) props[name] = m[2].trim(); // first definition wins (the --brand-* primitive layer)
     }
+  }
+  return props;
+}
+
+// resolve a CSS value to {L,C,H}: a value that STARTS with a literal oklch(), or a var(--x[, fallback]) chain
+// looked up in `props` (cycle-guarded). Returns null for non-color values (color-mix, fonts, a shadow's inner
+// oklch, etc.) — the oklch must lead the value, so "0 1px 2px oklch(...)" is NOT misread as a color.
+function resolveCssColor(value, props, seen) {
+  const v = String(value).trim();
+  const vm = v.match(/^var\(\s*(--[a-z0-9-]+)\s*(?:,\s*([^)]+))?\)/i);
+  if (vm) {
+    seen = seen || new Set();
+    const ref = vm[1].toLowerCase();
+    if (props[ref] != null && !seen.has(ref)) {
+      seen.add(ref);
+      const r = resolveCssColor(props[ref], props, seen);
+      if (r) return r;
+    }
+    if (vm[2]) return resolveCssColor(vm[2].trim(), props, seen); // var() fallback value
+    return null;
+  }
+  if (/^oklch\(/i.test(v)) return parseOklch(v);
+  return null;
+}
+
+// extract the page's DECLARED token colors keyed by role (--brand-*/--color-* prefix stripped). Resolves
+// var() chains to the painted :root value so a token defined as `var(--brand-primary-700)` — and an inline
+// `var(--color-accent)` USE in component/inline CSS — is actually ΔE-checked, not silently skipped.
+function extractDeclaredColors(stripped) {
+  const props = rootPropMap(stripped);
+  const decls = {};
+  // (1) every --brand-*/--color-* token defined in :root/@theme, with var() chains resolved.
+  for (const [name, raw] of Object.entries(props)) {
+    const rm = name.match(/^--(?:brand|color)-([a-z0-9-]+)$/);
+    if (!rm) continue;
+    const role = rm[1];
+    if (role in decls) continue; // first definition wins (the --brand-* primitive layer)
+    const col = resolveCssColor(raw, props);
+    if (col) decls[role] = col;
+  }
+  // (2) var(--brand-*/--color-*) USES in component/inline CSS (outside the token blocks) — resolve back to the
+  //     painted :root value so an inline-referenced color is covered by the ΔE diff too.
+  let masked = stripped;
+  for (const [s, e] of braceBlocks(stripped, /(?:@theme|:root)[^{]*\{/g)) masked = masked.slice(0, s) + ' '.repeat(e - s) + masked.slice(e);
+  for (const m of masked.matchAll(/var\(\s*(--(?:brand|color)-[a-z0-9-]+)/gi)) {
+    const full = m[1].toLowerCase();
+    const role = full.replace(/^--(?:brand|color)-/, '');
+    if (role in decls || props[full] == null) continue;
+    const col = resolveCssColor(props[full], props);
+    if (col) decls[role] = col;
   }
   return decls;
 }
@@ -228,6 +276,7 @@ function brandCheck(raw, brandTokens, lexicon, brandFile) {
     add('brand-unreadable', 'brand tokens', `could not read any brand roles from ${brandFile || 'brand file'}`, 'error');
   }
   const declared = extractDeclaredColors(stripped);
+  const declaredCount = Object.keys(declared).length;
   let checked = 0;
   const off = [];
   for (const [name, col] of Object.entries(declared)) {
@@ -239,6 +288,16 @@ function brandCheck(raw, brandTokens, lexicon, brandFile) {
       off.push({ name, dE });
       add('off-brand-color', 'declared token', `--${name} ΔE${dE.toFixed(3)} > ${BRAND_DELTAE} vs role ${name}`, 'error');
     }
+  }
+  // COVERAGE: how many declared page colors had NO brand role to compare against (cannot be judged) — surfaced
+  // so an unmatched off-brand token cannot hide behind a clean "0 off" ratio over the few that DID match.
+  const unmatchedCount = declaredCount - checked;
+  const coverage = declaredCount > 0 ? Math.round((checked / declaredCount) * 100) : 100;
+  // LOUD FAILURE (like brand-unreadable): the brand file has roles, the page declares colors, yet NONE of them
+  // name-match a role → we literally checked nothing, so we CANNOT assert on-brand. Without this, roleCount>0 &&
+  // checked===0 reads a false-green "0 off → on-brand: yes".
+  if (roleCount > 0 && declaredCount > 0 && checked === 0) {
+    add('brand-unmatched', 'declared tokens', 'no page color matched any brand role -> cannot assert on-brand', 'error');
   }
 
   // (2) logo min-size guideline (optional). brandTokens.logo = { minWidth, minHeight } (px).
@@ -272,18 +331,23 @@ function brandCheck(raw, brandTokens, lexicon, brandFile) {
     }
   }
 
-  // A zero-role brand file can NEVER be on-brand (would otherwise read off=0/banned=0 → silent "yes").
-  const onBrand = roleCount > 0 && off.length === 0 && bannedHits.length === 0 && logoIssues.length === 0;
+  // A zero-role brand file can NEVER be on-brand (would otherwise read off=0/banned=0 → silent "yes"); neither
+  // can a page whose declared colors name-match ZERO brand roles (declaredCount>0 && checked===0 — nothing judged).
+  const onBrand = roleCount > 0 && !(declaredCount > 0 && checked === 0) &&
+    off.length === 0 && bannedHits.length === 0 && logoIssues.length === 0;
   const parts = [];
   if (roleCount === 0) {
     parts.push(`could not read any brand roles from ${brandFile || 'brand file'} — check brand.tokens.json shape`);
+  } else if (declaredCount > 0 && checked === 0) {
+    parts.push(`no page color matched any brand role — cannot assert on-brand (${declaredCount} declared color(s) vs ${roleCount} brand roles)`);
   } else {
     parts.push(`${checked - off.length}/${checked} declared colors within ΔE ${BRAND_DELTAE} of ${roleCount} brand roles`);
     if (off.length) parts.push(`OFF: ${off.map((o) => `--${o.name} ΔE${o.dE.toFixed(3)}`).join(', ')}`);
+    parts.push(`COVERAGE: ${unmatchedCount} declared color(s) had no brand role to compare — coverage ${coverage}%`);
   }
   if (lexicon) parts.push(`${bannedHits.length} banned${bannedHits.length ? ` ("${bannedHits.join('", "')}")` : ''}; owned ${ownedPresent}/${ownedTotal}`);
   if (logoGuide) parts.push(logoChecked ? (logoIssues.length ? `logo ${logoIssues.join(', ')}` : 'logo ok') : 'no logo found');
-  return { onBrand, evidence: parts.join('; '), violations, roleCount, checked, offCount: off.length };
+  return { onBrand, evidence: parts.join('; '), violations, roleCount, declaredCount, checked, offCount: off.length, unmatchedCount, coverage };
 }
 
 // ============================================================================
@@ -520,7 +584,9 @@ try {
         for (const v of r.violations) violations.push(v);
         brand = { onBrand: r.onBrand, evidence: r.evidence };
         brandCheckedTotal += r.checked; brandOffTotal += r.offCount;
-        if (r.checked > 0 || r.offCount > 0) { brandFilesChecked++; if (!r.onBrand) brandFilesOff++; }
+        // a file is brand-relevant if it declared ANY token color (even ones that name-match no role — those are
+        // the brand-unmatched case, which must count as off-brand, not be skipped into a silent pass).
+        if (r.declaredCount > 0) { brandFilesChecked++; if (!r.onBrand) brandFilesOff++; }
       }
       const fe = violations.filter((v) => v.severity === 'error').length;
       const fw = violations.filter((v) => v.severity === 'warn').length;

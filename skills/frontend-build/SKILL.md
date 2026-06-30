@@ -208,6 +208,23 @@ export const Disabled: StoryObj<typeof Button> = { args: { disabled: true } };
 ```
 Scaffold with `npx storybook@latest init` only if the team wants the catalogue; the stories file is useful on its own as the state inventory even without running Storybook.
 
+### 7c · Inline editor governance — a flat-config ESLint preset (feedback BEFORE commit/CI)
+The §8 shoot and the §VERIFY brand-lint are commit/CI-time gates; they catch a violation *after* it's written. To get the same a11y + token discipline as **red squiggles in the editor** — the cheapest place to fix it — wire a **flat-config** `eslint.config.js` (ESLint v9) with **`eslint-plugin-jsx-a11y`** (the static half of the axe gate: missing `alt`, label-less control, role misuse, no positive `tabindex`) plus a Tailwind class linter. Don't hand-roll rules — extend the plugin's recommended flat config:
+```js
+// eslint.config.js (ESLint v9 flat config) — inline a11y + token feedback as you type
+import js from "@eslint/js";
+import jsxA11y from "eslint-plugin-jsx-a11y";
+import readableTw from "eslint-plugin-readable-tailwind";   // or: eslint-plugin-tailwindcss (v4 support: track its release)
+export default [
+  js.configs.recommended,
+  jsxA11y.flatConfigs.recommended,                          // ← the static-a11y squiggles
+  { files: ["**/*.{jsx,tsx}"],
+    plugins: { "readable-tailwind": readableTw },
+    rules: { "readable-tailwind/no-unregistered-classes": "warn" } },  // flags a class outside your @theme utilities
+];
+```
+The Tailwind plugin can't read your `@theme` for raw-hex leaks the way `brand-lint.js` does, so **pair the preset with a brand-lint editor hook**: run `${CLAUDE_PLUGIN_ROOT}/bin/brand-lint ./src` (dir mode — it already lints `.tsx/.jsx/.css`, see design-system §VERIFY) as an **editor task / on-save watcher** or a lint-staged step, so the token-leak / banned-font / ai-purple ERRORs surface in-editor, not only at the `.husky/pre-commit` hook. Net: jsx-a11y + the Tailwind rule give live a11y/class feedback; the brand-lint wrapper gives live token feedback — the same governance the CI gate (§8) enforces, moved left to keystroke time.
+
 ## 8 · Verify by screenshot — the gate that makes it real
 
 Render YOUR output, screenshot it, and read both pixels and the a11y/overflow/asset gates. This is non-negotiable. One-time, install the headless browser via the **`/design-setup`** slash command (a Claude command, not a shell line — it runs `npm install` + `npx patchright install chromium` inside the plugin). Then, each iteration:

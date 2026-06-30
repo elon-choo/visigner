@@ -33,8 +33,8 @@ Every mode keeps the same discipline: grade from evidence (the plan's words, the
 ## 1 · Re-render before you grade (grade pixels, not code)
 Do not score from the source file alone. Re-render the artifact yourself so overflow / focus / sticky-bar / broken-asset behavior is observed, not assumed:
 ```bash
-NODE_PATH=$(npm root -g) AXE=1 ASSETS=1 GATE_EXIT=1 \
-  node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js <file-or-url> /tmp/critique-<id>
+AXE=1 ASSETS=1 GATE_EXIT=1 ${CLAUDE_PLUGIN_ROOT}/bin/shoot <file-or-url> /tmp/critique-<id>   # short wrapper (resolves global node_modules + script path)
+# fallback: NODE_PATH=$(npm root -g) AXE=1 ASSETS=1 GATE_EXIT=1 node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js <file-or-url> /tmp/critique-<id>
 ```
 Then **Read the tiles** in `/tmp/critique-<id>` (full-page PNG + viewport tiles) and **Read `run.json`**. The machine gates there decide several §A checks for you:
 - `gate.report.overall` — the single rollup verdict; `false` = a block check failed.
@@ -57,7 +57,7 @@ Walk the tiles and mark each. Embedded here is the essential set; the full list 
 - [ ] **Not a cliché** — not cream+serif+terracotta, not near-black+acid-green, not broadsheet-hairline (these are defaults wearing a costume, not choices).
 - [ ] **Quality floor** — responsive at 390px, visible keyboard focus, `prefers-reduced-motion` honored, 8pt rhythm holds, type steps visibly distinct.
 - [ ] **Machine gates** (from §1 `run.json`) — overflow ≤1px, axe serious/critical = 0, assets all OK. (The axe count here is a smoke **floor**, not full coverage — deep WCAG 2.2 AA is `a11y-auditor`'s lane; see "Lane boundaries".)
-- [ ] **Brand consistency** (when a token system / `[data-brand]` exists) — run the deterministic gate, don't eyeball it: `node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/brand-lint.js <file.html>`; a non-clean result (raw hex outside `@theme`, banned font, ungrounded AI-purple) is a fail. Cite the reported violation.
+- [ ] **Brand consistency** (when a token system / `[data-brand]` exists) — run the deterministic gate, don't eyeball it: `${CLAUDE_PLUGIN_ROOT}/bin/brand-lint <file.html>` (long fallback `node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/brand-lint.js <file.html>`); a non-clean result (raw hex outside `@theme`, banned font, ungrounded AI-purple) is a fail. Cite the reported violation.
 - [ ] **Detail mode** — mobile sticky thumb-zone CTA present at ≤680px (recaps price/benefit + scarcity line + ≥48px action), body reserves space so it never covers the last section.
 
 ## Lane boundaries (you are one judge in a panel — don't reinvent siblings)
@@ -71,12 +71,14 @@ You own the **visual + conversion** slice. Stay in lane; defer the rest so the s
 Score every dimension and write a one-line justification anchored to a tile you can point to:
 **Hook · Structure · Benefit-vs-feature · Empathy · Proof · One-message · Visual craft · Urgency/CTA · Trust/risk-reversal · Aesthetic distinctiveness** (+ **Story & rewards** in detail mode, **Tangibility** for AI/digital Wadiz). A `5/10` looks like a feature dump / generic title / brand-voice self-praise / could-be-any-AI-page; a `9/10` stops the scroll, runs a clear 후킹→공감→해결→증명→CTA arc, frames every feature as a benefit, proves with specific numbers, and reads as designed for *this* subject.
 
-**Aesthetic distinctiveness is the highest-leverage dimension** — it is what most separates a real page from slop. Never let it ride on a free-floating vibe.
+**Aesthetic distinctiveness is the highest-leverage dimension** — it is what most separates a real page from slop. Never let it ride on a free-floating vibe. **Label it honestly in the verdict as a *calibrated LLM judgment vs the N reference anchors* — NOT an objective measurement** like the deterministic ΔE on-brand check or the axe count. It is your reasoned call pinned to the §4 captures, not a number a machine produced; a CEO reading the verdict must not mistake "distinctiveness 7/10" for a measured fact.
 
 ## 4 · Capture-anchored calibration (pin "good" to pages that actually shipped)
 Before assigning the distinctiveness number, open the two saved **real Wadiz** captures as few-shot anchors:
 - `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/captures/400620/index.html` — AI/automation tone (dark + lime).
 - `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/captures/403454/index.html` — template/digital tone (blue-purple + mint).
+
+**MODE=ui anchor note:** the two saved captures are **Wadiz commerce** pages — the right anchors for a 상세페이지/landing critique. For an **app / SaaS / product UI** (`MODE=ui`), they are the wrong reference class; calibrate distinctiveness against **app-UI exemplars (Linear / Stripe / Vercel-class)** instead, and say so in the verdict. Don't down-score a clean product dashboard for not looking like a Wadiz funding page.
 
 **Do the pairwise comparison first, then the 1–10.** Put the candidate hero + 3 representative tiles beside the matching tiles of the relevant capture and rank: does the candidate look **more / equally / less** convincingly hand-designed? Name the *specific* tell that decides it — e.g. "less hand-designed than `400620` tile_03: flat equal cards vs its layered evidence objects." Then map: **≥ the capture → 8+**, roughly equal → 7–8, **clearly less → <7** (a hard block). Anchor the number to the comparison, not to memory of "a nice page".
 
@@ -112,7 +114,7 @@ SCORES (1–10):
   Visual craft <n> — …
   Urgency/CTA <n> — …
   Trust/risk-reversal <n> — …
-  Aesthetic distinctiveness <n> — <pairwise result vs 400620/403454>
+  Aesthetic distinctiveness <n> — <calibrated LLM judgment (not a measurement); pairwise result vs the N anchors — 400620/403454, or app-UI exemplars for MODE=ui>
   [Story & rewards <n> — …]   [Tangibility <n> — …]
   OVERALL: <avg>/10
 

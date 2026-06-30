@@ -12,7 +12,7 @@ Run an INDEPENDENT review — the evaluator must not be whoever built it. Grade 
 ## 1 · Classify the artifact, then fan out design-critic in the RIGHT mode
 Don't force everything through the visual rubric — match the evaluator to what's actually being reviewed. Spawn one or more in parallel:
 
-- **A built page / UI / component** → `design-critic` default (visual + conversion): screenshot with `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js` at desktop + 390px mobile, `AXE=1` (run `/design-setup` once if needed); it reads the tiles + `run.json`. **PLUS** `a11y-auditor` (step 3).
+- **A built page / UI / component** → `design-critic` default (visual + conversion): screenshot with the short wrapper `AXE=1 ${CLAUDE_PLUGIN_ROOT}/bin/shoot <file>` at desktop + 390px mobile (run `/design-setup` once if needed; long fallback `NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/shoot.js`); it reads the tiles + `run.json`. **PLUS** `a11y-auditor` (step 3).
 - **A plan / flow / IA / wireframe** (no built pixels yet) → `design-critic MODE=plan` — grade the structure, the message arc, and the conversion logic before anyone builds.
 - **Copy / headline / email or a sequence** → `design-critic MODE=copy` — grade the words against the empathy→proof→CTA arc and brand voice, not layout.
 - **An animated page** → do the built-page pass above **AND** `design-critic MODE=motion` on the FILMSTRIP: re-shoot with `FILMSTRIP=1` set so `shoot.js` emits the per-frame strip, then hand that strip to motion mode (timing, easing, restraint, `prefers-reduced-motion` honored). If `FILMSTRIP=1` produced no strip, say so and grade motion as advisory rather than inventing frames.
@@ -23,7 +23,7 @@ The visual `design-critic` runs the 10-dimension rubric (hook, structure, benefi
 WCAG 2.2 AA: contrast, keyboard, focus, names/roles, reduced-motion. Serious/critical = fail.
 
 ## 3 · Brand fidelity — raw gate AND a semantic answer
-- **Raw gate** — if a brand/token system exists, run `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/brand-lint.js <file>` (raw-hex / banned-font / AI-purple). Cite the reported violation.
+- **Raw gate** — if a brand/token system exists, run the short wrapper `${CLAUDE_PLUGIN_ROOT}/bin/brand-lint <file>` (raw-hex / banned-font / AI-purple; long fallback `node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/brand-lint.js <file>`). Cite the reported violation.
 - **Semantic BRAND-FIDELITY** — `brand-lint` only proves "no raw hex / no banned font / no ungrounded purple"; it does not prove the page is *on this brand*. So, **only if `brand.tokens.json` + brand guidelines exist in the project**, additionally check and report:
   - **Exact-palette match** — the page's actual colors equal the brand's *semantic* tokens (primary/accent/surface roles), not merely "tokenized at all". A page can pass brand-lint while using off-brand-but-tokenized colors.
   - **Logo usage** — clear space, minimum size, and approved variant (per the guidelines) — flag wrong-variant / cramped / undersized lockups.

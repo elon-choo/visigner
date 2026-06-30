@@ -100,8 +100,11 @@ Beyond the screenshot loop (`shoot.js`), the suite ships runnable helpers you in
 - **`name-check.js`** — brand-naming conflict sweep: authoritative `.com` domain availability via RDAP, best-effort GitHub/npm handle probes, and prefilled USPTO/WIPO/EUIPO trademark search URLs. (`.co`/`.io` report `unknown` — no RDAP coverage.)
 - **`serve-shoot.js`** — build/serve → shoot → teardown in one call (static dir or a spawned app), exiting with `shoot.js`'s code so it drops into **CI**.
 - **`bin/shoot` & `bin/brand-lint`** — thin wrappers that resolve the global `node_modules` + the shared script path, so the long `NODE_PATH=$(npm root -g) node …/scripts/shoot.js` incantation becomes `bin/shoot <file|url>` (and `bin/brand-lint <page>`). Same env knobs and exit codes pass through.
+- **`brand-book.js`** — one command → ONE self-contained brand `guidelines.html`: palette swatches, type ramp, the logo on full / mono / knockout tiles, and a voice Do/Don't grid + lexicon (when a `voice.json` is given).
+- **`logo-handoff.js`** — one `mark.svg` → the artboard SET (full-color / mono / knockout / favicon / app-icon / social-avatar SVGs + an `index.html` preview), every board nesting the SAME mark with clear-space + min-size baked in. Handles CJK/non-Latin brand names in the no-key lettermark scaffold (고요 → 고).
 - **`skills/brand-identity/assets/logo-grid.html`** — a self-contained logo verification sheet: slots one mark (`?svg=/abs/mark.svg` or inline) and renders the 3-size × 3-color (full / mono / knockout) matrix, so the mono/knockout/small-size test is one `shoot.js` pass.
 - **CI gate** — `.github/workflows/design-gate.yml` + `npm run lint:brand` / `lint:tokens` / `gate` + a `.husky/pre-commit` hook make brand-lint, the @theme↔DTCG drift check (target via env `TOKENS_TARGET`), and the screenshot+axe gate a merge requirement.
+- **Inline editor governance** — frontend-build documents a **flat-config ESLint preset** (`eslint-plugin-jsx-a11y` + a Tailwind class rule) paired with a `bin/brand-lint ./src` editor hook, so static-a11y + token-leak feedback shows up as you type, not only at commit/CI time.
 
 ## Notes
 

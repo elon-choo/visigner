@@ -47,7 +47,7 @@
     --brand-accent-300: oklch(0.760 0.130 33);
     --brand-accent-500: oklch(0.630 0.175 30);
     --brand-accent-700: oklch(0.520 0.150 28);
-    --brand-accent: var(--brand-accent-500);
+    --brand-accent: oklch(0.560 0.165 30); /* deepened coral so near-white on-accent clears WCAG AA (≈4.83:1, was 3.62:1 on accent-500) */
     --brand-on-accent: oklch(0.985 0.004 85); /* near-white on the deep coral → AA-safe */
     /* type — distinctive western pairing (see header comment) */
     --brand-font-display: "Fraunces", Georgia, serif;
@@ -349,9 +349,10 @@ Wed ████░░░░░  3.4h</span></pre>
   }, { threshold: 0 }); // any pixel entering counts → reliable on tall pages (no -% margin race on the last section)
   els.forEach(function (el) { io.observe(el); });
   // Safety net: never leave content stuck hidden if a fast programmatic scroll (or future taller edits)
-  // outraces the observer. Reveals only AFTER the entrance window; off-screen items are already past their
-  // animation when scrolled to, so this adds zero on-load motion. Cleared the moment IO has done its job.
-  setTimeout(function () { els.forEach(function (el) { el.classList.add('is-in'); }); }, 1400);
+  // outraces the observer — and so a no-scroll context (an a11y scanner, or a 390px page that is never
+  // scrolled) doesn't read below-fold .reveal text while it sits at opacity:0 (which trips WCAG contrast).
+  // Off-screen items are already past their entrance when scrolled to, so this adds zero on-load motion.
+  setTimeout(function () { els.forEach(function (el) { el.classList.add('is-in'); }); }, 600);
 })();
 </script>
 </body>

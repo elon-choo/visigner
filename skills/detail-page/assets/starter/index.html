@@ -153,6 +153,11 @@
   img, svg, video, canvas { max-width: 100%; height: auto; }
   h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0; overflow-wrap: anywhere; }
   *:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; } /* visible keyboard focus */
+  /* Skip-link: off-screen until focused, then lands in the top-left (keyboard users jump straight to content). */
+  .skip-link { position: absolute; left: 16px; top: -56px; z-index: 100; padding: 10px 16px;
+    background: var(--color-ink); color: var(--color-surface); border-radius: 8px; font-weight: 600;
+    text-decoration: none; transition: top .15s var(--ease-out); }
+  .skip-link:focus { top: 16px; }
   @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto; } }
 
   /* ---- Reveals: scroll-in once, not animate-on-load (the suite bans AOS-style fade-everything).
@@ -205,6 +210,7 @@
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">본문 바로가기</a>
 <!--
   SECTION SKELETON — detail mode arc (delete what the brief doesn't need; reorder per references/korean-detailpage.md).
   Each band is full-width; inner content sits in .col. Bake critical copy as real text, not into images,
@@ -221,7 +227,7 @@
   </h1>
 </header>
 
-<main>
+<main id="main">
   <section class="col bg-ink text-surface" style="padding-block:48px"><!-- Authority pile-up: previous funding screenshot, rank, supporter count, review/rating. --></section>
   <section class="col" style="padding-block:48px"><!-- 2 공감 + bad-example contrast: customer pain, red X/arrows/handwritten notes. --></section>
   <section class="col" style="padding-block:48px"><!-- 3 mechanism reveal: formula, step ladder, AI/tool workflow. Sell the mechanism before the offer. --></section>

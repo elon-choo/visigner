@@ -75,6 +75,15 @@ node $ROOT/scripts/build-tokens.js $ROOT/tokens/brand-default.tokens.json $ROOT/
 ```
 The compiler resolves `{alias}` chains and **FATALs (exit 2) on a missing reference or an alias cycle** — it never emits broken CSS. CSS → stdout; a one-line JSON summary → stderr.
 
+**Typed/data token export — `--emit=ts|js|json-flat`** (for a JS/TS app that wants the tokens as code, not CSS). Beyond `theme`, `--emit` now also produces a flat object keyed by dotted token path (`"color.primary.500"`, `"space.4"`, …) with **all aliases fully resolved to their leaf CSS value**, so a designer-owned DTCG source becomes a typed import with autocomplete and no parallel hand-maintained constants file:
+```bash
+ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page
+node $ROOT/scripts/build-tokens.js $ROOT/tokens/brand-default.tokens.json --emit=ts          # export const tokens = {…} as const;
+node $ROOT/scripts/build-tokens.js $ROOT/tokens/brand-default.tokens.json --emit=js          # export const tokens = {…};
+node $ROOT/scripts/build-tokens.js $ROOT/tokens/brand-default.tokens.json --emit=json-flat   # a flat JSON object
+```
+These data emits read the **default file only** (extra brand files are ignored); the `css`/`:root`/`@theme` emits are unchanged. An **unknown `--emit` value now errors** (it previously fell through silently to `:root`).
+
 **Non-OKLCH color inputs compile too (OKLCH-native output is unchanged).** `build-tokens.js` normalizes any of these DTCG color `$value`s to `oklch()` via a no-dep sRGB→OKLab→OKLCH converter (L, C ~4dp; H ~2dp; achromatic hue zeroed): **sRGB hex** (`#rgb`/`#rgba`/`#rrggbb`/`#rrggbbaa`), **`rgb()`/`rgba()`**, and `{ "colorSpace":"srgb" }` component values. The OKLCH-native path, the exact `$extensions['com.detail-page'].css` round-trip, and FATAL-exit-2-on-missing-ref are all untouched — so you can author or import non-OKLCH colors and still get a clean OKLCH ramp out. To **import a foreign token export**, pass `--from`:
 ```bash
 ROOT=${CLAUDE_PLUGIN_ROOT}/skills/detail-page

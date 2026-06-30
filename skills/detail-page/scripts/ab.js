@@ -199,6 +199,10 @@ function printMultipleComparison(variants, alpha) {
 // ---------- subcommand: plan (required sample size per variant) ----------
 
 function cmdPlan(args) {
+  if (args.metric === 'mean') return cmdPlanMean(args);
+  if (args.metric !== undefined && args.metric !== 'proportion' && args.metric !== true) {
+    console.error(`error: --metric must be "proportion" (default) or "mean" (got ${JSON.stringify(args.metric)})`); process.exit(1);
+  }
   const baseline = num(args.baseline, 'baseline');
   const mdeRel = num(args.mde, 'mde');           // RELATIVE lift, e.g. 0.10 = +10%
   const power = args.power !== undefined ? num(args.power, 'power') : 0.8;
@@ -222,6 +226,55 @@ function cmdPlan(args) {
   console.log('');
   console.log(`  baseline (p₁)        ${pct(p1, 3)}`);
   console.log(`  MDE (relative)       +${pct(mdeRel)}  →  treatment (p₂) ${pct(p2, 3)}  (abs δ = ${pct(delta, 3)})`);
+  console.log(`  power (1−β)          ${pct(power)}   (z_{1-β} = ${zB.toFixed(4)})`);
+  console.log(`  alpha (two-sided)    ${pct(alpha)}   (z_{1-α/2} = ${zA.toFixed(4)})`);
+  console.log('');
+  console.log(`  → required n PER VARIANT:  ${nPer.toLocaleString()}`);
+  console.log(`  → total across ${variants} variants:   ${(nPer * variants).toLocaleString()}`);
+
+  if (args.daily !== undefined) {
+    const daily = num(args.daily, 'daily');       // TOTAL daily visitors entering the test
+    if (daily <= 0) { console.error('error: --daily must be > 0'); process.exit(1); }
+    const perVariantPerDay = daily / variants;
+    const days = Math.ceil(nPer / perVariantPerDay);
+    console.log('');
+    console.log(`  traffic: ${daily.toLocaleString()}/day total, split ${variants} ways = ${Math.round(perVariantPerDay).toLocaleString()}/variant/day`);
+    console.log(`  → est. duration: ${days} day(s)  (~${(days / 7).toFixed(1)} weeks — round UP to whole weeks to absorb day-of-week effects)`);
+    if (days > 28) console.log('  ⚠ > 4 weeks: your traffic can\'t resolve an MDE this small. Test a BIGGER swing (offer/hero), not a tweak.');
+  } else {
+    console.log('');
+    console.log('  (pass --daily <total visitors/day> to also get the test duration in days)');
+  }
+
+  if (variants > 2) printMultipleComparison(variants, alpha);
+}
+
+// ---------- subcommand: plan --metric mean (sample size for a continuous metric) ----------
+
+function cmdPlanMean(args) {
+  const mu = num(args.mu, 'mu');                 // baseline mean (revenue/AOV/etc.)
+  const sd = num(args.sd, 'sd');                 // baseline standard deviation
+  const mdeRel = num(args.mde, 'mde');           // RELATIVE lift, e.g. 0.10 = +10%
+  const power = args.power !== undefined ? num(args.power, 'power') : 0.8;
+  const alpha = args.alpha !== undefined ? num(args.alpha, 'alpha') : 0.05;
+  const variants = args.variants !== undefined ? Math.max(2, Math.round(num(args.variants, 'variants'))) : 2;
+
+  if (sd <= 0) { console.error('error: --sd must be > 0'); process.exit(1); }
+  if (mu === 0) { console.error('error: --mu must be non-zero (δ = μ·mde)'); process.exit(1); }
+  const delta = Math.abs(mu * mdeRel);           // absolute effect size to detect
+  if (delta === 0) { console.error('error: implied effect δ = μ·mde is 0; raise --mde'); process.exit(1); }
+
+  const zA = normInv(1 - alpha / 2);             // two-sided
+  const zB = normInv(power);
+  // n = 2·(z_{1-α/2} + z_{1-β})²·σ² / δ²   (per variant, equal-variance normal approx)
+  const nPer = Math.ceil(2 * Math.pow(zA + zB, 2) * sd * sd / (delta * delta));
+
+  console.log('A/B sample-size plan (two-sample means, normal approx — continuous metric: revenue/AOV/etc.)');
+  console.log('  formula:  n = 2·(z_{1-α/2} + z_{1-β})²·σ² / δ²   per variant   (δ = μ·mde)');
+  console.log('');
+  console.log(`  baseline mean (μ)    ${mu}`);
+  console.log(`  std dev (σ)          ${sd}`);
+  console.log(`  MDE (relative)       +${pct(mdeRel)}  →  abs effect δ = ${delta}`);
   console.log(`  power (1−β)          ${pct(power)}   (z_{1-β} = ${zB.toFixed(4)})`);
   console.log(`  alpha (two-sided)    ${pct(alpha)}   (z_{1-α/2} = ${zA.toFixed(4)})`);
   console.log('');
@@ -585,6 +638,7 @@ function help() {
 
 USAGE
   node ab.js plan    --baseline <rate> --mde <relLift> [--power 0.8] [--alpha 0.05] [--daily N] [--variants 2]
+  node ab.js plan    --metric mean --mu <baseline> --sd <stddev> --mde <relLift> [--power 0.8] [--alpha 0.05] [--daily N] [--variants 2]
   node ab.js test    --a <conv/visitors> --b <conv/visitors> [--alpha 0.05] [--variants 2]
   node ab.js test    --metric mean --a "mean,sd,n" --b "mean,sd,n" [--alpha 0.05] [--variants 2]
   node ab.js srm     --observed "a:4001,b:3999" [--expected 50:50]
@@ -597,6 +651,12 @@ PLAN — required sample size per variant
   --mde is a RELATIVE lift: 0.10 means "detect a +10% improvement" (p₂ = 1.10·p₁).
   With --daily (TOTAL visitors/day, split across variants): days = ⌈ n / (daily/variants) ⌉.
   e.g.  node ab.js plan --baseline 0.04 --mde 0.10 --daily 1200
+
+PLAN --metric mean — sample size for a continuous metric (revenue/AOV), two-sample means
+  n = 2·(z_{1-α/2} + z_{1-β})²·σ² / δ²   per variant,  where δ = μ·mde (abs effect from the relative MDE).
+  --mu is the baseline mean, --sd its standard deviation, --mde the RELATIVE lift to detect.
+  Same --daily duration logic and >4-week warning as the proportion plan.
+  e.g.  node ab.js plan --metric mean --mu 42 --sd 18 --mde 0.10 --daily 1200
 
 TEST — significance of an observed result (two-proportion z-test)
   z = (p̂_B − p̂_A) / √(p̂(1−p̂)(1/n_A + 1/n_B))        [p̂ = pooled rate]

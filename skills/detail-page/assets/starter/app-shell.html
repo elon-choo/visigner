@@ -56,7 +56,7 @@
     --brand-accent-300: oklch(0.760 0.110 265);
     --brand-accent-500: oklch(0.585 0.150 266);
     --brand-accent-700: oklch(0.470 0.140 267);
-    --brand-accent: var(--brand-accent-500);
+    --brand-accent: oklch(0.540 0.150 266); /* deepened indigo so on-accent (near-white) clears WCAG AA (≈5.05:1, was 4.17:1 on accent-500) */
     --brand-on-accent: oklch(0.99 0.003 250); /* white on indigo → AA */
     /* status hues (token-driven; used by row badges + table states) */
     --brand-ok:    oklch(0.620 0.130 150);
@@ -181,9 +181,11 @@
   .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
     padding: 3px 9px; border-radius: 9999px; }
   .badge::before { content: ""; width: 7px; height: 7px; border-radius: 9999px; background: currentColor; }
-  .badge.ok { color: var(--color-ok); background: color-mix(in oklch, var(--color-ok) 14%, transparent); }
-  .badge.warn { color: var(--color-warn); background: color-mix(in oklch, var(--color-warn) 16%, transparent); }
-  .badge.danger { color: var(--color-danger); background: color-mix(in oklch, var(--color-danger) 14%, transparent); }
+  /* Badge text is darkened toward --color-ink (42%) so it clears WCAG AA on its same-hue tint; the mix is
+     theme-adaptive — in dark mode --color-ink is light, so the text lightens against the dark tint (both ≥4.8:1). */
+  .badge.ok { color: color-mix(in oklch, var(--color-ok), var(--color-ink) 42%); background: color-mix(in oklch, var(--color-ok) 14%, transparent); }
+  .badge.warn { color: color-mix(in oklch, var(--color-warn), var(--color-ink) 42%); background: color-mix(in oklch, var(--color-warn) 16%, transparent); }
+  .badge.danger { color: color-mix(in oklch, var(--color-danger), var(--color-ink) 42%); background: color-mix(in oklch, var(--color-danger) 14%, transparent); }
 
   /* ---- Non-data table states (empty / loading / error) ---- */
   .state { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; padding: 64px 24px; }
@@ -277,14 +279,16 @@
           <button data-state="error" aria-pressed="false">Error</button>
         </div>
         <span style="font-size:12px;color:var(--color-muted)">Toggle to preview each table state.</span>
+        <!-- Live region for async table state — role="status" (implicit aria-live="polite") announces loading/empty/error to AT. -->
+        <span id="tableStatus" role="status" style="font-size:12px;color:var(--color-muted)">Showing 5 invoices.</span>
       </div>
 
       <section class="panel" aria-live="polite">
         <!-- DATA -->
         <div class="state-block" data-state="data">
-          <div class="table-wrap">
+          <div class="table-wrap" tabindex="0" role="region" aria-label="Invoices table">
             <table class="data">
-              <thead><tr><th>Invoice</th><th>Client</th><th>Amount</th><th>Status</th><th>Due</th></tr></thead>
+              <thead><tr><th scope="col" aria-sort="none">Invoice</th><th scope="col" aria-sort="none">Client</th><th scope="col" aria-sort="none">Amount</th><th scope="col" aria-sort="none">Status</th><th scope="col" aria-sort="none">Due</th></tr></thead>
               <tbody>
                 <tr><td class="mono">INV-2041</td><td>Northwind Co.</td><td class="mono">$4,200.00</td><td><span class="badge ok">Paid</span></td><td class="text-muted">Jun 12</td></tr>
                 <tr><td class="mono">INV-2040</td><td>Hexbyte Labs</td><td class="mono">$1,850.00</td><td><span class="badge warn">Pending</span></td><td class="text-muted">Jul 02</td></tr>
@@ -351,9 +355,12 @@
   // ---- Table state switcher: show one .state-block, toggle [hidden] + aria-pressed. ----
   var blocks = document.querySelectorAll('.state-block');
   var segBtns = document.querySelectorAll('.seg button');
+  var statusEl = document.getElementById('tableStatus');
+  var STATUS_MSG = { data: 'Showing 5 invoices.', loading: 'Loading invoices…', empty: 'No invoices yet.', error: 'Couldn’t load invoices.' };
   function show(state) {
     blocks.forEach(function (b) { b.hidden = b.getAttribute('data-state') !== state; });
     segBtns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-state') === state)); });
+    if (statusEl && STATUS_MSG[state]) statusEl.textContent = STATUS_MSG[state]; // announce async state via the live region
   }
   segBtns.forEach(function (b) { b.addEventListener('click', function () { show(b.getAttribute('data-state')); }); });
 })();

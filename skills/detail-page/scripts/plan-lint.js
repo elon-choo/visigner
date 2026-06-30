@@ -15,8 +15,10 @@
 //     flows · acceptance-criteria · event-spec · open-questions
 //   Structural floors (ERROR):
 //     inventory-ac     every screen/state named in the inventory is referenced in acceptance-criteria
-//     flow-error-path  every flow names an error / edge / unhappy path
+//     flow-error-path  every flow names an error / edge / unhappy path (or a decision w/ >=2 labeled outcomes)
 //     event-spec-table an actual markdown table exists in the event-spec section
+//     ac-gwt           acceptance-criteria are written as Given/When/Then scenarios (not vague mentions)
+//     metric-shape     every success-metric line carries a number/target AND a named instrument
 //   Structural floors (WARN — never fail the gate):
 //     no-inventory     no screen/state inventory section to cross-check acceptance criteria against
 //
@@ -54,7 +56,16 @@ function boldLabels(md) {
   return out;
 }
 
-function findSection(sections, re) {
+function findSection(sections, re, opts) {
+  // opts.last: prefer the LAST matching heading instead of the first. Required-section bodies
+  // (e.g. acceptance-criteria) use this so an earlier flow heading that merely happens to match
+  // the matcher does not shadow the real section's body.
+  if (opts && opts.last) {
+    for (let i = sections.length - 1; i >= 0; i--) {
+      if (re.test(sections[i].title)) return sections[i];
+    }
+    return null;
+  }
   return sections.find((s) => re.test(s.title)) || null;
 }
 
@@ -70,13 +81,26 @@ const REQUIRED = [
   { key: 'scope-in',            label: 'Scope — in',             re: /in[-\s]?scope|scope\b.*\bin\b|포함\s*범위/i, body: /in[-\s]?scope|scope\s*:?\s*\n?\s*(?:[-*]|in\b)/i },
   { key: 'scope-out',           label: 'Scope — out',            re: /out[-\s]?of[-\s]?scope|out[-\s]?scope|범위\s*제외|제외\s*범위/i, body: /out[-\s]?of[-\s]?scope|out[-\s]?scope/i },
   { key: 'flows',               label: 'Flows',                  re: /\bflows?\b|user\s*journeys?|journeys?|시나리오/i },
-  { key: 'acceptance-criteria', label: 'Acceptance criteria',    re: /acceptance\s*criteria|accept(?:ance)?\b|완료\s*기준|수용\s*기준/i },
+  { key: 'acceptance-criteria', label: 'Acceptance criteria',    re: /acceptance|criteria|완료\s*기준|수용\s*기준/i },
   { key: 'event-spec',          label: 'Event spec',             re: /event[-\s]*spec|event\s*tracking|analytics\s*events?|tracking\s*plan|이벤트\s*스펙/i },
   { key: 'open-questions',      label: 'Open questions',         re: /open\s*questions?|risks?\s*(?:&|and)?\s*open|unknowns|미해결|열린\s*질문/i },
 ];
 
 // ---------- structural extractors ----------
-const ERROR_PATH = /\b(error|edge|edge[-\s]?case|unhappy|fail(?:ure|ed|s)?|invalid|empty|fallback|timeout|offline|retry|denied|not\s*found|예외|에러|오류|실패)\b/i;
+const ERROR_PATH = /\b(error|edge|edge[-\s]?case|unhappy|fail(?:ure|ed|s)?|invalid|empty|fallback|timeout|timed\s*out|offline|retry|denied|unauthorized|forbidden|not\s*found|expire[ds]?|revoke[ds]?|conflict|lock(?:ed)?|duplicate|cancel(?:l?ed|s)?|예외|에러|오류|실패|만료|취소|중복|충돌)\b/i;
+
+// A decision node that enumerates >=2 labeled outcomes covers an edge/error branch even without the
+// literal word "error" — this matches the skill's own "→" branch notation. We only count it when an
+// explicit decision marker (?, if/else, 분기/조건, an outcome pair) is present, so a plain linear
+// "A → B → C" chain is NOT mistaken for a branch.
+const DECISION_MARK = /\?|\bif\b|\belse\b|otherwise|분기|조건/i;
+const OUTCOME_PAIR = /(성공\s*\/\s*실패|실패\s*\/\s*성공|yes\s*\/\s*no|pass\s*\/\s*fail|success\s*\/\s*(?:fail(?:ure)?|error))/i;
+function hasBranchOutcomes(text) {
+  if (!text) return false;
+  if (OUTCOME_PAIR.test(text)) return true;            // two labeled outcomes spelled out
+  const arrows = (text.match(/→|->|=>/g) || []).length;
+  return DECISION_MARK.test(text) && arrows >= 2;       // a decision with >=2 arrow-labeled outcomes
+}
 
 // Pull the discrete flows out of the flows section: prefer child headings, else top-level list items.
 function extractFlows(sections, flowsSection) {
@@ -126,6 +150,33 @@ function extractInventory(sections) {
   return { found: true, items: [...new Set(items)].filter((n) => n.length >= 2) };
 }
 
+// Given/When/Then floor: AC must be expressed as behavioural scenarios, not vague mentions.
+const GWT = /\bgiven\b[\s\S]{0,600}?\bwhen\b[\s\S]{0,600}?\bthen\b/i;
+
+// What a success-metric line must carry to be measurable: a number/target AND a named instrument.
+const METRIC_INSTRUMENT = /posthog|mixpanel|amplitude|google\s*analytics|\bga4?\b|\banalytics\b|dashboard|funnel|\bevent\b|tracking|\bquery\b|\bsql\b|metabase|looker|tableau|survey|cohort|\breport\b|측정|대시보드|이벤트|지표\s*출처|쿼리|설문/i;
+
+// Pull metric lines out of a success-metrics section body: list items OR table data rows.
+function metricLines(body) {
+  if (!body) return [];
+  const out = [];
+  for (const raw of body.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (/^\|/.test(line)) {
+      if (/^\|[\s:|-]+\|?$/.test(line)) continue; // separator row
+      const cells = line.split('|').map((c) => c.trim()).filter(Boolean);
+      if (!cells.length) continue;
+      if (/^(metric|kpi|measure|지표|목표|target|source|instrument|출처)$/i.test(cells[0])) continue; // header
+      out.push(cells.join(' '));
+      continue;
+    }
+    const li = line.match(/^(?:[-*]|\d+[.)])\s+(.*\S)/);
+    if (li) out.push(li[1]);
+  }
+  return out;
+}
+
 function hasMarkdownTable(body) {
   if (!body) return false;
   const lines = body.split(/\r?\n/);
@@ -157,7 +208,7 @@ function lintPlan(md, file) {
   // 3) flows each name an error / edge path
   const flowsSection = findSection(sections, REQUIRED.find((r) => r.key === 'flows').re);
   const flows = extractFlows(sections, flowsSection);
-  const flowsMissingError = flows.filter((f) => !ERROR_PATH.test(f.text));
+  const flowsMissingError = flows.filter((f) => !ERROR_PATH.test(f.text) && !hasBranchOutcomes(f.text));
   if (flows.length === 0) {
     add('flow-error-path', 'Every flow names an error/edge path', 'error', false, 'no discrete flows found to check');
   } else {
@@ -167,7 +218,7 @@ function lintPlan(md, file) {
 
   // 4) inventory -> acceptance criteria cross-check
   const inv = extractInventory(sections);
-  const acSection = findSection(sections, REQUIRED.find((r) => r.key === 'acceptance-criteria').re);
+  const acSection = findSection(sections, REQUIRED.find((r) => r.key === 'acceptance-criteria').re, { last: true });
   const acText = (acSection ? acSection.body : md).toLowerCase();
   if (!inv.found) {
     add('no-inventory', 'Screen/state inventory present', 'warn', false, 'no inventory section — cannot cross-check acceptance criteria coverage');
@@ -177,6 +228,27 @@ function lintPlan(md, file) {
     const missing = inv.items.filter((name) => !acText.includes(name.toLowerCase()));
     add('inventory-ac', 'Every inventory screen/state has acceptance criteria', 'error', missing.length === 0,
       missing.length ? `${missing.length}/${inv.items.length} screen(s)/state(s) absent from acceptance criteria: ${missing.slice(0, 6).map((n) => `"${n}"`).join(', ')}` : `${inv.items.length} screen(s)/state(s) all referenced`);
+  }
+
+  // 5) acceptance criteria must have real Given/When/Then structure (only when the section exists —
+  // a missing AC section is already an error above; don't double-penalize).
+  if (acSection) {
+    add('ac-gwt', 'Acceptance criteria use Given/When/Then', 'error', GWT.test(acSection.body),
+      GWT.test(acSection.body) ? '' : 'no Given/When/Then scenario found — acceptance criteria are vague, not testable');
+  }
+
+  // 6) each success-metric line must carry a number/target AND a named instrument (no vague "improve X").
+  const smSection = findSection(sections, REQUIRED.find((r) => r.key === 'success-metrics').re);
+  if (smSection) {
+    const mlines = metricLines(smSection.body);
+    const bad = mlines.filter((l) => !/\d/.test(l) || !METRIC_INSTRUMENT.test(l));
+    if (mlines.length === 0) {
+      add('metric-shape', 'Success metrics carry a number + instrument', 'error', false,
+        'no metric lines parsed — success metrics need a number/target and a measurement instrument');
+    } else {
+      add('metric-shape', 'Success metrics carry a number + instrument', 'error', bad.length === 0,
+        bad.length ? `${bad.length}/${mlines.length} metric line(s) lack a number/target or instrument: ${bad.slice(0, 4).map((l) => `"${l.slice(0, 50)}"`).join(', ')}` : `${mlines.length} metric line(s) all measurable`);
+    }
   }
 
   const errorFails = checks.filter((c) => c.severity === 'error' && !c.pass);
@@ -205,7 +277,8 @@ REQUIRED SECTIONS (ERROR -> exit 1)
   problem · goals · non-goals · users · success-metrics · scope-in · scope-out ·
   flows · acceptance-criteria · event-spec · open-questions
 STRUCTURAL FLOORS
-  event-spec-table ERROR · flow-error-path ERROR · inventory-ac ERROR · no-inventory WARN
+  event-spec-table ERROR · flow-error-path ERROR · inventory-ac ERROR ·
+  ac-gwt ERROR (Given/When/Then) · metric-shape ERROR (number + instrument) · no-inventory WARN
 Exit 1 if any required section / structural ERROR is missing; 0 if the floor is met; 2 on fatal.
 `;
 
