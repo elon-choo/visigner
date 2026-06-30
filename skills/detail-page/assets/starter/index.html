@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<!-- viewport-fit=cover lets env(safe-area-inset-*) report real iOS notch/home-indicator insets. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>SCAFFOLD — replace per brief</title>
+
+<!-- Fonts: Korean detail pages need Korean fonts. Pretendard body + bold KR display + optional Latin accent. -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+<!-- Optional Latin accents: Fontshare, NOT Inter. Swap per brief (see references/aesthetics.md). -->
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet" />
+
+<!--
+  Tailwind v4 browser build (Play CDN). The @theme block below is the SINGLE token source:
+  every token becomes BOTH a CSS variable (e.g. --color-ink) AND a utility class (bg-ink / text-ink / shadow-e2).
+  No second config object, no parallel :root hex list to drift out of sync.
+  For production, swap this CDN for a real `@tailwindcss/cli` build of the SAME @theme block.
+-->
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1" integrity="sha384-OT3qnPBOZ0Z1BVC2R6WSI4cjBlIoSMeeZAUY8gZqaP1TgAJHbuo2gIM6KzQ8/viI" crossorigin="anonymous"></script>
+<style type="text/tailwindcss">
+  /* ============================================================
+     DESIGN TOKENS — replace EVERY value from your Step-2 plan.
+     Two layers: a :root --brand-* SOURCE (the raw OKLCH primitives) and an @theme that maps each
+     Tailwind token to its --brand-* var. Overriding the --brand-* under [data-brand="…"] re-themes BOTH
+     the utilities (bg-ink/shadow-e2/…) AND every inline var(--color-*) ref — the multi-brand pivot.
+     (Generate/round-trip this layer from tokens/brand-default.tokens.json via scripts/build-tokens.js.)
+     Colors are OKLCH so ramps step Lightness in near-even moves at a near-fixed Hue (chroma may arc for
+     vividness mid-ramp). DELIBERATE non-default example: deep evergreen ink + warm amber. NEVER ship AI-purple.
+     NOTE: this is plain @theme over var(--brand-*), NOT `@theme inline` — inline does NOT emit --color-*
+     and would break the inline var(--color-*) refs below (verified against the real CDN).
+     ============================================================ */
+  :root {
+    /* neutrals */
+    --brand-surface: oklch(0.985 0.008 95);   /* 60% dominant page bg */
+    --brand-card:    oklch(1 0 0);            /* pure-white card/artifact surface */
+    --brand-ink:     oklch(0.205 0.012 275);  /* body text */
+    --brand-muted:   oklch(0.520 0.015 270);  /* secondary text */
+    --brand-line:    oklch(0.205 0.012 275 / 0.12); /* hairlines/borders */
+    /* primary ramp (hue ~155 drifting +3 warmer as it darkens; L hand-tuned; chroma arced) */
+    --brand-primary-50:  oklch(0.965 0.020 155);
+    --brand-primary-100: oklch(0.910 0.040 155);
+    --brand-primary-300: oklch(0.760 0.075 156);
+    --brand-primary-500: oklch(0.560 0.095 156);
+    --brand-primary-700: oklch(0.400 0.080 157);
+    --brand-primary-900: oklch(0.270 0.050 158);
+    --brand-primary: var(--brand-primary-700);
+    /* accent ramp — the 10%, reserved for the primary CTA / focal pop */
+    --brand-accent-300: oklch(0.845 0.105 65);
+    --brand-accent-500: oklch(0.720 0.160 58);
+    --brand-accent-700: oklch(0.605 0.150 50);
+    --brand-accent: var(--brand-accent-500);
+    --brand-on-accent: var(--brand-ink); /* bright accent can't carry white text (AA) → dark ink on it */
+    /* type — Latin accent is a PLACEHOLDER to swap per brief (aesthetics.md: don't default to Space Grotesk) */
+    --brand-font-display: "Black Han Sans", "Pretendard", sans-serif;
+    --brand-font-body:    "Pretendard", sans-serif;
+    --brand-font-latin:   "Space Grotesk", "Clash Display", sans-serif;
+    /* elevation — 3 named tokens, never ad-hoc shadows */
+    --brand-shadow-e1: 0 1px 2px oklch(0.20 0.02 270 / 0.06);
+    --brand-shadow-e2: 0 6px 16px oklch(0.20 0.02 270 / 0.10);
+    --brand-shadow-e3: 0 20px 48px oklch(0.20 0.02 270 / 0.16);
+  }
+  /* Example second brand — uncomment, override ONLY what differs; it re-themes the whole page at runtime.
+  [data-brand="alt"] {
+    --brand-primary-700: oklch(0.42 0.13 255); --brand-primary: var(--brand-primary-700);
+    --brand-accent-500:  oklch(0.74 0.15 35);  --brand-accent:  var(--brand-accent-500);
+  } */
+
+  @theme {
+    /* SINGLE token source for Tailwind utilities — each maps to its --brand-* primitive above.
+       v4 default spacing (--spacing:0.25rem) already gives the 8pt rhythm: p-1=4…p-24=96. */
+    --color-surface: var(--brand-surface);
+    --color-card:    var(--brand-card);
+    --color-ink:     var(--brand-ink);
+    --color-muted:   var(--brand-muted);
+    --color-line:    var(--brand-line);
+    --color-primary-50:  var(--brand-primary-50);
+    --color-primary-100: var(--brand-primary-100);
+    --color-primary-300: var(--brand-primary-300);
+    --color-primary-500: var(--brand-primary-500);
+    --color-primary-700: var(--brand-primary-700);
+    --color-primary-900: var(--brand-primary-900);
+    --color-primary: var(--brand-primary);
+    --color-accent-300: var(--brand-accent-300);
+    --color-accent-500: var(--brand-accent-500);
+    --color-accent-700: var(--brand-accent-700);
+    --color-accent: var(--brand-accent);
+    --color-on-accent: var(--brand-on-accent);
+    --font-display: var(--brand-font-display);
+    --font-body:    var(--brand-font-body);
+    --font-latin:   var(--brand-font-latin);
+    --shadow-e1: var(--brand-shadow-e1);
+    --shadow-e2: var(--brand-shadow-e2);
+    --shadow-e3: var(--brand-shadow-e3);
+  }
+
+  /* ---- Base ---- */
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+  }
+  /* Media never causes horizontal overflow (the 390px check in shoot.js / rubric §A) — fix, don't mask. */
+  img, svg, video, canvas { max-width: 100%; height: auto; }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: 0; overflow-wrap: anywhere; }
+  *:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; } /* visible keyboard focus */
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto; } }
+
+  /* ---- One orchestrated entrance, staggered — not scattered micro-animations. ---- */
+  .reveal { opacity: 0; transform: translateY(16px); animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+
+  /* ---- Detail-page content column: 860px (Wadiz/Naver). Build images 1000–1200px and downscale. ---- */
+  .col { max-width: 860px; margin-inline: auto; padding-inline: 16px; }
+
+  /* ---- One repeated layout primitive (reward/deliverable grid) ---- */
+  .reward-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .artifact { min-height: 240px; border: 1px solid var(--color-line); background: var(--color-card); }
+  @media (max-width: 680px) { .reward-grid { grid-template-columns: 1fr; } .artifact { min-height: 180px; } }
+
+  /* ============================================================
+     MOBILE STICKY THUMB-ZONE PURCHASE BAR (#8)
+     Fixed bottom bar in the natural thumb reach, mobile only.
+     Honors the iOS home-indicator safe area; body reserves space so
+     it never covers the final content. Desktop keeps the inline CTAs.
+     ============================================================ */
+  .buybar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    display: none; align-items: center; gap: 12px;
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    background: var(--color-surface); /* opaque default — legible even without blur */
+    border-top: 1px solid var(--color-line);
+    box-shadow: var(--shadow-e3);
+  }
+  /* Only go translucent where the blur is actually supported, so content never shows through unblurred. */
+  @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .buybar { background: color-mix(in oklch, var(--color-surface) 86%, transparent);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  }
+  .buybar .price { line-height: 1.1; }
+  .buybar a {
+    margin-left: auto; display: inline-flex; align-items: center; justify-content: center;
+    min-height: 52px; padding-inline: 24px; border-radius: 12px;
+    background: var(--color-accent); color: var(--color-on-accent); font-family: var(--font-display); font-weight: 700;
+  }
+  @media (max-width: 680px) {
+    .buybar { display: flex; }
+    /* reserve thumb-bar height + safe area so the last section is never hidden behind it */
+    body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  }
+</style>
+</head>
+<body>
+<!--
+  SECTION SKELETON — detail mode arc (delete what the brief doesn't need; reorder per references/korean-detailpage.md).
+  Each band is full-width; inner content sits in .col. Bake critical copy as real text, not into images,
+  unless you also test it at 390px. Put ONE benefit headline above each feature; trust numbers repeat mid-scroll.
+  For AI/digital Wadiz pages, load references/wadiz-ai-digital-benchmark.md and include at least 8 modules.
+  Token usage: prefer utilities (bg-surface / text-ink / text-muted / bg-accent / shadow-e2 / font-display)
+  generated from the @theme block; reach for var(--color-*) only inside one-off inline styles.
+-->
+<header class="col" style="padding-block:32px">
+  <!-- 1 후킹 / hero: subject-grounded thesis. NOT big-number+gradient. Win the first 3 seconds. -->
+  <p class="text-sm font-medium text-muted">eyebrow — only if it encodes something true</p>
+  <h1 class="reveal" style="font-size:clamp(40px,7vw,72px);font-weight:700;line-height:1.05;margin-top:8px">
+    [Hook headline — one sharp message, ideally with a number]
+  </h1>
+</header>
+
+<main>
+  <section class="col bg-ink text-surface" style="padding-block:48px"><!-- Authority pile-up: previous funding screenshot, rank, supporter count, review/rating. --></section>
+  <section class="col" style="padding-block:48px"><!-- 2 공감 + bad-example contrast: customer pain, red X/arrows/handwritten notes. --></section>
+  <section class="col" style="padding-block:48px"><!-- 3 mechanism reveal: formula, step ladder, AI/tool workflow. Sell the mechanism before the offer. --></section>
+  <section class="col" style="padding-block:48px"><!-- 4 live demo / tool screen: browser, Figma, prompt, spreadsheet, VOD frame. --></section>
+  <section class="col" style="padding-block:48px"><!-- 5 특장점 ×3–5: benefit headline + feature evidence; GIF/video for dynamic. --></section>
+  <section class="col" style="padding-block:48px"><!-- 6 deliverables wall: PDF, Figma, VOD, prompt sheet, icon pack, open-chat, challenge calendar. --></section>
+  <section class="col" style="padding-block:48px"><!-- 7 curriculum / proof density: chapter list, day-by-day missions, updates. --></section>
+  <section id="offer" class="col" style="padding-block:48px"><!-- 8 package economics / Wadiz reward tiers: 구성, 수량, 정가, 할인, 추천 패키지. (sticky bar jumps here) --></section>
+  <section class="col" style="padding-block:48px"><!-- 12 FAQ / 13 환불·교환 --></section>
+</main>
+
+<footer class="col" style="padding-block:48px">
+  <!-- 14 최종 CTA: recap ONE benefit + urgency directly above the button. Repeat CTAs up the page too. -->
+  <a href="#" class="inline-flex items-center justify-center font-display bg-accent shadow-e2"
+     style="color:var(--color-on-accent);font-weight:700;padding:16px 32px;border-radius:10px;min-height:44px">
+    [Primary action — verb the user recognizes]
+  </a>
+</footer>
+
+<!--
+  MOBILE STICKY PURCHASE BAR (#8) — shows only ≤680px. Price recap + a scarcity/deadline micro-line + ONE action.
+  Real Wadiz/Naver bars surface urgency (마감 D-N / 남은 수량) right where the thumb is; mirror the focal accent CTA;
+  ≥48px touch target; safe-area handled in .buybar above. Point the href at the reward/offer section, not "#".
+-->
+<aside class="buybar" aria-label="구매">
+  <div class="price">
+    <span class="block text-xs" style="color:var(--color-ink);font-weight:600">[마감 D-N · 남은수량 NN]</span>
+    <span class="block font-display text-lg">[₩00,000] <span class="text-xs text-muted" style="font-weight:400">[정가 → 할인가]</span></span>
+  </div>
+  <a href="#offer">[지금 후원하기]</a>
+</aside>
+</body>
+</html>

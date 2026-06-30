@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "design-suite",
+  "owner": {
+    "name": "elon-choo",
+    "email": "sbmelon1@gmail.com"
+  },
+  "description": "Claude Design Suite — a single-install design toolkit for Claude Code. Bundles landing/detail-page, app & web UI, design systems, brand identity, UX, design-to-code, and conversion skills, plus review agents and slash commands.",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "design-suite",
+      "source": ".",
+      "description": "Everything design in one install: landing & Korean 상세페이지/Wadiz pages, app/web UI, design tokens & systems, brand identity, UX flows, design-to-code (React/Tailwind/shadcn), conversion/marketing — plus design-critic & a11y-audit agents and friendly commands.",
+      "category": "design",
+      "keywords": [
+        "design",
+        "frontend",
+        "ui",
+        "ux",
+        "landing-page",
+        "detail-page",
+        "design-system",
+        "brand",
+        "conversion",
+        "accessibility"
+      ],
+      "license": "MIT"
+    }
+  ]
+}

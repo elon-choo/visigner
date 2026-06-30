@@ -1,0 +1,126 @@
+---
+name: detail-page
+description: Build, CAPTURE/VIEW, and benchmark high-converting landing pages and Korean product detail pages (상세페이지) / crowdfunding campaign pages (와디즈 Wadiz, 텀블벅 Tumblbug) at a quality that does NOT read as AI-generated — and generate the page's image assets. Trigger this skill whenever the task touches detail/landing pages in ANY of these ways, not only when "building". (a) DESIGN/BUILD/IMPROVE — landing page, 랜딩페이지, 상세페이지, detail page, product page, 제품 소개 페이지, sales page, 세일즈페이지, 펀딩 상세, AI/디지털 상품 상세페이지 (강의·클래스·프롬프트팩·템플릿·VOD·전자책·자동화), hero section, or "make a design less generic / less AI-looking". (b) CAPTURE/VIEW/ANALYZE an existing live page — "와디즈 페이지 보여줘/열어줘/캡처해줘/분석해줘/뜯어봐", screenshot/scrape/open/view/inspect a real, competitor, or reference detail page, look at a 레퍼런스/벤치마크 page, or when a Wadiz/Akamai page returns 403 / "Access Denied" / won't open to normal fetch or headless (this skill has a Patchright headed-Chrome capture that gets past the bot wall, a one-click stitched viewer, and saved real captures of Wadiz 400620 + 403454 under references/captures/). (c) GENERATE IMAGE ASSETS — covers, product/scene mockups, deliverables walls, banners, 상세페이지 이미지 — via image models (gpt-image / Gemini gemini-3-pro-image). Combines Anthropic's frontend aesthetic discipline (plan-before-code tokens, banned defaults) + Korean conversion-copy structure (PASONA / 후킹→공감→해결→증명→CTA) + a screenshot-based visual self-critique loop + API-driven image generation.
+---
+
+# Detail Page — anti-slop page design system
+
+A page is good when a skeptical human cannot tell it was AI-generated AND it moves the reader toward one action. Two halves, both required:
+- **Aesthetic half** (looks intentional, not templated) — from Anthropic's `frontend-design` discipline.
+- **Conversion half** (structured persuasion, not a feature dump) — from Korean 상세페이지 / Wadiz practice.
+
+This skill is the orchestrator. Depth lives in `references/` (load on demand). Scripts in `scripts/` render and screenshot pages so you critique pixels, not just code.
+
+> **Paths:** every `scripts/…` and `references/…` reference below is relative to this skill's own folder. When this is installed as part of the **design-suite** plugin, that folder is `${CLAUDE_PLUGIN_ROOT}/skills/detail-page` — run scripts from there (`cd "${CLAUDE_PLUGIN_ROOT}/skills/detail-page"`). The screenshot/capture/asset scripts need a one-time `npm install` of their deps; run **`/design-setup`** once (it installs Patchright + the Chromium browser into this skill folder). Pure design guidance (steps 1–4, 6) needs no install.
+
+## The loop (never skip a step)
+
+```
+1 BRIEF      → pin subject, audience, the ONE message, mode, platform/width
+2 PLAN       → token system (color/type/layout/signature) — reject defaults BEFORE coding
+3 STRUCTURE  → choose section arc for the mode (landing vs 상세/Wadiz) + benchmark modules
+4 BUILD      → write code from the plan; pull components/palette/fonts via references/tooling.md
+5 SHOOT      → render + screenshot the result (scripts/shoot.js); LOOK at the tiles
+6 SCORE      → grade against references/review-rubric.md; if < gate, fix the lowest dims, go to 4
+```
+Do steps 1–3 mostly in your head/thinking; only show the user output once you have confidence it will delight them. Iterate 4→5→6 at least once before declaring done — "I reviewed the code and it looks right" is not allowed; a screenshot is.
+
+## 1 · Brief
+
+If the brief is thin, pin it yourself and state your choice: one concrete **subject**, its **audience**, and the page's **single job** (the one action). Decide the **mode**:
+- **Landing / web** — SaaS, app, portfolio, brand site. Western single-screen-first.
+- **상세페이지 / Wadiz (detail mode)** — long vertical scroll, image-dominant, mobile-first, conversion-copy arc. Pick platform width: Wadiz/Naver **860px**, Coupang **780px**. → load `references/korean-detailpage.md`.
+
+Also set two **Schwartz pre-flight** fields — they decide where the page *starts* (this is the planning lens PASONA alone lacks): **awareness** (unaware / problem-aware / solution-aware / product-aware / most-aware → sets the hero's opening block) and **sophistication** (1–5 → sets the claim style; at 4–5 a bare "best/strongest" is dead, pivot to mechanism or a new identity framing). Details + how they steer PASONA: `references/korean-detailpage.md`.
+
+Ground every choice in the subject's own world — its materials, vocabulary, artifacts. That is where non-generic choices come from. Check memory for the user's prior preferences/brand.
+
+**Scope:** plan for **quality only** — compliance (표시·광고법 / 추천·보증·뒷광고 claim substantiation) is intentionally the user's job, varying per platform/project. Don't add compliance gates to planning, prompts, or the rubric.
+
+## 2 · Plan the token system (plan BEFORE code)
+
+Produce a compact plan and challenge it before writing any markup:
+- **Color** — 4–6 named hex values. One committed dominant + one sharp accent (60-30-10). The accent's 10% is reserved for the primary CTA / focal point.
+- **Type** — a characterful **display** face + a complementary **body** face (+ a utility/mono face if data-heavy). High contrast pairing. Extreme weight contrast (100/200 vs 800/900), ≥3× size jumps.
+- **Layout** — one-sentence concept + a quick ASCII wireframe. Not centered-everything.
+- **Signature** — the single element this page is remembered by, embodying the brief.
+
+Then **critique the plan**: re-derive what you'd produce for any similar brief; wherever your plan matches that generic default, change it and say why. Only build after the plan is provably specific to *this* brief. Full method + the banned-defaults list: `references/aesthetics.md`.
+
+### Banned by default (override only if the brief explicitly asks)
+- ❌ Inter / Roboto / Arial / Open Sans / Lato / system fonts. → pick from `references/aesthetics.md` / Fontshare.
+- ❌ Purple→blue gradient on white. ❌ generic "AI purple/indigo" as the brand color. For AI/digital Wadiz pages, purple/blue is allowed only when grounded by concrete proof artifacts and secondary accents; see `references/wadiz-ai-digital-benchmark.md`.
+- ❌ Everything centered. ❌ 3 equal feature cards with mismatched icons. ❌ emoji as icons/bullets.
+- ❌ Uniform border-radius + soft shadow on every card. ❌ scattered micro-animations.
+- ❌ Big-number-hero + supporting stats + gradient accent as the default hero (it's the template answer).
+- ❌ Vague copy ("Build the future", "Empower / Unlock / Transform", two-noun feature titles).
+- ❌ The three current AI-design clichés: cream `#F4F1EA`+serif+terracotta · near-black + acid-green · broadsheet hairline-rule layout — these are defaults, not choices.
+
+## 3 · Structure (section arc)
+
+- **Detail mode (상세/Wadiz):** 후킹(hook, win 3s) → 공감(pain, customer's voice) → 해결책/메커니즘 → 특장점(benefit headline, feature as evidence; GIF for dynamic) → 사용 시나리오 → 스펙/상세 → 신뢰(numbers/certs, repeated mid-scroll) → 비교표 → 혜택/가격(Wadiz: reward tiers) → 일정/배송 → 메이커 스토리(Wadiz: move to front) → FAQ → 환불·교환 → 최종 CTA. Backbone = **PASONA**. Full template, copy formulas, reward ladder, sizes → `references/korean-detailpage.md`.
+- **Wadiz AI/digital product mode:** if the product is AI education, templates, VOD, prompt packs, automation, Figma/PDF files, or creator/business education, also load `references/wadiz-ai-digital-benchmark.md`. The page must turn the digital product into visible artifacts: mockups, tool screens, before/after, proof screenshots, deliverables wall, curriculum, package economics.
+- **Landing mode:** hero(subject-grounded thesis) → social proof → core value → feature sections(one repeated primitive) → stats → testimonials → pricing → FAQ → final CTA → footer. Primary CTA above the fold and repeated at each decision point.
+
+## 4 · Build
+
+Default stack: **HTML + Tailwind** for a self-contained artifact, or **React + Tailwind + shadcn/ui** for an app. Consume the Step-2 tokens as the single source of truth — define every color/font/shadow ONCE in a **Tailwind v4 `@theme` block** (OKLCH color ramps), which yields both CSS variables and utility classes so there is no parallel config to drift; no ad-hoc colors/fonts/spacing. 8pt spacing scale (4/8/12/16/24/32/48/64), hand-picked type scale, 3–4 named elevation tokens. Use `assets/starter/index.html` as a non-slop scaffold (it is already wired this way: `@tailwindcss/browser@4` + `@theme` OKLCH tokens, Fontshare/Pretendard fonts, a mobile sticky thumb-zone purchase bar, no banned defaults). Source palette/fonts/components via `references/tooling.md` (Realtime Colors, Fontshare, HyperUI, Magic UI, Aceternity). **Korean pages: load a Korean webfont (Pretendard body + a KR display) — Fontshare/the aesthetics list are Latin-only; see `korean-detailpage.md`.** Make multi-column grids collapse to one column on mobile (responsive utilities, not bare inline `grid-template-columns`), and verify **zero horizontal overflow at 390px** (`shoot.js` reports `mobileOverflowPx`; fix the culprit, never mask with `overflow-x:hidden`). For detail/Wadiz pages add a **mobile sticky thumb-zone CTA** — a fixed bottom purchase bar (≤680px) that recaps price/benefit + one scarcity/deadline micro-line (마감 D-N / 남은 수량) + one ≥48px action whose `href` jumps to the reward/offer section (not `#`), honors `env(safe-area-inset-bottom)`, and reserves body padding so it never covers the last section. Quality floor, non-negotiable: responsive to mobile, visible keyboard focus, `prefers-reduced-motion` respected.
+
+## 4.5 · Generate image assets (optional — turns CSS mockups into real Wadiz-grade images)
+
+Real 상세페이지/Wadiz pages are image-dominant. When the brief wants photographic finish (not just CSS mockups), generate the page's image slots via the image-gen APIs, then place them. Three steps — **plan (기획) → make (제작) → place (배치)** — fully covered in `references/asset-generation.md`:
+```bash
+NODE_PATH=$(npm root -g) node scripts/gen-plan.js  brief.json asset-plan.json   # 기획: brief → 8–16 cohesive slots (or hand-author the plan)
+NODE_PATH=$(npm root -g) node scripts/gen-assets.js asset-plan.json /tmp/<page>/assets  # 제작: real <id>.png + manifest.json
+# 배치: replace each slot's CSS placeholder with <img src="assets/<id>.png" alt="…">, give panels a min-height, then re-shoot
+```
+Providers (set per-slot `provider` or env `IMG_PROVIDER`; all env-overridable):
+- **`openai-responses`** (alias `gpt-oauth`) — **highest-end + free.** Responses API + built-in `image_generation` tool (model `gpt-5.4-mini`), so a reasoning model handles prompt fidelity and Korean typography before painting. Auto-default when a ChatGPT login (`~/.codex/auth.json`) exists: it uses that login for **free** generation and **bypasses the project key's missing gpt-image access**. Verified pixel-perfect Korean (e.g. gold-foil "7일 만에 작가되기"). Caveat: treats `size`/`aspect` as a *hint* — for exact aspect use `gemini`/`openai`. Per-slot `references:["/abs.png"]` enables product-consistent image-to-image.
+- **`gemini`** — `gemini-3-pro-image` (Google — great Korean text + native aspect control; paid API key).
+- **`openai`** — legacy `/v1/images` `gpt-image-1.5` (no `gpt-image-2` on that endpoint; paid API key).
+- planner **`gpt-5.2`**. Keys from `~/.env`; OAuth login via `codex login`. No npm install (built-in `fetch`). Plan once, regenerate only weak slots, and **read every generated asset in the pixel loop** (generated text can misspell). CSS mockups remain the zero-cost fallback for slots you don't generate. Full detail: `references/asset-generation.md`.
+
+## 5 · Shoot (look at the pixels — the PixelRAG step)
+
+Render and screenshot your own output, then actually read the images:
+```bash
+NODE_PATH=$(npm root -g) node scripts/shoot.js <file-or-url> [outDir]
+```
+It saves a full-page PNG + viewport tiles. Read the tiles and critique what you SEE: hierarchy, rhythm, alignment, the banned-default tells, mobile legibility. To ground the design in a real reference first (competitor / exemplar), capture it the same way: `node scripts/capture-reference.js <url> [outDir]` or, for harder Wadiz/Akamai pages, `MAX_TILES=120 node scripts/capture-reference-patchright.js <url> [outDir]`. Reference captures are valid only when the output reports `coveredHeight >= pageHeight` or the page is intentionally capped. See `scripts/README.md`.
+
+## 6 · Score & iterate
+
+Grade the page on the 10-dimension rubric in `references/review-rubric.md` (hook, structure, benefit-vs-feature, empathy, proof, one-message, visual craft, urgency/CTA, trust/risk-reversal, and — detail mode — story & rewards). Gate: **ship only at ≥ 8/10 overall with no dimension < 7**. If below, fix the lowest-scoring dimensions and return to step 4. Spend boldness in one place; before finishing, "remove one accessory" — cut the weakest decorative element.
+
+## Running under ultracode (multi-agent workflow)
+
+The loop above is single-agent. Under **ultracode** (the multi-agent Workflow runtime) — or whenever the user asks to "use a workflow" / fan this out — run the loop as a deterministic workflow instead, so plan candidates compete and every round still gates on **real screenshot pixels**:
+
+```
+Workflow({
+  scriptPath: '${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/ultracode-workflow.js',
+  args: { skillRoot: '${CLAUDE_PLUGIN_ROOT}/skills/detail-page',  // REQUIRED for portability (see note below)
+          subject, brief, mode: 'detail'|'landing', platform: 'wadiz',
+          category: 'ai-digital'|'physical'|'auto',
+          outFile: '/tmp/detail-page/index.html',
+          shotsDir: '/tmp/detail-page/shots', rounds: 3,
+          // optional, all off by default:
+          jury: 'advisory'|'strict',  // add a FREE cross-model (GPT/Gemini) vision second-opinion in Score
+          claudeSeed: true,           // add 1 extra plan candidate seeded with the frontend-design directions
+          govern: true,               // after the loop, enforce brand-lint + emit a SHIP/NO-SHIP enterprise report
+          noEarlyStop: true }         // run all rounds even if a round stalls
+})
+```
+(`args` may arrive as a JSON string via the Workflow tool — the script parses it; pass a real object regardless. **`skillRoot` is required:** the Workflow sandbox cannot resolve its own filesystem path, so the script points every subagent at the skill's scripts/references via the `skillRoot` you pass — set it to this skill's install dir, `${CLAUDE_PLUGIN_ROOT}/skills/detail-page`.)
+
+It runs Plan (3 divergent token-system plans, +1 if `claudeSeed` → a design-director synthesis) → Build → Shoot (`scripts/shoot.js`, with `AXE=1` + the broken-asset/overflow gates) → Score (INDEPENDENT adversarial grade vs `review-rubric.md`, calibrated against the real captures; +cross-model jury if `jury`), iterating Build→Shoot→Score until the ship gate passes. It returns the **best** round (not merely the last) when the gate isn't met, and stops early on a genuine stall (unless `noEarlyStop`). With `govern`, a brand-lint failure blocks ship and the return adds `report` (enterprise-report path) + `brandClean`. Workflow subagents do **not** auto-load this skill, so the script points every agent at absolute paths built from the `skillRoot` you pass (above) — that is what makes it portable across machines. `category:'auto'` infers AI/digital from the brief and loads `wadiz-ai-digital-benchmark.md` + its extra gate. The workflow writes to `/tmp` by default; copy the final file into your project afterward. Workflow is gated on explicit opt-in — only launch it when ultracode is on or the user asked for orchestration; otherwise run the single-agent loop above.
+
+## References (load when you reach that step)
+- `references/aesthetics.md` — full frontend-design method, banned defaults, Top-20 anti-slop rules, font/color systems.
+- `references/korean-detailpage.md` — 상세페이지/Wadiz anatomy, PASONA, copy formulas, reward design, platform sizes, checklist.
+- `references/tooling.md` — the 6 sites + exact install/embed commands and when to reach for each.
+- `references/review-rubric.md` — pre-publish checklist + 10-dim scoring rubric + the ship gate.
+- `references/wadiz-ai-digital-benchmark.md` — pixel-derived benchmark from Wadiz AI/digital product pages 400620 + 403454.
+- `references/asset-generation.md` — generate real image assets (covers, scenes, deliverables walls) via `openai-responses` (free ChatGPT-OAuth Responses path) / gemini-3-pro-image / gpt-image-1.5; the 기획→제작→배치 flow, plan schema, Korean prompt rules.
+- `scripts/` — `shoot.js` (screenshot own output + assertion gates: 390px-overflow always, broken-asset always [`ASSETS=0` opts out], `AXE=1` a11y on desktop+mobile, `gate.report` rollup, `GATE_EXIT=1`), `capture-reference.js` + `capture-reference-patchright.js` (capture a reference page; Patchright variant for Wadiz/Akamai walls), `gen-plan.js` (기획: brief → asset plan) + `gen-assets.js` (제작: plan → real PNGs) + `lib-openai-responses.js` (the free ChatGPT-OAuth Responses+image_generation engine `gen-assets.js` calls), `brand-lint.js` (deterministic brand-governance gate — raw-hex/banned-font/AI-purple as machine checks), `build-tokens.js` (compile `tokens/*.tokens.json` → the starter's `:root{--brand-*}` / `@theme` layers), `view-capture.js` (build a one-click stitched HTML viewer from any capture dir), `ultracode-workflow.js` (the multi-agent workflow above), `README.md`. Saved reference captures (Wadiz 400620/403454, viewable anywhere): `references/captures/`.
+- `tokens/` — DTCG design-token source of truth (`brand-default.tokens.json`) + `README.md`. The starter's `@theme` reads a `:root{--brand-*}` layer so overriding `--brand-*` under `[data-brand="…"]` re-themes the whole page (multi-brand); regenerate the layer with `build-tokens.js`.

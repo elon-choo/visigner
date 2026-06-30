@@ -1,0 +1,16 @@
+{
+  "name": "detail-page",
+  "version": "1.0.0",
+  "description": "Reusable Korean detail-page design skill capture tooling.",
+  "main": "scripts/shoot.js",
+  "scripts": {
+    "capture:patchright": "node scripts/capture-reference-patchright.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "patchright": "^1.61.0"
+  }
+}

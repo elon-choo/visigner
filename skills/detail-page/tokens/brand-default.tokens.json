@@ -1,0 +1,36 @@
+{
+  "$description": "Default brand tokens for the detail-page starter, in DTCG (Design Tokens Community Group) shape. OKLCH-native (no hex). The literal CSS string lives in $extensions['com.detail-page'].css for exact round-trip; the structured $value.components are there for interop. scripts/build-tokens.js compiles this into the starter's :root{--brand-*} layer (and, with --emit=theme, the @theme mapping). This is the single source of truth — edit here, regenerate, no hand-edit drift.",
+  "color": {
+    "surface": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.985, 0.008, 95] }, "$extensions": { "com.detail-page": { "css": "oklch(0.985 0.008 95)" } } },
+    "card":    { "$type": "color", "$value": { "colorSpace": "oklch", "components": [1, 0, 0] }, "$extensions": { "com.detail-page": { "css": "oklch(1 0 0)" } } },
+    "ink":     { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.205, 0.012, 275] }, "$extensions": { "com.detail-page": { "css": "oklch(0.205 0.012 275)" } } },
+    "muted":   { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.520, 0.015, 270] }, "$extensions": { "com.detail-page": { "css": "oklch(0.520 0.015 270)" } } },
+    "line":    { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.205, 0.012, 275], "alpha": 0.12 }, "$extensions": { "com.detail-page": { "css": "oklch(0.205 0.012 275 / 0.12)" } } },
+    "primary": {
+      "50":  { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.965, 0.020, 155] }, "$extensions": { "com.detail-page": { "css": "oklch(0.965 0.020 155)" } } },
+      "100": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.910, 0.040, 155] }, "$extensions": { "com.detail-page": { "css": "oklch(0.910 0.040 155)" } } },
+      "300": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.760, 0.075, 156] }, "$extensions": { "com.detail-page": { "css": "oklch(0.760 0.075 156)" } } },
+      "500": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.560, 0.095, 156] }, "$extensions": { "com.detail-page": { "css": "oklch(0.560 0.095 156)" } } },
+      "700": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.400, 0.080, 157] }, "$extensions": { "com.detail-page": { "css": "oklch(0.400 0.080 157)" } } },
+      "900": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.270, 0.050, 158] }, "$extensions": { "com.detail-page": { "css": "oklch(0.270 0.050 158)" } } },
+      "DEFAULT": { "$type": "color", "$value": "{color.primary.700}" }
+    },
+    "accent": {
+      "300": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.845, 0.105, 65] }, "$extensions": { "com.detail-page": { "css": "oklch(0.845 0.105 65)" } } },
+      "500": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.720, 0.160, 58] }, "$extensions": { "com.detail-page": { "css": "oklch(0.720 0.160 58)" } } },
+      "700": { "$type": "color", "$value": { "colorSpace": "oklch", "components": [0.605, 0.150, 50] }, "$extensions": { "com.detail-page": { "css": "oklch(0.605 0.150 50)" } } },
+      "DEFAULT": { "$type": "color", "$value": "{color.accent.500}" }
+    },
+    "on-accent": { "$type": "color", "$value": "{color.ink}" }
+  },
+  "font": {
+    "display": { "$type": "fontFamily", "$value": ["Black Han Sans", "Pretendard", "sans-serif"] },
+    "body":    { "$type": "fontFamily", "$value": ["Pretendard", "sans-serif"] },
+    "latin":   { "$type": "fontFamily", "$value": ["Space Grotesk", "Clash Display", "sans-serif"] }
+  },
+  "shadow": {
+    "e1": { "$type": "shadow", "$value": "0 1px 2px oklch(0.20 0.02 270 / 0.06)" },
+    "e2": { "$type": "shadow", "$value": "0 6px 16px oklch(0.20 0.02 270 / 0.10)" },
+    "e3": { "$type": "shadow", "$value": "0 20px 48px oklch(0.20 0.02 270 / 0.16)" }
+  }
+}

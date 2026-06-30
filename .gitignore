@@ -1,0 +1,14 @@
+# Dependencies (installed on demand by /design-setup)
+node_modules/
+package-lock.json
+
+# OS / editor cruft
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Scratch / generated output (pages, shots, assets are written to /tmp at runtime)
+/tmp/
+*.log
+.write-test

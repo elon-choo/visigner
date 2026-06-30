@@ -1,0 +1,93 @@
+// emit-tokens.js — serialize an EXISTING page's design tokens into DTCG tokens.json + a spec.html visualizer.
+// No deps (fs+path only). This is the dev/designer HANDOFF artifact, regenerated FROM the page's @theme so it
+// can never become a drifting alternate config. OKLCH-native (no hex key; the literal oklch string is kept in
+// $extensions). It RESOLVES var() chains (the starter's @theme maps --color-* -> var(--brand-*) -> oklch).
+//
+// Usage:  node emit-tokens.js <page.html> [out-dir]   (default out-dir = the page's directory)
+// Writes: <out>/tokens.json (DTCG) + <out>/spec.html (swatches + type ramp + elevation).
+
+const fs = require('fs');
+const path = require('path');
+
+const file = process.argv[2];
+if (!file) { console.error('usage: node emit-tokens.js <page.html> [out-dir]'); process.exit(1); }
+const outDir = process.argv[3] || path.dirname(path.resolve(file));
+
+try {
+  fs.mkdirSync(outDir, { recursive: true });
+  const raw = fs.readFileSync(file, 'utf8');
+  const css = raw.replace(/<!--[\s\S]*?-->/g, ' ').replace(/\/\*[\s\S]*?\*\//g, ' ');
+
+  // collect every custom-property definition (name -> raw value) across all <style> blocks (last wins)
+  const defs = new Map();
+  for (const m of css.matchAll(/(--[a-z0-9-]+)\s*:\s*([^;{}]+);/gi)) defs.set(m[1], m[2].trim());
+
+  // resolve a value's var(--x[, fallback]) chain to a literal (single-var tokens; guards cycles)
+  function resolve(val, seen = new Set()) {
+    const m = val && val.match(/^var\(\s*(--[a-z0-9-]+)\s*(?:,\s*([^)]+))?\)$/i);
+    if (!m) return val;
+    if (seen.has(m[1])) return val; // cycle guard
+    seen.add(m[1]);
+    if (defs.has(m[1])) return resolve(defs.get(m[1]).trim(), seen);
+    return (m[2] || val).trim(); // fallback if the var isn't defined
+  }
+
+  const oklchRe = /oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\s*\)/i;
+  function colorToken(rawVal) {
+    const v = resolve(rawVal);
+    const ok = v.match(oklchRe);
+    if (ok) {
+      const comp = [parseFloat(ok[1]), parseFloat(ok[2]), parseFloat(ok[3])];
+      const tok = { $type: 'color', $value: { colorSpace: 'oklch', components: comp }, $extensions: { 'com.detail-page': { css: v } } };
+      if (ok[4] != null) tok.$value.alpha = parseFloat(ok[4]);
+      return tok;
+    }
+    // non-oklch (shouldn't happen in our starter) — keep the literal, mark it for review, NO hex key
+    return { $type: 'color', $value: { colorSpace: 'srgb', components: [] }, $extensions: { 'com.detail-page': { css: v, note: 'non-oklch source — review' } } };
+  }
+  function fontToken(rawVal) {
+    const fams = resolve(rawVal).split(',').map((s) => s.trim().replace(/^["']|["']$/g, '')).filter(Boolean);
+    return { $type: 'fontFamily', $value: fams };
+  }
+  function shadowToken(rawVal) { return { $type: 'shadow', $value: resolve(rawVal) }; }
+
+  // enumerate the Tailwind design tokens the page actually exposes (the @theme namespace)
+  const tokens = { $description: 'DTCG design tokens serialized from ' + path.basename(file) + ' by emit-tokens.js. OKLCH-native; literal CSS in $extensions["com.detail-page"].css. Regenerated from @theme — never hand-edit.', color: {}, font: {}, shadow: {} };
+  let nColor = 0, nFont = 0, nShadow = 0;
+  for (const [name, val] of defs) {
+    if (/^--color-/.test(name)) { tokens.color[name.replace('--color-', '')] = colorToken(val); nColor++; }
+    else if (/^--font-/.test(name)) { tokens.font[name.replace('--font-', '')] = fontToken(val); nFont++; }
+    else if (/^--shadow-/.test(name)) { tokens.shadow[name.replace('--shadow-', '')] = shadowToken(val); nShadow++; }
+  }
+  fs.writeFileSync(path.join(outDir, 'tokens.json'), JSON.stringify(tokens, null, 2));
+
+  // spec.html — one swatch per color, the type families, and the elevation samples
+  const sw = Object.entries(tokens.color).map(([k, t]) => {
+    const c = t.$extensions['com.detail-page'].css;
+    return `<div class="sw"><div class="chip" style="background:${c}"></div><div class="lbl"><b>${k}</b><code>${c}</code></div></div>`;
+  }).join('\n');
+  const fonts = Object.entries(tokens.font).map(([k, t]) =>
+    `<p style="font-family:${t.$value.map((f) => (/[\s]/.test(f) ? `"${f}"` : f)).join(',')};font-size:28px;margin:6px 0"><b>${k}</b> — 다람쥐 헌 쳇바퀴 AaBbGg 0123 <code style="font-size:13px;color:#888">${t.$value.join(', ')}</code></p>`
+  ).join('\n');
+  const elev = Object.entries(tokens.shadow).map(([k, t]) =>
+    `<div style="display:inline-block;width:120px;height:80px;margin:16px;background:#fff;border-radius:10px;box-shadow:${t.$value}"></div><span style="vertical-align:bottom"><b>${k}</b></span>`
+  ).join('\n');
+  const html = `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Token spec — ${path.basename(file)}</title>
+<style>body{font-family:Pretendard,system-ui,sans-serif;margin:0;padding:24px;background:#fafafa;color:#16161a}
+h2{margin:28px 0 12px;font-size:14px;text-transform:uppercase;letter-spacing:.05em;color:#666}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.sw{display:flex;gap:10px;align-items:center;background:#fff;border-radius:10px;padding:8px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.chip{width:48px;height:48px;border-radius:8px;border:1px solid rgba(0,0,0,.1);flex:none}
+.lbl b{display:block;font-size:13px}.lbl code{font-size:11px;color:#777}</style></head>
+<body><h1 style="margin:0">Design tokens — ${path.basename(file)}</h1>
+<h2>Color (${nColor})</h2><div class="grid">${sw}</div>
+<h2>Type (${nFont})</h2>${fonts}
+<h2>Elevation (${nShadow})</h2>${elev}
+</body></html>`;
+  fs.writeFileSync(path.join(outDir, 'spec.html'), html);
+
+  console.log(JSON.stringify({ ok: true, outDir: path.resolve(outDir), color: nColor, font: nFont, shadow: nShadow }, null, 2));
+} catch (e) {
+  console.error('FATAL', e.message);
+  process.exit(2);
+}
