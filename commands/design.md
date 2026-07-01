@@ -22,9 +22,13 @@ Match the request to the capability that owns it (each is a bundled Skill — in
 | "Plan this", requirements → flow, wireframe, IA, sitemap, what screens do we need | **ux-flows** skill (the planner's home) |
 | "Build it / code it", screenshot→code, React/Tailwind/shadcn implementation | **frontend-build** skill |
 | Funnel, conversion, CRO, copy, A/B, ads/email, "why isn't this converting" | **marketing-conversion** skill |
+| Generate an image / visual asset for ANY design (hero, product/scene, cover, backdrop, OG card, icon/illustration exploration) | run **/design-image** |
+| Publish / sync a component library or design system to Claude Design (claude.ai/design) | run **/design-publish** |
 | "Is this good enough to ship / review my design" | run **/design-review** |
 
 If it spans several (e.g. "build me a branded landing page"), sequence them: brand-identity → design-system (tokens) → detail-page/ui-design (design) → frontend-build (code) → design-critic (gate). Tell the user the short plan, then execute — don't stop to ask permission for an obvious sequence.
+
+All of these disciplines stand on one shared engine — the **design-core** skill — which owns the tokens, the anti-slop aesthetics method, the global image service (behind `/design-image`), the ship gate, and DesignSync publishing (behind `/design-publish`). Keep ONE token set + ONE style DNA across a multi-discipline job so the output reads as one system.
 
 ## 2 · Pin the brief (one pass, mostly in your head)
 

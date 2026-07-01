@@ -2,7 +2,7 @@
 
 [**한국어 README →**](README.ko.md) · [**Landing page**](https://elon-choo.github.io/visigner/) · [**Guide**](https://elon-choo.github.io/visigner/guide.html)
 
-**Everything design, in one install.** Add this one repo to Claude Code and you get the whole design toolchain — landing pages, Korean 상세페이지/Wadiz pages, app & web UI, design tokens & systems, brand identity, UX flows & wireframes, design-to-code, and conversion/marketing — plus independent design-critic and accessibility-audit agents and a set of friendly slash commands. It bundles **7 skills · 3 agents · 9 commands · 26 built-in Node scripts**, so you stitch together far fewer installable design skills, plugins, or npm packages.
+**Everything design, in one install.** Add this one repo to Claude Code and you get the whole design toolchain — landing pages, Korean 상세페이지/Wadiz pages, app & web UI, design tokens & systems, brand identity, UX flows & wireframes, design-to-code, and conversion/marketing — plus independent design-critic and accessibility-audit agents and a set of friendly slash commands. It bundles **8 skills · 3 agents · 11 commands · 28 built-in Node scripts**, so you stitch together far fewer installable design skills, plugins, or npm packages.
 
 > **Honest scope (the same care as the rest of the suite).** Visigner has **no external performance benchmark** — there are no conversion/speed numbers to quote, and it won't invent any. What's recountable is the inventory above (`ls skills/ agents/ commands/`), the design-critic's **10-dimension** rubric, the **WCAG 2.2 AA** target, and 2 real Wadiz captures. It **feeds** Figma/Photoshop/hosting/ESP rather than replacing them, image slots fall back to lo-fi SVG comps without an API key, and compliance is left to you. See **[the guide's boundaries table](https://elon-choo.github.io/visigner/guide.html#boundaries)**.
 
@@ -55,6 +55,8 @@ Commit this to your project's `.claude/settings.json` and teammates get it autom
 | **Planner / PM (기획자)** | ask for a plan/wireframe | Flows, IA, wireframes, and a buildable spec (`ux-flows` skill) |
 | **Developer** | `/ui` or describe the build | React/Tailwind v4/shadcn implementation, accessible & responsive |
 | **Anyone shipping** | `/design-review <page>` | An independent SHIP / NO-SHIP verdict |
+| **Making any visual** | `/design-image <describe the image>` | Real generated imagery via the latest OpenAI/Gemini models — free through ChatGPT/codex OAuth, or an API key |
+| **Design-system owner** | `/design-publish` | Push your component library to Claude Design (claude.ai/design) |
 
 You usually don't need to name anything — just describe the task in plain language and the matching **skill auto-triggers**. The commands are shortcuts.
 
@@ -63,6 +65,7 @@ You usually don't need to name anything — just describe the task in plain lang
 ## What's inside
 
 ### Skills (auto-trigger on relevant work)
+- **design-core** — the shared engine the other skills stand on: the token layer, the anti-slop aesthetics method, the **global image service** (generate real assets for any design via `gpt-image-2` / `gemini-3-pro-image` — free ChatGPT/codex OAuth or an API key; behind `/design-image`), the ship gate, and **Claude Design publishing** (push a component library to a claude.ai/design design-system project; behind `/design-publish`). One core, many kinds of design.
 - **detail-page** — landing pages + Korean 상세페이지 / Wadiz·텀블벅 funding pages, image-asset generation, and the screenshot self-critique loop. Anti-AI-slop aesthetics + Korean conversion structure (PASONA, Schwartz awareness×sophistication). Ships with real Wadiz reference captures for calibration.
 - **ui-design** — app / web / product UI, dashboards, SaaS, forms, and components — every interactive state, motion discipline, the anti-slop bar applied to product UI. Ships gate-passing HTML seeds incl. a `pricing.html` plan-comparison page and a `settings.html` account screen alongside the index/landing/app-shell scaffolds; **dark mode is turnkey** in both HTML starters (active `[data-theme=dark]` + a toggle), and `icon-set.js` generates a coherent first-party SVG icon family + verification sheet.
 - **design-system** — design tokens (DTCG + Tailwind v4 `@theme`), OKLCH ramps, semantic theming, multi-brand (`brand-alt.tokens.json` ships as a worked cobalt+coral second brand) & dark mode (a compiled-from-DTCG `brand-dark.tokens.json` ships; an override can now target **any** selector via a `$selector` field), dev handoff spec sheets, and a `brand-lint` `undefined-token-ref` gate (a `var()` to a renamed token fails CI).
@@ -77,7 +80,7 @@ You usually don't need to name anything — just describe the task in plain lang
 - **design-director** — sets strong, non-generic art direction (token system + signature element) before building.
 
 ### Commands
-`/design` (router) · `/landing` · `/ui` · `/brand` · `/plan` · `/campaign` · `/design-tokens` · `/design-review` · `/design-setup`
+`/design` (router) · `/landing` · `/ui` · `/brand` · `/plan` · `/campaign` · `/design-tokens` · `/design-image` · `/design-publish` · `/design-review` · `/design-setup`
 
 `/campaign` pins ONE idea and ladders it across landing + paid ad + social + an email sequence, then checks cross-surface message-match presence with the deterministic copy floor (`copy-lint.js --idea`, `--strict` to gate) + the email floor + an independent `design-critic MODE=copy` semantic grade.
 
@@ -113,6 +116,7 @@ Beyond the screenshot loop (`shoot.js`), the suite ships runnable helpers you in
 
 ## Notes
 
-- **Image generation & live capture** need a one-time `/design-setup` (Patchright + Chromium). Image *generation* additionally needs an API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, image slots render as **intentional lo-fi comps** (deterministic on-brand SVG) the operator replaces with real art.
+- **Image generation** (`/design-image`) needs **no browser install** — only a credential: a free ChatGPT/codex login (`codex login`) is preferred, else an API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`). Without one, image slots render as **intentional lo-fi comps** (deterministic on-brand SVG) you replace with real art. Run `image-service.js --doctor` to see what's live. (**Live page capture** — screenshotting a real competitor page — is the part that needs the one-time `/design-setup` Patchright + Chromium install.)
+- **Claude Design publishing** (`/design-publish`) pushes a component library to your **claude.ai/design** design-system project via the native DesignSync tool. It needs design-system access on your claude.ai login (run `/design-login` once if a read fails); it never re-implements sync, and every push confirms the target project first.
 - **Compliance** (ad/labeling law, claim substantiation) is intentionally left to you — the suite optimizes for design and conversion quality, not legal review.
 - License: MIT.

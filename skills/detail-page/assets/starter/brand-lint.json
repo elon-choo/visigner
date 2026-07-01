@@ -1,0 +1,15 @@
+{
+  "pass": true,
+  "errorCount": 0,
+  "warnCount": 0,
+  "violations": [],
+  "tokenCoverage": {
+    "definedTokens": 23,
+    "rawColorsOutsideTheme": 0
+  },
+  "brand": {
+    "onBrand": true,
+    "evidence": "15/15 declared colors within ΔE 0.02 of 17 brand roles; COVERAGE: 2 declared color(s) had no brand role to compare — coverage 88%"
+  },
+  "file": "/Users/elon/visigner/skills/detail-page/assets/starter/index.html"
+}

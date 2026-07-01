@@ -29,6 +29,25 @@ Notes:
 - If `npm install` reports a permission error, you do not have write access to the plugin install directory; tell the user, do not sudo.
 - Image-asset **generation** (`scripts/gen-assets.js`) additionally needs an API key (`OPENAI_API_KEY` or `GEMINI_API_KEY` in the environment), or a ChatGPT login via `codex login` for the free path. It needs no npm install (built-in `fetch`).
 
+## Image generation (`/design-image`) — auth, no browser needed
+
+The global image service (`skills/design-core/scripts/image-service.js`, behind **`/design-image`**) uses only Node built-ins — **no `npm install`**. It just needs one credential path. Check what's live with the doctor (zero network, never charges):
+
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/skills/design-core/scripts/image-service.js" --doctor
+```
+
+Enable real image generation with ONE of (in the service's own preference order):
+1. **Free, recommended:** `codex login`  → uses the ChatGPT/codex OAuth path (`~/.codex/auth.json`), no API key.
+2. **OpenAI key (paid):** `export OPENAI_API_KEY=sk-...` (or add it to `~/.env`).
+3. **Google Gemini key (paid):** `export GEMINI_API_KEY=...` (best for Korean text-in-image and exact aspect ratios).
+
+With none of these, generation still runs but fills every slot with a tasteful on-brand SVG placeholder. Latest model defaults (`gpt-image-2`, `gemini-3-pro-image`, `imagen-4.0-*`) are applied automatically; override per-run via env.
+
+## Claude Design publishing (`/design-publish`) — authorization
+
+To publish a component library to a **claude.ai/design** design-system project (behind **`/design-publish`**), the `DesignSync` tool needs design-system access on your claude.ai login. If a read (`list_projects`) fails with an authorization error, run **`/design-login`** (or make sure you're signed in to claude.ai) once — no install, no key.
+
 ## Verify
 
 After installing, confirm it works by rendering the bundled non-slop starter and reading the screenshot:

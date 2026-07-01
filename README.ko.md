@@ -2,7 +2,7 @@
 
 [**English README →**](README.md) · [**랜딩 페이지**](https://elon-choo.github.io/visigner/) · [**가이드**](https://elon-choo.github.io/visigner/guide.html)
 
-**디자인에 필요한 전부를, 설치 한 번에.** 이 저장소 하나를 Claude Code에 추가하면 디자인 툴체인 전체가 손에 들어옵니다 — 랜딩 페이지, 한국형 상세페이지/와디즈 페이지, 앱·웹 UI, 디자인 토큰·시스템, 브랜드 아이덴티티, UX 플로우·와이어프레임, 디자인→코드, 전환/마케팅까지. 여기에 독립적인 design-critic·접근성 감사 에이전트와 친절한 슬래시 커맨드가 더해집니다. **스킬 7 · 에이전트 3 · 커맨드 9 · 빌트인 Node 스크립트 26개**가 하나로 묶여 있어, 설치형 디자인 스킬·플러그인·npm 패키지를 따로 이어 붙일 일이 크게 줄어듭니다.
+**디자인에 필요한 전부를, 설치 한 번에.** 이 저장소 하나를 Claude Code에 추가하면 디자인 툴체인 전체가 손에 들어옵니다 — 랜딩 페이지, 한국형 상세페이지/와디즈 페이지, 앱·웹 UI, 디자인 토큰·시스템, 브랜드 아이덴티티, UX 플로우·와이어프레임, 디자인→코드, 전환/마케팅까지. 여기에 독립적인 design-critic·접근성 감사 에이전트와 친절한 슬래시 커맨드가 더해집니다. **스킬 8 · 에이전트 3 · 커맨드 11 · 빌트인 Node 스크립트 28개**가 하나로 묶여 있어, 설치형 디자인 스킬·플러그인·npm 패키지를 따로 이어 붙일 일이 크게 줄어듭니다.
 
 이것은 Anthropic의 `frontend-design` 미학 규율(코드 전에 토큰 시스템 설계, 뻔한 기본값 거부)과 **스크린샷 자기비평 루프** 위에 만들어졌습니다 — 그래서 결과물이 AI가 만든 티가 나지 않습니다.
 
@@ -55,6 +55,8 @@ Claude Code 안에서:
 | **기획자 / PM** | 플랜/와이어프레임 요청 | 플로우·IA·와이어프레임·빌드 가능한 스펙 (`ux-flows`) |
 | **개발자** | `/ui` 또는 빌드 설명 | React/Tailwind v4/shadcn 구현, 접근성·반응형 |
 | **배포 직전 누구나** | `/design-review <페이지>` | 독립 SHIP / NO-SHIP 판정 |
+| **비주얼 만드는 누구나** | `/design-image <이미지 설명>` | 최신 OpenAI/Gemini 모델로 실제 이미지 생성 — ChatGPT/codex OAuth 무료 또는 API 키 |
+| **디자인시스템 관리자** | `/design-publish` | 컴포넌트 라이브러리를 Claude Design(claude.ai/design)으로 발행 |
 
 대부분 이름을 외울 필요가 없습니다 — 평소 말로 작업을 설명하면 알맞은 **스킬이 자동 발동**합니다. 커맨드는 지름길입니다.
 
@@ -63,6 +65,7 @@ Claude Code 안에서:
 ## 안에 든 것
 
 ### 스킬 (관련 작업에서 자동 발동)
+- **design-core** — 나머지 스킬들이 올라서는 공유 엔진: 토큰 레이어, 안티-슬롭 미학 방법론, **전역 이미지 서비스**(`gpt-image-2` / `gemini-3-pro-image`로 어떤 디자인에도 실제 에셋 생성 — ChatGPT/codex OAuth 무료 또는 API 키; `/design-image` 뒤), 배포 게이트, 그리고 **Claude Design 발행**(컴포넌트 라이브러리를 claude.ai/design 디자인시스템 프로젝트로 푸시; `/design-publish` 뒤). 하나의 코어, 다양한 디자인.
 - **detail-page** — 랜딩 페이지 + 한국형 상세페이지 / 와디즈·텀블벅 펀딩 페이지, 이미지 에셋 생성, 스크린샷 자기비평 루프. 안티-AI-슬롭 미학 + 한국형 전환 구조(PASONA, Schwartz 인지×정교화). 보정용 실제 와디즈 캡처 동봉.
 - **ui-design** — 앱·웹·프로덕트 UI, 대시보드, SaaS, 폼, 컴포넌트 — 모든 인터랙티브 상태, 모션 규율, 프로덕트 UI에 적용된 안티슬롭 기준. 다크모드는 두 HTML 스타터에서 기본 제공이며, `icon-set.js`가 일관된 1st-party SVG 아이콘 패밀리 + 검증 시트를 생성합니다.
 - **design-system** — 디자인 토큰(DTCG + Tailwind v4 `@theme`), OKLCH 램프, 시맨틱 테마, 멀티브랜드 & 다크모드, 개발 핸드오프 스펙 시트, 그리고 `undefined-token-ref`를 CI에서 잡는 `brand-lint` 게이트.
@@ -76,10 +79,10 @@ Claude Code 안에서:
 - **a11y-auditor** — WCAG 2.2 AA 감사(대비, 키보드, 포커스, 이름/역할, prefers-reduced-motion), PASS/FAIL.
 - **design-director** — 빌드 전에 강하고 비제너릭한 아트 디렉션(토큰 시스템 + 시그니처 요소)을 고정.
 
-### 커맨드 (9)
-`/design`(라우터) · `/landing` · `/ui` · `/brand` · `/plan` · `/campaign` · `/design-tokens` · `/design-review` · `/design-setup`
+### 커맨드 (11)
+`/design`(라우터) · `/landing` · `/ui` · `/brand` · `/plan` · `/campaign` · `/design-tokens` · `/design-image` · `/design-publish` · `/design-review` · `/design-setup`
 
-디자인 커맨드 8개 + 일회성 셋업 1개(`/design-setup`)입니다. `/campaign`은 하나의 아이디어를 고정해 랜딩 + 유료 광고 + 소셜 + 이메일 시퀀스로 펼치고, 결정적 카피 플로어(`copy-lint.js --idea`)와 이메일 플로어, 독립 `design-critic MODE=copy` 시맨틱 채점으로 크로스서피스 메시지-매치를 점검합니다.
+디자인 커맨드 10개 + 일회성 셋업 1개(`/design-setup`)입니다. `/campaign`은 하나의 아이디어를 고정해 랜딩 + 유료 광고 + 소셜 + 이메일 시퀀스로 펼치고, 결정적 카피 플로어(`copy-lint.js --idea`)와 이메일 플로어, 독립 `design-critic MODE=copy` 시맨틱 채점으로 크로스서피스 메시지-매치를 점검합니다.
 
 ---
 
@@ -99,6 +102,7 @@ Claude Code 안에서:
 
 ## 참고
 
-- **이미지 생성 & 라이브 캡처**는 일회성 `/design-setup`(Patchright + Chromium)이 필요합니다. 이미지 *생성*은 추가로 API 키(`OPENAI_API_KEY` / `GEMINI_API_KEY`)나 ChatGPT 로그인이 필요하고, 없으면 이미지 슬롯은 **의도된 lo-fi 컴프**(결정적 온브랜드 SVG)로 렌더되어 운영자가 실제 아트로 교체합니다.
+- **이미지 생성**(`/design-image`)은 **브라우저 설치가 필요 없습니다** — 자격증명 하나만 있으면 됩니다: 무료 ChatGPT/codex 로그인(`codex login`) 우선, 없으면 API 키(`OPENAI_API_KEY` / `GEMINI_API_KEY`). 아무것도 없으면 이미지 슬롯은 **의도된 lo-fi 컴프**(결정적 온브랜드 SVG)로 렌더되어 실제 아트로 교체합니다. `image-service.js --doctor`로 무엇이 활성인지 확인하세요. (**라이브 페이지 캡처** — 실제 경쟁사 페이지 스크린샷 — 만 일회성 `/design-setup` Patchright + Chromium 설치가 필요합니다.)
+- **Claude Design 발행**(`/design-publish`)은 컴포넌트 라이브러리를 네이티브 DesignSync 툴로 **claude.ai/design** 디자인시스템 프로젝트에 푸시합니다. claude.ai 로그인에 디자인시스템 접근이 필요하며(읽기 실패 시 `/design-login` 1회 실행), sync를 재구현하지 않고 매 푸시 전 대상 프로젝트를 먼저 확인합니다.
 - **컴플라이언스**(광고/표시법, 주장 입증)는 의도적으로 운영자에게 맡깁니다 — 본 스위트는 디자인·전환 품질에 최적화되어 있고 법적 검토는 하지 않습니다.
 - 라이선스: MIT.

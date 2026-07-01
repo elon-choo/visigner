@@ -5,7 +5,7 @@ This is the layer that closes the last gap: real Wadiz pages are image-dominant,
 ## Models (verified live 2026-06-22 against the user's keys — override via env)
 | Role | Default | Alts on this key | Notes |
 |---|---|---|---|
-| Image (제작) | `gpt-image-1.5` (OpenAI) | `gpt-image-1`, `gpt-image-1-mini` | **There is no `gpt-image-2`** — 1.5 is the newest. Returns b64; fixed sizes. |
+| Image (제작, 레거시 /v1/images) | `gpt-image-1.5` (OpenAI) | `gpt-image-2` (키 접근 시 opt-in), `gpt-image-1`, `gpt-image-1-mini` | **`gpt-image-2`가 2026-04 출시**(추론형·다국어 텍스트 강함)됐지만 이 레거시 경로는 검증된 `gpt-image-1.5`를 기본 유지한다 — design-core 이미지 서비스는 여기에 gpt-image-2를 **강제하지 않는다**(키가 접근 못 하면 조용히 placeholder로 강등되므로). 쓰려면 `OPENAI_IMAGE_MODEL=gpt-image-2` 명시. **최신 추론형 품질은 아래 `openai-responses` 경로가 담당.** Returns b64; fixed sizes. |
 | Image (제작) | `gemini-3-pro-image` (Google) | `gemini-3.1-flash-image`, `imagen-4.0-ultra-generate-001` | **Best at Korean text-in-image** + native aspect-ratio control. Use for ANY asset with baked-in Hangul. |
 | Plan (기획) | `gpt-5.2` (OpenAI) | `gpt-5.5-pro`, `gemini-3.1-pro-preview` | text LLM that expands a brief into the slot plan. |
 

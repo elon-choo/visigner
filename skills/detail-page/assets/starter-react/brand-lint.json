@@ -1,0 +1,96 @@
+{
+  "pass": true,
+  "errorCount": 0,
+  "warnCount": 1,
+  "onBrand": true,
+  "files": [
+    {
+      "file": "index.html",
+      "errorCount": 0,
+      "warnCount": 0,
+      "violations": [],
+      "tokenCoverage": {
+        "definedTokens": 0,
+        "rawColorsOutsideTheme": 0
+      },
+      "brand": {
+        "onBrand": true,
+        "evidence": "0/0 declared colors within ΔE 0.02 of 17 brand roles; COVERAGE: 0 declared color(s) had no brand role to compare — coverage 100%"
+      }
+    },
+    {
+      "file": "src/App.tsx",
+      "errorCount": 0,
+      "warnCount": 1,
+      "violations": [
+        {
+          "rule": "emoji",
+          "where": "document",
+          "snippet": "emoji present (☀) — confirm it is copy, not an icon/bullet (banned as icon)",
+          "severity": "warn"
+        }
+      ],
+      "tokenCoverage": {
+        "definedTokens": 0,
+        "rawColorsOutsideTheme": 0
+      }
+    },
+    {
+      "file": "src/Button.tsx",
+      "errorCount": 0,
+      "warnCount": 0,
+      "violations": [],
+      "tokenCoverage": {
+        "definedTokens": 0,
+        "rawColorsOutsideTheme": 0
+      }
+    },
+    {
+      "file": "src/index.css",
+      "errorCount": 0,
+      "warnCount": 0,
+      "violations": [],
+      "tokenCoverage": {
+        "definedTokens": 23,
+        "rawColorsOutsideTheme": 0
+      },
+      "brand": {
+        "onBrand": true,
+        "evidence": "15/15 declared colors within ΔE 0.02 of 17 brand roles; COVERAGE: 2 declared color(s) had no brand role to compare — coverage 88%"
+      }
+    },
+    {
+      "file": "src/main.tsx",
+      "errorCount": 0,
+      "warnCount": 0,
+      "violations": [],
+      "tokenCoverage": {
+        "definedTokens": 0,
+        "rawColorsOutsideTheme": 0
+      }
+    },
+    {
+      "file": "vite.config.ts",
+      "errorCount": 0,
+      "warnCount": 0,
+      "violations": [],
+      "tokenCoverage": {
+        "definedTokens": 0,
+        "rawColorsOutsideTheme": 0
+      }
+    }
+  ],
+  "totals": {
+    "filesScanned": 6,
+    "filesWithErrors": 0,
+    "errorCount": 0,
+    "warnCount": 1,
+    "rawColorsOutsideTheme": 0,
+    "definedTokens": 23,
+    "brandFilesChecked": 1,
+    "brandDeclaredColors": 15,
+    "brandOffBrandColors": 0,
+    "brandFilesOff": 0
+  },
+  "root": "/Users/elon/visigner/skills/detail-page/assets/starter-react"
+}

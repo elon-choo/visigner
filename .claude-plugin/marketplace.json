@@ -5,13 +5,13 @@
     "name": "elon-choo",
     "email": "sbmelon1@gmail.com"
   },
-  "description": "Visigner — a single-install design toolkit for Claude Code. Bundles landing/detail-page, app & web UI, design systems, brand identity, UX, design-to-code, and conversion skills, plus review agents and slash commands.",
-  "version": "1.0.0",
+  "description": "Visigner — a single-install design toolkit for Claude Code, built on one shared core. Bundles landing/detail-page, app & web UI, design systems, brand identity, UX, design-to-code, and conversion skills, a global image service (latest OpenAI/Gemini models), and Claude Design (claude.ai/design) publishing, plus review agents and slash commands.",
+  "version": "1.1.0",
   "plugins": [
     {
       "name": "visigner",
       "source": ".",
-      "description": "Everything design in one install: landing & Korean 상세페이지/Wadiz pages, app/web UI, design tokens & systems, brand identity, UX flows, design-to-code (React/Tailwind/shadcn), conversion/marketing — plus design-critic & a11y-audit agents and friendly commands.",
+      "description": "Everything design in one install, on one core: landing & Korean 상세페이지/Wadiz pages, app/web UI, design tokens & systems, brand identity, UX flows, design-to-code (React/Tailwind/shadcn), conversion/marketing, a global image service (generate assets via gpt-image-2 / gemini-3-pro-image — free ChatGPT/codex OAuth or API key), and one-command publishing to Claude Design — plus design-critic & a11y-audit agents and friendly commands.",
       "category": "design",
       "keywords": [
         "design",
@@ -23,7 +23,10 @@
         "design-system",
         "brand",
         "conversion",
-        "accessibility"
+        "accessibility",
+        "image-generation",
+        "claude-design",
+        "designsync"
       ],
       "license": "MIT"
     }
