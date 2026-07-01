@@ -9,6 +9,8 @@ Run this AFTER screenshotting the page (`scripts/shoot.js`) — grade what you S
 - [ ] Not 3–7 equal cards with mismatched icons; one repeated layout primitive instead. No emoji as icons/bullets.
 - [ ] Not uniform border-radius + soft shadow on every surface; emphasis is concentrated, not spread.
 - [ ] Hero is subject-grounded, not the big-number+stats+gradient template.
+- [ ] **No fake product render** — no glossy radial-gradient / 3D "app-icon" blob standing in for the product. Product visuals are real/macro photography OR one consistent illustration/diagram language. A default gradient blob is a hard fail (the #1 fake-render tell both panels catch).
+- [ ] **Color is not monochrome-timid** — the page is NOT a single-hue / near-neutral field with color confined to the CTA. At least one section floods a committed saturated color field (type reversed out). A "no color" page is a §A fail even if it dodges every banned default (this is the exact safe-but-ugly trap; see the color-confidence floor in §B).
 - [ ] Copy is specific — no "Build the future / Empower / Unlock / Transform", no two-noun feature titles.
 - [ ] Not one of the three AI clichés (cream+serif+terracotta · near-black+acid-green · broadsheet hairline).
 - [ ] Quality floor: responsive to mobile (shoot at 390px wide too), visible keyboard focus, `prefers-reduced-motion` respected.
@@ -27,18 +29,25 @@ Run this AFTER screenshotting the page (`scripts/shoot.js`) — grade what you S
 | **Structure** | Feature dump, no narrative | Clear 후킹→공감→해결→증명→CTA (or hero→proof→value→CTA) arc; reader is pulled |
 | **Benefit vs feature** | Lists specs | Every feature framed as a customer benefit first |
 | **Empathy** | Brand-voice "we're great" | Customer-voice "this is my problem" |
-| **Proof** | Self-praise, vague claims | Specific numbers, real reviews, Before/After, certs — repeated mid-scroll |
+| **Proof** | Self-praise, vague claims; a bare big-number stat-trio | Verbatim **attributed** reviews (name/handle), photo & Before/After evidence, real certs — repeated mid-scroll. An aggregate stat-trio alone is the dated 스마트스토어 move; attributed human proof scores higher |
 | **One message** | Many competing claims | One memorable takeaway |
 | **Visual craft** | Tiny mobile type, walls of text, flat | Clean bands, mobile-legible, GIF/video demos, dividers, intentional hierarchy |
-| **Urgency/CTA** | One bottom button, no reason to act now | Urgency above each CTA, repeated CTAs, focal accent, ≥48px target; mobile sticky thumb-zone bar carries a scarcity/deadline line |
+| **Urgency/CTA** | One bottom button, no reason to act now; OR stacked discount-% badges + strikethrough + 선착순-counter chips repeated everywhere (scarcity theatre) | ONE integrated, credible scarcity moment (real deadline/quantity), repeated CTAs, focal accent, ≥48px target; mobile sticky thumb-zone bar carries a single scarcity/deadline line. Vary the scarcity device — don't paste the same badge stack on every section |
 | **Trust/risk-reversal** | No policy / hidden | Clear refund/exchange, certs, transparent shipping |
 | **Aesthetic distinctiveness** | Could be any AI page | Reads as designed for *this* subject; one memorable signature element |
 | **(detail mode) Story & rewards** | Reads like an open-market listing | Maker reason up front + tiered scarce rewards exploiting the 72h window |
 | **(AI/digital Wadiz) Tangibility** | Digital offer is only described | Mockups, tool screens, deliverables wall, curriculum, package economics make the product feel concrete |
 
 ## Ship gate
-**Ship only at overall ≥ 8/10 with no single dimension < 7, and zero fails in section A.**
-If below: list the 2–3 lowest dimensions, make the specific fix each implies, return to build step 4, re-shoot, re-score. Record what you changed between passes (so later passes don't repeat a rejected idea). Before declaring done, "remove one accessory" — cut the weakest decorative element.
+**Ship only when BOTH gates pass:**
+1. **Anti-slop gate (this file):** overall ≥ 8/10, no single dimension < 7, Aesthetic distinctiveness ≥ 8 (with the color-confidence floor above), zero §A fails.
+2. **Taste gate (`taste-jury.md`):** taste overall ≥ 7.5 with Color-confidence ≥ 7 AND Aesthetic-ambition ≥ 7. Run the taste jury on the SAME tiles; a page that passes anti-slop but fails taste (the safe-but-ugly baseline) does **not** ship.
+
+**Mechanical fails are not taste fails — route them differently.** Split §A failures into two kinds:
+- **MECHANICAL** (390px horizontal overflow, a scroll-reveal whose opacity never settled → faded/ghost sections, a broken/0px asset, reduced-motion capture faded): these are recoverable render bugs. Route to a mandatory **fix-and-reshoot**, not a terminal reject — do NOT let a render glitch kill an otherwise strong, color-confident page (a common false-negative that punishes the boldest candidate).
+- **TASTE/CRAFT/SUBSTANCE** (colorless/timid palette, fake-blob product render, generic layout, weak copy, missing conversion arc): these are real rejects — fix the design, don't just re-shoot.
+
+If below either gate: list the 2–3 lowest dimensions (across BOTH panels), make the specific fix each implies, return to build step 4, re-shoot, re-score. Record what you changed between passes (so later passes don't repeat a rejected idea). Before declaring done, "remove one accessory" — cut the weakest decorative element.
 
 Extra gate for Wadiz AI/digital products: at least 8 benchmark modules from `wadiz-ai-digital-benchmark.md`, plus one bad-example/contrast block, one mechanism block, one deliverables wall, and one package-economics block. Reference captures used for benchmarking must cover the page (`coveredHeight >= pageHeight`) unless intentionally capped and documented.
 
@@ -53,6 +62,8 @@ Use them as the calibration scale: a tile only earns a high **Aesthetic distinct
 **Pairwise distinctiveness (do this BEFORE assigning the 1–10).** In-context pairwise comparison beats an absolute scale. Put the candidate hero + 3 representative tiles next to the matching tiles of one real capture (`400620` for AI/automation tone, `403454` for template/digital) and rank: does the candidate look **more / equally / less** convincingly hand-designed? Name the *specific* tell that decides it ("less hand-designed than `400620` tile_03 — flat equal cards vs its layered evidence objects"). Then map: **≥ the capture → 8+**, roughly equal → 7–8, **clearly less → < 7** (a hard block, since distinctiveness must reach 8 to ship). Anchor the number to the comparison, never to a free-floating vibe.
 
 **Weighting:** when picking the 2–3 lowest dims to fix, treat **Aesthetic distinctiveness** as the highest-leverage dimension (it is what most separates a real page from AI slop) — never let a page ship at distinctiveness < 8 even if the average clears the gate.
+
+**Color-confidence floor on Aesthetic distinctiveness (mandatory).** A palette that is **single-hue / monochrome**, OR a **neutral base with the accent confined to CTAs/highlights**, **caps Aesthetic distinctiveness at 6** — *regardless of how strong the signature element is.* A colorless signature does not clear the 8 ship floor. Distinctiveness reaches 8 only when at least one section commits a saturated color field (type reversed out), i.e. the same thing the taste jury's **Color-confidence** axis (`taste-jury.md`) scores ≥7. Grade this axis with the taste panel's threshold so the two panels stop diverging on the exact axis that separates a real page from the safe-but-ugly baseline. (Historical failure this closes: a warm-amber-monochrome page scored distinctiveness 8 / ship-pass here while the taste panel scored its color 4.5 and correctly rejected it.)
 
 **Independent evaluator rule (generator/evaluator split):** whoever (or whichever agent) *built* the page must not be the one that grades it. The evaluator reads only the rubric + the tiles + these anchors, and — for the strongest pass — re-renders the live file (`shoot.js`, or live navigation) instead of trusting hand-offs, so real overflow / focus / sticky-bar behavior is graded from pixels, not claims.
 

@@ -6,6 +6,8 @@ Adapted from Anthropic's `frontend-design` skill (Prithvi Rajasekaran, Alexander
 
 **Pass 1 — plan a compact token system** (in thinking, before any code):
 - **Color**: 4–6 named hex values. Dominant + sharp accent, not 5 timid pastels. "Dominant colors with sharp accents outperform timid, evenly-distributed palettes."
+- **COLOR COMMITMENT (mandatory — decide this before code, not after grading):** name the ONE section that floods a *saturated color field* (a whole band owning the viewport, type reversed out of it) and the risky-but-grounded pairing it commits to — **impact, not harmony.** A neutral base with a single accent confined to the CTA is the timid default this step exists to prevent: "no color" is not restraint, it reads as fear. (See `color-forward-palettes.md` for named impact-not-harmony palettes; a single-hue/monochrome scheme is a supporting band, never the page's identity.)
+- **PRODUCT-VISUAL LANGUAGE (mandatory):** declare how the product will be shown — EITHER oversized real/macro photography OR **one** committed illustration/diagram system applied consistently. Gradient blobs are forbidden (see banned defaults). Decide this up front so image slots aren't backfilled with default glossy app-icon shapes.
 - **Type**: typefaces for 2+ roles — a characterful **display** used with restraint, a complementary **body**, a **utility/mono** for captions/data if needed.
 - **Layout**: a one-sentence concept + ASCII wireframe to compare options.
 - **Signature**: the single unique element the page is remembered by, embodying the brief.
@@ -40,7 +42,9 @@ Structural devices — numbering, eyebrows, dividers, labels — must encode som
 
 - Commit to a cohesive aesthetic; drive it with CSS variables.
 - **60-30-10**: 60% dominant surface, 30% secondary, 10% accent. The 10% accent is the brightest and marks the focal point — **reserve it for the primary CTA**. The rule's real job is removing color that competes with itself.
+- **BUT 60-30-10 is not a licence for monochrome.** The rule governs the *accent*; it does not require the 60% and 30% to be near-neutral. A page where the dominant and secondary are both low-chroma neutrals with color only on the CTA reads as "no color" — the exact failure users reject as timid/ugly. Give the 30% (and at least one full section's 60%) *committed chroma*: a saturated field that owns a whole band, type reversed out of it, is a disciplined signature, not competing color. The discipline is "one bold color POSITION held consistently," not "almost no color." Restraint-mode (near-mono + one reserved accent, à la 29CM) is legitimate ONLY when it earns it through editorial layout + photography; without those it is the sad-beige trap.
 - Avoid clichéd schemes, **especially ungrounded purple gradients on white**. For AI/digital commerce, purple/blue can work only when it is part of a concrete artifact/proof system rather than a generic AI mood.
+- **Banned product visual — the gradient blob:** never stand in for the product with a soft radial-gradient / glossy 3D "app-icon" blob. It is the #1 fake-render tell both the anti-slop and taste panels catch. Every product visual is EITHER oversized real/macro photography OR one committed illustration/diagram language (e.g. a technical line-blueprint) applied consistently.
 - Generate shade ramps in **OKLCH** by holding hue *roughly* fixed and stepping lightness in *near-even* steps (chroma may arc for vividness mid-ramp), not by naively lightening/darkening one hex. A clean ramp ≈ `oklch(L C H)` with L in near-even steps (e.g. .96/.90/.76/.56/.40/.27) at a near-fixed H (a small hue drift toward warmth as it darkens is fine).
 - **Single token source — a Tailwind v4 `@theme` block.** Express every color/font/shadow token ONCE inside `@theme { --color-*: oklch(…); --font-*: …; --shadow-*: … }`; v4 turns each token into BOTH a CSS variable (`var(--color-ink)`) AND a utility (`bg-ink`/`text-ink`/`shadow-e2`), so there is no second config object or parallel `:root` hex list to drift out of sync. The starter (`assets/starter/index.html`) is wired this way via `@tailwindcss/browser@4` (`<style type="text/tailwindcss">`); for production compile the SAME `@theme` block with the Tailwind CLI. Never reintroduce a `tailwind.config` colors object alongside a separate `:root` list.
 - Draw palettes from IDE themes, cultural aesthetics, or the subject's real-world materials. Tune live in **Realtime Colors**, then transcribe the result into the `@theme` block as OKLCH so no default class leaks through.
@@ -70,7 +74,7 @@ Words exist to make the design easier to understand. Write from the user's side 
 
 ## Restraint & self-critique
 
-Spend your boldness in **one** place — the signature — and keep everything around it quiet. Cut decoration that doesn't serve the brief. Critique as you build by taking **screenshots** (a picture is worth 1000 tokens). Chanel's rule: before leaving the house, remove one accessory. Watch CSS specificity collisions (`.section` vs `.cta` cancelling paddings/margins between sections). Quality floor, never announced: responsive to mobile, visible keyboard focus, reduced motion respected.
+Spend your boldness in **one** place — the signature — and keep everything around it quiet. **"Quiet" means quiet in decoration and motion, NOT bleached of color:** a committed saturated field can BE the signature, and the surrounding sections stay disciplined by holding that same color position rather than by going neutral. Do not read this rule as "minimize color" — that produces the timid monochrome the taste panel rejects. Cut decoration that doesn't serve the brief. Critique as you build by taking **screenshots** (a picture is worth 1000 tokens). Chanel's rule: before leaving the house, remove one accessory. Watch CSS specificity collisions (`.section` vs `.cta` cancelling paddings/margins between sections). Quality floor, never announced: responsive to mobile, visible keyboard focus, reduced motion respected.
 
 ## Top 20 — what most separates professional from AI-generated
 
@@ -89,7 +93,9 @@ Spend your boldness in **one** place — the signature — and keep everything a
 13. One orchestrated entrance animation; honor reduced-motion; no scattered micro-interactions.
 14. Atmospheric backgrounds, not flat solids.
 15. 3–4 elevation tokens, never ad-hoc shadows; OKLCH shade ramps; all tokens defined ONCE in a Tailwind v4 `@theme` block (single source → both vars and utilities).
-16. Spend boldness in exactly one place; keep the rest disciplined.
+16. Spend boldness in exactly one place; keep the rest disciplined — but "disciplined" ≠ colorless. Commit ONE saturated color field that owns a section (type reversed out); hold that color position everywhere else instead of retreating to neutral. Monochrome-with-one-CTA-accent is the timid default, not restraint.
+21. Never fake the product with a glossy gradient/3D "app-icon" blob — use real/macro photography or one consistent illustration/diagram language.
+22. Decide COLOR COMMITMENT (the one saturated field + its impact-not-harmony pairing) and PRODUCT-VISUAL LANGUAGE in the plan, before code — boldness must be designed in, never retrofitted after grading.
 17. Copy is design: active voice, control-named buttons, specific > clever, no "Build the future".
 18. Primary CTA above the fold + repeated; CTA = focal accent + verb + ≥44px touch target; trust signals adjacent.
 19. Quality floor: responsive, visible focus, reduced motion, no CSS specificity conflicts.

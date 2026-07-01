@@ -43,9 +43,11 @@ Ground every choice in the subject's own world — its materials, vocabulary, ar
 
 Produce a compact plan and challenge it before writing any markup:
 - **Color** — 4–6 named hex values. One committed dominant + one sharp accent (60-30-10). The accent's 10% is reserved for the primary CTA / focal point.
+- **COLOR COMMITMENT (mandatory)** — name the ONE section that floods a *saturated color field* (a whole band owning the viewport, type reversed out) and the risky-but-grounded pairing it commits to — **impact, not harmony.** A near-neutral page with color only on the CTA is the timid "no color" default users reject as ugly; 60-30-10 governs the accent, it does NOT license monochrome. Pick from `references/color-forward-palettes.md` or derive a grounded equivalent (at least one field at OKLCH chroma ≥ 0.12).
+- **PRODUCT-VISUAL LANGUAGE (mandatory)** — declare EITHER oversized real/macro photography OR one committed illustration/diagram system; **glossy gradient/3D "app-icon" product blobs are banned** (the #1 fake-render tell).
 - **Type** — a characterful **display** face + a complementary **body** face (+ a utility/mono face if data-heavy). High contrast pairing. Extreme weight contrast (100/200 vs 800/900), ≥3× size jumps.
 - **Layout** — one-sentence concept + a quick ASCII wireframe. Not centered-everything.
-- **Signature** — the single element this page is remembered by, embodying the brief.
+- **Signature** — the single element this page is remembered by, embodying the brief. A committed saturated color field CAN be the signature.
 
 Then **critique the plan**: re-derive what you'd produce for any similar brief; wherever your plan matches that generic default, change it and say why. Only build after the plan is provably specific to *this* brief. Full method + the banned-defaults list: `references/aesthetics.md`.
 
@@ -57,6 +59,9 @@ Then **critique the plan**: re-derive what you'd produce for any similar brief; 
 - ❌ Big-number-hero + supporting stats + gradient accent as the default hero (it's the template answer).
 - ❌ Vague copy ("Build the future", "Empower / Unlock / Transform", two-noun feature titles).
 - ❌ The three current AI-design clichés: cream `#F4F1EA`+serif+terracotta · near-black + acid-green · broadsheet hairline-rule layout — these are defaults, not choices.
+- ❌ **Monochrome-timid palette** — a single-hue / near-neutral page with committed color only on the CTA. "No color" reads as fear, not restraint; it is the safe-but-ugly baseline this skill now hard-fails (see the color-confidence floor in `review-rubric.md`). Commit one saturated field. Restraint-mode (29CM near-mono) is legitimate ONLY with editorial layout + photography earning it.
+- ❌ **Glossy gradient / 3D "app-icon" product blob** standing in for the product. Use real/macro photography or one consistent illustration/diagram language.
+- ❌ **Scarcity theatre** — stacked discount-% badges + strikethrough + 선착순-counter chips pasted on every section. One credible, varied scarcity moment instead.
 
 ## 3 · Structure (section arc)
 
@@ -130,7 +135,7 @@ MOTION_TRIGGER='scroll:.reveal|a:click' ${CLAUDE_PLUGIN_ROOT}/bin/shoot <file-or
 
 ## 6 · Score & iterate
 
-Grade the page on the 10-dimension rubric in `references/review-rubric.md` (hook, structure, benefit-vs-feature, empathy, proof, one-message, visual craft, urgency/CTA, trust/risk-reversal, and — detail mode — story & rewards). Gate: **ship only at ≥ 8/10 overall with no dimension < 7**. If below, fix the lowest-scoring dimensions and return to step 4. Spend boldness in one place; before finishing, "remove one accessory" — cut the weakest decorative element.
+Grade the page on the 10-dimension rubric in `references/review-rubric.md` (hook, structure, benefit-vs-feature, empathy, proof, one-message, visual craft, urgency/CTA, trust/risk-reversal, and — detail mode — story & rewards) **AND on the taste jury in `references/taste-jury.md`** (color-confidence, typographic sophistication, trend-currency, aesthetic ambition, composition, mood, finish). **Ship only when BOTH gates pass:** anti-slop (≥ 8/10 overall, no dim < 7, Aesthetic distinctiveness ≥ 8 with its color-confidence floor) AND taste (≥ 7.5 overall with color-confidence ≥ 7 and ambition ≥ 7). A page that passes anti-slop but reads as safe/colorless (the baseline users reject) does NOT ship — the taste gate exists precisely to catch it. Route MECHANICAL fails (390px overflow, faded scroll-reveal, broken asset) to fix-and-reshoot, not a terminal reject. If below either gate, fix the lowest-scoring dimensions across both panels and return to step 4. Before finishing, "remove one accessory" — cut the weakest decorative element.
 
 ## Running under ultracode (multi-agent workflow)
 
@@ -159,7 +164,9 @@ It runs Plan (3 divergent token-system plans, +1 if `claudeSeed` → a design-di
 - `references/aesthetics.md` — full frontend-design method, banned defaults, Top-20 anti-slop rules, font/color systems.
 - `references/korean-detailpage.md` — 상세페이지/Wadiz anatomy, PASONA, copy formulas, reward design, platform sizes, checklist.
 - `references/tooling.md` — the 6 sites + exact install/embed commands and when to reach for each.
-- `references/review-rubric.md` — pre-publish checklist + 10-dim scoring rubric + the ship gate.
+- `references/review-rubric.md` — pre-publish checklist + 10-dim scoring rubric + the ship gate (now with the color-confidence floor + the taste co-gate + the mechanical-vs-taste split).
+- `references/taste-jury.md` — the contemporary-aesthetics panel (6 taste personas + a 7-axis aesthetic-ambition rubric: color-confidence, typography, trend-currency, ambition, composition, mood, finish). Runs ALONGSIDE the anti-slop rubric as an AND co-gate; catches the "passes anti-slop but safe/colorless/ugly" page.
+- `references/color-forward-palettes.md` — named "impact-not-harmony" palettes, each mandating one saturated color field owning a section; the plan step's COLOR COMMITMENT picks from here. Counters the default drift toward timid monochrome.
 - `references/wadiz-ai-digital-benchmark.md` — pixel-derived benchmark from Wadiz AI/digital product pages 400620 + 403454.
 - `references/asset-generation.md` — generate real image assets (covers, scenes, deliverables walls) via `openai-responses` (free ChatGPT-OAuth Responses path) / gemini-3-pro-image / gpt-image-1.5; the 기획→제작→배치 flow, plan schema, Korean prompt rules.
 - `scripts/` — `shoot.js` (screenshot own output + assertion gates: 390px-overflow always, broken-asset always [`ASSETS=0` opts out], `AXE=1` a11y on desktop+mobile, `gate.report` rollup, `GATE_EXIT=1`), `capture-reference.js` + `capture-reference-patchright.js` (capture a reference page; Patchright variant for Wadiz/Akamai walls), `gen-plan.js` (기획: brief → asset plan) + `gen-assets.js` (제작: plan → real PNGs) + `lib-openai-responses.js` (the free ChatGPT-OAuth Responses+image_generation engine `gen-assets.js` calls), `brand-lint.js` (deterministic brand-governance gate — raw-hex/banned-font/AI-purple as machine checks), `build-tokens.js` (compile `tokens/*.tokens.json` → the starter's `:root{--brand-*}` / `@theme` layers), `view-capture.js` (build a one-click stitched HTML viewer from any capture dir), `ultracode-workflow.js` (the multi-agent workflow above), `README.md`. Saved reference captures (Wadiz 400620/403454, viewable anywhere): `references/captures/`.
