@@ -51,6 +51,8 @@ Produce a compact plan and challenge it before writing any markup:
 
 Then **critique the plan**: re-derive what you'd produce for any similar brief; wherever your plan matches that generic default, change it and say why. Only build after the plan is provably specific to *this* brief. Full method + the banned-defaults list: `references/aesthetics.md`.
 
+**Plan-completeness gate.** The two `(mandatory)` fields above — COLOR COMMITMENT and PRODUCT-VISUAL LANGUAGE — are required parts of the plan, not optional prompts. If the plan omits either one, the plan is incomplete: do NOT proceed to build until both are explicitly declared. (This is why they are decided in the plan, before code — a build left to its own gravity silently reverts to safe neutral bands and default gradient panels.)
+
 ### Banned by default (override only if the brief explicitly asks)
 - ❌ Inter / Roboto / Arial / Open Sans / Lato / system fonts. → pick from `references/aesthetics.md` / Fontshare.
 - ❌ Purple→blue gradient on white. ❌ generic "AI purple/indigo" as the brand color. For AI/digital Wadiz pages, purple/blue is allowed only when grounded by concrete proof artifacts and secondary accents; see `references/wadiz-ai-digital-benchmark.md`.
@@ -165,7 +167,7 @@ Workflow({
 It runs Plan (3 divergent token-system plans, +1 if `claudeSeed` → a design-director synthesis) → Build → Shoot (`scripts/shoot.js`, with `AXE=1` + the broken-asset/overflow gates) → Score (INDEPENDENT adversarial grade vs `review-rubric.md`, calibrated against the real captures; +cross-model jury if `jury`), iterating Build→Shoot→Score until the ship gate passes. It returns the **best** round (not merely the last) when the gate isn't met, and stops early on a genuine stall (unless `noEarlyStop`). With `govern`, a brand-lint failure blocks ship and the return adds `report` (enterprise-report path) + `brandClean`. Workflow subagents do **not** auto-load this skill, so the script points every agent at absolute paths built from the `skillRoot` you pass (above) — that is what makes it portable across machines. `category:'auto'` infers AI/digital from the brief and loads `wadiz-ai-digital-benchmark.md` + its extra gate. The workflow writes to `/tmp` by default; copy the final file into your project afterward. Workflow is gated on explicit opt-in — only launch it when ultracode is on or the user asked for orchestration; otherwise run the single-agent loop above.
 
 ## References (load when you reach that step)
-- `references/aesthetics.md` — full frontend-design method, banned defaults, Top-20 anti-slop rules, font/color systems.
+- `references/aesthetics.md` — full frontend-design method, banned defaults, Top-22 anti-slop rules, font/color systems.
 - `references/korean-detailpage.md` — 상세페이지/Wadiz anatomy, PASONA, copy formulas, reward design, platform sizes, checklist.
 - `references/tooling.md` — the 6 sites + exact install/embed commands and when to reach for each.
 - `references/review-rubric.md` — pre-publish checklist + 10-dim scoring rubric + the ship gate (now with the color-confidence floor + the taste co-gate + the mechanical-vs-taste split).

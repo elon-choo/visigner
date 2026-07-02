@@ -80,7 +80,7 @@ Words exist to make the design easier to understand. Write from the user's side 
 
 Spend your boldness in **one** place — the signature — and keep everything around it quiet. **"Quiet" means quiet in decoration and motion, NOT bleached of color:** a committed saturated field can BE the signature, and the surrounding sections stay disciplined by holding that same color position rather than by going neutral. Do not read this rule as "minimize color" — that produces the timid monochrome the taste panel rejects. Cut decoration that doesn't serve the brief. Critique as you build by taking **screenshots** (a picture is worth 1000 tokens). Chanel's rule: before leaving the house, remove one accessory. Watch CSS specificity collisions (`.section` vs `.cta` cancelling paddings/margins between sections). Quality floor, never announced: responsive to mobile, visible keyboard focus, reduced motion respected.
 
-## Top 20 — what most separates professional from AI-generated
+## Top 22 — what most separates professional from AI-generated
 
 1. Plan a token system + a named **signature element** before coding.
 2. Ban the 6 generic fonts; one distinctive display + body, high contrast; don't default to Space Grotesk.
@@ -98,12 +98,12 @@ Spend your boldness in **one** place — the signature — and keep everything a
 14. Atmospheric backgrounds, not flat solids.
 15. 3–4 elevation tokens, never ad-hoc shadows; OKLCH shade ramps; all tokens defined ONCE in a Tailwind v4 `@theme` block (single source → both vars and utilities).
 16. Spend boldness in exactly one place; keep the rest disciplined — but "disciplined" ≠ colorless. Commit ONE saturated color field that owns a section (type reversed out); hold that color position everywhere else instead of retreating to neutral. Monochrome-with-one-CTA-accent is the timid default, not restraint.
-21. Never fake the product with a glossy gradient/3D "app-icon" blob — use real/macro photography or one consistent illustration/diagram language.
-22. Decide COLOR COMMITMENT (the one saturated field + its impact-not-harmony pairing) and PRODUCT-VISUAL LANGUAGE in the plan, before code — boldness must be designed in, never retrofitted after grading.
 17. Copy is design: active voice, control-named buttons, specific > clever, no "Build the future".
 18. Primary CTA above the fold + repeated; CTA = focal accent + verb + ≥44px touch target; trust signals adjacent.
 19. Quality floor: responsive, visible focus, reduced motion, no CSS specificity conflicts.
 20. For product pages, story-structure the body (PASONA / Wadiz arc) — story-structured pages convert ~2× higher. See `korean-detailpage.md`.
+21. Never fake the product with a glossy gradient/3D "app-icon" blob — use real/macro photography or one consistent illustration/diagram language.
+22. Decide COLOR COMMITMENT (the one saturated field + its impact-not-harmony pairing) and PRODUCT-VISUAL LANGUAGE in the plan, before code — boldness must be designed in, never retrofitted after grading.
 
 ## Sources
 - Anthropic `frontend-design` SKILL.md — github.com/anthropics/claude-code/tree/main/plugins/frontend-design
