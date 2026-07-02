@@ -29,7 +29,7 @@ Each juror is a *lens*, not a separate score sheet — read the tiles through al
 | **Mood & desirability** | No emotional temperature; spec sheet | Pleasant, forgettable | Makes you *want* the product — sensory, atmospheric, a clear emotional register that matches the subject |
 | **Finish & detail** | Flat fills, default radii, no texture | Clean but plasticky | Considered micro-detail — texture/grain/gradient-with-intent, edge treatment, optical alignment, the "expensive" feel |
 
-**Weighting:** `Color confidence` and `Aesthetic ambition` are the highest-leverage axes (they are exactly what the anti-slop gate misses). Never let a page pass the taste gate with either below 7.
+**Weighting:** `Color confidence` and `Aesthetic ambition` are the highest-leverage axes (they are exactly what the anti-slop gate misses). Never let a page pass the taste gate with either below 7 — the sole exception is the earned editorial-restraint (29CM) lane defined in the Co-gate section below, where the Color-confidence floor is waived for a page that demonstrably earns near-mono in the tiles.
 
 ## Calibration — pin "9" to real taste, not an averaged idea of "nice"
 
@@ -76,7 +76,7 @@ These aren't "AI tells" — they're **taste tells**, the marks of a page that's 
 The two gates are **AND**, not a blend:
 
 - **Anti-slop gate** (`review-rubric.md`): `overall ≥ 8`, no dim < 7, Aesthetic distinctiveness ≥ 8, zero §A fails.
-- **Taste gate** (this file): `taste overall ≥ 7.5`, with `Color confidence ≥ 7` AND `Aesthetic ambition ≥ 7`.
+- **Taste gate** (this file): `taste overall ≥ 7.5`, with `Color confidence ≥ 7` AND `Aesthetic ambition ≥ 7`. **Earned editorial-restraint exception (the 29CM / "Ink & Vermilion" lane):** the `Color confidence ≥ 7` floor is WAIVED for a near-mono page that demonstrably earns it in the tiles — the SAME tile-observable test as the anti-slop §A carve-out (`review-rubric.md`): oversized / full-bleed real photography carrying the page + EN category labels at display size + whitespace-as-material + one hot accent used decisively as a focal mark/badge (not confined to buttons). Such a page is graded on its editorial craft, not floored for low chroma. Grade the exception on tile-observable evidence ONLY, never on a claim that "this is 29CM"; without that demonstrated discipline the ≥7 floor stands (that is the sad-beige trap this panel exists to catch). Both gates must honor this exception together — an AND-gate carve-out is only real when every conjunct applies it.
 - **Ship only if BOTH pass.** The handdrip baseline that triggered this panel passes anti-slop and fails taste (Color confidence ≈ 3, Trend-currency ≈ 4) — that is the intended behavior: the system should stop calling safe-boring "shippable."
 
 **Resolving the apparent conflict with banned-defaults.** The anti-slop list bans *lazy/default* boldness (AI-purple-because-nothing-else, cream+serif+terracotta cliché). This panel demands *committed, grounded* boldness. They are not in tension: the answer to both is **color and type chosen deliberately from the subject's own world, then pushed further than felt safe.** "Grounded but timid" fails taste; "bold but ungrounded/default" fails anti-slop; the ship zone is **grounded AND bold.**
@@ -87,4 +87,4 @@ Before scoring intent, check that each scored section actually **renders legibly
 
 ## Output (what the taste evaluator returns)
 
-For each page: the 7 axis scores with the specific tile-anchored tell for each, a `taste_overall`, the single most timid choice holding it back + the concrete fix, a `dated_tells[]` list of any you saw, a `would_feature` boolean (would you actually put this in front of the Awwwards/editorial panel), and `taste_gate_pass` (≥7.5 overall AND color-confidence ≥7 AND ambition ≥7). If you can't point to a tile for a score, lower it and say so.
+For each page: the 7 axis scores with the specific tile-anchored tell for each, a `taste_overall`, the single most timid choice holding it back + the concrete fix, a `dated_tells[]` list of any you saw, a `would_feature` boolean (would you actually put this in front of the Awwwards/editorial panel), and `taste_gate_pass` (≥7.5 overall AND color-confidence ≥7 AND ambition ≥7 — except the earned editorial-restraint 29CM lane defined in the Co-gate, where the color-confidence floor is waived on tile-observable evidence). If you can't point to a tile for a score, lower it and say so.
