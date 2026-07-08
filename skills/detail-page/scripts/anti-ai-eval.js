@@ -1859,6 +1859,7 @@ function main() {
   const verdict = computeVerdict(tells, monotony.score, presence);
   const report = {
     harnessVersion: HARNESS_VERSION,
+    s2PassSemantics: 'structural-tell-absence-only; NOT ship-approval',
     page,
     sectionDetection: ctx.sectionDetection,
     externalCssSkipped: ctx.externalCssSkipped,

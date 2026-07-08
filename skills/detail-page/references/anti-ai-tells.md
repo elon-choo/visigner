@@ -12,6 +12,12 @@ The deep mechanism: **every AI tell is content-agnostic decoration.** The monosp
 
 The consequence for how you must work: **you cannot prompt your way to distinctiveness with adjectives, only with nouns.** "Bold" samples the statistical center of the word "bold." A *named* technique — `slab-serif price stamp`, `duotone reportage photograph`, `chiaroscuro portrait`, `vermilion single-accent` — collapses the sampling space to a point instead of the centroid of a cloud. That is what this skill's new `references/design-lexicon.md` + `scripts/keyword-picker.js` + `references/design-process.md` exist to force: **noun-space steering, chosen per section.**
 
+## S2/S3 harness interpretation
+
+`s2Pass=true` means structural-tell absence only; it is NOT ship approval. Image-baked tells in raster/SVG output and the semantic-HTML human baseline belong to the S4 vision layer, not the S2 structural harness.
+
+4 detectors (`repeated-decorative-label` / `letter-code-badge` / `multiscript-numbering` / `palette-monotony`) were completed in S2 (`d31354f`); S3 repurposes them for cross-subject generalization and false-positive measurement, not detector rebuild.
+
 ## The tell list
 
 Each tell: **why it reads AI**, the **positive counter** (a move, not just an avoidance), and the **keywords** to reach for (all live in `design-lexicon.md`).
