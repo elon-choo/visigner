@@ -629,6 +629,99 @@ function detectMonoLabels(ctx) {
   };
 }
 
+function isPureEnLabelText(text) {
+  const t = compactSpace(text);
+  if (!/^[A-Za-z][A-Za-z0-9&.,'’\-·—\s]{1,30}$/.test(t)) return false;
+  if (/[가-힣]/.test(t)) return false;
+  const words = t.split(/\s+/).filter(Boolean);
+  return words.length >= 1 && words.length <= 4;
+}
+
+function enLabelCandidates(text) {
+  const raw = compactSpace(decodeEntities(stripTags(text)));
+  const out = [];
+  if (isPureEnLabelText(raw)) out.push(raw);
+  const lead = compactSpace(raw.split(/\s*[·—]\s*/)[0]);
+  if (lead && lead !== raw && isPureEnLabelText(lead)) out.push(lead);
+  return [...new Set(out)];
+}
+
+function isAllCapsLabel(text) {
+  const letters = String(text || '').replace(/[^A-Za-z]/g, '');
+  return letters.length >= 2 && letters === letters.toUpperCase();
+}
+
+function enLabelStyled(el, style, text, kind) {
+  if (kind === 'heading') return true;
+  if (kind === 'alt') return isAllCapsLabel(text);
+  return /text-transform\s*:\s*uppercase/i.test(style || '') ||
+    isAllCapsLabel(text) ||
+    hasLetterSpacing(style) ||
+    /font-variant\s*:\s*small-caps/i.test(style || '') ||
+    LABEL_CLASS_RE.test((el.classList || []).join(' '));
+}
+
+function detectEnDisplayLabels(ctx) {
+  const labels = new Map();
+  const add = (text, snippetText) => {
+    const key = compactSpace(text).toLowerCase();
+    if (!labels.has(key)) labels.set(key, { text: compactSpace(text), count: 0, snippet: snippet(snippetText || text, 180) });
+    labels.get(key).count++;
+  };
+  const skipClass = (classList) => /\b(?:btn|button|cta)\b/i.test((classList || []).join(' '));
+
+  for (const el of ctx.paired) {
+    if (['button', 'code', 'pre'].includes(el.tag)) continue;
+    if (el.attrs && el.attrs['aria-hidden']) continue;
+    if (skipClass(el.classList)) continue;
+    const style = styleFor(el.classList, el.style, ctx.css);
+    for (const text of enLabelCandidates(el.text)) {
+      if (enLabelStyled(el, style, text, 'paired')) add(text, el.snippet);
+    }
+  }
+
+  const headingRe = /<h([1-3])\b([^>]*)>([\s\S]*?)<\/h\1>/gi;
+  let m;
+  while ((m = headingRe.exec(ctx.cleanHtml))) {
+    const attrs = parseAttrs(m[2]);
+    const classList = classListFromAttrs(attrs);
+    if (skipClass(classList)) continue;
+    const fake = { classList };
+    const style = styleFor(classList, attrs.style && attrs.style !== true ? attrs.style : '', ctx.css);
+    for (const text of enLabelCandidates(m[3])) {
+      if (enLabelStyled(fake, style, text, 'heading')) add(text, m[0]);
+    }
+  }
+
+  for (const el of ctx.elements) {
+    if (el.tag === 'text') {
+      const style = styleFor(el.classList, el.style, ctx.css);
+      for (const text of enLabelCandidates(el.text)) {
+        if (enLabelStyled(el, style, text, 'paired')) add(text, el.open + el.text);
+      }
+    }
+    if (el.tag === 'img' && el.attrs && el.attrs.alt && el.attrs.alt !== true) {
+      for (const text of enLabelCandidates(el.attrs.alt)) {
+        if (enLabelStyled(el, '', text, 'alt')) add(text, el.open);
+      }
+    }
+  }
+
+  const rows = [...labels.values()].sort((a, b) => b.count - a.count || a.text.localeCompare(b.text));
+  if (rows.length < 3) return null;
+  return {
+    tell: 'en-label-overration',
+    severity: rows.length >= 5 ? 'medium' : 'low',
+    evidence: {
+      distinct: rows.length,
+      occurrences: rows.reduce((sum, row) => sum + row.count, 0),
+      labels: rows.slice(0, 8).map((row) => ({ text: row.text, count: row.count, snippet: row.snippet })),
+      ration: '1-2 per page — masthead + at most one divider',
+      source: sourceTell(ctx, ['EN label', 'rationed']),
+    },
+  };
+}
+
 function detectBrowserMockups(ctx) {
   const hits = [];
   const re = /<([a-z][\w:-]*)\b([^>]*class\s*=\s*(?:"[^"]*(?:browser-bar|window-chrome|window-bar|chrome-bar|traffic-light)[^"]*"|'[^']*(?:browser-bar|window-chrome|window-bar|chrome-bar|traffic-light)[^']*')[^>]*)>([\s\S]{0,500}?)<\/\1>/gi;
@@ -833,6 +926,114 @@ function detectLetterSquareAvatars(ctx) {
       groups: Object.entries(groups).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([name, n]) => ({ name, count: n })),
       snippets: [examples[key]].filter(Boolean),
       source: sourceTell(ctx, ['letter-square', 'placeholder avatars']),
+    },
+  };
+}
+
+function anchorRanges(html) {
+  const ranges = [];
+  const re = /<a\b[\s\S]*?<\/a>/gi;
+  let m;
+  while ((m = re.exec(html))) ranges.push([m.index, re.lastIndex]);
+  return ranges;
+}
+
+function indexInRanges(index, ranges) {
+  return ranges.some(([start, end]) => index >= start && index <= end);
+}
+
+function detectMarkerSequence(ctx) {
+  const ranges = anchorRanges(ctx.cleanHtml);
+  const markerRe = /(기록|문서|첨부|자료|도판|증빙|record|doc|exhibit)\s*[·.]?\s*(\d{1,2})\b(?!\s*(?:월|일|년|시|분|명|개|%|원)|[.\d])/gi;
+  const textRe = />([^<>]+)</g;
+  const families = new Map();
+  const snippets = [];
+  let textMatch;
+  while ((textMatch = textRe.exec(ctx.cleanHtml))) {
+    const text = textMatch[1];
+    markerRe.lastIndex = 0;
+    let marker;
+    while ((marker = markerRe.exec(text))) {
+      const index = textMatch.index + 1 + marker.index;
+      if (indexInRanges(index, ranges)) continue;
+      const prefix = marker[1].toLowerCase();
+      const num = Number(marker[2]);
+      if (!families.has(prefix)) families.set(prefix, []);
+      families.get(prefix).push({ prefix: marker[1], num, index });
+      snippets.push(snippet(ctx.cleanHtml.slice(Math.max(0, index - 80), index + 120), 180));
+    }
+  }
+
+  const rows = [];
+  for (const [prefixKey, items] of families.entries()) {
+    if (items.length < 3) continue;
+    const sequence = items.map((item) => item.num);
+    const inversions = [];
+    for (let i = 1; i < sequence.length; i++) {
+      if (sequence[i] < sequence[i - 1]) inversions.push([sequence[i - 1], sequence[i]]);
+    }
+    const counts = {};
+    for (const n of sequence) counts[n] = (counts[n] || 0) + 1;
+    const duplicates = Object.entries(counts).filter(([, count]) => count > 1).map(([n]) => Number(n));
+    const min = Math.min(...sequence);
+    const max = Math.max(...sequence);
+    const present = new Set(sequence);
+    const gaps = [];
+    for (let n = min; n <= max; n++) if (!present.has(n)) gaps.push(n);
+    rows.push({ prefix: items[0].prefix || prefixKey, sequence, inversions, gaps, duplicates });
+  }
+
+  const firing = rows.filter((row) => row.inversions.length || row.duplicates.length);
+  if (!firing.length) return null;
+  const high = firing.some((row) => row.inversions.length >= 2 || (row.inversions.length >= 1 && row.gaps.length >= 2));
+  return {
+    tell: 'marker-sequence-broken',
+    severity: high ? 'high' : 'medium',
+    evidence: {
+      families: rows,
+      snippets: snippets.slice(0, 4),
+      source: sourceTell(ctx, ['numbered pseudo-editorial', 'numbering']),
+    },
+  };
+}
+
+function elementBody(ctx, el) {
+  if (!el || VOID_TAGS.has(el.tag)) return '';
+  const close = findClosingTag(ctx.cleanHtml, el.tag, el.index);
+  if (!close) return '';
+  return ctx.cleanHtml.slice(el.index + el.open.length, close.start);
+}
+
+function detectJustifyDisplay(ctx) {
+  const hits = [];
+  for (const el of ctx.elements) {
+    if (!el.classList.length && !el.style) continue;
+    const style = styleFor(el.classList, el.style, ctx.css);
+    if (!/\btext-align\s*:\s*justify\b/i.test(style)) continue;
+    const fontSizePx = stylePx(style, 'font-size');
+    const containsHeading = /^h[1-3]$/.test(el.tag) || /<h[1-3]\b/i.test(elementBody(ctx, el));
+    if (!(fontSizePx >= 24 || containsHeading)) continue;
+    const cls = el.classList.find((c) => {
+      const classStyle = ctx.css.classes.get(c) || '';
+      return /\btext-align\s*:\s*justify\b/i.test(resolveVars(classStyle, ctx.css.vars));
+    }) || el.classList[0] || '(inline)';
+    hits.push({
+      class: cls,
+      fontSizePx: fontSizePx == null ? null : Math.round(fontSizePx * 10) / 10,
+      snippet: snippet(el.open + compactSpace(stripTags(elementBody(ctx, el))).slice(0, 160), 220),
+    });
+  }
+
+  if (!hits.length) return null;
+  const top = hits[0];
+  return {
+    tell: 'justified-display',
+    severity: 'medium',
+    evidence: {
+      class: top.class,
+      fontSizePx: top.fontSizePx,
+      snippets: hits.slice(0, 4).map((hit) => hit.snippet),
+      source: sourceTell(ctx, ['justified', 'hyphenation']),
     },
   };
 }
@@ -1149,7 +1350,7 @@ function main() {
   const ctx = buildContext(html, page, args, sources);
 
   const tells = [];
-  for (const detector of [detectMonoLabels, detectBrowserMockups, detectGhostNumerals, detectOutlineChips, detectUniformFrameLoop, detectLetterSquareAvatars]) {
+  for (const detector of [detectMonoLabels, detectEnDisplayLabels, detectBrowserMockups, detectGhostNumerals, detectOutlineChips, detectUniformFrameLoop, detectLetterSquareAvatars, detectMarkerSequence, detectJustifyDisplay]) {
     const hit = detector(ctx);
     if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
   }

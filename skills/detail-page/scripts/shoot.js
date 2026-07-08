@@ -226,6 +226,223 @@ async function brokenImages(page) {
   return page.evaluate(() => Array.from(document.images).filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.currentSrc || i.src)).catch(() => []);
 }
 
+async function primeLazyAssets(page) {
+  return page.evaluate(async () => {
+    const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    let forcedEager = 0;
+    for (const img of Array.from(document.querySelectorAll('img'))) {
+      if (img.getAttribute('loading') === 'lazy') {
+        img.loading = 'eager';
+        forcedEager++;
+      }
+      if (img.dataset && img.dataset.src && !img.getAttribute('src')) {
+        img.src = img.dataset.src;
+        forcedEager++;
+      }
+    }
+
+    for (let y = 0; y < document.body.scrollHeight; y += 600) {
+      window.scrollTo(0, y);
+      await sleep(80);
+    }
+    window.scrollTo(0, 0);
+    await sleep(80);
+
+    const visibleIncomplete = () => Array.from(document.images)
+      .filter((img) => {
+        const rect = img.getBoundingClientRect();
+        const style = window.getComputedStyle(img);
+        return rect.width > 0 && rect.height > 0 && style.display !== 'none' && style.visibility !== 'hidden' && !img.complete;
+      })
+      .map((img) => img.currentSrc || img.src || (img.dataset && img.dataset.src) || '')
+      .filter(Boolean);
+
+    const decoded = Promise.all(Array.from(document.images).map((img) => {
+      if (typeof img.decode === 'function') return img.decode().catch(() => img.currentSrc || img.src || null);
+      return Promise.resolve(img.complete ? null : (img.currentSrc || img.src || null));
+    })).then(() => ({ timedOut: false }));
+    const timed = new Promise((resolve) => setTimeout(() => resolve({ timedOut: true }), 8000));
+    const result = await Promise.race([decoded, timed]);
+    return { forcedEager, stillIncomplete: visibleIncomplete(), timedOut: !!result.timedOut };
+  }).catch((e) => ({ forcedEager: 0, stillIncomplete: [], timedOut: true, error: e.message }));
+}
+
+async function auditNumberIntegrity(page) {
+  return page.evaluate(() => {
+    const selectorFor = (el) => {
+      if (!el || !el.tagName) return '';
+      const cls = String(el.className || '').split(/\s+/).filter(Boolean).slice(0, 2).join('.');
+      return el.tagName.toLowerCase() + (cls ? `.${cls}` : '');
+    };
+    const re = /\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?%|\d[\d,]{2,}원/g;
+    const culprits = [];
+    const walker = document.createTreeWalker(document.body || document.documentElement, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        if (!node.nodeValue || !re.test(node.nodeValue)) return NodeFilter.FILTER_REJECT;
+        re.lastIndex = 0;
+        const parent = node.parentElement;
+        if (!parent) return NodeFilter.FILTER_REJECT;
+        const style = window.getComputedStyle(parent);
+        if (style.display === 'none' || style.visibility === 'hidden') return NodeFilter.FILTER_REJECT;
+        if (style.writingMode && style.writingMode !== 'horizontal-tb') return NodeFilter.FILTER_REJECT;
+        const rect = parent.getBoundingClientRect();
+        if (rect.width <= 0 || rect.height <= 0) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    });
+
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      re.lastIndex = 0;
+      let match;
+      while ((match = re.exec(node.nodeValue))) {
+        const range = document.createRange();
+        range.setStart(node, match.index);
+        range.setEnd(node, match.index + match[0].length);
+        const tops = [...new Set(Array.from(range.getClientRects())
+          .filter((r) => r.width > 0 && r.height > 0)
+          .map((r) => Math.round(r.top)))];
+        range.detach();
+        if (tops.length >= 2) {
+          culprits.push({ text: match[0], sel: selectorFor(node.parentElement), lines: tops.length });
+          if (culprits.length >= 12) return culprits;
+        }
+      }
+    }
+    return culprits;
+  }).catch(() => []);
+}
+
+async function auditJustifyRivers(page) {
+  return page.evaluate(() => {
+    const selectorFor = (el) => {
+      if (!el || !el.tagName) return '';
+      const cls = String(el.className || '').split(/\s+/).filter(Boolean).slice(0, 2).join('.');
+      return el.tagName.toLowerCase() + (cls ? `.${cls}` : '');
+    };
+    const directTextNodes = (el) => Array.from(el.childNodes).filter((n) => n.nodeType === Node.TEXT_NODE && /\S/.test(n.nodeValue || ''));
+    const wordRectsFor = (node) => {
+      const out = [];
+      const re = /\S+/g;
+      let match;
+      while ((match = re.exec(node.nodeValue || ''))) {
+        const range = document.createRange();
+        range.setStart(node, match.index);
+        range.setEnd(node, match.index + match[0].length);
+        const rects = Array.from(range.getClientRects()).filter((r) => r.width > 0 && r.height > 0);
+        range.detach();
+        for (const rect of rects) out.push({ word: match[0], top: Math.round(rect.top), left: rect.left, right: rect.right });
+      }
+      return out;
+    };
+    const culprits = [];
+    for (const el of Array.from(document.querySelectorAll('body *'))) {
+      const style = window.getComputedStyle(el);
+      if (style.display === 'none' || style.visibility === 'hidden' || style.textAlign !== 'justify') continue;
+      const rect = el.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) continue;
+      const fontSize = parseFloat(style.fontSize) || 16;
+      const nodes = directTextNodes(el);
+      if (!nodes.length) continue;
+      const words = nodes.flatMap(wordRectsFor).sort((a, b) => a.top - b.top || a.left - b.left);
+      const byTop = new Map();
+      for (const word of words) {
+        if (!byTop.has(word.top)) byTop.set(word.top, []);
+        byTop.get(word.top).push(word);
+      }
+      const lines = [...byTop.entries()].sort((a, b) => a[0] - b[0]).map(([top, items]) => ({ top, items: items.sort((a, b) => a.left - b.left) }));
+      if (lines.length < 2 && fontSize < 24) continue;
+      let worst = { gap: 0, em: 0, line: 0, words: 0 };
+      const riverLines = [];
+      for (let i = 0; i < Math.max(0, lines.length - 1); i++) {
+        const items = lines[i].items;
+        let lineGap = 0;
+        for (let j = 0; j < items.length - 1; j++) lineGap = Math.max(lineGap, items[j + 1].left - items[j].right);
+        if (lineGap > worst.gap) worst = { gap: lineGap, em: lineGap / fontSize, line: i + 1, words: items.length };
+        if (lineGap > 1.2 * fontSize) riverLines.push(i);
+      }
+      const consecutiveRiver = riverLines.some((line, idx) => idx > 0 && line === riverLines[idx - 1] + 1);
+      const broken = fontSize >= 24 ||
+        worst.gap > 1.6 * fontSize ||
+        (worst.words <= 2 && worst.gap > 0.9 * fontSize) ||
+        consecutiveRiver;
+      if (broken) {
+        culprits.push({
+          sel: selectorFor(el),
+          fontSizePx: Math.round(fontSize * 10) / 10,
+          worstGapPx: Math.round(worst.gap),
+          worstGapEm: Math.round(worst.em * 100) / 100,
+          line: worst.line,
+          textSample: String(el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 60),
+        });
+        if (culprits.length >= 12) break;
+      }
+    }
+    return culprits;
+  }).catch(() => []);
+}
+
+async function auditStickyHero(page, outDir) {
+  const heroShot = 'sticky-hero.png';
+  const scrolledShot = 'sticky-scrolled.png';
+  await page.evaluate(() => window.scrollTo(0, 0)).catch(() => {});
+  await sleep(400);
+  const state = await page.evaluate(() => {
+    const selectorFor = (el) => {
+      if (!el || !el.tagName) return '';
+      const cls = String(el.className || '').split(/\s+/).filter(Boolean).slice(0, 2).join('.');
+      return el.tagName.toLowerCase() + (cls ? `.${cls}` : '');
+    };
+    const visible = (el, rect) => {
+      const style = window.getComputedStyle(el);
+      if (style.opacity !== '' && Number(style.opacity) <= 0.05) return false;
+      if (style.visibility === 'hidden' || style.display === 'none') return false;
+      return rect.bottom > 0 && rect.right > 0 && rect.top < window.innerHeight && rect.left < window.innerWidth;
+    };
+    const candidates = Array.from(document.querySelectorAll('body *')).filter((el) => {
+      const style = window.getComputedStyle(el);
+      const rect = el.getBoundingClientRect();
+      const text = String(el.innerText || '');
+      return /^(?:fixed|sticky)$/.test(style.position) &&
+        rect.bottom >= window.innerHeight - 8 &&
+        rect.top >= window.innerHeight * 0.55 &&
+        rect.width >= window.innerWidth * 0.6 &&
+        (el.querySelector('a,button') || /신청|구매|참여|등록|결제/.test(text)) &&
+        visible(el, rect);
+    });
+    const bar = candidates.sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width)[0] || null;
+    if (!bar) return { found: false, sel: null, visibleAtHero: false, occludedText: [], shots: [] };
+    const rect = bar.getBoundingClientRect();
+    const xs = [rect.left + 10, rect.left + rect.width / 2, rect.right - 10].map((x) => Math.max(1, Math.min(window.innerWidth - 1, x)));
+    const ys = [rect.top + 6, rect.top + rect.height / 2, rect.bottom - 6].map((y) => Math.max(1, Math.min(window.innerHeight - 1, y)));
+    const occluded = [];
+    const seen = new Set();
+    for (const x of xs) for (const y of ys) {
+      const stack = document.elementsFromPoint(x, y);
+      for (const el of stack) {
+        if (el === bar || bar.contains(el)) continue;
+        const text = String(el.innerText || el.textContent || '').replace(/\s+/g, ' ').trim();
+        if (!text) continue;
+        const key = selectorFor(el) + '|' + text.slice(0, 80);
+        if (!seen.has(key)) {
+          seen.add(key);
+          occluded.push({ sel: selectorFor(el), textSample: text.slice(0, 80) });
+        }
+        break;
+      }
+    }
+    return { found: true, sel: selectorFor(bar), visibleAtHero: true, occludedText: occluded, shots: [] };
+  }).catch((e) => ({ found: false, sel: null, visibleAtHero: null, occludedText: [], shots: [], error: e.message }));
+  try { await page.screenshot({ path: path.join(outDir, heroShot) }); } catch (_) {}
+  await page.evaluate(() => window.scrollTo(0, Math.round(window.innerHeight * 1.5))).catch(() => {});
+  await sleep(250);
+  try { await page.screenshot({ path: path.join(outDir, scrolledShot) }); } catch (_) {}
+  await page.evaluate(() => window.scrollTo(0, 0)).catch(() => {});
+  await sleep(100);
+  state.shots = [heroShot, scrolledShot];
+  return state;
+}
+
 // Visual-regression comparator — resolve Playwright's bundled image comparator from the GLOBAL playwright
 // (NODE_PATH=$(npm root -g)). Returns null if unavailable (the skill bundles patchright-core, which compiles
 // the comparator into coreBundle.js and does NOT expose this path) → VR then reports gate.visualClean=null.
@@ -723,6 +940,9 @@ async function analyzeMotion(page, scopeSelector = null) {
   // scroll to trigger lazy content + entrance animations, then back to top
   await dp.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 80)); } window.scrollTo(0, 0); });
   await sleep(600);
+  const lazyPrimeDesktop = await primeLazyAssets(dp);
+  const numberIntegrityDesktop = await auditNumberIntegrity(dp);
+  const justifyDesktop = await auditJustifyRivers(dp);
   const height = await dp.evaluate(() => document.body.scrollHeight);
   // CWV tripwire (opt-in via PERF=1) — read the buffered observer data (window.__cwv) + resource entries. Lab/load-only;
   // byte budget counts network resources (no-ops only when totalKB===0, i.e. a fully local page), a tripwire not CrUX.
@@ -769,6 +989,10 @@ async function analyzeMotion(page, scopeSelector = null) {
     if (motion) motion.mobileFrames = mframes; else motion = { mobileFrames: mframes };
   }
   await sleep(600);
+  const lazyPrimeMobile = await primeLazyAssets(mp);
+  const numberIntegrityMobile = await auditNumberIntegrity(mp);
+  const justifyMobile = await auditJustifyRivers(mp);
+  const stickyHero = await auditStickyHero(mp, outDir);
   await mp.screenshot({ path: path.join(outDir, 'mobile-full.png'), fullPage: true });
   // Horizontal-overflow check at 390px — the silent killer of Korean detail pages. Detect, name culprits.
   const overflow = await mp.evaluate(() => {
@@ -842,6 +1066,14 @@ async function analyzeMotion(page, scopeSelector = null) {
     assets = { badResponses, brokenImages: brokenImagesList };
     assetsOk = badResponses.length === 0 && brokenImagesList.length === 0;
   }
+  const lazyPrime = { desktop: lazyPrimeDesktop, mobile: lazyPrimeMobile };
+  const lazyIncompleteCount = (lazyPrimeDesktop.stillIncomplete || []).length + (lazyPrimeMobile.stillIncomplete || []).length;
+  const lazyTimedOut = !!(lazyPrimeDesktop.timedOut || lazyPrimeMobile.timedOut);
+  const assetPaintPass = lazyTimedOut ? null : lazyIncompleteCount === 0;
+  const numberIntegrity = { desktop: numberIntegrityDesktop, mobile: numberIntegrityMobile };
+  const numberIntegrityBroken = numberIntegrityDesktop.length + numberIntegrityMobile.length;
+  const justify = [...justifyDesktop, ...justifyMobile];
+  const stickyHeroPass = stickyHero && stickyHero.visibleAtHero === null ? null : !(stickyHero && stickyHero.found && stickyHero.visibleAtHero && (stickyHero.occludedText || []).length > 0);
   // Visual regression (opt-in via VR=1 / VR_BASELINE=1) — diff desktop+mobile vs an approved baseline.
   const VR_ON = !!process.env.VR || !!process.env.VR_BASELINE;
   let visualRegression = null, visualClean = null;
@@ -881,6 +1113,10 @@ async function analyzeMotion(page, scopeSelector = null) {
   const checks = [{ name: 'overflow', pass: noOverflow, detail: `mobileOverflowPx=${overflow.overflowPx}`, severity: 'block' }];
   if (AXE_ON) checks.push({ name: 'axe', pass: axeClean, detail: axe && axe.error ? axe.error : `gatingCount=${axe ? axe.gatingCount : 0}`, severity: 'block' });
   if (ASSETS_ON) checks.push({ name: 'assets', pass: assetsOk, detail: `badResponses=${assets.badResponses.length} brokenImages=${assets.brokenImages.length}`, severity: 'block' });
+  checks.push({ name: 'assetPaint', pass: assetPaintPass, detail: `forced=${lazyPrimeDesktop.forcedEager + lazyPrimeMobile.forcedEager} incomplete=${lazyIncompleteCount}`, severity: 'block' });
+  checks.push({ name: 'numberIntegrity', pass: numberIntegrityBroken === 0, detail: `broken=${numberIntegrityBroken}${numberIntegrityBroken ? ` example=${[...numberIntegrityDesktop, ...numberIntegrityMobile][0].text}` : ''}`, severity: 'block' });
+  checks.push({ name: 'justifyRivers', pass: justify.length === 0, detail: `culprits=${justify.length}${justify.length ? ` worst=${justify[0].worstGapEm}em` : ''}`, severity: 'warn' });
+  checks.push({ name: 'stickyHeroSuppress', pass: stickyHeroPass, detail: stickyHero && stickyHero.found ? `visibleAtHero=${stickyHero.visibleAtHero} occluded=${(stickyHero.occludedText || []).length}` : 'found=false', severity: 'warn' });
   if (PERF_ON) checks.push({ name: 'perf', pass: perfBudget, detail: perf ? `lcp=${perf.lcpMs} cls=${perf.cls} totalKB=${perf.totalKB}` : 'perf unavailable', severity: 'block' });
   if (VR_ON) checks.push({ name: 'visual', pass: visualClean, detail: visualRegression && visualRegression.error ? visualRegression.error : 'see visualRegression', severity: 'block' });
   // Motion audit (opt-in) — layout-animated elements are a jank/banned-motion violation; surfaced as warn (never
@@ -903,6 +1139,10 @@ async function analyzeMotion(page, scopeSelector = null) {
     mobileOverflowPx: overflow.overflowPx, overflowCulprits: overflow.culprits,
     axe,
     ...(ASSETS_ON ? { assets } : {}),
+    lazyPrime,
+    numberIntegrity,
+    justify,
+    stickyHero,
     ...(PERF_ON ? { perf } : {}),
     ...(VR_ON ? { visualRegression } : {}),
     ...(motion ? { motion } : {}),
