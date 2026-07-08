@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const REPORT_NAME = 'anti-ai-report.json';
-const HARNESS_VERSION = '1.1.0';
+const HARNESS_VERSION = '1.2.0';
 const SKILL_ROOT = path.resolve(__dirname, '..');
 const LEXICON_PATH = path.join(__dirname, 'design-lexicon.json');
 const TELLS_PATH = path.join(SKILL_ROOT, 'references', 'anti-ai-tells.md');
@@ -347,6 +347,162 @@ function normalizeBorderColor(style) {
   return normalizeCssColor(propValue(style, 'border-color') || propValue(style, 'border'));
 }
 
+function parseOklchColor(value) {
+  const m = String(value || '').match(/oklch\(\s*([0-9.]+%?)\s+([0-9.]+%?)\s+([0-9.]+)(?:deg)?(?:\s*\/\s*([0-9.]+%?))?\s*\)/i);
+  if (!m) return null;
+  const l = String(m[1]).endsWith('%') ? Number.parseFloat(m[1]) / 100 : Number.parseFloat(m[1]);
+  const c = String(m[2]).endsWith('%') ? Number.parseFloat(m[2]) / 100 : Number.parseFloat(m[2]);
+  const h = ((Number.parseFloat(m[3]) % 360) + 360) % 360;
+  const alpha = m[4] ? (String(m[4]).endsWith('%') ? Number.parseFloat(m[4]) / 100 : Number.parseFloat(m[4])) : 1;
+  if (![l, c, h, alpha].every(Number.isFinite)) return null;
+  return { l, c, h, alpha, raw: compactSpace(m[0].toLowerCase()) };
+}
+
+function rgbToHsl(r, g, b) {
+  r /= 255; g /= 255; b /= 255;
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h = 0;
+  let s = 0;
+  const l = (max + min) / 2;
+  if (max !== min) {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = ((g - b) / d + (g < b ? 6 : 0)) * 60; break;
+      case g: h = ((b - r) / d + 2) * 60; break;
+      default: h = ((r - g) / d + 4) * 60; break;
+    }
+  }
+  return { l, c: s * 0.16, h, alpha: 1 };
+}
+
+function parseHexColor(value) {
+  const m = String(value || '').match(/#([0-9a-f]{3,8})\b/i);
+  if (!m) return null;
+  let hex = m[1];
+  if (hex.length === 3 || hex.length === 4) hex = hex.split('').map((ch) => ch + ch).join('');
+  const r = Number.parseInt(hex.slice(0, 2), 16);
+  const g = Number.parseInt(hex.slice(2, 4), 16);
+  const b = Number.parseInt(hex.slice(4, 6), 16);
+  if (![r, g, b].every(Number.isFinite)) return null;
+  const out = rgbToHsl(r, g, b);
+  out.raw = `#${m[1].toLowerCase()}`;
+  if (hex.length >= 8) out.alpha = Number.parseInt(hex.slice(6, 8), 16) / 255;
+  return out;
+}
+
+function parseRgbColor(value) {
+  const m = String(value || '').match(/rgba?\(\s*([0-9.]+)\s*,?\s+([0-9.]+)\s*,?\s+([0-9.]+)(?:\s*[,/]\s*([0-9.]+%?))?\s*\)/i);
+  if (!m) return null;
+  const r = Number.parseFloat(m[1]);
+  const g = Number.parseFloat(m[2]);
+  const b = Number.parseFloat(m[3]);
+  if (![r, g, b].every(Number.isFinite)) return null;
+  const out = rgbToHsl(r, g, b);
+  out.raw = compactSpace(m[0].toLowerCase());
+  if (m[4]) out.alpha = String(m[4]).endsWith('%') ? Number.parseFloat(m[4]) / 100 : Number.parseFloat(m[4]);
+  return out;
+}
+
+function parseNamedColor(value) {
+  const named = {
+    black: [0, 0, 0],
+    white: [255, 255, 255],
+    red: [255, 0, 0],
+    green: [0, 128, 0],
+    blue: [0, 0, 255],
+    orange: [255, 165, 0],
+    yellow: [255, 255, 0],
+    brown: [150, 75, 0],
+    purple: [128, 0, 128],
+    pink: [255, 192, 203],
+    gray: [128, 128, 128],
+    grey: [128, 128, 128],
+  };
+  const key = compactSpace(String(value || '').toLowerCase());
+  if (!Object.prototype.hasOwnProperty.call(named, key)) return null;
+  const out = rgbToHsl(...named[key]);
+  out.raw = key;
+  return out;
+}
+
+function parseCssColorValue(value) {
+  return parseOklchColor(value) || parseHexColor(value) || parseRgbColor(value) || parseNamedColor(value);
+}
+
+function colorValuesFromStyle(style) {
+  const out = [];
+  const re = /oklch\([^)]+\)|rgba?\([^)]+\)|#[0-9a-f]{3,8}\b|\b(?:black|white|gray|grey|red|green|blue|orange|yellow|brown|purple|pink)\b/gi;
+  let m;
+  while ((m = re.exec(String(style || '')))) out.push(m[0]);
+  return out;
+}
+
+function circularHueSpan(hues) {
+  if (hues.length <= 1) return 0;
+  const sorted = hues.map((h) => ((h % 360) + 360) % 360).sort((a, b) => a - b);
+  let largestGap = 0;
+  for (let i = 0; i < sorted.length; i++) {
+    const next = i + 1 < sorted.length ? sorted[i + 1] : sorted[0] + 360;
+    largestGap = Math.max(largestGap, next - sorted[i]);
+  }
+  return 360 - largestGap;
+}
+
+function hueBucket(hue, size) {
+  return Math.round((((hue % 360) + 360) % 360) / (size || 24));
+}
+
+function detectPaletteMonotony(ctx) {
+  const seen = new Map();
+  const addValues = (values, source) => {
+    for (const raw of values) {
+      const parsed = parseCssColorValue(raw);
+      if (!parsed || parsed.alpha <= 0.05) continue;
+      const key = parsed.raw || compactSpace(String(raw).toLowerCase());
+      if (!seen.has(key)) seen.set(key, { ...parsed, source });
+    }
+  };
+
+  addValues(Object.values(ctx.css.vars), 'vars');
+  const usedClasses = new Set();
+  for (const el of ctx.elements) for (const cls of el.classList || []) usedClasses.add(cls);
+  for (const cls of usedClasses) {
+    if (ctx.css.classes.has(cls)) addValues(colorValuesFromStyle(resolveVars(ctx.css.classes.get(cls), ctx.css.vars)), `.${cls}`);
+  }
+  for (const el of ctx.elements) if (el.style) addValues(colorValuesFromStyle(resolveVars(el.style, ctx.css.vars)), 'inline');
+
+  const colors = [...seen.values()];
+  const chromatic = colors.filter((c) => c.c >= 0.02);
+  if (colors.length < 8 || chromatic.length < 6 || ctx.contentSections.length < 5) return null;
+
+  const hues = chromatic.map((c) => c.h);
+  const span = circularHueSpan(hues);
+  const warmCount = chromatic.filter((c) => c.h >= 20 && c.h <= 105).length;
+  const warmRatio = warmCount / chromatic.length;
+  const hueBuckets = new Set(chromatic.map((c) => hueBucket(c.h, 24)));
+  const accentBuckets = new Set(chromatic.filter((c) => c.c >= 0.12).map((c) => hueBucket(c.h, 18)));
+  const neutralRatio = colors.filter((c) => c.c < 0.02).length / colors.length;
+
+  if (!(span <= 82 && warmRatio >= 0.82 && hueBuckets.size <= 4 && accentBuckets.size <= 1)) return null;
+  return {
+    tell: 'palette-monotony',
+    severity: 'low',
+    evidence: {
+      uniqueColors: colors.length,
+      chromaticColors: chromatic.length,
+      hueSpan: Number(span.toFixed(1)),
+      warmHueRatio: Number(warmRatio.toFixed(2)),
+      hueBuckets: hueBuckets.size,
+      accentHueBuckets: accentBuckets.size,
+      neutralRatio: Number(neutralRatio.toFixed(2)),
+      samples: colors.slice(0, 10).map((c) => ({ color: c.raw, h: Number(c.h.toFixed(1)), c: Number(c.c.toFixed(3)), source: c.source })),
+      source: sourceTell(ctx, ['acid-green', 'palette', 'near-black']),
+    },
+  };
+}
+
 function isMonoStyle(style) {
   const s = String(style || '').toLowerCase();
   return /font-family\s*:/.test(s) && (
@@ -625,6 +781,85 @@ function detectMonoLabels(ctx) {
       classes: Object.entries(classCounts).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([name, count]) => ({ name, count })),
       snippets: hits.slice(0, 5).map((h) => snippet(h.el.open + h.el.text, 180)),
       source: sourceTell(ctx, ['mono-label', 'monospace-label']),
+    },
+  };
+}
+
+function sectionPrefixFragment(section, maxChars) {
+  const body = section.body || '';
+  const heading = body.search(/<(?:h[1-3]|[a-z][\w:-]*\b[^>]*\brole\s*=\s*(?:"heading"|'heading'|heading))/i);
+  const end = heading >= 0 ? Math.min(body.length, heading + 360) : Math.min(body.length, maxChars || 1100);
+  return body.slice(0, end);
+}
+
+function markerLikeText(text) {
+  const t = compactSpace(text);
+  if (t.length < 2 || t.length > 44) return false;
+  if (/(?:記錄|記録|文書|添附|寫眞|寫真|現場|人物|公開|確認|任命|案內|特典|發췌|發|発)/.test(t)) return true;
+  const lead = compactSpace(t.split(/\s*[·—:|]\s*/)[0] || '');
+  if (lead && lead.length <= 12 && /[가-힣A-Za-z]{2,}/.test(lead) && /[·—:|]/.test(t)) return true;
+  return /^(?:기록|문서|첨부|자료|도판|증빙|임명장|라이브 안건)\s*(?:[·.]|\d)/i.test(t);
+}
+
+function labelElementsInFragment(fragment, ctx) {
+  const out = [];
+  const re = /<(span|p|div|figcaption|small|b|strong)\b([^>]*)>([\s\S]{0,300}?)<\/\1>/gi;
+  let m;
+  while ((m = re.exec(fragment || ''))) {
+    const attrs = parseAttrs(m[2]);
+    const classList = classListFromAttrs(attrs);
+    const style = styleFor(classList, attrs.style && attrs.style !== true ? attrs.style : '', ctx.css);
+    const text = compactSpace(decodeEntities(stripTags(m[3])));
+    if (!text) continue;
+    out.push({
+      tag: m[1].toLowerCase(),
+      attrs,
+      classList,
+      style,
+      text,
+      snippet: snippet(m[0], 180),
+    });
+  }
+  return out;
+}
+
+function detectRepeatedDecorativeLabels(ctx) {
+  const rows = [];
+  for (let i = 0; i < ctx.contentSections.length; i++) {
+    const section = ctx.contentSections[i];
+    const fragment = sectionPrefixFragment(section, 1100);
+    const candidates = labelElementsInFragment(fragment, ctx).filter((el) => {
+      const classText = el.classList.join(' ');
+      const labelRole = LABEL_CLASS_RE.test(classText) || el.tag === 'figcaption' || isSmallStyle(el.style) || hasLetterSpacing(el.style);
+      if (!labelRole || !markerLikeText(el.text)) return false;
+      if (/\b(?:button|cta|price|amount)\b/i.test(classText)) return false;
+      return true;
+    });
+    if (!candidates.length) continue;
+    const hit = candidates[0];
+    const role = hit.classList.find((c) => LABEL_CLASS_RE.test(c)) || hit.tag;
+    rows.push({ section: i + 1, role, text: hit.text, snippet: hit.snippet });
+  }
+
+  const denom = Math.max(1, ctx.contentSections.length);
+  const ratio = rows.length / denom;
+  const roleCounts = {};
+  for (const row of rows) roleCounts[row.role] = (roleCounts[row.role] || 0) + 1;
+  const topRole = Object.entries(roleCounts).sort((a, b) => b[1] - a[1])[0] || ['', 0];
+  if (rows.length < 6 || ratio < 0.65 || topRole[1] < 4) return null;
+
+  return {
+    tell: 'repeated-decorative-label',
+    severity: 'medium',
+    evidence: {
+      count: rows.length,
+      sections: denom,
+      coverage: Number(ratio.toFixed(2)),
+      dominantRole: topRole[0],
+      dominantRoleCount: topRole[1],
+      labels: rows.slice(0, 10).map((row) => ({ section: row.section, text: row.text, role: row.role })),
+      snippets: rows.slice(0, 5).map((row) => row.snippet),
+      source: sourceTell(ctx, ['mono-label', 'eyebrow', 'garnish']),
     },
   };
 }
@@ -930,6 +1165,135 @@ function detectLetterSquareAvatars(ctx) {
   };
 }
 
+function localAssetPath(src, page) {
+  const raw = String(src || '').trim();
+  if (!raw || raw.startsWith('#') || isRemoteHref(raw)) return null;
+  const clean = raw.split('#')[0].split('?')[0];
+  if (!clean) return null;
+  return path.resolve(path.dirname(page), clean);
+}
+
+function isLetterCodeText(text) {
+  const t = compactSpace(text);
+  return /^[A-Z]$/.test(t) || /^[A-Z]\d$/.test(t) || /^[가-힣]$/.test(t);
+}
+
+function roundedSizeSignature(w, h) {
+  const bw = Math.round(Number(w) / 10) * 10;
+  const bh = Math.round(Number(h) / 10) * 10;
+  return `${bw}x${bh}`;
+}
+
+function detectSvgLetterCodeBadges(ctx) {
+  const out = [];
+  const imgRe = /<(?:img|object)\b([^>]*)>/gi;
+  let m;
+  while ((m = imgRe.exec(ctx.cleanHtml))) {
+    const attrs = parseAttrs(m[1]);
+    const src = attrs.src || attrs.data;
+    if (!src || src === true || !/\.svg(?:$|[?#])/i.test(String(src))) continue;
+    const svgPath = localAssetPath(src, ctx.page);
+    if (!svgPath) continue;
+    let svg = '';
+    try {
+      svg = fs.readFileSync(svgPath, 'utf8');
+    } catch (_) {
+      continue;
+    }
+    const groups = {};
+    const examples = {};
+    const codesByGroup = {};
+    const gRe = /<g\b([^>]*)>([\s\S]*?)<\/g>/gi;
+    let gm;
+    while ((gm = gRe.exec(svg))) {
+      const body = gm[2] || '';
+      const rect = body.match(/<rect\b([^>]*)\/?>/i);
+      if (!rect) continue;
+      const rAttrs = parseAttrs(rect[1]);
+      const w = attrPx(rAttrs, 'width');
+      const h = attrPx(rAttrs, 'height');
+      if (w == null || h == null || w < 28 || h < 28 || w > 420 || h > 160) continue;
+      const texts = [];
+      const tRe = /<text\b([^>]*)>([\s\S]{0,40}?)<\/text>/gi;
+      let tm;
+      while ((tm = tRe.exec(body))) {
+        const text = compactSpace(decodeEntities(stripTags(tm[2])));
+        if (isLetterCodeText(text)) texts.push(text);
+      }
+      if (!texts.length) continue;
+      const signature = roundedSizeSignature(w, h);
+      groups[signature] = (groups[signature] || 0) + 1;
+      if (!examples[signature]) examples[signature] = snippet(gm[0], 220);
+      if (!codesByGroup[signature]) codesByGroup[signature] = [];
+      codesByGroup[signature].push(...texts);
+    }
+    const top = Object.entries(groups).sort((a, b) => b[1] - a[1])[0];
+    if (top && top[1] >= 3) {
+      out.push({
+        src: String(src),
+        file: svgPath,
+        signature: top[0],
+        count: top[1],
+        codes: [...new Set(codesByGroup[top[0]] || [])],
+        snippet: examples[top[0]],
+      });
+    }
+  }
+  return out;
+}
+
+function detectHtmlLetterCodeBadges(ctx) {
+  const groups = {};
+  const examples = {};
+  const codes = {};
+  for (const el of ctx.paired) {
+    if (!isLetterCodeText(el.text)) continue;
+    const style = styleFor(el.classList, el.style, ctx.css);
+    const w = stylePx(style, 'width') || attrPx(el.attrs, 'width');
+    const h = stylePx(style, 'height') || attrPx(el.attrs, 'height');
+    const ar = propValue(style, 'aspect-ratio');
+    const radius = propValue(style, 'border-radius');
+    const shapeBySize = w != null && h != null && Math.abs(w - h) <= 8 && Math.max(w, h) <= 120;
+    const shapeByRule = /1\s*\/\s*1/.test(ar) || /9999px|50%/.test(radius);
+    if (!shapeBySize && !shapeByRule) continue;
+    const sig = shapeBySize ? roundedSizeSignature(w, h) : `rule:${compactSpace(ar || radius)}`;
+    groups[sig] = (groups[sig] || 0) + 1;
+    if (!examples[sig]) examples[sig] = el.snippet;
+    if (!codes[sig]) codes[sig] = [];
+    codes[sig].push(el.text);
+  }
+  return Object.entries(groups)
+    .filter(([, count]) => count >= 3)
+    .map(([signature, count]) => ({
+      signature,
+      count,
+      codes: [...new Set(codes[signature] || [])],
+      snippet: examples[signature],
+    }));
+}
+
+function detectLetterCodeBadges(ctx) {
+  const svgHits = detectSvgLetterCodeBadges(ctx);
+  const htmlHits = detectHtmlLetterCodeBadges(ctx);
+  const hits = [...svgHits.map((hit) => ({ type: 'svg', ...hit })), ...htmlHits.map((hit) => ({ type: 'html', ...hit }))];
+  if (!hits.length) return null;
+  const top = hits.sort((a, b) => b.count - a.count)[0];
+  return {
+    tell: 'letter-code-badge',
+    severity: 'medium',
+    evidence: {
+      count: top.count,
+      type: top.type,
+      signature: top.signature,
+      codes: top.codes,
+      sourceFile: top.file || null,
+      groups: hits.slice(0, 6).map((hit) => ({ type: hit.type, signature: hit.signature, count: hit.count, codes: hit.codes, src: hit.src || null })),
+      snippets: [top.snippet].filter(Boolean),
+      source: sourceTell(ctx, ['letter-square', 'placeholder avatars']),
+    },
+  };
+}
+
 function anchorRanges(html) {
   const ranges = [];
   const re = /<a\b[\s\S]*?<\/a>/gi;
@@ -992,6 +1356,125 @@ function detectMarkerSequence(ctx) {
     evidence: {
       families: rows,
       snippets: snippets.slice(0, 4),
+      source: sourceTell(ctx, ['numbered pseudo-editorial', 'numbering']),
+    },
+  };
+}
+
+const HANJA_NUMERAL_VALUES = {
+  '零': 0, '〇': 0,
+  '一': 1, '壹': 1,
+  '二': 2, '貳': 2, '贰': 2,
+  '三': 3, '參': 3, '叁': 3,
+  '四': 4, '肆': 4,
+  '五': 5, '伍': 5,
+  '六': 6, '陸': 6, '陆': 6,
+  '七': 7, '柒': 7,
+  '八': 8, '捌': 8,
+  '九': 9, '玖': 9,
+};
+
+function parseHanjaNumeral(raw) {
+  const s = String(raw || '').trim();
+  if (!s) return null;
+  if (Object.prototype.hasOwnProperty.call(HANJA_NUMERAL_VALUES, s)) return HANJA_NUMERAL_VALUES[s];
+  const tenIdx = s.indexOf('十');
+  if (tenIdx === -1) return null;
+  const left = s.slice(0, tenIdx);
+  const right = s.slice(tenIdx + 1);
+  const tens = left ? HANJA_NUMERAL_VALUES[left] : 1;
+  const ones = right ? HANJA_NUMERAL_VALUES[right] : 0;
+  if (!Number.isFinite(tens) || !Number.isFinite(ones)) return null;
+  return tens * 10 + ones;
+}
+
+function parseRomanNumeral(raw) {
+  const s = String(raw || '').trim().toUpperCase();
+  const table = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6, VII: 7, VIII: 8, IX: 9, X: 10 };
+  return Object.prototype.hasOwnProperty.call(table, s) ? table[s] : null;
+}
+
+function parseMarkerNumber(raw) {
+  const s = compactSpace(raw);
+  if (/^\d{1,2}$/.test(s)) return Number(s);
+  const hanja = parseHanjaNumeral(s);
+  if (hanja != null) return hanja;
+  return parseRomanNumeral(s);
+}
+
+function markerFamilyKey(prefix) {
+  const p = String(prefix || '').toLowerCase();
+  if (/^(?:記錄|記録|记录|기록|record)$/.test(p)) return 'record';
+  if (/^(?:文書|文书|문서|doc)$/.test(p)) return 'document';
+  if (/^(?:添附|첨부|exhibit)$/.test(p)) return 'attachment';
+  if (/^(?:資料|资料|자료)$/.test(p)) return 'material';
+  if (/^(?:圖版|圖|图|도판)$/.test(p)) return 'figure';
+  if (/^(?:寫眞|寫真|사진)$/.test(p)) return 'photo';
+  if (/^(?:現場|현장)$/.test(p)) return 'scene';
+  return p;
+}
+
+function hasSequentialRun(sequence, minRun) {
+  let run = 1;
+  for (let i = 1; i < sequence.length; i++) {
+    if (sequence[i] === sequence[i - 1] + 1) {
+      run++;
+      if (run >= minRun) return true;
+    } else if (sequence[i] !== sequence[i - 1]) {
+      run = 1;
+    }
+  }
+  return false;
+}
+
+function detectMultiscriptNumbering(ctx) {
+  const ranges = anchorRanges(ctx.cleanHtml);
+  const prefix = '(記錄|記録|记录|文書|文书|添附|資料|资料|圖版|圖|图|寫眞|寫真|現場|人物|기록|문서|첨부|자료|도판|증빙|record|doc|exhibit)';
+  const num = '(\\d{1,2}|[一二三四五六七八九十壹貳贰參叁肆伍陸陆柒捌玖]{1,3}|I{1,3}|IV|V|VI{0,3}|IX|X)';
+  const markerRe = new RegExp(`${prefix}\\s*[·.]?\\s*${num}(?!\\s*(?:월|일|년|시|분|명|개|%|원)|[.\\d])`, 'gi');
+  const textRe = />([^<>]+)</g;
+  const families = new Map();
+  const snippets = [];
+  let textMatch;
+  while ((textMatch = textRe.exec(ctx.cleanHtml))) {
+    const text = textMatch[1];
+    markerRe.lastIndex = 0;
+    let marker;
+    while ((marker = markerRe.exec(text))) {
+      const index = textMatch.index + 1 + marker.index;
+      if (indexInRanges(index, ranges)) continue;
+      const parsed = parseMarkerNumber(marker[2]);
+      if (parsed == null || parsed <= 0) continue;
+      const key = markerFamilyKey(marker[1]);
+      if (!families.has(key)) families.set(key, []);
+      families.get(key).push({ prefix: marker[1], raw: marker[2], num: parsed, index });
+      snippets.push(snippet(ctx.cleanHtml.slice(Math.max(0, index - 80), index + 120), 180));
+    }
+  }
+
+  const rows = [];
+  for (const [key, items] of families.entries()) {
+    if (items.length < 3) continue;
+    const ordered = items.slice().sort((a, b) => a.index - b.index);
+    const sequence = ordered.map((item) => item.num);
+    if (!hasSequentialRun(sequence, 3)) continue;
+    rows.push({
+      family: key,
+      prefix: ordered[0].prefix,
+      sequence,
+      raw: ordered.map((item) => item.raw),
+    });
+  }
+
+  if (!rows.length) return null;
+  return {
+    tell: 'multiscript-numbering',
+    severity: 'medium',
+    evidence: {
+      families: rows,
+      count: rows.reduce((sum, row) => sum + row.sequence.length, 0),
+      scripts: [...new Set(rows.flatMap((row) => row.raw.map((value) => /[一二三四五六七八九十壹貳贰參叁肆伍陸陆柒捌玖]/.test(value) ? 'hanja' : (/^[IVX]+$/i.test(value) ? 'roman' : 'arabic'))))],
+      snippets: snippets.slice(0, 5),
       source: sourceTell(ctx, ['numbered pseudo-editorial', 'numbering']),
     },
   };
@@ -1302,6 +1785,9 @@ function computeVerdict(tells, monotonyScore, presence) {
 
 function computeS2Pass(verdict, tells) {
   const highCount = tells.filter((t) => t.severity === 'high').length;
+  const escapeTells = new Set(['repeated-decorative-label', 'multiscript-numbering', 'letter-code-badge', 'palette-monotony']);
+  const escapeClusterCount = tells.filter((t) => escapeTells.has(t.tell)).length;
+  if (escapeClusterCount >= 4) return false;
   return verdict === 'clean' || (verdict === 'suspect' && highCount === 0);
 }
 
@@ -1350,7 +1836,7 @@ function main() {
   const ctx = buildContext(html, page, args, sources);
 
   const tells = [];
-  for (const detector of [detectMonoLabels, detectEnDisplayLabels, detectBrowserMockups, detectGhostNumerals, detectOutlineChips, detectUniformFrameLoop, detectLetterSquareAvatars, detectMarkerSequence, detectJustifyDisplay]) {
+  for (const detector of [detectMonoLabels, detectRepeatedDecorativeLabels, detectEnDisplayLabels, detectBrowserMockups, detectGhostNumerals, detectOutlineChips, detectUniformFrameLoop, detectLetterSquareAvatars, detectLetterCodeBadges, detectMarkerSequence, detectMultiscriptNumbering, detectJustifyDisplay, detectPaletteMonotony]) {
     const hit = detector(ctx);
     if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
   }
