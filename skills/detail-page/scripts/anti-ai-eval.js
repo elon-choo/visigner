@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const REPORT_NAME = 'anti-ai-report.json';
-const HARNESS_VERSION = '1.2.0';
+const HARNESS_VERSION = '1.2.1';
 const SKILL_ROOT = path.resolve(__dirname, '..');
 const LEXICON_PATH = path.join(__dirname, 'design-lexicon.json');
 const TELLS_PATH = path.join(SKILL_ROOT, 'references', 'anti-ai-tells.md');
@@ -1785,9 +1785,19 @@ function computeVerdict(tells, monotonyScore, presence) {
 
 function computeS2Pass(verdict, tells) {
   const highCount = tells.filter((t) => t.severity === 'high').length;
-  const escapeTells = new Set(['repeated-decorative-label', 'multiscript-numbering', 'letter-code-badge', 'palette-monotony']);
-  const escapeClusterCount = tells.filter((t) => escapeTells.has(t.tell)).length;
-  if (escapeClusterCount >= 4) return false;
+  const escapeTells = new Set([
+    'repeated-decorative-label',
+    'multiscript-numbering',
+    'letter-code-badge',
+    'palette-monotony',
+    'mono-label',
+    'marker-sequence-broken',
+    'uniform-frame-loop',
+    'letter-square-avatar',
+    'outline-chip',
+  ]);
+  const escapeTellCount = tells.filter((t) => escapeTells.has(t.tell)).length;
+  if (escapeTellCount > 0) return false;
   return verdict === 'clean' || (verdict === 'suspect' && highCount === 0);
 }
 
