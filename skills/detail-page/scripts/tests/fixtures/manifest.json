@@ -1,0 +1,359 @@
+{
+  "fixtures": [
+    {
+      "name": "invariant/mobile-quality-floor",
+      "path": "skills/detail-page/scripts/tests/fixtures/invariant/mobile-quality-floor/index.html",
+      "class": "invariant",
+      "expected_band": {
+        "scoreMin": 92,
+        "scoreMax": 100
+      },
+      "taste_expected": "n/a",
+      "s2pass_expected": true,
+      "in_mechanical_separation_set": true,
+      "source": "reuse:/tmp/anti-ai/webinar/v4/index.html",
+      "measured": {
+        "mechanicalScore": 100,
+        "letter": "A",
+        "severityScore": 0,
+        "monotony": 0.55,
+        "s2Pass": true,
+        "verdict": "clean",
+        "brandLintFindings": 0,
+        "brandLintRules": [],
+        "tells": []
+      }
+    },
+    {
+      "name": "orthogonality/escape-tell-swap",
+      "path": "skills/detail-page/scripts/tests/fixtures/orthogonality/escape-tell-swap/index.html",
+      "class": "orthogonality",
+      "expected_band": {
+        "scoreMin": 60,
+        "scoreMax": 73
+      },
+      "taste_expected": "fail",
+      "s2pass_expected": false,
+      "in_mechanical_separation_set": false,
+      "source": "reuse:/tmp/anti-ai/webinar/v3/index.html",
+      "measured": {
+        "mechanicalScore": 65,
+        "letter": "D",
+        "severityScore": 7,
+        "monotony": 0.55,
+        "s2Pass": false,
+        "verdict": "suspect",
+        "brandLintFindings": 0,
+        "brandLintRules": [],
+        "tells": [
+          {
+            "tell": "repeated-decorative-label",
+            "severity": "medium"
+          },
+          {
+            "tell": "letter-code-badge",
+            "severity": "medium"
+          },
+          {
+            "tell": "multiscript-numbering",
+            "severity": "medium"
+          },
+          {
+            "tell": "palette-monotony",
+            "severity": "low"
+          }
+        ]
+      }
+    },
+    {
+      "name": "designer/editorial-restraint-29cm",
+      "path": "skills/detail-page/scripts/tests/fixtures/designer/editorial-restraint-29cm/index.html",
+      "class": "designer",
+      "expected_band": {
+        "scoreMin": 92,
+        "scoreMax": 100
+      },
+      "taste_expected": "pass",
+      "s2pass_expected": true,
+      "in_mechanical_separation_set": true,
+      "source": "author-new",
+      "measured": {
+        "mechanicalScore": 100,
+        "letter": "A",
+        "severityScore": 0,
+        "monotony": 0,
+        "s2Pass": true,
+        "verdict": "clean",
+        "brandLintFindings": 0,
+        "brandLintRules": [],
+        "tells": []
+      }
+    },
+    {
+      "name": "designer/color-confident-band",
+      "path": "skills/detail-page/scripts/tests/fixtures/designer/color-confident-band/index.html",
+      "class": "designer",
+      "expected_band": {
+        "scoreMin": 92,
+        "scoreMax": 100
+      },
+      "taste_expected": "pass",
+      "s2pass_expected": true,
+      "in_mechanical_separation_set": true,
+      "source": "author-new",
+      "measured": {
+        "mechanicalScore": 100,
+        "letter": "A",
+        "severityScore": 0,
+        "monotony": 0,
+        "s2Pass": true,
+        "verdict": "clean",
+        "brandLintFindings": 0,
+        "brandLintRules": [],
+        "tells": []
+      }
+    },
+    {
+      "name": "designer/proof-dense-material",
+      "path": "skills/detail-page/scripts/tests/fixtures/designer/proof-dense-material/index.html",
+      "class": "designer",
+      "expected_band": {
+        "scoreMin": 85,
+        "scoreMax": 93
+      },
+      "taste_expected": "pass",
+      "s2pass_expected": true,
+      "in_mechanical_separation_set": true,
+      "source": "author-new",
+      "measured": {
+        "mechanicalScore": 85,
+        "letter": "B",
+        "severityScore": 3,
+        "monotony": 0.24,
+        "s2Pass": true,
+        "verdict": "suspect",
+        "brandLintFindings": 0,
+        "brandLintRules": [],
+        "tells": [
+          {
+            "tell": "en-label-overration",
+            "severity": "low"
+          },
+          {
+            "tell": "justified-display",
+            "severity": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "name": "slop/smartstore-urgency-theatre",
+      "path": "skills/detail-page/scripts/tests/fixtures/slop/smartstore-urgency-theatre/index.html",
+      "class": "slop",
+      "expected_band": {
+        "scoreMin": 55,
+        "scoreMax": 65
+      },
+      "taste_expected": "fail",
+      "s2pass_expected": false,
+      "in_mechanical_separation_set": true,
+      "source": "author-new",
+      "measured": {
+        "mechanicalScore": 63,
+        "letter": "D",
+        "severityScore": 7,
+        "monotony": 0.48,
+        "s2Pass": false,
+        "verdict": "suspect",
+        "brandLintFindings": 1,
+        "brandLintRules": [
+          "banned-font"
+        ],
+        "tells": [
+          {
+            "tell": "outline-chip",
+            "severity": "high"
+          },
+          {
+            "tell": "letter-code-badge",
+            "severity": "medium"
+          },
+          {
+            "tell": "multiscript-numbering",
+            "severity": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "name": "slop/ai-purple-template-hero",
+      "path": "skills/detail-page/scripts/tests/fixtures/slop/ai-purple-template-hero/index.html",
+      "class": "slop",
+      "expected_band": {
+        "scoreMin": 37,
+        "scoreMax": 53
+      },
+      "taste_expected": "fail",
+      "s2pass_expected": false,
+      "in_mechanical_separation_set": true,
+      "source": "author-new",
+      "measured": {
+        "mechanicalScore": 45,
+        "letter": "F",
+        "severityScore": 5,
+        "monotony": 0.47,
+        "s2Pass": false,
+        "verdict": "suspect",
+        "brandLintFindings": 15,
+        "brandLintRules": [
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple",
+          "ai-purple"
+        ],
+        "tells": [
+          {
+            "tell": "ghost-numeral",
+            "severity": "high"
+          },
+          {
+            "tell": "uniform-frame-loop",
+            "severity": "medium"
+          }
+        ]
+      }
+    },
+    {
+      "name": "slop/fake-blob-render",
+      "path": "skills/detail-page/scripts/tests/fixtures/slop/fake-blob-render/index.html",
+      "class": "slop",
+      "expected_band": {
+        "scoreMin": 25,
+        "scoreMax": 41
+      },
+      "taste_expected": "fail",
+      "s2pass_expected": false,
+      "in_mechanical_separation_set": true,
+      "source": "author-new",
+      "measured": {
+        "mechanicalScore": 33,
+        "letter": "F",
+        "severityScore": 10,
+        "monotony": 0.73,
+        "s2Pass": false,
+        "verdict": "ai-likely",
+        "brandLintFindings": 1,
+        "brandLintRules": [
+          "banned-font"
+        ],
+        "tells": [
+          {
+            "tell": "ghost-numeral",
+            "severity": "high"
+          },
+          {
+            "tell": "outline-chip",
+            "severity": "medium"
+          },
+          {
+            "tell": "uniform-frame-loop",
+            "severity": "medium"
+          },
+          {
+            "tell": "structural-monotony",
+            "severity": "high"
+          }
+        ]
+      }
+    },
+    {
+      "name": "orthogonality/empty-placeholder-panels",
+      "path": "skills/detail-page/scripts/tests/fixtures/orthogonality/empty-placeholder-panels/index.html",
+      "class": "orthogonality",
+      "expected_band": {
+        "scoreMin": 92,
+        "scoreMax": 100
+      },
+      "taste_expected": "fail",
+      "s2pass_expected": true,
+      "in_mechanical_separation_set": false,
+      "source": "author-new; probe-classified from slop candidate after score=100/s2Pass=true",
+      "measured": {
+        "mechanicalScore": 100,
+        "letter": "A",
+        "severityScore": 0,
+        "monotony": 0.44,
+        "s2Pass": true,
+        "verdict": "clean",
+        "brandLintFindings": 0,
+        "brandLintRules": [],
+        "tells": []
+      }
+    },
+    {
+      "name": "orthogonality/sad-beige-monochrome",
+      "path": "skills/detail-page/scripts/tests/fixtures/orthogonality/sad-beige-monochrome/index.html",
+      "class": "orthogonality",
+      "expected_band": {
+        "scoreMin": 77,
+        "scoreMax": 90
+      },
+      "taste_expected": "fail",
+      "s2pass_expected": true,
+      "in_mechanical_separation_set": false,
+      "source": "author-new",
+      "measured": {
+        "mechanicalScore": 85,
+        "letter": "B",
+        "severityScore": 2,
+        "monotony": 0.63,
+        "s2Pass": true,
+        "verdict": "suspect",
+        "brandLintFindings": 0,
+        "brandLintRules": [],
+        "tells": [
+          {
+            "tell": "structural-monotony",
+            "severity": "medium"
+          }
+        ]
+      }
+    }
+  ],
+  "separation": {
+    "mechanical_set": [
+      "invariant/mobile-quality-floor",
+      "designer/editorial-restraint-29cm",
+      "designer/color-confident-band",
+      "designer/proof-dense-material",
+      "slop/smartstore-urgency-theatre",
+      "slop/ai-purple-template-hero",
+      "slop/fake-blob-render"
+    ],
+    "high_side": [
+      "invariant/mobile-quality-floor",
+      "designer/editorial-restraint-29cm",
+      "designer/color-confident-band",
+      "designer/proof-dense-material"
+    ],
+    "low_side": [
+      "slop/smartstore-urgency-theatre",
+      "slop/ai-purple-template-hero",
+      "slop/fake-blob-render"
+    ],
+    "designerMin": 85,
+    "slopMax": 63,
+    "gap": 22
+  }
+}

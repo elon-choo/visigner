@@ -1,0 +1,85 @@
+<!doctype html>
+<!-- SOURCE: authored probe for UC1.3 empty-placeholder-panels classification. -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Empty Placeholder Panels Probe</title>
+  <style id="theme-source" type="text/tailwindcss">
+    @theme {
+      --color-paper: oklch(0.98 0.006 230);
+      --color-ink: oklch(0.22 0.025 235);
+      --color-muted: oklch(0.56 0.035 232);
+      --color-panel-a: oklch(0.86 0.05 210);
+      --color-panel-b: oklch(0.91 0.045 180);
+      --color-panel-c: oklch(0.88 0.04 74);
+      --color-line: oklch(0.82 0.028 220);
+      --font-body: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+      --font-display: "Georgia", "Noto Serif KR", serif;
+      --shadow-soft: 0 14px 36px oklch(0.22 0.025 235 / .13);
+    }
+  </style>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const re = /(--[\w-]+)\s*:\s*([^;]+);/g;
+      let m;
+      while ((m = re.exec(document.getElementById("theme-source").textContent))) root.style.setProperty(m[1], m[2].trim());
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html { background: var(--color-paper); }
+    body { margin: 0; overflow-x: hidden; color: var(--color-ink); background: var(--color-paper); font-family: var(--font-body); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+    .page { width: min(100%, 390px); margin: 0 auto; }
+    .section { padding: 28px 18px; }
+    h1, h2, p { margin: 0; }
+    h1 { font-family: var(--font-display); font-size: 40px; line-height: 1.08; }
+    h2 { font-family: var(--font-display); font-size: 28px; line-height: 1.14; }
+    .body { color: var(--color-muted); font-size: 15px; }
+    .panel { position: relative; min-height: 210px; background: linear-gradient(135deg, var(--color-panel-a), var(--color-panel-b)); box-shadow: var(--shadow-soft); }
+    .panel.alt { min-height: 152px; background: linear-gradient(135deg, var(--color-panel-b), var(--color-panel-c)); }
+    .panel.tall { min-height: 260px; background: linear-gradient(135deg, var(--color-panel-c), var(--color-panel-a)); }
+    .corner { position: absolute; top: 12px; right: 12px; padding: 5px 8px; background: var(--color-paper); color: var(--color-muted); font-size: 11px; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .list { display: grid; gap: 10px; }
+    .list div { padding: 13px 0; border-top: 1px solid var(--color-line); }
+    .cta { display: block; margin-top: 18px; padding: 16px; text-align: center; background: var(--color-ink); color: var(--color-paper); text-decoration: none; }
+    :focus-visible { outline: 3px solid var(--color-ink); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="section">
+      <h1>상품 사진이 있어야 할 자리에 색 면만 있다</h1>
+      <p class="body">각 슬롯은 파일이 있는 것처럼 보이지만 실제 제품의 형태나 재질을 확인할 수 없다.</p>
+      <div class="panel"><span class="corner">slot ready</span></div>
+    </section>
+    <section class="section">
+      <h2>첫 번째 구성</h2>
+      <div class="two">
+        <div class="panel alt"><span class="corner">front</span></div>
+        <div class="panel alt"><span class="corner">side</span></div>
+      </div>
+    </section>
+    <section class="section">
+      <h2>상세 컷 자리</h2>
+      <div class="panel tall"><span class="corner">detail</span></div>
+    </section>
+    <section class="section">
+      <h2>스펙은 텍스트로만</h2>
+      <div class="list">
+        <div>크기와 중량이 적혀 있지만 비교 사진이 없다.</div>
+        <div>재질명만 있고 표면 질감은 보이지 않는다.</div>
+        <div>패키지 구성은 설명만 남아 있다.</div>
+      </div>
+    </section>
+    <section class="section">
+      <h2>마지막 슬롯도 비어 있다</h2>
+      <div class="panel"><span class="corner">package</span></div>
+      <a class="cta" href="#buy">구매하기</a>
+    </section>
+  </main>
+</body>
+</html>

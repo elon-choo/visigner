@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="920" viewBox="0 0 1240 920" role="img" aria-labelledby="title desc">
+  <title id="title">AI 10인 마케팅팀 조직도</title>
+  <desc id="desc">대표 아래 브랜드, 콘텐츠, 퍼널, 운영 직원이 연결된 인사 서류형 조직도</desc>
+  <defs>
+    <filter id="paperNoise" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".55" numOctaves="3" seed="9"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.15 0 0 0 0 0.12 0 0 0 0 0.09 0 0 0 .09 0"/>
+    </filter>
+    <style>
+      .line{fill:none;stroke:#2b241d;stroke-width:3;stroke-linecap:square;stroke-linejoin:miter}
+      .box{fill:#f2ead7;stroke:#2b241d;stroke-width:3}
+      .lead{font:700 27px Georgia,serif;fill:#201b16}
+      .body{font:600 20px Georgia,serif;fill:#201b16}
+      .small{font:500 16px Georgia,serif;fill:#5d5145}
+    </style>
+  </defs>
+  <rect width="1240" height="920" fill="#f3ecd9"/>
+  <rect width="1240" height="920" filter="url(#paperNoise)"/>
+  <path class="line" d="M620 132v72M250 204h740M250 204v86M500 204v86M740 204v86M990 204v86"/>
+  <rect class="box" x="470" y="42" width="300" height="90" rx="0"/>
+  <text class="lead" x="620" y="82" text-anchor="middle">나 · 대표</text>
+  <text class="small" x="620" y="110" text-anchor="middle">방향 결정 / 승인</text>
+  <g transform="translate(90 290)">
+    <rect class="box" width="320" height="82"/>
+    <text class="lead" x="26" y="35">B</text><text class="body" x="72" y="35">브랜드 차별화</text>
+    <text class="small" x="72" y="62">B-01 브랜드 전략가</text>
+  </g>
+  <g transform="translate(430 290)">
+    <rect class="box" width="320" height="82"/>
+    <text class="lead" x="26" y="35">C</text><text class="body" x="72" y="35">콘텐츠 효율화</text>
+    <text class="small" x="72" y="62">C-02 디렉터 / C-03 작가</text>
+  </g>
+  <g transform="translate(770 290)">
+    <rect class="box" width="320" height="82"/>
+    <text class="lead" x="26" y="35">F</text><text class="body" x="72" y="35">퍼널 자산화</text>
+    <text class="small" x="72" y="62">F-06 카피 / F-07 설계</text>
+  </g>
+  <g transform="translate(430 510)">
+    <rect class="box" width="320" height="82"/>
+    <text class="lead" x="26" y="35">O</text><text class="body" x="72" y="35">운영 연결</text>
+    <text class="small" x="72" y="62">O-10 운영 매니저</text>
+  </g>
+  <path class="line" d="M590 372v70H250v46M590 442h170v46M590 442h400v46M590 442v68"/>
+  <g transform="translate(80 706)">
+    <rect class="box" width="230" height="70"/><text class="small" x="22" y="32">C-04 SNS 작가</text><text class="small" x="22" y="55">C-05 영상 PD</text>
+  </g>
+  <g transform="translate(360 706)">
+    <rect class="box" width="230" height="70"/><text class="small" x="22" y="32">F-08 리드 자산</text><text class="small" x="22" y="55">매니저</text>
+  </g>
+  <g transform="translate(640 706)">
+    <rect class="box" width="230" height="70"/><text class="small" x="22" y="32">F-09 이메일·문자</text><text class="small" x="22" y="55">마케터</text>
+  </g>
+  <g transform="translate(920 706)">
+    <rect class="box" width="230" height="70"/><text class="small" x="22" y="32">신청 → 제안 → 구매</text><text class="small" x="22" y="55">동선 점검</text>
+  </g>
+  <path class="line" d="M590 592v70H195v44M590 662h-115v44M590 662h165v44M590 662h445v44"/>
+  <path d="M92 840h1056" stroke="#2b241d" stroke-width="3"/>
+  <text class="small" x="92" y="878">첨부: 조직도 &amp; 직원 명세서 핵심요약집 수록본</text>
+</svg>

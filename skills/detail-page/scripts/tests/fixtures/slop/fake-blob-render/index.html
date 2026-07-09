@@ -1,0 +1,106 @@
+<!doctype html>
+<!-- SOURCE: authored new for UC1.3 fixture corpus. -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fake Blob Render | KR slop fixture</title>
+  <style id="theme-source" type="text/tailwindcss">
+    @theme {
+      --color-paper: oklch(0.97 0.01 230);
+      --color-ink: oklch(0.18 0.03 240);
+      --color-muted: oklch(0.5 0.04 230);
+      --color-line: oklch(0.82 0.04 230);
+      --color-aqua: oklch(0.72 0.16 205);
+      --color-pink: oklch(0.73 0.17 350);
+      --color-lime: oklch(0.82 0.17 125);
+      --color-card: oklch(0.99 0 0);
+      --font-body: "Arial", "Noto Sans CJK KR", sans-serif;
+      --font-display: "Georgia", "Noto Serif KR", serif;
+      --shadow-card: 0 20px 42px oklch(0.18 0.03 240 / .2);
+    }
+  </style>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const re = /(--[\w-]+)\s*:\s*([^;]+);/g;
+      let m;
+      while ((m = re.exec(document.getElementById("theme-source").textContent))) root.style.setProperty(m[1], m[2].trim());
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html { background: var(--color-paper); }
+    body { margin: 0; overflow-x: hidden; color: var(--color-ink); background: var(--color-paper); font-family: var(--font-body); line-height: 1.55; word-break: keep-all; overflow-wrap: anywhere; }
+    .page { width: min(100%, 390px); margin: 0 auto; }
+    .section { padding: 26px 16px; }
+    h1, h2, p { margin: 0; }
+    h1 { font-family: var(--font-display); font-size: 42px; line-height: 1; }
+    h2 { font-size: 28px; line-height: 1.08; }
+    .hero { display: grid; gap: 20px; min-height: 82svh; align-content: center; text-align: center; }
+    .blob {
+      width: 252px;
+      aspect-ratio: 1;
+      margin: 0 auto;
+      border-radius: 34%;
+      background:
+        radial-gradient(circle at 28% 24%, var(--color-card) 0 8%, transparent 9%),
+        radial-gradient(circle at 62% 68%, var(--color-pink), transparent 36%),
+        radial-gradient(circle at 30% 70%, var(--color-lime), transparent 34%),
+        radial-gradient(circle at 50% 42%, var(--color-aqua), var(--color-pink));
+      box-shadow: var(--shadow-card);
+      transform: rotate(-8deg);
+    }
+    .label { display: inline-block; margin-top: 10px; color: var(--color-muted); font-size: 12px; }
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .fake-card { border: 1px solid var(--color-line); min-height: 122px; padding: 12px; background: var(--color-card); box-shadow: var(--shadow-card); }
+    .fake-card b { display: block; font-family: var(--font-display); font-size: 22px; }
+    .chip { display: inline-block; border: 1px solid var(--color-aqua); padding: 7px 9px; color: var(--color-aqua); margin: 4px; }
+    .ghost { font-size: 80px; color: transparent; -webkit-text-stroke: 1px var(--color-aqua); font-family: var(--font-display); }
+    .cta { display: block; margin-top: 18px; padding: 16px; background: var(--color-aqua); color: var(--color-card); text-align: center; text-decoration: none; border-radius: 24px; }
+    :focus-visible { outline: 3px solid var(--color-pink); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="section hero">
+      <div class="blob" role="img" aria-label="glossy fake app icon blob"></div>
+      <h1>실제 제품 대신 반짝이는 아이콘</h1>
+      <p>무엇을 배송하는지 보이지 않고, 둥근 3D 덩어리가 상품 사진 자리를 차지한다.</p>
+      <span class="label">render preview only</span>
+    </section>
+    <section class="section">
+      <h2>실물 컷이 없습니다</h2>
+      <div class="grid">
+        <div class="fake-card"><b>01</b><p>크기 비교 없음</p></div>
+        <div class="fake-card"><b>02</b><p>재질 설명 없음</p></div>
+      </div>
+      <div><span class="chip">이미지 대체</span><span class="chip">광택 강조</span><span class="chip">실물 없음</span><span class="chip">연출 컷</span></div>
+    </section>
+    <section class="section">
+      <h2>상세 대신 효과음 같은 문구</h2>
+      <div class="grid">
+        <div class="fake-card"><b>03</b><p>프리미엄 감성</p></div>
+        <div class="fake-card"><b>04</b><p>미래형 질감</p></div>
+      </div>
+    </section>
+    <section class="section">
+      <h2>수치도 근거 없이 크게</h2>
+      <div class="ghost">100</div>
+      <div class="grid">
+        <div class="fake-card"><b>05</b><p>만족도 문구</p></div>
+        <div class="fake-card"><b>06</b><p>고객 반응 문구</p></div>
+      </div>
+    </section>
+    <section class="section">
+      <h2>그래도 구매 버튼만 선명</h2>
+      <div class="grid">
+        <div class="fake-card"><b>07</b><p>배송 구성 미표기</p></div>
+        <div class="fake-card"><b>08</b><p>구성품 사진 없음</p></div>
+      </div>
+      <a class="cta" href="#buy">지금 구매</a>
+    </section>
+  </main>
+</body>
+</html>

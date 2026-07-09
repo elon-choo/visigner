@@ -1,0 +1,100 @@
+<!doctype html>
+<!-- SOURCE: authored new for UC1.3 fixture corpus. -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sad Beige Monochrome | KR orthogonality fixture</title>
+  <style id="theme-source" type="text/tailwindcss">
+    @theme {
+      --color-paper: oklch(0.94 0.018 82);
+      --color-cream: oklch(0.9 0.018 79);
+      --color-card: oklch(0.97 0.014 84);
+      --color-ink: oklch(0.32 0.018 74);
+      --color-muted: oklch(0.55 0.018 76);
+      --color-line: oklch(0.81 0.018 78);
+      --color-accent: oklch(0.63 0.05 58);
+      --font-body: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+      --font-display: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+      --shadow-soft: 0 18px 40px oklch(0.32 0.018 74 / .13);
+    }
+  </style>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const re = /(--[\w-]+)\s*:\s*([^;]+);/g;
+      let m;
+      while ((m = re.exec(document.getElementById("theme-source").textContent))) root.style.setProperty(m[1], m[2].trim());
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html { background: var(--color-paper); }
+    body { margin: 0; overflow-x: hidden; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); font-weight: 300; line-height: 1.66; word-break: keep-all; overflow-wrap: anywhere; }
+    .page { width: min(100%, 390px); margin: 0 auto; }
+    .section { padding: 30px 18px; }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 43px; line-height: 1.06; font-weight: 300; letter-spacing: 0; }
+    h2 { font-size: 28px; line-height: 1.16; font-weight: 300; }
+    .body { color: var(--color-muted); font-size: 15px; }
+    .hero, .soft-grid, .list-section, .quote-section, .buy-section { display: grid; gap: 18px; }
+    .photo { min-height: 244px; background: linear-gradient(160deg, var(--color-card), var(--color-cream)); box-shadow: var(--shadow-soft); }
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .card { background: var(--color-card); box-shadow: var(--shadow-soft); padding: 16px; min-height: 116px; }
+    .card b { display: block; font-weight: 300; font-size: 22px; }
+    .line-list { display: grid; gap: 10px; }
+    .line-list div { padding: 14px 0; border-top: 1px solid var(--color-line); display: grid; grid-template-columns: 92px 1fr; gap: 10px; }
+    .section-title { font-size: 28px; line-height: 1.16; font-weight: 300; }
+    .quote { background: var(--color-card); box-shadow: var(--shadow-soft); padding: 24px; font-size: 24px; line-height: 1.25; font-weight: 300; }
+    .cta { display: block; padding: 16px; text-align: center; background: var(--color-accent); color: var(--color-card); text-decoration: none; border-radius: 9999px; }
+    :focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="section hero">
+      <div class="photo" role="img" aria-label="soft beige product block"></div>
+      <h1>조용한 톤으로 모든 결정을 미룬 생활 오브제</h1>
+      <p class="body">따뜻한 크림색과 얇은 글자만 반복되어 제품의 용도와 감각적 이유가 거의 드러나지 않는다.</p>
+    </section>
+    <section class="section soft-grid">
+      <h2>무난함을 감성처럼 포장</h2>
+      <div class="cards">
+        <div class="card"><b>01</b><span>톤 다운</span></div>
+        <div class="card"><b>02</b><span>소프트 쉐도</span></div>
+      </div>
+    </section>
+    <section class="section soft-grid">
+      <h2>같은 카드가 다시 이어진다</h2>
+      <div class="cards">
+        <div class="card"><b>03</b><span>베이지 표면</span></div>
+        <div class="card"><b>04</b><span>얇은 선</span></div>
+      </div>
+    </section>
+    <section class="section soft-grid">
+      <h2>낮은 대비가 한 번 더 반복된다</h2>
+      <div class="cards">
+        <div class="card"><b>05</b><span>흐린 표정</span></div>
+      </div>
+    </section>
+    <section class="section list-section">
+      <h2>특징은 있지만 선택은 없다</h2>
+      <div class="line-list">
+        <div><b>재질</b><span>무광 코팅 합성지</span></div>
+        <div><b>구성</b><span>본품과 작은 설명서</span></div>
+        <div><b>색상</b><span>크림, 샌드, 오트</span></div>
+      </div>
+    </section>
+    <section class="section quote-section">
+      <p class="quote">“무해하고 조용하지만 기억나는 장면은 없다.”</p>
+      <p class="body">기계적 슬롭 게이트는 통과해야 하지만, 취향 심사에서는 실패해야 하는 표본.</p>
+    </section>
+    <section class="section buy-section">
+      <h2>마지막도 같은 온도</h2>
+      <p class="body">CTA만 낮은 채도의 액센트를 갖고 나머지는 따뜻한 단색 안에 머문다.</p>
+      <a class="cta" href="#buy">차분하게 구매</a>
+    </section>
+  </main>
+</body>
+</html>

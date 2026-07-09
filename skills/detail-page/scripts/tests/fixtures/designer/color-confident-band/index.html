@@ -1,0 +1,119 @@
+<!doctype html>
+<!-- SOURCE: authored new for UC1.3 fixture corpus. -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Color Confident Band | KR detail fixture</title>
+  <style id="theme-source" type="text/tailwindcss">
+    @theme {
+      --color-ink: oklch(0.17 0.018 220);
+      --color-paper: oklch(0.98 0.006 96);
+      --color-band: oklch(0.62 0.21 145);
+      --color-band-deep: oklch(0.36 0.14 153);
+      --color-flare: oklch(0.74 0.18 46);
+      --color-coral: oklch(0.7 0.19 24);
+      --color-cool: oklch(0.76 0.12 205);
+      --color-line: oklch(0.82 0.025 145);
+      --font-display: "Georgia", "Noto Serif KR", serif;
+      --font-body: "KoPubWorldDotum", "Apple SD Gothic Neo", sans-serif;
+      --shadow-soft: 0 16px 38px oklch(0.18 0.04 150 / .18);
+    }
+  </style>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const re = /(--[\w-]+)\s*:\s*([^;]+);/g;
+      let m;
+      while ((m = re.exec(document.getElementById("theme-source").textContent))) root.style.setProperty(m[1], m[2].trim());
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html { background: var(--color-paper); scroll-behavior: smooth; }
+    body { margin: 0; overflow-x: hidden; background: var(--color-paper); color: var(--color-ink); font-family: var(--font-body); line-height: 1.62; word-break: keep-all; overflow-wrap: anywhere; }
+    svg { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; }
+    :focus-visible { outline: 3px solid var(--color-flare); outline-offset: 3px; }
+    .page { width: min(100%, 390px); margin: 0 auto; }
+    .hero { min-height: 88svh; display: grid; align-content: end; padding: 24px 18px 26px; color: var(--color-paper); background: linear-gradient(160deg, var(--color-band) 0%, var(--color-band-deep) 74%); }
+    .hero-art { margin: 0 -18px 26px; }
+    h1, h2, p { margin: 0; }
+    h1 { font-family: var(--font-display); font-size: 52px; line-height: .96; font-weight: 700; letter-spacing: 0; }
+    h2 { font-family: var(--font-display); font-size: 32px; line-height: 1.08; letter-spacing: 0; }
+    .lede { margin-top: 18px; font-size: 17px; color: var(--color-paper); }
+    .section { padding: 34px 18px; }
+    .recur { border-left: 10px solid var(--color-band); padding-left: 18px; display: grid; gap: 14px; }
+    .ingredient { display: grid; grid-template-columns: 1fr 116px; gap: 18px; align-items: center; }
+    .chipline { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .swatch { width: 34px; height: 34px; border-radius: 0; }
+    .swatch.a { background: var(--color-band); }
+    .swatch.b { background: var(--color-flare); }
+    .swatch.c { background: var(--color-coral); }
+    .swatch.d { background: var(--color-cool); }
+    .body { color: oklch(0.35 0.03 220); font-size: 15px; }
+    .field { margin-top: 22px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 12px; }
+    .tile { min-height: 98px; padding: 14px; background: var(--color-paper); box-shadow: var(--shadow-soft); }
+    .tile strong { display: block; font-family: var(--font-display); font-size: 21px; line-height: 1; }
+    .band-note { background: var(--color-band); color: var(--color-paper); padding: 28px 18px; display: grid; gap: 10px; }
+    .steps { display: grid; gap: 16px; }
+    .step { display: grid; grid-template-columns: 56px 1fr; gap: 14px; align-items: center; }
+    .num { height: 56px; display: grid; place-items: center; background: var(--color-flare); color: var(--color-ink); font-family: var(--font-display); font-size: 25px; }
+    .cta { display: block; margin-top: 20px; padding: 15px 18px; text-align: center; text-decoration: none; background: var(--color-band-deep); color: var(--color-paper); border-radius: 0; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <figure class="hero-art" aria-label="saturated beverage band">
+        <svg viewBox="0 0 390 390" role="img" aria-labelledby="band-title">
+          <title id="band-title">채도가 높은 녹색 밴드 위에 놓인 음료와 과일</title>
+          <rect width="390" height="390" fill="var(--color-band)"/>
+          <circle cx="72" cy="92" r="62" fill="var(--color-flare)"/>
+          <circle cx="327" cy="312" r="88" fill="var(--color-coral)"/>
+          <path d="M126 57h138l18 272c2 29-20 49-51 49h-72c-31 0-53-20-51-49Z" fill="var(--color-paper)"/>
+          <path d="M126 157h154l9 128H117z" fill="var(--color-cool)"/>
+          <path d="M154 46h83v36h-83z" fill="var(--color-band-deep)"/>
+        </svg>
+      </figure>
+      <div>
+        <h1>한 병 전체가 색을 기억하게 한다</h1>
+        <p class="lede">청귤 발효청의 산미를 한 가지 녹색으로 밀어붙인 시즌 음료.</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="ingredient">
+        <div class="recur">
+          <h2>첫 화면의 색이 끝까지 따라온다</h2>
+          <p class="body">패키지, 성분표, CTA, 배송 박스의 봉인까지 같은 녹색을 반복해 상품의 기억점을 고정한다.</p>
+        </div>
+        <div class="chipline" aria-label="palette swatches">
+          <i class="swatch a"></i><i class="swatch b"></i><i class="swatch c"></i><i class="swatch d"></i>
+        </div>
+      </div>
+    </section>
+    <section class="section">
+      <h2>마시는 순간보다 먼저 보이는 것</h2>
+      <p class="body">라벨은 흰 여백을 남기고, 병 안쪽 액색은 화면의 밴드와 같은 방향으로 보정했다. 색이 광고가 아니라 제품의 일부처럼 느껴지게 한다.</p>
+      <div class="field">
+        <div class="tile"><strong>11일</strong><span>저온 숙성</span></div>
+        <div class="tile"><strong>0.8%</strong><span>잔당 조정</span></div>
+        <div class="tile"><strong>제주</strong><span>청귤 원물</span></div>
+      </div>
+    </section>
+    <section class="band-note">
+      <h2>상자 안쪽까지 같은 온도</h2>
+      <p>제품을 꺼낼 때 보이는 내지와 보증 카드에도 동일한 밴드 색을 한 번 더 둔다.</p>
+    </section>
+    <div class="section">
+      <div class="steps">
+        <div class="step"><span class="num">1</span><p>탄산수 180ml를 먼저 따른다.</p></div>
+        <div class="step"><span class="num">2</span><p>청귤 베이스 35ml를 천천히 넣는다.</p></div>
+        <div class="step"><span class="num">3</span><p>마지막 얼음 위에 껍질 향을 올린다.</p></div>
+      </div>
+      <a class="cta" href="#order">시즌 박스 주문</a>
+    </div>
+  </main>
+</body>
+</html>

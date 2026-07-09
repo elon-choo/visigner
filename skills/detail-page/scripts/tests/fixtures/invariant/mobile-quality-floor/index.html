@@ -1,0 +1,1162 @@
+<!doctype html>
+<!-- SOURCE: copied from /tmp/anti-ai/webinar/v4/index.html for UC1.3 fixture corpus. -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>혼자서 AI 10인 마케팅팀과 함께 일하는 법 | 무료 라이브 웨비나</title>
+  <style id="theme-source" type="text/tailwindcss">
+    @theme {
+      --color-paper: oklch(0.933 0.035 85.6);
+      --color-paper-deep: oklch(0.872 0.045 82.2);
+      --color-paper-cool: oklch(0.902 0.025 96.4);
+      --color-ink: oklch(0.205 0.024 61.3);
+      --color-ink-soft: oklch(0.348 0.025 62.1);
+      --color-line: oklch(0.715 0.036 82.5);
+      --color-night: oklch(0.166 0.021 58.3);
+      --color-night-paper: oklch(0.896 0.031 83.2);
+      --color-inju: oklch(0.475 0.151 31.2);
+      --color-inju-dark: oklch(0.385 0.132 31.8);
+      --color-muted-red: oklch(0.765 0.047 35.4);
+      --color-cobalt: oklch(0.475 0.19 238);
+      --color-cobalt-deep: oklch(0.28 0.125 246);
+      --color-cyan-paper: oklch(0.86 0.105 198);
+      --color-signal-green: oklch(0.72 0.17 151);
+      --font-display: "Noto Serif CJK KR", "Noto Serif KR", "Nanum Myeongjo", Georgia, serif;
+      --font-body: "KoPubWorldDotum", "Arita-dotum", "Noto Sans CJK KR", "Apple SD Gothic Neo", sans-serif;
+      --font-ledger: "Courier Prime", "Courier New", monospace;
+      --font-slab: Rockwell, Georgia, serif;
+      --shadow-paper: 0 18px 44px oklch(0.205 0.024 61.3 / .18);
+      --shadow-hard: 8px 8px 0 oklch(0.205 0.024 61.3 / .22);
+      --shadow-night: 0 26px 70px oklch(0.05 0.01 60 / .42);
+      --radius-none: 0px;
+    }
+  </style>
+  <script>
+    (() => {
+      const source = document.getElementById("theme-source")?.textContent || "";
+      const root = document.documentElement;
+      const re = /(--[\w-]+)\s*:\s*([^;]+);/g;
+      let m;
+      while ((m = re.exec(source))) root.style.setProperty(m[1], m[2].trim());
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--color-ink); }
+    body {
+      position: relative;
+      margin: 0;
+      min-width: 0;
+      overflow-x: hidden;
+      color: var(--color-ink);
+      background:
+        linear-gradient(90deg, var(--color-ink) 0, var(--color-ink) calc(50% - 760px), transparent calc(50% - 760px), transparent calc(50% + 760px), var(--color-ink) calc(50% + 760px)),
+        var(--color-paper);
+      font-family: var(--font-body);
+      font-size: 17px;
+      line-height: 1.72;
+      word-break: keep-all;
+      overflow-wrap: anywhere;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: url("../../_assets/webinar/generated/paper-grain-scan.png");
+      background-size: 900px 600px;
+      mix-blend-mode: multiply;
+      opacity: .18;
+    }
+    img, svg { max-width: 100%; height: auto; }
+    a { color: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--color-inju); outline-offset: 4px; }
+    .page-shell { max-width: 1520px; margin: 0 auto; background: var(--color-paper); box-shadow: var(--shadow-paper); }
+    .section { position: relative; isolation: isolate; }
+    .inner { width: min(100% - 40px, 1180px); margin-inline: auto; }
+    .kicker {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 12px;
+      line-height: 1.35;
+      letter-spacing: .02em;
+      color: var(--color-ink-soft);
+      font-weight: 800;
+    }
+    .kicker b { color: var(--color-inju); font-weight: 900; }
+    .section-open {
+      margin: 0 0 14px;
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2vw, 26px);
+      font-weight: 800;
+      line-height: 1.25;
+      color: inherit;
+    }
+    .title {
+      margin: 0;
+      font-family: var(--font-display);
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.12;
+    }
+    .body-copy { margin: 0; color: var(--color-ink-soft); }
+    .rule { height: 2px; background: var(--color-ink); transform: scaleX(1); transform-origin: left; }
+    .paper-edge {
+      background: var(--color-paper);
+      border: 0;
+      box-shadow: var(--shadow-hard);
+    }
+    .scan-frame {
+      position: relative;
+      background: var(--color-paper-cool);
+      box-shadow: var(--shadow-paper);
+    }
+    .scan-frame::after, .proof-card::after, .night-photo::after, .story-portrait::after, .tabletop::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(90deg, oklch(1 0 0 / .08) 0 1px, transparent 1px 100%),
+        url("../../_assets/webinar/generated/paper-grain-scan.png");
+      background-size: 5px 100%, 700px 467px;
+      mix-blend-mode: multiply;
+      opacity: .18;
+    }
+    .scan-photo {
+      display: block;
+      width: 100%;
+      filter: sepia(.18) contrast(.94) saturate(.72);
+    }
+    .caption {
+      margin-top: 12px;
+      font-family: var(--font-body);
+      font-size: 12px;
+      line-height: 1.55;
+      letter-spacing: .01em;
+      color: var(--color-ink-soft);
+      font-variant-numeric: tabular-nums;
+    }
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 58px;
+      padding: 16px 24px;
+      border: 0;
+      background: var(--color-inju);
+      color: var(--color-paper);
+      font-family: var(--font-body);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.25;
+      text-decoration: none;
+      box-shadow: inset 0 -5px 0 var(--color-inju-dark), 0 14px 30px oklch(0.475 0.151 31.2 / .28);
+      transition: transform 160ms ease-out, box-shadow 160ms ease-out;
+    }
+    .cta-button:hover { transform: translateY(-2px); box-shadow: inset 0 -5px 0 var(--color-inju-dark), 0 18px 36px oklch(0.475 0.151 31.2 / .34); }
+    .cta-button:active { transform: translateY(1px); }
+    .ledger {
+      font-family: var(--font-body);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .01em;
+    }
+    .numeric-ledger,
+    .ledger-list { font-family: var(--font-ledger); }
+
+    .hero {
+      min-height: 94svh;
+      display: grid;
+      align-items: stretch;
+      padding: 34px 0 64px;
+      background:
+        linear-gradient(90deg, transparent calc(100% - 1px), var(--color-line) calc(100% - 1px)),
+        var(--color-paper);
+      background-size: calc((100% - 40px) / 12) 100%, auto;
+    }
+    .hero-cover {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 330px);
+      gap: 34px;
+      align-items: end;
+      min-height: 76svh;
+      padding: clamp(28px, 5vw, 64px);
+      border: 2px solid var(--color-ink);
+      background: linear-gradient(180deg, var(--color-paper) 0%, var(--color-paper-deep) 100%);
+      box-shadow: var(--shadow-hard);
+    }
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid var(--color-ink);
+    }
+    .masthead strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3.4vw, 42px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+    .coverlines {
+      display: grid;
+      gap: 12px;
+      justify-self: stretch;
+      align-self: stretch;
+      border-left: 2px solid var(--color-ink);
+      padding-left: 22px;
+    }
+    .coverline {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--color-line);
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 1.45;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero-thesis { display: grid; align-content: end; gap: 24px; }
+    .hero-stack {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(48px, 9.4vw, 132px);
+      font-weight: 900;
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+    .hero-stack span { display: block; }
+    .lettering {
+      display: block;
+      width: min(100%, 720px);
+      margin: .08em 0 .12em;
+      color: var(--color-ink);
+      filter: none;
+    }
+    .lettering-line {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8.6vw, 118px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: 0;
+      word-break: keep-all;
+      overflow-wrap: normal;
+    }
+    .hero-lead {
+      max-width: 660px;
+      margin: 0;
+      font-size: clamp(18px, 2vw, 24px);
+      line-height: 1.68;
+      color: var(--color-ink-soft);
+    }
+
+    .empathy {
+      padding: clamp(70px, 10vw, 132px) 0;
+      color: var(--color-night-paper);
+      background:
+        linear-gradient(180deg, var(--color-night) 0%, oklch(0.12 0.015 58) 100%);
+    }
+    .empathy-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 430px) minmax(0, 1fr);
+      gap: clamp(32px, 6vw, 86px);
+      align-items: center;
+    }
+    .night-photo {
+      position: relative;
+      transform: rotate(-1.3deg);
+      box-shadow: var(--shadow-night);
+      overflow: hidden;
+      border: 10px solid oklch(0.91 0.028 83);
+      background: var(--color-night);
+    }
+    .night-photo img {
+      aspect-ratio: 1 / 1.15;
+      object-fit: cover;
+      filter: brightness(.55) sepia(.25) contrast(1.08) saturate(.75);
+    }
+    .empathy-copy {
+      max-width: 560px;
+      margin-inline: auto;
+    }
+    .empathy .title { font-size: clamp(34px, 6vw, 66px); }
+    .quote-set {
+      display: grid;
+      gap: 22px;
+      margin: 38px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .quote-set li {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr);
+      gap: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid oklch(0.896 0.031 83.2 / .18);
+    }
+    .quote-set b { font-family: var(--font-display); font-size: 17px; color: var(--color-paper-deep); }
+    .quote-set q { quotes: "“" "”"; font-family: var(--font-display); font-size: clamp(22px, 3vw, 31px); line-height: 1.38; }
+
+    .mechanism {
+      padding: clamp(72px, 10vw, 128px) 0;
+      background: var(--color-paper-cool);
+    }
+    .spread {
+      display: grid;
+      grid-template-columns: minmax(0, .72fr) minmax(260px, .28fr);
+      gap: 28px;
+      align-items: start;
+    }
+    .turning-page {
+      display: grid;
+      gap: 20px;
+      padding: clamp(28px, 5vw, 54px);
+      border: 2px solid var(--color-ink);
+      background: var(--color-paper);
+    }
+    .turning-page .title { font-size: clamp(38px, 7vw, 82px); }
+    .before-after {
+      display: grid;
+      grid-template-columns: minmax(0, .32fr) minmax(0, .68fr);
+      gap: 26px;
+      margin-top: 20px;
+    }
+    .method {
+      padding: 22px 0;
+      border-top: 1px solid var(--color-line);
+      background: transparent;
+    }
+    .method.is-after {
+      padding: 26px;
+      border-top: 5px solid var(--color-inju);
+      background: oklch(0.933 0.035 85.6 / .86);
+      box-shadow: 0 20px 44px oklch(0.205 0.024 61.3 / .1);
+    }
+    .method strong {
+      display: block;
+      margin-bottom: 10px;
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.15;
+    }
+    .team-map {
+      position: sticky;
+      top: 24px;
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+      background: var(--color-paper-deep);
+      box-shadow: var(--shadow-paper);
+    }
+    .team-map h3 {
+      margin: 0;
+      font-family: var(--font-display);
+      font-size: clamp(25px, 3vw, 38px);
+      line-height: 1.08;
+    }
+    .team-role {
+      display: grid;
+      grid-template-columns: minmax(0, 112px) minmax(0, 1fr);
+      gap: 12px;
+      padding: 14px 0;
+      border-top: 1px solid var(--color-line);
+    }
+    .team-role strong { font-family: var(--font-display); line-height: 1.2; }
+    .team-role span { color: var(--color-ink-soft); font-size: 13px; line-height: 1.45; }
+    .org-cues {
+      display: grid;
+      gap: 16px;
+      margin-top: 24px;
+      padding-left: 18px;
+      border-left: 3px solid var(--color-inju);
+    }
+    .org-cue {
+      margin: 0;
+      color: var(--color-ink-soft);
+    }
+    .org-cue strong { color: var(--color-ink); }
+
+    .proof {
+      padding: clamp(72px, 10vw, 128px) 0;
+      background: linear-gradient(180deg, var(--color-paper) 0%, var(--color-paper-deep) 100%);
+    }
+    .proof-head {
+      display: grid;
+      grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+      gap: 36px;
+      align-items: end;
+      margin-bottom: 44px;
+    }
+    .proof-head .title { font-size: clamp(38px, 6.2vw, 78px); }
+    .evidence-stack {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 22px;
+      align-items: start;
+    }
+    .proof-card {
+      position: relative;
+      min-width: 0;
+      padding: 14px 14px 18px;
+      background: var(--color-paper-cool);
+      box-shadow: var(--shadow-paper);
+    }
+    .proof-card:nth-child(1) { grid-column: 1 / span 6; transform: rotate(-1.2deg); }
+    .proof-card:nth-child(2) { grid-column: 7 / span 6; margin-top: 42px; transform: rotate(.8deg); }
+    .proof-card:nth-child(3) { grid-column: 2 / span 5; transform: rotate(1.1deg); }
+    .proof-card:nth-child(4) { grid-column: 7 / span 5; margin-top: 36px; transform: rotate(-.7deg); }
+    .proof-card img { width: 100%; aspect-ratio: 16 / 10.6; object-fit: cover; filter: grayscale(.08) sepia(.16) contrast(.94); }
+    .clip {
+      position: absolute;
+      top: -18px;
+      left: 34px;
+      width: 70px;
+      height: 30px;
+      border: 3px solid var(--color-ink);
+      border-bottom: 0;
+      background: oklch(0.715 0.036 82.5 / .55);
+      transform: rotate(-2deg);
+      z-index: 2;
+    }
+    .annotation {
+      position: absolute;
+      inset: 8% 8% auto auto;
+      width: 34%;
+      min-width: 130px;
+      padding: 8px 0 8px 12px;
+      border-left: 4px solid var(--color-inju);
+      background: oklch(0.933 0.035 85.6 / .72);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.35;
+      transform: none;
+      z-index: 3;
+    }
+    .case-strip {
+      margin-top: 58px;
+      display: grid;
+      grid-template-columns: minmax(260px, 430px) minmax(0, 1fr);
+      gap: 28px;
+      align-items: center;
+      padding: clamp(24px, 4vw, 42px);
+      background: var(--color-paper-cool);
+      box-shadow: inset 0 0 0 1px oklch(0.715 0.036 82.5 / .55);
+    }
+    .case-strip img { aspect-ratio: 4 / 5; object-fit: cover; filter: sepia(.12) contrast(.92); }
+    .case-lines { display: grid; gap: 18px; }
+    .case-lines blockquote {
+      margin: 0;
+      padding-left: 18px;
+      border-left: 4px double var(--color-ink);
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3vw, 34px);
+      line-height: 1.42;
+    }
+
+    .product {
+      padding: clamp(72px, 10vw, 128px) 0;
+      background:
+        radial-gradient(circle at 22% 16%, var(--color-cyan-paper) 0 18%, transparent 19% 100%),
+        linear-gradient(135deg, var(--color-cobalt-deep) 0%, var(--color-cobalt) 62%, var(--color-signal-green) 100%);
+      color: var(--color-paper);
+    }
+    .product .body-copy,
+    .product .caption { color: oklch(0.933 0.035 85.6 / .76); }
+    .product .tabletop .caption,
+    .product .agenda-plate .body-copy { color: var(--color-ink-soft); }
+    .product .section-open { color: var(--color-cobalt-deep); }
+    .product-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(280px, .92fr);
+      gap: clamp(30px, 6vw, 82px);
+      align-items: start;
+    }
+    .tabletop {
+      position: relative;
+      padding: 18px;
+      background: var(--color-paper-deep);
+      box-shadow: var(--shadow-paper);
+    }
+    .tabletop img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; filter: sepia(.1) contrast(.96) saturate(.9); }
+    .hand-slot {
+      margin-top: 20px;
+      display: grid;
+      grid-template-columns: minmax(0, .88fr) minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+    }
+    .hand-slot img {
+      background: var(--color-paper-cool);
+      box-shadow: 0 18px 34px oklch(0.205 0.024 61.3 / .14);
+    }
+    .agenda-plate {
+      background: oklch(0.933 0.035 85.6 / .96);
+      color: var(--color-ink);
+      padding: clamp(24px, 4vw, 42px);
+      box-shadow: inset 8px 0 0 var(--color-signal-green), var(--shadow-night);
+    }
+    .agenda-plate .title { font-size: clamp(34px, 5.6vw, 68px); }
+    .agenda {
+      display: grid;
+      gap: 0;
+      margin: 32px 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: agenda;
+    }
+    .agenda li {
+      counter-increment: agenda;
+      display: grid;
+      grid-template-columns: 64px minmax(0, 1fr);
+      gap: 18px;
+      padding: 18px 0;
+      border-top: 1px solid var(--color-line);
+    }
+    .agenda li::before {
+      content: counter(agenda, decimal-leading-zero);
+      font-family: var(--font-slab);
+      font-size: 32px;
+      line-height: 1;
+      color: var(--color-ink);
+    }
+    .agenda strong { display: block; margin-bottom: 4px; font-size: 18px; }
+
+    .story {
+      padding: clamp(72px, 10vw, 128px) 0;
+      background: var(--color-ink);
+      color: var(--color-night-paper);
+    }
+    .story .kicker, .story .caption, .story .body-copy { color: oklch(0.896 0.031 83.2 / .72); }
+    .personnel {
+      display: grid;
+      grid-template-columns: minmax(270px, 410px) minmax(0, 1fr);
+      gap: clamp(32px, 6vw, 72px);
+      align-items: start;
+    }
+    .story-portrait {
+      position: relative;
+      padding: 16px;
+      background: oklch(0.896 0.031 83.2);
+      transform: rotate(.8deg);
+      box-shadow: var(--shadow-night);
+    }
+    .story-portrait img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: sepia(.32) contrast(1.08) brightness(.78) saturate(.78);
+    }
+    .personnel-copy .title { font-size: clamp(36px, 6.2vw, 78px); color: var(--color-night-paper); }
+    .record-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      margin: 34px 0;
+      background: oklch(0.896 0.031 83.2 / .22);
+    }
+    .record-grid div {
+      min-width: 0;
+      padding: 18px 12px;
+      background: var(--color-ink);
+    }
+    .record-grid strong {
+      display: block;
+      font-family: var(--font-slab);
+      font-size: clamp(25px, 4vw, 46px);
+      line-height: 1;
+      margin-bottom: 10px;
+      color: var(--color-paper-deep);
+      white-space: nowrap;
+    }
+    .snap-row {
+      display: grid;
+      grid-template-columns: 1.2fr .9fr;
+      gap: 18px;
+      margin-top: 32px;
+    }
+    .snap-row figure { margin: 0; padding: 10px; background: oklch(0.896 0.031 83.2); color: var(--color-ink); }
+    .snap-row img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; filter: sepia(.18) contrast(.92); }
+
+    .offer {
+      padding: clamp(72px, 10vw, 128px) 0;
+      background: var(--color-paper-cool);
+    }
+    .offer-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 330px) minmax(0, 1fr);
+      gap: clamp(28px, 6vw, 78px);
+      align-items: start;
+    }
+    .margin-note {
+      position: sticky;
+      top: 28px;
+      padding: 22px;
+      border-left: 8px solid var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: var(--shadow-hard);
+    }
+    .reason-paper {
+      padding: clamp(26px, 5vw, 56px);
+      background: var(--color-paper);
+      border: 2px solid var(--color-ink);
+    }
+    .reason-paper .title { font-size: clamp(38px, 6.3vw, 76px); }
+    .comparison {
+      width: 100%;
+      margin-top: 34px;
+      border-collapse: collapse;
+      font-size: 16px;
+    }
+    .comparison th, .comparison td {
+      text-align: left;
+      vertical-align: top;
+      padding: 16px 14px;
+      border-top: 1px solid var(--color-line);
+    }
+    .comparison th {
+      font-family: var(--font-display);
+      font-size: 18px;
+      color: var(--color-ink);
+    }
+    .ledger-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin-top: 28px;
+      background: var(--color-line);
+    }
+    .ledger-list div { padding: 16px; background: var(--color-paper-cool); }
+    .ledger-list dt { font-size: 12px; color: var(--color-ink-soft); }
+    .ledger-list dd { margin: 4px 0 0; font-weight: 800; }
+    .footnotes {
+      margin-top: 30px;
+      padding-top: 18px;
+      border-top: 1px solid var(--color-line);
+      font-size: 14px;
+      color: var(--color-ink-soft);
+    }
+
+    .faq {
+      padding: clamp(72px, 10vw, 128px) 0;
+      background: var(--color-paper);
+    }
+    .faq-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 400px);
+      gap: clamp(32px, 6vw, 78px);
+      align-items: start;
+    }
+    .faq-prose {
+      max-width: 740px;
+      text-align: left;
+    }
+    .faq-prose .title { font-size: clamp(36px, 6vw, 74px); margin-bottom: 28px; }
+    .runin {
+      display: inline;
+      font-family: var(--font-display);
+      font-weight: 900;
+      color: var(--color-ink);
+    }
+    .faq-prose p {
+      margin: 0 0 18px;
+      color: var(--color-ink-soft);
+      text-wrap: pretty;
+    }
+    .colophon {
+      border: 2px solid var(--color-ink);
+      padding: 28px;
+      background: var(--color-paper-cool);
+    }
+    .colophon h3 {
+      margin: 0 0 22px;
+      font-family: var(--font-slab);
+      font-size: 32px;
+      line-height: 1;
+    }
+    .colophon dl {
+      display: grid;
+      grid-template-columns: 86px minmax(0, 1fr);
+      gap: 10px 18px;
+      margin: 0;
+    }
+    .colophon dt { color: var(--color-ink-soft); }
+    .colophon dd { margin: 0; font-weight: 800; }
+
+    .cta {
+      padding: clamp(72px, 10vw, 134px) 0 150px;
+      background: var(--color-paper-deep);
+    }
+    .appointment {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(260px, 370px);
+      gap: clamp(28px, 6vw, 72px);
+      align-items: center;
+      padding: clamp(28px, 6vw, 72px);
+      border: 3px double var(--color-ink);
+      background: var(--color-paper);
+      box-shadow: var(--shadow-paper);
+    }
+    .appointment .title {
+      font-size: clamp(42px, 7.2vw, 94px);
+    }
+    .deadline {
+      display: block;
+      border-left: 5px solid var(--color-inju);
+      margin: 28px 0;
+      max-width: 520px;
+      padding: 14px 0 14px 18px;
+      background: var(--color-paper-cool);
+      color: var(--color-ink);
+    }
+    .deadline strong {
+      display: inline;
+      font-family: var(--font-body);
+      font-size: 18px;
+      color: var(--color-inju);
+    }
+    .seal-area {
+      position: relative;
+      min-height: 390px;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+    .seal-placeholder {
+      width: min(100%, 310px);
+      opacity: .86;
+      filter: contrast(1.08) saturate(.9);
+    }
+    .seal {
+      display: none;
+    }
+    .mobile-buy {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 50;
+      display: none;
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      background: oklch(0.205 0.024 61.3 / .96);
+      color: var(--color-paper);
+      border-top: 1px solid oklch(0.933 0.035 85.6 / .2);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateY(100%);
+      transition: opacity 160ms ease-out, transform 160ms ease-out, visibility 0s linear 160ms;
+    }
+    .mobile-buy.is-visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateY(0);
+      transition-delay: 0s;
+    }
+    .mobile-buy-inner {
+      width: min(100%, 620px);
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+    .mobile-buy small {
+      display: block;
+      color: oklch(0.896 0.031 83.2 / .72);
+      line-height: 1.35;
+      font-size: 12px;
+    }
+    .mobile-buy .cta-button {
+      min-height: 50px;
+      padding: 12px 16px;
+      font-size: 15px;
+      white-space: nowrap;
+    }
+
+    .reveal { opacity: 1; transform: none; }
+    .enhance-motion .reveal.motion-in {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 320ms ease-out, transform 320ms ease-out;
+    }
+    .enhance-motion .reveal.motion-in.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 920px) {
+      body { background: var(--color-paper); }
+      .page-shell { box-shadow: none; }
+      .hero { min-height: auto; padding: 18px 0 42px; }
+      .hero-cover, .empathy-grid, .spread, .proof-head, .product-grid, .personnel, .offer-layout, .faq-block, .appointment, .case-strip {
+        grid-template-columns: 1fr;
+      }
+      .hero-cover { min-height: auto; gap: 28px; }
+      .coverlines { border-left: 0; border-top: 2px solid var(--color-ink); padding-left: 0; padding-top: 14px; }
+      .before-after, .hand-slot, .snap-row { grid-template-columns: 1fr; }
+      .team-map, .margin-note { position: static; }
+      .proof-card:nth-child(n) { grid-column: 1 / -1; margin-top: 0; transform: none; }
+      .record-grid { grid-template-columns: 1fr; }
+      .ledger-list { grid-template-columns: 1fr 1fr; }
+      .mobile-buy { display: block; }
+      body { padding-bottom: 86px; }
+    }
+    @media (max-width: 520px) {
+      body { font-size: 16px; line-height: 1.68; }
+      .inner { width: min(100% - 28px, 1180px); }
+      .hero-cover, .turning-page, .agenda-plate, .reason-paper, .appointment { padding: 22px; }
+      .masthead { display: grid; }
+      .hero-stack { font-size: clamp(40px, 13.4vw, 62px); line-height: 1.08; }
+      .lettering-line { font-size: clamp(38px, 12.4vw, 58px); line-height: 1.1; }
+      .quote-set li, .agenda li, .colophon dl, .mobile-buy-inner { grid-template-columns: 1fr; }
+      .quote-set b { margin-bottom: -8px; }
+      .deadline { max-width: none; }
+      .ledger-list { grid-template-columns: 1fr; }
+      .seal-area { min-height: 260px; }
+      .comparison { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .comparison th, .comparison td { min-width: 150px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+      .enhance-motion .reveal.motion-in, .reveal { opacity: 1; transform: none; }
+      .mobile-buy { transition: none; }
+    }
+  </style>
+  <noscript>
+    <style>
+      @media (max-width: 920px) {
+        body { padding-bottom: 0; }
+        .mobile-buy {
+          position: static;
+          display: block;
+          margin-top: 24px;
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+          transform: none;
+        }
+      }
+    </style>
+  </noscript>
+</head>
+<body>
+  <main class="page-shell">
+    <section class="section hero" data-section="hook" aria-labelledby="hook-title">
+      <div class="inner hero-cover paper-edge" data-kw="magazine-cover-logic warm-paper-ground">
+        <div class="hero-thesis" data-kw="hero-thesis">
+          <div class="masthead">
+            <div>
+              <span class="kicker">무료 라이브 웨비나</span>
+              <strong>공감마케터</strong>
+            </div>
+            <div class="ledger numeric-ledger">2026.07.16 THU<br>20:30-22:30</div>
+          </div>
+          <h1 id="hook-title" class="hero-stack" data-kw="negative-leading">
+            <span>혼자서 AI</span>
+            <span class="lettering lettering-line" data-kw="named-face-stack">10인 마케팅팀과</span>
+            <span>함께 일하는 법</span>
+          </h1>
+          <p class="hero-lead">AI 강의를 더 들어서 되는 게 아니에요. 실력이 없는 게 아니라, 혼자 다 짊어지는 방식이 문제거든요. 이제 묻지 말고 일을 시키세요. 혼자가 아니라, 10인 팀으로요.</p>
+          <p class="ledger">누적 수강생 <span class="numeric-ledger">1,640</span>명을 만든 22년차 마케터가 직접 엽니다.</p>
+        </div>
+        <aside class="coverlines" aria-label="웨비나 정보">
+          <div class="coverline"><b>일시</b><br>2026년 7월 16일(목) 저녁 8:30-10:30</div>
+          <div class="coverline"><b>방식</b><br>라이브 웨비나</div>
+          <div class="coverline"><b>정원</b><br>선착순 100석</div>
+          <div class="coverline"><b>비용</b><br>100% 무료</div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section empathy" data-section="empathy" aria-labelledby="empathy-title">
+      <div class="inner empathy-grid">
+        <figure class="night-photo reveal" data-kw="practical-light film-grain">
+          <img src="../../_assets/webinar/photo-01-dawn-desk.jpg" alt="새벽까지 혼자 일하던 책상" width="1200" height="829">
+          <figcaption class="caption">새벽 2시, 혼자 붙잡던 책상</figcaption>
+        </figure>
+        <div class="empathy-copy" data-kw="narrow-editorial-measure low-key-palette">
+          <p class="section-open">현장의 하루를 그대로 보면</p>
+          <h2 id="empathy-title" class="title">혹시, 이런 하루 보내고 계세요?</h2>
+          <ul class="quote-set" data-kw="pull-quote">
+            <li><b>1인 기업가</b><q>AI는 쓰는데, 이상하게 제 일이 안 줄어요.</q></li>
+            <li><b>강사</b><q>오늘 뭐 올리지로 매일 1시간을 버려요.</q></li>
+            <li><b>컨설턴트</b><q>전문성은 자신 있는데, 파는 건 늘 약해요.</q></li>
+            <li><b>코치</b><q>콘텐츠가 끊긴 지 오래됐고, 존재감이 사라지는 것 같아요.</q></li>
+          </ul>
+          <p class="body-copy" style="margin-top:28px;color:var(--color-night-paper)">더 열심히의 문제가 아니라, 방식의 문제예요.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section mechanism" data-section="mechanism" aria-labelledby="mechanism-title">
+      <div class="inner spread">
+        <article class="turning-page reveal" data-kw="solution-reveal editorial-spread-logic whitespace-asset">
+          <p class="section-open">방식의 전환</p>
+          <h2 id="mechanism-title" class="title">대부분의 AI 강의는 도구 쓰는 법만 가르쳐요.</h2>
+          <p class="body-copy">근데 진짜 문제는, AI와 일하는 방식이 안 바뀐 거예요.</p>
+          <div class="before-after">
+            <div class="method is-before">
+              <strong>지금까지</strong>
+              <p class="body-copy">묻고 또 묻고, 일은 다 내가 하는 방식</p>
+            </div>
+            <div class="method is-after">
+              <strong>이제부터</strong>
+              <p class="body-copy">방향은 나, 실무는 AI 10인 팀이 받쳐주는 방식</p>
+            </div>
+          </div>
+          <div class="org-cues" data-kw="scrollytelling-pinned">
+            <p class="org-cue" data-step="brand"><strong>브랜드.</strong> 먼저 내 이름과 시장의 한 줄을 정리합니다.</p>
+            <p class="org-cue" data-step="content"><strong>콘텐츠.</strong> 한 달 캘린더와 원고를 같은 방향으로 밀어냅니다.</p>
+            <p class="org-cue" data-step="funnel"><strong>퍼널.</strong> 신청, 제안, 구매로 이어지는 자산을 쌓습니다.</p>
+            <p class="org-cue" data-step="ops"><strong>운영.</strong> 대표가 결정할 일과 직원에게 넘길 일을 나눕니다.</p>
+          </div>
+          <p>브랜드 · 콘텐츠 · 퍼널. 22년간 정립한 BCF 시스템을 그대로 옮긴 팀이기 때문에, 아무 직원 열 명이 아닙니다.</p>
+        </article>
+        <aside class="team-map reveal" data-kw="role-map scrollytelling-pinned">
+          <h3>대표가 방향을 정하면, 팀은 역할별로 움직입니다.</h3>
+          <div class="team-role">
+            <strong>브랜드 전략</strong>
+            <span>정체성, 포지셔닝, USP, 제안 문장을 정리합니다.</span>
+          </div>
+          <div class="team-role">
+            <strong>콘텐츠 제작</strong>
+            <span>월간 캘린더, 블로그 원고, SNS 초안을 같은 방향으로 만듭니다.</span>
+          </div>
+          <div class="team-role">
+            <strong>퍼널 자산</strong>
+            <span>신청 페이지, 판매 페이지, 리드 DB 흐름을 연결합니다.</span>
+          </div>
+          <div class="team-role">
+            <strong>운영 보조</strong>
+            <span>반복 업무와 체크리스트를 받아 대표의 판단 시간을 남깁니다.</span>
+          </div>
+          <p class="caption">이 역할표는 참석자 사은품 「핵심요약집」에 그대로 수록돼 있어요.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section proof" data-section="proof" aria-labelledby="proof-title">
+      <div class="inner">
+        <div class="proof-head">
+          <div>
+            <p class="section-open">실무 산출물 네 장</p>
+            <h2 id="proof-title" class="title">말로만 하는 게 아니라, 실제로 이런 걸 만들어요.</h2>
+          </div>
+          <p class="body-copy">대행사도, 팀원도 없이요. 방향은 제가 잡고, 아래 결과물은 전부 AI 직원 10명이 만든 산출물입니다.</p>
+        </div>
+        <div class="evidence-stack" data-kw="archival-ephemera proof-stack scanography">
+          <figure class="proof-card evidence-brand reveal">
+            <span class="clip" aria-hidden="true"></span>
+            <img src="../../_assets/webinar/photo-02-brand-report.jpg" alt="AI 브랜드 전략가가 만든 브랜드 전략 리포트" width="960" height="637" loading="lazy">
+            <figcaption class="caption" data-kw="caption-discipline">브랜드 전략 리포트. 정체성, 포지셔닝, USP 정리</figcaption>
+            <span class="annotation" data-kw="editorial-marginalia">USP 후보 줄</span>
+          </figure>
+          <figure class="proof-card evidence-calendar reveal">
+            <span class="clip" aria-hidden="true"></span>
+            <img src="../../_assets/webinar/photo-03-content-calendar.jpg" alt="한 달치 월간 콘텐츠 캘린더" width="900" height="617" loading="lazy">
+            <figcaption class="caption">월간 콘텐츠 캘린더. 채널별 발행 흐름 정리</figcaption>
+          </figure>
+          <figure class="proof-card evidence-draft reveal">
+            <span class="clip" aria-hidden="true"></span>
+            <img src="../../_assets/webinar/photo-04-blog-draft.jpg" alt="완성된 블로그 콘텐츠 원고" width="900" height="574" loading="lazy">
+            <figcaption class="caption">블로그 콘텐츠 원고. 캘린더 기반 완성 초안</figcaption>
+          </figure>
+          <figure class="proof-card evidence-funnel reveal">
+            <span class="clip" aria-hidden="true"></span>
+            <img src="../../_assets/webinar/photo-05-funnel-database.jpg" alt="퍼널 자산 데이터베이스" width="960" height="630" loading="lazy">
+            <figcaption class="caption">퍼널 자산 데이터베이스. 신청과 제안 흐름 정리</figcaption>
+          </figure>
+        </div>
+        <aside class="case-strip reveal">
+          <img class="scan-photo" src="../../_assets/webinar/photo-09-hyejin-case.jpg" alt="임혜진 대표 사례 소개 지면" width="560" height="700" loading="lazy">
+          <div class="case-lines">
+            <p class="section-open">수강생 사례</p>
+            <blockquote>“내 차별성을 설명할 수 없어서 블로그 방향도 못 잡고 있었어요.”</blockquote>
+            <blockquote>“USP가 고객이 이해하는 한 줄로 정리됐어요.”</blockquote>
+            <p class="caption">유니버스마켓 임혜진 대표님 사례 소개 지면에서</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section product" data-section="product" aria-labelledby="product-title">
+      <div class="inner product-grid">
+        <div>
+          <figure class="tabletop reveal" data-kw="still-life-tabletop rim-light">
+            <img src="../../_assets/webinar/photo-13-summary-book.jpg" alt="10인 AI 마케팅팀 조직도와 직원 명세서 핵심요약집" width="1200" height="675" loading="lazy">
+            <figcaption class="caption">「10인 AI 마케팅팀 조직도 & 직원 명세서」 핵심요약집 PDF</figcaption>
+          </figure>
+          <div class="hand-slot reveal" data-kw="hands-in-frame">
+            <img src="../../_assets/webinar/generated/hands-summary-book.png" alt="인쇄된 핵심요약집을 쥔 손" width="1280" height="960" loading="lazy">
+            <p class="body-copy">이 조직도는 사은품이 아니에요. 여러분이 10인 팀의 대표가 됐다는 걸 눈으로 보여주는 증거 한 장이거든요.</p>
+          </div>
+        </div>
+        <article class="agenda-plate reveal" data-kw="catalog-plate">
+          <p class="section-open">라이브에서 다룰 다섯 가지</p>
+          <p id="product-title" class="title" role="heading" aria-level="2">이 웨비나에서, 이걸 알게 돼요.</p>
+          <ol class="agenda">
+            <li><div><strong>AI 강의를 들었는데 왜 내 일은 안 줄었는지</strong><span class="body-copy">바쁜 이유의 진짜 원인부터 짚어요.</span></div></li>
+            <li><div><strong>대부분이 잘못 알고 있는 오해 3가지</strong><span class="body-copy">이 3가지만 바로잡아도 방향이 달라져요.</span></div></li>
+            <li><div><strong>묻는 사람에서 일을 시키는 사람으로 넘어가는 한 끗</strong><span class="body-copy">채팅에서 코워킹으로 넘어가는 지점을 보여드려요.</span></div></li>
+            <li><div><strong>22년차 전문가의 AI 10인 마케팅팀과 일하는 법</strong><span class="body-copy">제가 실제로 10명과 나눠 일하는 흐름을 공개합니다.</span></div></li>
+            <li><div><strong>내 이름의 10인 팀 조직도를 직접 그리는 법</strong><span class="body-copy">그날 손에 쥐고 나가는 결과물은 나만의 팀 설계도입니다.</span></div></li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="section story" data-section="story" aria-labelledby="story-title">
+      <div class="inner personnel" data-kw="warm-ink-black">
+        <figure class="story-portrait reveal" data-kw="rembrandt-lighting">
+          <img src="../../_assets/webinar/photo-10-choi-portrait.jpg" alt="공감마케터 최은희 대표 포트레이트" width="1000" height="1133" loading="lazy">
+          <figcaption class="caption">공감마케터 최은희 · 브랜드앤피플 대표</figcaption>
+        </figure>
+        <article class="personnel-copy reveal" data-kw="maker-story myeongjo">
+          <p class="section-open">운영자의 이야기</p>
+          <h2 id="story-title" class="title">저도 혼자 다 하던 사람이었어요.</h2>
+          <p class="body-copy">저도 새벽 2시, 고객사 블로그 원고를 AI에게 묻고 또 물어가며 혼자 붙잡던 사람이었어요. 결과물은 좋아졌는데, 시간은 더 들었죠. 그게 바로 AI 노가다였거든요.</p>
+          <div class="record-grid" aria-label="경력 기록">
+            <div><strong>22년</strong><span>1인 전문가 퍼스널 브랜딩 설계</span></div>
+            <div><strong>1,640</strong><span>세나시 브랜딩 스쿨 누적 수강생</span></div>
+            <div><strong>BCF</strong><span>브랜드→콘텐츠→퍼널 시스템 창안</span></div>
+            <div><strong>7위</strong><span>교보문고 경제경영 베스트셀러</span></div>
+            <div><strong>10인</strong><span>AI 코워킹 프로젝트 구축·운영</span></div>
+          </div>
+          <div class="snap-row" data-kw="behind-the-scenes-candid">
+            <figure>
+              <img src="../../_assets/webinar/photo-11-book-talk.jpg" alt="출간 기념 북강연쇼 현장" width="1000" height="547" loading="lazy">
+              <figcaption class="caption">출간 기념 북강연쇼 현장</figcaption>
+            </figure>
+            <figure>
+              <img src="../../_assets/webinar/photo-12-kyobo-rank.jpg" alt="교보문고 경제경영 7위 기록" width="760" height="416" loading="lazy">
+              <figcaption class="caption">교보문고 경제경영 7위 기록</figcaption>
+            </figure>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section offer" data-section="offer" aria-labelledby="offer-title">
+      <div class="inner offer-layout">
+        <aside class="margin-note reveal" data-kw="margin-drama">
+          <p class="section-open">무료로 여는 이유</p>
+          <p>왜 무료냐면요. 원래 정규 과정에서 다루는 내용이거든요. 더 많은 1인 전문가가 지금 이 흐름을 타셨으면 해서, 이번 회차는 무료로 엽니다.</p>
+        </aside>
+        <article class="reason-paper reveal" data-kw="footnote-apparatus comparison-table">
+          <p id="offer-title" class="title" role="heading" aria-level="2">정규 과정 내용, 이번 회차는 100% 무료.</p>
+          <dl class="ledger-list ledger" data-kw="tabular-figures">
+            <div><dt>일시</dt><dd>2026.07.16</dd></div>
+            <div><dt>방식</dt><dd>LIVE</dd></div>
+            <div><dt>정원</dt><dd>100석</dd></div>
+            <div><dt>비용</dt><dd>0원</dd></div>
+          </dl>
+          <table class="comparison">
+            <thead>
+              <tr><th>정규 과정</th><th>이번 무료 라이브</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>BCF 시스템과 AI 코워킹 구조를 깊게 다룹니다.</td><td>혼자 일하는 방식을 팀으로 바꾸는 핵심 원리를 먼저 보여드립니다.</td></tr>
+              <tr><td>내 사업에 맞춘 실행과 피드백까지 이어집니다.</td><td>내 이름의 10인 팀 조직도를 그리는 출발점을 잡습니다.</td></tr>
+              <tr><td>시간과 비용을 내고 참여하는 과정입니다.</td><td>이번 회차는 선착순 100석, 100% 무료입니다.</td></tr>
+            </tbody>
+          </table>
+          <p class="footnotes">1. 참석자 전원에게 「10인 AI 마케팅팀 조직도 & 직원 명세서」 핵심요약집 PDF를 드립니다. 2. 신청은 60초면 끝납니다. 3. 다음 회차 일정은 확정돼 있지 않습니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section faq" data-section="faq" aria-labelledby="faq-title">
+      <div class="inner faq-block">
+        <article class="faq-prose reveal" data-kw="run-in-head left-rag-text">
+          <p class="section-open">참여 대상</p>
+          <p id="faq-title" class="title" role="heading" aria-level="2">이런 분이라면, 이번이 딱이에요.</p>
+          <p><span class="runin">매일 콘텐츠 뭐 올리지로 고민하는 1인 기업가·전문직이라면</span> 이 웨비나는 단순한 AI 팁 모음이 아니라, 콘텐츠가 고객 명단과 제안, 구매로 이어지는 일의 구조를 보여줍니다.</p>
+          <p><span class="runin">콘텐츠·전략·퍼널을 혼자 다 떠안은 컨설턴트라면</span> 방향은 대표가 잡고 실무는 직원에게 맡기는 감각을 실제 산출물로 확인하게 됩니다.</p>
+          <p><span class="runin">오늘 뭐 쓰지로 매일 1시간을 버리는 강사라면</span> 채팅창에 계속 묻는 상태에서 벗어나, 월간 캘린더와 원고가 함께 돌아가는 팀 구조를 배웁니다.</p>
+          <p><span class="runin">내 이름으로 자산이 안 쌓이는 전문 서비스 사업자라면</span> 한 번 만들고 흘려보내는 콘텐츠가 아니라, 신청 → 제안 → 구매로 남는 퍼널 자산을 보게 됩니다.</p>
+        </article>
+        <aside class="colophon reveal" data-kw="colophon clarendon">
+          <h3>Colophon</h3>
+          <dl class="ledger">
+            <dt>일시</dt><dd>2026년 7월 16일(목) 20:30-22:30</dd>
+            <dt>방식</dt><dd>라이브 웨비나</dd>
+            <dt>정원</dt><dd>선착순 100석 한정</dd>
+            <dt>주최</dt><dd>공감마케터 최은희</dd>
+            <dt>혜택</dt><dd>핵심요약집 PDF 제공</dd>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section cta" id="apply" data-section="cta" aria-labelledby="cta-title">
+      <div class="inner appointment" data-kw="muted-field-hot-accent letterpress-impression">
+        <article>
+          <p class="section-open">신청 접수</p>
+          <p id="cta-title" class="title" role="heading" aria-level="2">이번 웨비나, 딱 한 번 열려요.</p>
+          <p class="deadline" data-kw="quiet-deadline" aria-label="모집 마감">
+            <strong>모집 마감</strong> · 2026년 7월 16일(목) 저녁 8:30 · 선착순 100석
+          </p>
+          <p class="body-copy">선착순 100석 · 이번 회차가 지나면 다음을 기약해야 해요.</p>
+          <p style="margin:28px 0 0"><a class="cta-button" href="#apply">무료로 자리 맡기</a></p>
+        </article>
+        <aside class="seal-area" aria-label="인주 도장 임프레션">
+          <img class="seal-placeholder" src="../../_assets/webinar/generated/inju-stamp-impression.png" alt="인주 도장 임프레션" width="1200" height="1200" loading="lazy">
+          <div class="seal" aria-hidden="true">대표<br>임명</div>
+        </aside>
+      </div>
+      <div class="mobile-buy" data-kw="sticky-buy-bar thumb-zone">
+        <div class="mobile-buy-inner">
+          <small class="ledger">7/16(목) · 선착순 100석<br>신청 60초 · 100% 무료</small>
+          <a class="cta-button" href="#apply">자리 맡기</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script>
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!reduce && "IntersectionObserver" in window) {
+      const candidates = Array.from(document.querySelectorAll(".hero-cover .reveal"));
+      if (candidates.length) {
+        document.documentElement.classList.add("enhance-motion");
+        const io = new IntersectionObserver((entries) => {
+          for (const entry of entries) if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            io.unobserve(entry.target);
+          }
+        }, { threshold: 0.18 });
+        candidates.forEach((el) => {
+          el.classList.add("motion-in");
+          io.observe(el);
+        });
+      }
+    }
+
+    const mobileBuy = document.querySelector(".mobile-buy");
+    const heroSection = document.querySelector(".hero");
+    if (mobileBuy && heroSection) {
+      const setMobileBuy = () => {
+        const pastHero = heroSection.getBoundingClientRect().bottom <= 0;
+        mobileBuy.classList.toggle("is-visible", pastHero);
+      };
+      if ("IntersectionObserver" in window) {
+        const heroObserver = new IntersectionObserver(() => setMobileBuy(), { threshold: 0 });
+        heroObserver.observe(heroSection);
+      }
+      setMobileBuy();
+      window.addEventListener("scroll", setMobileBuy, { passive: true });
+      window.addEventListener("resize", setMobileBuy);
+    }
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<!-- SOURCE: authored new for UC1.3 fixture corpus. -->
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Purple Template Hero | KR slop fixture</title>
+  <style id="theme-source" type="text/tailwindcss">
+    @theme {
+      --color-paper: oklch(0.985 0 0);
+      --color-ink: oklch(0.18 0.02 260);
+      --color-purple-1: oklch(0.66 0.18 278);
+      --color-purple-2: oklch(0.58 0.2 292);
+      --color-purple-3: oklch(0.72 0.15 265);
+      --color-purple-4: oklch(0.48 0.19 286);
+      --color-purple-5: oklch(0.8 0.11 304);
+      --color-purple-6: oklch(0.42 0.16 270);
+      --color-purple-7: oklch(0.7 0.2 258);
+      --color-purple-8: oklch(0.52 0.13 300);
+      --color-purple-9: oklch(0.86 0.09 275);
+      --color-purple-10: oklch(0.36 0.12 282);
+      --color-purple-11: oklch(0.76 0.14 289);
+      --color-purple-12: oklch(0.62 0.17 308);
+      --color-purple-13: oklch(0.69 0.19 268);
+      --color-purple-14: oklch(0.44 0.14 298);
+      --color-muted: oklch(0.55 0.03 260);
+      --font-body: "Pretendard", "Apple SD Gothic Neo", sans-serif;
+      --font-display: "Georgia", "Noto Serif KR", serif;
+      --shadow-glow: 0 22px 70px oklch(0.58 0.2 292 / .32);
+    }
+  </style>
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const re = /(--[\w-]+)\s*:\s*([^;]+);/g;
+      let m;
+      while ((m = re.exec(document.getElementById("theme-source").textContent))) root.style.setProperty(m[1], m[2].trim());
+    })();
+  </script>
+  <style>
+    * { box-sizing: border-box; }
+    html { background: var(--color-paper); }
+    body { margin: 0; overflow-x: hidden; color: var(--color-ink); background: var(--color-paper); font-family: var(--font-body); line-height: 1.55; word-break: keep-all; overflow-wrap: anywhere; }
+    .page { width: min(100%, 390px); margin: 0 auto; }
+    .section { padding: 28px 18px; }
+    h1, h2, p { margin: 0; }
+    h1 { font-size: 46px; line-height: 1; letter-spacing: 0; background: linear-gradient(90deg, var(--color-purple-1), var(--color-purple-2)); color: transparent; -webkit-background-clip: text; background-clip: text; }
+    h2 { font-size: 30px; line-height: 1.1; }
+    .hero { min-height: 82svh; display: grid; align-content: center; gap: 20px; background: radial-gradient(circle at 50% 20%, var(--color-purple-9), var(--color-paper) 58%); }
+    .badge { display: inline-block; width: fit-content; padding: 8px 12px; border: 1px solid var(--color-purple-2); color: var(--color-purple-2); border-radius: 9999px; font-size: 12px; }
+    .panel { padding: 18px; background: var(--color-paper); border: 1px solid var(--color-purple-5); box-shadow: var(--shadow-glow); }
+    .ghost { font-size: 92px; line-height: .8; color: transparent; -webkit-text-stroke: 1px var(--color-purple-2); font-family: var(--font-display); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat { border: 1px solid var(--color-purple-5); padding: 12px 8px; text-align: center; background: linear-gradient(180deg, var(--color-paper), var(--color-purple-9)); }
+    .stat strong { display: block; font-size: 24px; color: var(--color-purple-4); }
+    .cards { display: grid; gap: 12px; }
+    .card { border: 1px solid var(--color-purple-5); padding: 16px; background: var(--color-paper); }
+    .card b { color: var(--color-purple-2); }
+    .cta { display: block; text-align: center; padding: 16px; background: linear-gradient(90deg, var(--color-purple-1), var(--color-purple-2)); color: var(--color-paper); text-decoration: none; border-radius: 9999px; }
+    :focus-visible { outline: 3px solid var(--color-purple-7); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { * { animation-duration: .001ms !important; transition-duration: .001ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="section hero">
+      <span class="badge">AI DETAIL AUTOMATION</span>
+      <h1>클릭 한 번으로 매출형 상세페이지 완성</h1>
+      <p>브랜드, 제품, 증거를 묻지 않고 생성 버튼만 크게 남긴 템플릿형 소개.</p>
+      <div class="panel"><div class="ghost">2026</div><p>보라색 빛과 큰 숫자가 실제 제품 설명을 대신한다.</p></div>
+      <a class="cta" href="#start">무료로 시작</a>
+    </section>
+    <section class="section">
+      <h2>검증 없이 커지는 숫자</h2>
+      <div class="stats">
+        <div class="stat"><strong>10x</strong><span>자동화</span></div>
+        <div class="stat"><strong>99%</strong><span>성공률</span></div>
+        <div class="stat"><strong>3초</strong><span>완성</span></div>
+      </div>
+    </section>
+    <section class="section cards">
+      <div class="card"><b>보라 그라디언트</b><p>제품군과 상관없이 같은 히어로 색을 사용.</p></div>
+      <div class="card"><b>통계 삼총사</b><p>근거 없이 큰 숫자만 나란히 배치.</p></div>
+      <div class="card"><b>흰 배경 광택</b><p>구체적인 질감 대신 빛 번짐으로 채움.</p></div>
+    </section>
+    <section class="section cards">
+      <div class="card"><b>CTA 반복</b><p>설명보다 가입 버튼이 먼저 보인다.</p></div>
+      <div class="card"><b>대체 이미지</b><p>실제 결과물 없이 추상 패널만 제공.</p></div>
+    </section>
+  </main>
+</body>
+</html>
