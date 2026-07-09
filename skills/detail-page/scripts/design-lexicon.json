@@ -59,6 +59,23 @@
       "faq",
       "cta"
     ]
+    ,
+    "wadiz": [
+      "hook",
+      "funding-goal",
+      "story",
+      "empathy",
+      "mechanism",
+      "proof",
+      "product",
+      "supporter-comments",
+      "offer",
+      "reward-stack",
+      "funding-schedule",
+      "faq",
+      "risk-notice",
+      "cta"
+    ]
   },
   "sectionFeelings": {
     "hook": {
