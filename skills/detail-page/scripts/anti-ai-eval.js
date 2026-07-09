@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { mechanicalScore, readBrandLintReport } = require(path.join(__dirname, 'mechanical-score.js'));
 
 const REPORT_NAME = 'anti-ai-report.json';
 const HARNESS_VERSION = '1.2.1';
@@ -48,6 +49,7 @@ function parseArgs(argv) {
 function usage() {
   return [
     'usage: node anti-ai-eval.js <page.html> [--run run.json] [--tiles dir] [--manifest manifest.json]',
+    '       [--brand-lint brand-lint.json]   fold token-discipline findings into mechanicalScore (fails open)',
     '',
     'Writes ./anti-ai-report.json and prints a compact summary.',
   ].join('\n');
@@ -1857,6 +1859,7 @@ function main() {
 
   const presence = checkPresence(html, args.manifest);
   const verdict = computeVerdict(tells, monotony.score, presence);
+  const brandLint = readBrandLintReport(args['brand-lint']);
   const report = {
     harnessVersion: HARNESS_VERSION,
     s2PassSemantics: 'structural-tell-absence-only; NOT ship-approval',
@@ -1868,6 +1871,7 @@ function main() {
     presence,
     verdict,
     s2Pass: computeS2Pass(verdict, tells),
+    mechanicalScore: mechanicalScore({ tellsDetected: tells, monotonyScore: monotony.score, presence }, brandLint),
   };
 
   const reportPath = path.join(process.cwd(), REPORT_NAME);
