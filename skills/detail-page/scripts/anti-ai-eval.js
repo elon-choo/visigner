@@ -1871,7 +1871,7 @@ function main() {
     presence,
     verdict,
     s2Pass: computeS2Pass(verdict, tells),
-    mechanicalScore: mechanicalScore({ tellsDetected: tells, monotonyScore: monotony.score, presence }, brandLint),
+    mechanicalScore: mechanicalScore({ tellsDetected: tells, monotonyScore: monotony.score, contentSections: monotony.contentSections, presence }, brandLint),
   };
 
   const reportPath = path.join(process.cwd(), REPORT_NAME);

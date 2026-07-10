@@ -35,16 +35,45 @@ const GRADE_BANDS = [
 // Keys a mechanical result must never carry. Asserted by tests/mechanical-score.test.js.
 const SHIP_VERDICT_KEYS = ['would_ship', 'shipApproved', 'approved', 'pass', 's2Pass', 'verdict'];
 
+// Only brand-lint rules that name an AI TELL are scored. The rest of brand-lint measures BUILD
+// HYGIENE — whether the author used @theme tokens — which is orthogonal to how AI a page looks.
+// Averaging the two demotes real human pages: a captured Wadiz page scored 100 -> 88 purely on six
+// raw-hex values, dropping Spearman rho against the human ranking from 0.857 to 0.514. Hygiene
+// findings are still reported, on their own unscored dimension.
+const AI_TELL_RULES = ['ai-purple', 'banned-font'];
+
+// computeMonotony() returns score 0 when a page has fewer than 4 content sections — "too few to
+// measure", not "perfectly varied". Read as a clean signal, that 0 pays a slop page to DELETE
+// sections (fake-blob-render: 33/F -> 88/B for dropping two). Below this floor the monotony
+// dimension reports null, and `score` is republished as an UPPER BOUND: the page cannot be better
+// than this, but one dimension is unknown, so a high number is not evidence of a clean page.
+//
+// The score is NOT withheld, because a legitimately short clean page (the skill's own
+// assets/starter, 0 content sections, 0 tells) must not be punished for being short — the
+// no-false-positive-on-starter rule outranks the anti-gaming rule. What changes is that the result
+// is now *marked* unmeasurable, and tests/mechanical-score.test.js asserts that (a) every labeled
+// fixture is fully measurable and (b) a thinned slop page is detected as unmeasurable.
+const MIN_SECTIONS_FOR_MONOTONY = 4;
+
+// `findings` counts array members, so a penalty can no longer be driven negative by a crafted
+// sidecar (errorCount:-100 once lifted a slop page to 100/A — Codex rebuttal R2).
 const num = (v) => {
   const n = Number(v);
   return Number.isFinite(n) ? n : 0;
 };
-// Every penalty is non-negative: a penalty term must never become a score BONUS.
-// Without this, a crafted brand-lint sidecar with errorCount:-100 lifts a slop page to 100/A.
-const penalty = (v) => Math.max(0, num(v));
 const clamp = (n) => Math.max(0, Math.min(100, Math.round(n)));
 const toGrade = (s) => (GRADE_BANDS.find((b) => s >= b.min) || { grade: 'F' }).grade;
 const len = (a) => (Array.isArray(a) ? a.length : 0);
+
+// brand-lint emits `violations` in single-file mode and `files[].violations` in directory mode.
+function collectViolations(brandLint) {
+  if (!brandLint || typeof brandLint !== 'object' || Array.isArray(brandLint)) return [];
+  if (Array.isArray(brandLint.violations)) return brandLint.violations;
+  if (Array.isArray(brandLint.files)) {
+    return brandLint.files.flatMap((f) => (Array.isArray(f && f.violations) ? f.violations : []));
+  }
+  return [];
+}
 
 // Fails OPEN and LOUD: an unreadable sidecar must never stop the boolean gate from being computed.
 // The omission is recorded as dimensions.token_discipline.wired === false, so a caller that
@@ -80,14 +109,18 @@ function mechanicalScore(input, brandLint) {
   const missing = p ? len(p.missing) : 0;
   const presencePenalty = expected && missing / expected > 0.5 ? WEIGHTS.presence : 0;
 
+  const contentSections = num(src.contentSections);
+  const monotonyMeasurable = contentSections >= MIN_SECTIONS_FOR_MONOTONY;
   const monotonyScore = num(src.monotonyScore);
   const monotonyPenalty =
-    monotonyScore > WEIGHTS.monotony.floor
+    monotonyMeasurable && monotonyScore > WEIGHTS.monotony.floor
       ? (monotonyScore - WEIGHTS.monotony.floor) * WEIGHTS.monotony.per_unit
       : 0;
 
   const wired = brandLint != null && typeof brandLint === 'object' && !Array.isArray(brandLint);
-  const findings = wired ? penalty(brandLint.errorCount) + penalty(brandLint.warnCount) : 0;
+  const violations = collectViolations(brandLint);
+  const findings = violations.filter((v) => v && AI_TELL_RULES.includes(v.rule)).length;
+  const hygieneFindings = violations.length - findings;
   const tokenPenalty = findings * WEIGHTS.token_discipline.per_finding;
 
   const severityPenalty = WEIGHTS.per_severity_pt * severityScore;
@@ -96,24 +129,54 @@ function mechanicalScore(input, brandLint) {
   return {
     score,
     letter: toGrade(score),
+    // A dimension could not be measured, so `score` is an upper bound on this page's quality:
+    // it can only be worse. Callers must not read a high incomplete score as a clean signal.
+    incomplete: !monotonyMeasurable,
+    scoreIsUpperBound: !monotonyMeasurable,
     dimensions: {
       structural_tells: {
         score: clamp(100 - severityPenalty - presencePenalty),
         severityScore,
         presencePenalty,
       },
-      monotony: {
-        score: clamp(100 - monotonyPenalty),
-        monotonyScore,
-        penalty: Math.round(monotonyPenalty),
-      },
+      monotony: monotonyMeasurable
+        ? {
+            score: clamp(100 - monotonyPenalty),
+            monotonyScore,
+            penalty: Math.round(monotonyPenalty),
+            contentSections,
+          }
+        : {
+            score: null,
+            monotonyScore: null,
+            penalty: 0,
+            contentSections,
+            incomplete: true,
+            reason: `fewer than ${MIN_SECTIONS_FOR_MONOTONY} content sections — too few to measure`,
+          },
       token_discipline: {
         score: clamp(100 - tokenPenalty),
         findings,
         wired,
+        scoredRules: AI_TELL_RULES,
+      },
+      // Reported, never summed into `score`. brand-lint's remaining rules (raw-hex, off-grid
+      // spacing, undefined token refs …) measure how the page was built, not how AI it looks.
+      build_hygiene: {
+        findings: hygieneFindings,
+        wired,
+        scored: false,
       },
     },
   };
 }
 
-module.exports = { WEIGHTS, GRADE_BANDS, SHIP_VERDICT_KEYS, mechanicalScore, readBrandLintReport };
+module.exports = {
+  WEIGHTS,
+  GRADE_BANDS,
+  SHIP_VERDICT_KEYS,
+  AI_TELL_RULES,
+  MIN_SECTIONS_FOR_MONOTONY,
+  mechanicalScore,
+  readBrandLintReport,
+};

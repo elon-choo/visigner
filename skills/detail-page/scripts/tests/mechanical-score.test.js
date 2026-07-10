@@ -17,7 +17,9 @@ const repoRoot = path.resolve(__dirname, '..', '..', '..', '..');
 const manifestPath = path.join(__dirname, 'fixtures', 'manifest.json');
 const brandLintPath = path.join(scriptsDir, 'brand-lint.js');
 const harnessPath = path.join(scriptsDir, 'anti-ai-eval.js');
-const { SHIP_VERDICT_KEYS } = require(path.join(scriptsDir, 'mechanical-score.js'));
+const { SHIP_VERDICT_KEYS, AI_TELL_RULES, mechanicalScore } = require(
+  path.join(scriptsDir, 'mechanical-score.js'),
+);
 
 const S2_ESCAPE_TELLS = new Set([
   'repeated-decorative-label',
@@ -264,6 +266,50 @@ function main() {
     `${tamperTarget.name}: tampered band unexpectedly accepted mechanicalScore=${tamperTarget.mechanicalScore}`,
   );
   console.log('PASS BAND-TAMPER-DETECTS (drift is caught)');
+
+  // Every band above is only meaningful if all three dimensions were actually measured.
+  for (const m of measurements) {
+    assert.strictEqual(
+      m.report.mechanicalScore.incomplete,
+      false,
+      `${m.name}: fixture is not fully measurable (contentSections=${m.report.mechanicalScore.dimensions.monotony.contentSections})`,
+    );
+  }
+  console.log(`PASS FULLY-MEASURABLE checked=${measurements.length}`);
+
+  // brand-lint's non-AI rules (raw-hex, off-grid spacing, …) must never move the score. Folding
+  // them in demoted a captured real Wadiz page from 100/A to 88/B on six raw-hex values alone.
+  for (const m of measurements) {
+    const dims = m.report.mechanicalScore.dimensions;
+    assert.strictEqual(dims.build_hygiene.scored, false, `${m.name}: build_hygiene must not be scored`);
+    assert.deepStrictEqual(
+      dims.token_discipline.scoredRules,
+      AI_TELL_RULES,
+      `${m.name}: token_discipline scores rules outside AI_TELL_RULES`,
+    );
+  }
+  const hygieneOnly = mechanicalScore(
+    { tellsDetected: [], monotonyScore: 0.2, contentSections: 6 },
+    { violations: [{ rule: 'raw-hex' }, { rule: 'px-off-grid' }, { rule: 'undefined-token-ref' }] },
+  );
+  assert.strictEqual(
+    hygieneOnly.score,
+    100,
+    `hygiene-only findings moved the score to ${hygieneOnly.score}`,
+  );
+  console.log('PASS BUILD-HYGIENE-NOT-SCORED (raw-hex-only page still scores 100)');
+
+  // Deleting sections strips the tells that need repetition to fire, so a thinned slop page's
+  // number RISES (fake-blob-render 33/F -> 88/B). No formula can undo that. What must hold is that
+  // the result is flagged unmeasurable, so a gate cannot read the higher number as clean.
+  const thinned = mechanicalScore(
+    { tellsDetected: [], monotonyScore: 0, contentSections: 3 },
+    { violations: [] },
+  );
+  assert.strictEqual(thinned.incomplete, true, 'thinned page not flagged incomplete');
+  assert.strictEqual(thinned.scoreIsUpperBound, true, 'thinned page score not marked an upper bound');
+  assert.strictEqual(thinned.dimensions.monotony.score, null, 'thinned page reported a monotony score');
+  console.log('PASS THIN-PAGE-FLAGGED (score is published as an upper bound, not a clean signal)');
 
   writeJson(args.json, measurements, separation);
   console.log('mechanical-score regression complete');
