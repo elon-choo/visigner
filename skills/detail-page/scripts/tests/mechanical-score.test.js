@@ -17,7 +17,7 @@ const repoRoot = path.resolve(__dirname, '..', '..', '..', '..');
 const manifestPath = path.join(__dirname, 'fixtures', 'manifest.json');
 const brandLintPath = path.join(scriptsDir, 'brand-lint.js');
 const harnessPath = path.join(scriptsDir, 'anti-ai-eval.js');
-const { SHIP_VERDICT_KEYS, AI_TELL_RULES, mechanicalScore } = require(
+const { SHIP_VERDICT_KEYS, AI_TELL_RULES, WEIGHTS, GRADE_BANDS, mechanicalScore } = require(
   path.join(scriptsDir, 'mechanical-score.js'),
 );
 
@@ -310,6 +310,32 @@ function main() {
   assert.strictEqual(thinned.scoreIsUpperBound, true, 'thinned page score not marked an upper bound');
   assert.strictEqual(thinned.dimensions.monotony.score, null, 'thinned page reported a monotony score');
   console.log('PASS THIN-PAGE-FLAGGED (score is published as an upper bound, not a clean signal)');
+
+  // A severity string that names an Object.prototype member must weigh 0, not return the inherited
+  // member. `0 + Object.prototype.constructor` is NaN, and this module is about to be published as
+  // an npm detector fed by untrusted reports.
+  for (const poisoned of ['constructor', 'toString', '__proto__', 'hasOwnProperty']) {
+    const r = mechanicalScore(
+      { tellsDetected: [{ tell: 'x', severity: poisoned }], monotonyScore: 0, contentSections: 6 },
+      null,
+    );
+    assert.ok(Number.isFinite(r.score), `severity='${poisoned}' produced a non-finite score: ${r.score}`);
+    assert.strictEqual(
+      r.dimensions.structural_tells.severityScore,
+      0,
+      `severity='${poisoned}' contributed weight through the prototype chain`,
+    );
+  }
+  console.log('PASS PROTOTYPE-SAFE-SEVERITY (inherited keys weigh 0, score stays finite)');
+
+  // The exported constants are a public contract. An unfrozen export is a mutation channel that
+  // persists through the module cache for the rest of the process.
+  assert.ok(Object.isFrozen(WEIGHTS), 'WEIGHTS is not frozen');
+  assert.ok(Object.isFrozen(WEIGHTS.tell_severity), 'WEIGHTS.tell_severity is not frozen');
+  assert.ok(Object.isFrozen(GRADE_BANDS), 'GRADE_BANDS is not frozen');
+  assert.ok(Object.isFrozen(SHIP_VERDICT_KEYS), 'SHIP_VERDICT_KEYS is not frozen');
+  assert.ok(Object.isFrozen(AI_TELL_RULES), 'AI_TELL_RULES is not frozen');
+  console.log('PASS EXPORTS-FROZEN (public contract cannot be mutated through the module cache)');
 
   writeJson(args.json, measurements, separation);
   console.log('mechanical-score regression complete');

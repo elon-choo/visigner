@@ -16,31 +16,42 @@
 const fs = require('fs');
 const path = require('path');
 
-const WEIGHTS = {
-  tell_severity: { low: 1, medium: 2, high: 3 },
+// Every exported constant is frozen. They are a public contract (tests, MCP, the npm detector all
+// read them), and an unfrozen export is a mutation channel: `require(m).AI_TELL_RULES.push('x')`
+// persists through the module cache for the rest of the process.
+const WEIGHTS = Object.freeze({
+  tell_severity: Object.freeze({ low: 1, medium: 2, high: 3 }),
   per_severity_pt: 5,
   presence: 5,
-  monotony: { floor: 0.58, per_unit: 100 },
-  token_discipline: { per_finding: 2 },
-};
+  monotony: Object.freeze({ floor: 0.58, per_unit: 100 }),
+  token_discipline: Object.freeze({ per_finding: 2 }),
+});
 
-const GRADE_BANDS = [
-  { grade: 'A', min: 90 },
-  { grade: 'B', min: 80 },
-  { grade: 'C', min: 70 },
-  { grade: 'D', min: 60 },
-  { grade: 'F', min: 0 },
-];
+const GRADE_BANDS = Object.freeze([
+  Object.freeze({ grade: 'A', min: 90 }),
+  Object.freeze({ grade: 'B', min: 80 }),
+  Object.freeze({ grade: 'C', min: 70 }),
+  Object.freeze({ grade: 'D', min: 60 }),
+  Object.freeze({ grade: 'F', min: 0 }),
+]);
 
 // Keys a mechanical result must never carry. Asserted by tests/mechanical-score.test.js.
-const SHIP_VERDICT_KEYS = ['would_ship', 'shipApproved', 'approved', 'pass', 's2Pass', 'verdict'];
+const SHIP_VERDICT_KEYS = Object.freeze([
+  'would_ship',
+  'shipApproved',
+  'approved',
+  'pass',
+  's2Pass',
+  'verdict',
+]);
 
-// Only brand-lint rules that name an AI TELL are scored. The rest of brand-lint measures BUILD
-// HYGIENE — whether the author used @theme tokens — which is orthogonal to how AI a page looks.
-// Averaging the two demotes real human pages: a captured Wadiz page scored 100 -> 88 purely on six
-// raw-hex values, dropping Spearman rho against the human ranking from 0.857 to 0.514. Hygiene
-// findings are still reported, on their own unscored dimension.
-const AI_TELL_RULES = ['ai-purple', 'banned-font'];
+// brand-lint has 18 rules. Only the ones that name an AI TELL are scored here. The rest measure
+// BUILD HYGIENE — raw-hex/rgb/hsl, off-grid spacing, undefined token refs, arbitrary Tailwind
+// values, brand-book conformance — which is orthogonal to how AI a page looks. Averaging the two
+// demotes real human pages: a captured Wadiz page scored 100 -> 88 purely on six raw-hex values,
+// dropping Spearman rho against the human ranking from 0.857 to 0.514. Hygiene findings are still
+// reported, on their own unscored dimension.
+const AI_TELL_RULES = Object.freeze(['ai-purple', 'banned-font', 'emoji', 'banned-term']);
 
 // computeMonotony() returns score 0 when a page has fewer than 4 content sections — "too few to
 // measure", not "perfectly varied". Read as a clean signal, that 0 pays a slop page to DELETE
@@ -64,6 +75,8 @@ const num = (v) => {
 const clamp = (n) => Math.max(0, Math.min(100, Math.round(n)));
 const toGrade = (s) => (GRADE_BANDS.find((b) => s >= b.min) || { grade: 'F' }).grade;
 const len = (a) => (Array.isArray(a) ? a.length : 0);
+const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+const severityWeight = (s) => (typeof s === 'string' && has(WEIGHTS.tell_severity, s) ? WEIGHTS.tell_severity[s] : 0);
 
 // brand-lint emits `violations` in single-file mode and `files[].violations` in directory mode.
 function collectViolations(brandLint) {
@@ -98,11 +111,10 @@ function mechanicalScore(input, brandLint) {
   const src = input && typeof input === 'object' ? input : {};
   const tells = Array.isArray(src.tellsDetected) ? src.tellsDetected : [];
 
-  // Mirrors computeVerdict's weighting exactly: an unknown severity contributes 0.
-  const severityScore = tells.reduce(
-    (sum, t) => sum + (WEIGHTS.tell_severity[t && t.severity] || 0),
-    0,
-  );
+  // Mirrors computeVerdict's weighting: an unknown severity contributes 0. The own-property check
+  // is load-bearing — a plain `WEIGHTS.tell_severity[severity]` returns Object.prototype.constructor
+  // for severity:'constructor', and `0 + function` is NaN.
+  const severityScore = tells.reduce((sum, t) => sum + severityWeight(t && t.severity), 0);
 
   const p = src.presence;
   const expected = p ? len(p.expected) : 0;
