@@ -111,9 +111,12 @@ function mechanicalScore(input, brandLint) {
   const src = input && typeof input === 'object' ? input : {};
   const tells = Array.isArray(src.tellsDetected) ? src.tellsDetected : [];
 
-  // Mirrors computeVerdict's weighting: an unknown severity contributes 0. The own-property check
-  // is load-bearing — a plain `WEIGHTS.tell_severity[severity]` returns Object.prototype.constructor
-  // for severity:'constructor', and `0 + function` is NaN.
+  // Same weights as computeVerdict {low:1, medium:2, high:3}, and an unknown severity contributes 0.
+  // The own-property check is load-bearing here and NOT present in computeVerdict: a plain
+  // `WEIGHTS.tell_severity[severity]` returns Object.prototype.constructor for severity:'constructor',
+  // and `0 + function` is NaN. computeVerdict is fed only its own detectors' output, which emit
+  // low|medium|high; this module is an exported boundary that will be published as an npm detector
+  // and can be handed an arbitrary report, so it hardens where computeVerdict does not.
   const severityScore = tells.reduce((sum, t) => sum + severityWeight(t && t.severity), 0);
 
   const p = src.presence;
