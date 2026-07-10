@@ -159,3 +159,18 @@
 - **brand-lint.js 두 사본 드리프트(선존, UC 트랙 산물 아님)**: 정본 44,456B(Jun30, DIR 모드) vs 미러 7,205B(Jun23, single-file 전용). G2.7/G3.7/UC1.7의 "두 사본 바이트 동일" DoD를 baseline부터 위반. UC1.4가 brand-lint를 소비하므로 맹목 cmp 금지 — 소유자 승인 후 정본→미러 전파 선행.
 - **루트 LICENSE 파일 부재**: `plugin.json`/`README.md`만 MIT 선언. ATTRIBUTIONS.md의 MIT-호환 전제가 파일로 물질화돼 있지 않음 → 루트 LICENSE(MIT) 추가 권고(별도 additive goal).
 - **측정 순환성(정직 기록)**: 유일한 인간 대조군인 와디즈 실물 캡처가 image-flattened(0텔·monotony 0 퇴화)라 starter/v4와 기계적으로 구별 불가 → designer-HIGH 밴드는 모델 생성 페이지를 같은 모델의 하네스로 채점하는 순환을 완전히 벗어나지 못함. UC1.6이 판정.
+
+## 사이트 재빌드 (docs/index.html · docs/guide.html) — 2026-07-10
+
+- **동기(dogfooding)**: anti-AI-slop 툴킷을 파는 페이지가 **자기 하네스에서 `ai-likely`** 를 받았다. 면제하지 않고 텔을 제거해서 통과시켰다.
+- **결과(실측, `anti-ai-eval.js --brand-lint`)**: `docs/index.html` ai-likely·s2Pass=false·**46F → clean·s2Pass=true·100A** / `docs/guide.html` ai-likely·s2Pass=false·**34F → clean·s2Pass=true·100A**. 두 페이지 모두 텔 0.
+- **무엇이 실제로 잘못이었나**
+  - `mono-label`(**escape tell** — 단독으로 s2Pass=false): mono + 대문자 + letter-spacing 마이크로 라벨이 랜딩 35개·가이드 45개(`.cap .ptag .eyebrow .kicker .secnum .who .verdict .badge .pill .tab`). 스킬 자신의 레퍼런스가 금지하는 AI 아이브로우. 본문 서체 + 굵기·색으로 교체. **코드인 곳(터미널 본문·인라인 `<code>`·명령)의 mono 는 유지.**
+    - 함정 2개: `.lbl code { font-family: mono }` 가 CSS 파서에서 `.lbl` 자체에 mono 를 물려줌 → 명령 스니펫에 전용 `.cmd` 클래스 부여. 검출기가 **≤14.5px 를 라벨 크기로 판정** → 터미널 본문을 15px 로.
+  - `em-dash-flood`: 랜딩 76개·가이드 76개. 치환이 아니라 **다시 씀** — 한국어는 문장을 끊고, 정의 목록은 콜론, 영어 절은 쉼표. 가시 카피에 0개 잔존.
+  - `structural-monotony` 0.67 / 0.84: 섹션 8/10·11/11 이 동일 골격(헤딩→본문→카드). 견본 그리드·전후 비교·가이드의 카드 그리드와 단계 목록을 **헤딩 없는 밴드**로 분리(원래 편집적으로 그런 블록이었다). → 0.56 / 0.55.
+  - `uniform-frame-loop`(escape tell): 가이드 카드를 밴드로 묶자 발화 — 동일 `.card` 프레임 9개. **세 가지 소재로 교대**(채운 면 / 주황 헤어라인 open / 좌측 룰). `:nth-child` 는 검출기의 CSS 파서가 못 봐서 **실제 클래스**로 구현.
+- **수치 정정(페이지가 "다시 셀 수 있는 수치"라 약속했으나 낡아 있었음)**: 스킬 7→**8**, 커맨드 9→**11**, 스크립트 26→**30**. 각 통계 셀은 그 수치를 재현하는 `ls` 명령을 그대로 표시. 검출기 **22종** + CI 강제 회귀 테스트 5개 셀 신설 + honesty 항목 추가.
+- **브라우저 실측**: 390px·1280px 가로 오버플로 0, JS 에러 0, 섹션 균형(12·17), 데스크톱에서 통계 5셀 1행.
+- **배포**: 커밋 `c1ef417`(문서) + `9928e78`(릴리스 1.3.0). CI `design-gate` 두 job 성공. GitHub Pages 라이브(`https://elon-choo.github.io/visigner/`) HTTP 200, **라이브 HTML 을 하네스로 재채점 → clean·s2Pass=true·100A**.
+- **미검증**: `guide.html` 의 brand-lint `emoji` 1건은 UC2.4a 에서 비점수 `build_hygiene` 로 이동해 mech 에 영향 없음(설계상 의도). 두 문서 페이지는 `shoot.js` 전 게이트(axe 접근성)를 돌리지 않았다 — 렌더·오버플로·JS 에러만 확인했다.
