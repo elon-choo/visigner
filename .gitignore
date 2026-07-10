@@ -12,3 +12,7 @@ package-lock.json
 /tmp/
 *.log
 .write-test
+
+# anti-ai-eval / brand-lint run artifacts — they embed the scanned page's own copy
+anti-ai-report.json
+brand-lint.json

@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const { mechanicalScore, readBrandLintReport } = require(path.join(__dirname, 'mechanical-score.js'));
+const { detectPlaceholderShipped } = require(path.join(__dirname, 'copy-detectors.js'));
 
 const REPORT_NAME = 'anti-ai-report.json';
 const HARNESS_VERSION = '1.2.1';
@@ -1849,6 +1850,10 @@ function main() {
 
   const tells = [];
   for (const detector of [detectMonoLabels, detectRepeatedDecorativeLabels, detectEnDisplayLabels, detectBrowserMockups, detectGhostNumerals, detectOutlineChips, detectUniformFrameLoop, detectLetterSquareAvatars, detectLetterCodeBadges, detectMarkerSequence, detectMultiscriptNumbering, detectJustifyDisplay, detectPaletteMonotony]) {
+    const hit = detector(ctx);
+    if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
+  }
+  for (const detector of [detectPlaceholderShipped]) {
     const hit = detector(ctx);
     if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
   }
