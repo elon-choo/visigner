@@ -51,7 +51,12 @@ const SHIP_VERDICT_KEYS = Object.freeze([
 // demotes real human pages: a captured Wadiz page scored 100 -> 88 purely on six raw-hex values,
 // dropping Spearman rho against the human ranking from 0.857 to 0.514. Hygiene findings are still
 // reported, on their own unscored dimension.
-const AI_TELL_RULES = Object.freeze(['ai-purple', 'banned-font', 'emoji', 'banned-term']);
+//
+// `emoji` was scored here until anti-ai-eval grew `emoji-feature-icon`, which detects the actual AI
+// pattern — an emoji standing in for an icon before a heading. With both scored, one emoji cost 10
+// points as a structural tell AND 2 more as a token finding: 90/A -> 88/B for the same glyph. The
+// structural detector is the more informative of the two, so plain emoji presence moves to hygiene.
+const AI_TELL_RULES = Object.freeze(['ai-purple', 'banned-font', 'banned-term']);
 
 // computeMonotony() returns score 0 when a page has fewer than 4 content sections — "too few to
 // measure", not "perfectly varied". Read as a clean signal, that 0 pays a slop page to DELETE

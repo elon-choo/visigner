@@ -1530,6 +1530,287 @@ function detectJustifyDisplay(ctx) {
   };
 }
 
+function cssColorTokens(value) {
+  const out = [];
+  const re = /rgba?\([^)]+\)|hsla?\([^)]+\)|#[0-9a-f]{3,8}\b|\bwhite\b/gi;
+  let m;
+  while ((m = re.exec(String(value || '')))) out.push(m[0]);
+  return out;
+}
+
+function parseCssAlpha(raw, fallback) {
+  if (raw == null || raw === '') return fallback;
+  const s = String(raw).trim();
+  const n = Number.parseFloat(s);
+  if (!Number.isFinite(n)) return fallback;
+  return s.endsWith('%') ? n / 100 : n;
+}
+
+function parseRgbLoose(token) {
+  const m = String(token || '').match(/rgba?\(([^)]+)\)/i);
+  if (!m) return null;
+  const body = m[1].trim();
+  const slash = body.split('/');
+  const parts = slash[0].replace(/,/g, ' ').trim().split(/\s+/).filter(Boolean);
+  if (parts.length < 3) return null;
+  const channel = (raw) => {
+    const s = String(raw || '').trim();
+    const n = Number.parseFloat(s);
+    if (!Number.isFinite(n)) return null;
+    return s.endsWith('%') ? n * 2.55 : n;
+  };
+  const r = channel(parts[0]);
+  const g = channel(parts[1]);
+  const b = channel(parts[2]);
+  if ([r, g, b].some((n) => n == null)) return null;
+  const alphaRaw = slash.length > 1 ? slash.slice(1).join('/').trim() : parts[3];
+  return { r, g, b, alpha: parseCssAlpha(alphaRaw, 1), raw: compactSpace(token).toLowerCase() };
+}
+
+function parseHslLoose(token) {
+  const m = String(token || '').match(/hsla?\(([^)]+)\)/i);
+  if (!m) return null;
+  const body = m[1].trim();
+  const slash = body.split('/');
+  const parts = slash[0].replace(/,/g, ' ').trim().split(/\s+/).filter(Boolean);
+  if (parts.length < 3) return null;
+  const s = Number.parseFloat(parts[1]);
+  const l = Number.parseFloat(parts[2]);
+  if (![s, l].every(Number.isFinite)) return null;
+  const alphaRaw = slash.length > 1 ? slash.slice(1).join('/').trim() : parts[3];
+  return { saturation: s, lightness: l, alpha: parseCssAlpha(alphaRaw, 1), raw: compactSpace(token).toLowerCase() };
+}
+
+function parseHexLoose(token) {
+  const m = String(token || '').match(/#([0-9a-f]{3,8})\b/i);
+  if (!m) return null;
+  let hex = m[1];
+  if (hex.length === 3 || hex.length === 4) hex = hex.split('').map((ch) => ch + ch).join('');
+  if (hex.length < 6) return null;
+  const r = Number.parseInt(hex.slice(0, 2), 16);
+  const g = Number.parseInt(hex.slice(2, 4), 16);
+  const b = Number.parseInt(hex.slice(4, 6), 16);
+  if (![r, g, b].every(Number.isFinite)) return null;
+  const alpha = hex.length >= 8 ? Number.parseInt(hex.slice(6, 8), 16) / 255 : 1;
+  return { r, g, b, alpha, raw: `#${m[1].toLowerCase()}` };
+}
+
+function isNearWhiteToken(token, options) {
+  const opts = options || {};
+  const minAlpha = opts.minAlpha == null ? 0 : opts.minAlpha;
+  const maxAlpha = opts.maxAlpha == null ? 1 : opts.maxAlpha;
+  const rgb = parseRgbLoose(token) || parseHexLoose(token);
+  if (rgb) {
+    return rgb.r >= 235 && rgb.g >= 235 && rgb.b >= 235 && rgb.alpha >= minAlpha && rgb.alpha <= maxAlpha;
+  }
+  const hsl = parseHslLoose(token);
+  if (hsl) {
+    return hsl.saturation <= 12 && hsl.lightness >= 92 && hsl.alpha >= minAlpha && hsl.alpha <= maxAlpha;
+  }
+  return /\bwhite\b/i.test(String(token || '')) && minAlpha <= 1 && maxAlpha >= 1;
+}
+
+function hasTranslucentWhiteBackground(style, classList) {
+  const bg = [
+    propValue(style, 'background-color'),
+    propValue(style, 'background'),
+    propValue(style, 'background-image'),
+  ].join(' ');
+  if (cssColorTokens(bg).some((token) => isNearWhiteToken(token, { minAlpha: 0.05, maxAlpha: 0.72 }))) return true;
+  return (classList || []).some((cls) => /^bg-white\/(?:[1-6]?\d|70)$/.test(cls));
+}
+
+function hasTailwindBorderWidth(classList) {
+  return (classList || []).some((cls) => /^border(?:-[trblxy])?(?:-\d+)?$/.test(cls));
+}
+
+function hasNearWhiteBorder(style, classList) {
+  const borderValues = [
+    propValue(style, 'border-color'),
+    propValue(style, 'border'),
+    propValue(style, 'border-top'),
+    propValue(style, 'border-right'),
+    propValue(style, 'border-bottom'),
+    propValue(style, 'border-left'),
+  ].join(' ');
+  const hasVisibleWidth = (borderWidthPx(style) || 0) > 0 || hasTailwindBorderWidth(classList);
+  const hasStyleSignal = /\b(?:solid|dashed|dotted|double)\b/i.test(borderValues);
+  const white = cssColorTokens(borderValues).some((token) => isNearWhiteToken(token, { minAlpha: 0.12, maxAlpha: 1 }));
+  if (white && (hasVisibleWidth || hasStyleSignal)) return true;
+  return hasTailwindBorderWidth(classList) && (classList || []).some((cls) => /^border-white(?:\/(?:[1-9]\d?|100))?$/.test(cls));
+}
+
+function hasBackdropBlur(style, classList) {
+  const backdrop = `${propValue(style, 'backdrop-filter')} ${propValue(style, '-webkit-backdrop-filter')}`;
+  return /\bblur\s*\(/i.test(backdrop) || (classList || []).some((cls) => /^backdrop-blur(?:-|$)/.test(cls));
+}
+
+function isFrostedChromeElement(el) {
+  const cls = (el.classList || []).join(' ');
+  const role = String(el.attrs && el.attrs.role || '').toLowerCase();
+  if (['nav', 'header', 'footer'].includes(el.tag)) return true;
+  if (['navigation', 'banner', 'contentinfo'].includes(role)) return true;
+  return /\b(?:nav|navbar|gnb|lnb|menubar|appbar|topbar|toolbar|breadcrumb|masthead|site-header|hero-nav)\b/i.test(cls);
+}
+
+function detectGlassmorphismStack(ctx) {
+  const hits = [];
+  for (const el of ctx.elements) {
+    if (isFrostedChromeElement(el)) continue;
+    const style = styleFor(el.classList, el.style, ctx.css);
+    if (!hasBackdropBlur(style, el.classList)) continue;
+    if (!hasTranslucentWhiteBackground(style, el.classList)) continue;
+    if (!hasNearWhiteBorder(style, el.classList)) continue;
+    hits.push({
+      tag: el.tag,
+      className: el.classList.slice(0, 6).join(' '),
+      snippet: snippet(el.open + (el.text || ''), 220),
+    });
+  }
+
+  if (hits.length < 2) return null;
+  return {
+    tell: 'glassmorphism-stack',
+    severity: 'high',
+    evidence: {
+      count: hits.length,
+      requiredSignals: ['backdrop-blur', 'translucent-white-background', 'near-white-border'],
+      guard: 'single frosted navigation/header chrome over photography is skipped; repeated glass content panels are scored',
+      snippets: hits.slice(0, 5).map((hit) => hit.snippet),
+      source: sourceTell(ctx, ['glassmorphism', 'glass']),
+    },
+  };
+}
+
+function tailwindFontPx(classList) {
+  const scale = {
+    'text-4xl': 36,
+    'text-5xl': 48,
+    'text-6xl': 60,
+    'text-7xl': 72,
+    'text-8xl': 96,
+    'text-9xl': 128,
+  };
+  for (const cls of classList || []) {
+    if (Object.prototype.hasOwnProperty.call(scale, cls)) return scale[cls];
+    const m = cls.match(/^text-\[(\d+(?:\.\d+)?)px\]$/);
+    if (m) return Number(m[1]);
+  }
+  return null;
+}
+
+function hasGradientBackground(style, classList) {
+  const bg = `${propValue(style, 'background')} ${propValue(style, 'background-image')}`;
+  if (/\b(?:linear|radial|conic)-gradient\s*\(/i.test(bg)) return true;
+  const classes = classList || [];
+  return classes.some((cls) => /^bg-gradient-to-/.test(cls)) &&
+    classes.some((cls) => /^(?:from|via|to)-/.test(cls));
+}
+
+function hasTextClip(style, classList) {
+  const clip = `${propValue(style, 'background-clip')} ${propValue(style, '-webkit-background-clip')}`;
+  return /\btext\b/i.test(clip) || (classList || []).includes('bg-clip-text');
+}
+
+function hasTransparentTextFill(style, classList) {
+  const fill = `${propValue(style, '-webkit-text-fill-color')} ${propValue(style, 'color')}`;
+  return /\btransparent\b/i.test(fill) || (classList || []).includes('text-transparent');
+}
+
+function gradientNumeralText(ctx, el) {
+  const direct = compactSpace(el.text);
+  if (direct) return direct;
+  if (!/^(?:h[1-4]|span|strong|em|b|div|p)$/.test(el.tag)) return '';
+  return compactSpace(decodeEntities(stripTags(elementBody(ctx, el))));
+}
+
+function detectGradientNumeral(ctx) {
+  const hits = [];
+  const seen = new Set();
+  for (const el of ctx.elements) {
+    const text = gradientNumeralText(ctx, el);
+    if (!/^[+\-]?\d{1,4}(?:[.,]\d{3})?(?:%|x)?$/i.test(text)) continue;
+    const style = styleFor(el.classList, el.style, ctx.css);
+    const fontSizePx = stylePx(style, 'font-size') || tailwindFontPx(el.classList) || 0;
+    if (fontSizePx < 48) continue;
+    if (!hasTextClip(style, el.classList) || !hasTransparentTextFill(style, el.classList) || !hasGradientBackground(style, el.classList)) continue;
+    const snip = snippet(el.open + text, 220);
+    if (seen.has(snip)) continue;
+    seen.add(snip);
+    hits.push({ value: text, fontSizePx, snippet: snip });
+  }
+
+  if (!hits.length) return null;
+  return {
+    tell: 'gradient-numeral',
+    severity: 'medium',
+    evidence: {
+      count: hits.length,
+      numerals: hits.map((hit) => hit.value),
+      minFontSizePx: 48,
+      snippets: hits.slice(0, 5).map((hit) => hit.snippet),
+      source: sourceTell(ctx, ['gradient numeral', 'gradient text', 'numeral']),
+    },
+  };
+}
+
+const STRUCTURAL_EMOJI_RE = /[⌚-⌛☀-➿⬅-⬇⬛⬜⭐⭕️\u{1F000}-\u{1FAFF}]/u;
+
+function leadingHeadingEmoji(text) {
+  const s = compactSpace(decodeEntities(stripTags(text)));
+  const m = s.match(STRUCTURAL_EMOJI_RE);
+  if (!m || m.index !== 0) return null;
+  const rest = compactSpace(s.slice(m.index + m[0].length));
+  if (!/[A-Za-z0-9가-힣]/.test(rest)) return null;
+  return { emoji: m[0], text: rest };
+}
+
+function detectEmojiFeatureIcon(ctx) {
+  // Plain emoji presence is already scored by brand-lint's `emoji` rule. This detector only scores
+  // structural icon placement: a heading-leading emoji or an emoji embedded in an accessible label.
+  const headingHits = [];
+  const headingRe = /<h([2-4])\b([^>]*)>([\s\S]*?)<\/h\1>/gi;
+  let m;
+  while ((m = headingRe.exec(ctx.cleanHtml))) {
+    const lead = leadingHeadingEmoji(m[3]);
+    if (!lead) continue;
+    headingHits.push({
+      tag: `h${m[1]}`,
+      emoji: lead.emoji,
+      text: lead.text,
+      snippet: snippet(m[0], 180),
+    });
+  }
+
+  const ariaHits = [];
+  for (const el of ctx.elements) {
+    const raw = el.attrs && el.attrs['aria-label'];
+    if (typeof raw !== 'string') continue;
+    const label = compactSpace(decodeEntities(raw));
+    const hit = label.match(STRUCTURAL_EMOJI_RE);
+    if (!hit) continue;
+    ariaHits.push({
+      tag: el.tag,
+      emoji: hit[0],
+      label,
+      snippet: snippet(el.open, 180),
+    });
+  }
+
+  if (!headingHits.length && !ariaHits.length) return null;
+  return {
+    tell: 'emoji-feature-icon',
+    severity: 'medium',
+    evidence: {
+      headingLeadingCount: headingHits.length,
+      ariaLabelCount: ariaHits.length,
+      headings: headingHits.slice(0, 6),
+      ariaLabels: ariaHits.slice(0, 6),
+      source: sourceTell(ctx, ['emoji', 'icon']),
+    },
+  };
+}
+
 function roleFor(tag, classList, topology) {
   void classList;
   return (topology || topologyForHtml('', tag)).key;
@@ -1859,7 +2140,7 @@ function main() {
     const hit = detector(ctx);
     if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
   }
-  for (const detector of [detectPlaceholderShipped, detectEmDashFlood, detectScrollCue, detectDuplicateCtaIntent, detectGenericCta]) {
+  for (const detector of [detectPlaceholderShipped, detectEmDashFlood, detectScrollCue, detectDuplicateCtaIntent, detectGenericCta, detectGlassmorphismStack, detectGradientNumeral, detectEmojiFeatureIcon]) {
     const hit = detector(ctx);
     if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
   }
