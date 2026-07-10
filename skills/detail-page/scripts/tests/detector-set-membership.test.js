@@ -23,7 +23,10 @@ const src = fs.readFileSync(harnessPath, 'utf8');
 // Every detector function and helper the harness references, by name. Sorted.
 const EXPECTED_DETECTOR_IDENTIFIERS = [
   'detectBrowserMockups',
+  'detectDuplicateCtaIntent',
+  'detectEmDashFlood',
   'detectEnDisplayLabels',
+  'detectGenericCta',
   'detectGhostNumerals',
   'detectHtmlLetterCodeBadges',
   'detectJustifyDisplay',
@@ -36,6 +39,7 @@ const EXPECTED_DETECTOR_IDENTIFIERS = [
   'detectPaletteMonotony',
   'detectPlaceholderShipped',
   'detectRepeatedDecorativeLabels',
+  'detectScrollCue',
   'detectStructuralMonotony',
   'detectSvgLetterCodeBadges',
   'detectUniformFrameLoop',
@@ -76,8 +80,8 @@ console.log(`PASS detector identifier snapshot (${identifiers.length} names — 
 
 const inline = [...stripped.matchAll(/for\s*\(\s*const\s+detector\s+of\s+\[([\s\S]*?)\]\s*\)/g)]
   .map((m) => [...m[1].matchAll(/\bdetect[A-Z][A-Za-z0-9_]*\b/g)].map((x) => x[0]))
-  .filter((ids) => ids.length > 1);
-assert.strictEqual(inline.length, 1, `expected exactly one multi-detector registry loop, found ${inline.length}`);
+  .filter((ids) => ids[0] === 'detectMonoLabels');
+assert.strictEqual(inline.length, 1, `expected exactly one original 13-detector registry loop, found ${inline.length}`);
 assert.deepStrictEqual(inline[0], EXPECTED_INLINE_REGISTRY, 'the original 13-detector registry loop changed');
 console.log(`PASS original registry loop unchanged (${EXPECTED_INLINE_REGISTRY.length} detectors, source order)`);
 
