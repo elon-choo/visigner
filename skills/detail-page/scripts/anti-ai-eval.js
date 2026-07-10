@@ -905,8 +905,29 @@ function enLabelStyled(el, style, text, kind) {
     LABEL_CLASS_RE.test((el.classList || []).join(' '));
 }
 
+// A heading set in ALL CAPS at display size is its own tell, but it is NOT a separate detector.
+// enLabelStyled(..., 'heading') returns true unconditionally, so every ALL-CAPS h1-h3 already feeds
+// en-label-overration's ration count. A standalone uppercase-heading detector would charge the same
+// heading twice on any page with three or more of them. So it lives here, and only speaks when the
+// ration tell stays silent.
+//
+// Display role is the discriminator: a 12px ALL-CAPS eyebrow is the label ration's business; a 48px
+// ALL-CAPS h1 is the shouted heading. `text-transform: uppercase` counts even when the source text
+// is not, because the reader sees the rendered form.
+//
+// Caveat worth knowing: styleFor resolves class rules and inline styles, not bare tag selectors, so
+// `h2 { font-size: 12px }` is invisible here and such a heading is read as display size. A label
+// styled that way in practice carries an eyebrow/kicker/label class, which is what LABEL_CLASS_RE
+// catches.
+function isUppercaseDisplayHeading(style, text, classList) {
+  if (isSmallStyle(style)) return false;
+  if (LABEL_CLASS_RE.test((classList || []).join(' '))) return false;
+  return /text-transform\s*:\s*uppercase/i.test(style || '') || isAllCapsLabel(text);
+}
+
 function detectEnDisplayLabels(ctx) {
   const labels = new Map();
+  const upperHeadings = [];
   const add = (text, snippetText) => {
     const key = compactSpace(text).toLowerCase();
     if (!labels.has(key)) labels.set(key, { text: compactSpace(text), count: 0, snippet: snippet(snippetText || text, 180) });
@@ -934,6 +955,9 @@ function detectEnDisplayLabels(ctx) {
     const style = styleFor(classList, attrs.style && attrs.style !== true ? attrs.style : '', ctx.css);
     for (const text of enLabelCandidates(m[3])) {
       if (enLabelStyled(fake, style, text, 'heading')) add(text, m[0]);
+      if (isUppercaseDisplayHeading(style, text, classList)) {
+        upperHeadings.push({ level: Number(m[1]), text: compactSpace(text), snippet: snippet(m[0], 180) });
+      }
     }
   }
 
@@ -952,15 +976,29 @@ function detectEnDisplayLabels(ctx) {
   }
 
   const rows = [...labels.values()].sort((a, b) => b.count - a.count || a.text.localeCompare(b.text));
-  if (rows.length < 3) return null;
+  if (rows.length >= 3) {
+    return {
+      tell: 'en-label-overration',
+      severity: rows.length >= 5 ? 'medium' : 'low',
+      evidence: {
+        distinct: rows.length,
+        occurrences: rows.reduce((sum, row) => sum + row.count, 0),
+        labels: rows.slice(0, 8).map((row) => ({ text: row.text, count: row.count, snippet: row.snippet })),
+        ration: '1-2 per page — masthead + at most one divider',
+        source: sourceTell(ctx, ['EN label', 'rationed']),
+      },
+    };
+  }
+
+  // The ration tell stayed silent, so any shouted display heading has not been charged yet.
+  if (!upperHeadings.length) return null;
   return {
-    tell: 'en-label-overration',
-    severity: rows.length >= 5 ? 'medium' : 'low',
+    tell: 'uppercase-heading',
+    severity: upperHeadings.length >= 2 ? 'medium' : 'low',
     evidence: {
-      distinct: rows.length,
-      occurrences: rows.reduce((sum, row) => sum + row.count, 0),
-      labels: rows.slice(0, 8).map((row) => ({ text: row.text, count: row.count, snippet: row.snippet })),
-      ration: '1-2 per page — masthead + at most one divider',
+      count: upperHeadings.length,
+      headings: upperHeadings.slice(0, 8),
+      dedupe: 'suppressed when en-label-overration fires — the same heading feeds that ration count',
       source: sourceTell(ctx, ['EN label', 'rationed']),
     },
   };
