@@ -79,6 +79,10 @@ jobs:
             node "${{ env.SKILL_DIR }}/scripts/brand-lint.js" "${{ env.SERVE_DIR }}/${{ env.SERVE_FILE }}" --brand "${{ env.BRAND_TOKENS }}"
           fi
 
+      - name: Unit regression tests (mechanical score / harness / s2Pass)
+        if: always()
+        run: node --test "${{ env.SKILL_DIR }}/scripts/tests/"
+
   # ---------------------------------------------------------------------------
   # JOB 2 — visual + a11y gate: serve the page and screenshot-assert it with shoot.js.
   # ---------------------------------------------------------------------------

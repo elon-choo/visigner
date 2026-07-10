@@ -257,6 +257,323 @@
 
 ---
 
+## 2-B. Stage U2 — goal 전문 프롬프트 (UC1.10 산출, additive)
+
+> **생성 근거:** 이 절은 UC1.9.5 전환 리뷰(diff 12건 — 자동반영 8 / HUMAN_GATE 4)와 **U1 실측 결과**를 기준으로 §3 U2 개요 계약 ①~⑦을 상세화한다. 추측 금지 — 아래는 파일 실측 확인분: design-gate.yml은 게이트 3종(brand-lint / token-drift·ΔE / serve-shoot)만 돌고 `.test.js`·`node --test`·`npm test` 참조 0 · skills/detail-page/package.json에 `test` 스크립트 없음 · 커밋된 4테스트(mechanical-score / harness-invariants[W1-W9] / s2pass-branch-coverage / s2pass-escape-anyof)는 현재 `node --test scripts/tests/` 로 **4/4 pass 0 fail** · anti-ai-eval.js: `computeS2Pass` L1788(escape any-of), `main()` L1835 무가드·`main();` L1882, `module.exports` 부재. **전환 diff D1: 회귀가드 CI 배선(퍼플 C1)을 placeholder-shipped 검출기보다 앞 UC2.1로 전진 배치** — U1 실측 최대 갭(팔레트/렌더 슬롭 맹목 + 회귀가드 CI 미배선) 중 어느 것도 placeholder-shipped가 안 메우므로.
+
+> **D2 계약 분리 노트(UC2.1 고정):** 커밋된 단위테스트를 CI에 배선하는 작업은 이 목표(UC2.1)의 범위이고, anti-ai-eval의 severity→exit 게이트는 UC2.6의 범위다. UC2.6의 exit 판정은 반드시 boolean `s2Pass` / `verdict`를 키로 삼아야 하며 `mechanicalScore`를 게이트 키로 소비하면 안 된다. 근거: `mechanical-score.js`는 `SHIP_VERDICT_KEYS`를 export하고 `scoreIsUpperBound`를 표시해 `mechanicalScore`가 진단용 비게이팅 점수임을 고정한다. exit 게이트가 이 값을 읽으면 diagnostic이 ship signal로 승격되어 UC1.6 verdict 계약과 퍼플 조건 C2를 위반한다.
+
+### 계약 커버리지 (§3 U2 ①~⑦ → goal id)
+| 계약 | 내용 | goal |
+|---|---|---|
+| ① | genuine_gaps 11룰 additive 흡수 | placeholder-shipped=**UC2.2** · em-dash/scroll-cue/dup-cta/generic-cta=**UC2.3** · glassmorphism/gradient-numeral/uppercase-heading/emoji-icon=**UC2.4** · image-no-dim/outline-none=**UC2.5** |
+| ② | 정적 pre-flight(소스 토큰) | **UC2.5** |
+| ③ | PostToolUse 훅(fails-open) | **UC2.6** |
+| ④ | severity→exit gating | (i) CI 테스트 배선=**UC2.1** · (ii) anti-ai-eval exit gating=**UC2.6** (전환 D2로 분리) |
+| ⑤ | config + inline suppression | **UC2.6** |
+| ⑥ | SARIF + fix_apply autofix + [D8] detector-SET 어서트 | SARIF=**UC2.6** · autofix=**UC2.5** · SET 멤버십 어서트=**UC2.2** |
+| ⑦ | 회귀 가드 + 두 사본 동기화 + fable_check | **UC2.7** (밴드 재측정은 각 detector goal DoD에도 중복 배치) |
+
+### 파일 직렬화 · HUMAN_GATE 매핑 (rule 4 — 어떤 goal이 SSOT 3파일을 건드리나)
+| goal | anti-ai-eval.js | brand-lint.js | shoot.js | 게이트 |
+|---|---|---|---|---|
+| UC2.1 | — | — | — | 없음 (design-gate.yml/package.json additive; 커밋 소유자 승인 관례) |
+| UC2.2 | concat-append(신규라인) + require | — | — | ⏸ **anti-ai-eval.js 커밋 승인** · s2Pass flip은 별도 ⏸(D9, 미실행) |
+| UC2.3 | concat-append 4종 + SET 어서트 확장 | — | — | ⏸ 커밋 승인 |
+| UC2.4 | concat-append 2종 + **detectEnDisplayLabels 기존라인 확장(D4)** | 읽기전용 참조(emoji dedupe, D6) | — | ⏸ **기존라인 수정** + 커밋 승인 |
+| UC2.5 | — (비점수·별도 스크립트) | — | (선택 bonus 런타임 layout-shift만 shoot.js — 이식 안 함) | 없음 (신규 스크립트만; shoot.js 미접촉) |
+| UC2.6 | **main() 기존라인 수정(exit gating ④-ii) + finding 경로(config ⑤) + toSarif(⑥)** | — | GATE_EXIT 패턴 미러(읽기) | ⏸ **main() 기존라인** + 커밋 승인 · export-seam(D11)은 U4 |
+| UC2.7 | 실행만(무편집) | 실행만 | 실행만 | 없음 |
+
+### 전환 diff(UC1.9.5) 처리 요약
+- **자동반영 흡수(8)**: D1(UC2.1 전진)·D2(UC2.1 계약분리 + UC2.6 구현)·D4(UC2.4 uppercase↔detectEnDisplayLabels dedupe)·D5(UC2.5 image-no-dim 비점수)·D6(UC2.4 emoji↔brand-lint 이중계수 회피)·D7(UC2.5 outline-none 최하위 report-only)·D8(UC2.2 detector-SET 멤버십 어서트).
+- **HUMAN_GATE(⏸, 4)**: D9(placeholder→s2Pass 배선 = UC2.2 내 분리 ⏸ 결정)·D3(팔레트/fake-render 검출기 = 하단 ⏸ 결정 박스, 드레인 밖)·D10·D11(U4 소관 — 공개 surface mechanicalScore 노출 금지 / export-seam 리팩터. UC2.10이 U3 생성 후 U3.10이 U4로 이월).
+- **anti-ai S4 인계(U2 아님)**: D12(커버리지-갭 픽스처 '0텔+monotony≥0.58' 부재 + shoot.js 렌더 0회 → UC1.6 `s4-handoff.json` 에 `shoot-unverified`·`monotony-quadrant-missing` 로 부착. U2 goal로 승격 안 함).
+
+### U1 검증 사실 10 → U2 반영(요지)
+①분리는 structural-tell 한 축이 지탱(tells OFF gap 22→2, monotony 기여 0)→신규 텔은 분리 보강만, monotony 커버리지 주장 금지(밴드 재측정 DoD). ②'0텔+monotony≥0.58' 사분면 부재→D12 S4. ③하네스 팔레트/렌더 슬롭 맹목→D3 ⏸(검출기 신설=범위변경). ④build_hygiene 비점수(4 AI_TELL_RULE만 scored)→image-no-dim 비점수(D5). ⑤내용삭제 역인센티브(섹션 5→3=slop 33F→88B, 단 s2Pass 불변)→신규 텔이 삭제 보상 안 만들게(UC2.7 스팟체크). ⑥독립 인간 대조군 0·와디즈 캡처=tile-viewer 껍데기(img 74·85/section 0)→오탐 0 게이트는 '껍데기에서 미발화'로 해석. ⑦픽스처 shoot 렌더 0회·390px 저자 자기보고→신규 텔은 정적, 렌더 미검증 명시(D12). ⑧detectors[] 단일 인라인 라인→concat-append(numstat 삭제 0)+SET 멤버십 어서트 페어링(D8/UC2.2). ⑨export-seam=로드타임 변경=HUMAN_GATE→훅은 CLI 서브프로세스 소환(UC2.6, module.exports 미추가). ⑩개발=Codex/평가·기획=Claude, 증거 /tmp/anti-ai/uc/<goal>/, 두 사본 바이트 동일.
+
+---
+
+### UC2.1 — 회귀가드 CI 배선(퍼플 C1) + severity→exit 계약 분리  ·  **[Codex]**
+```
+/goal UC1.9 퍼플 조건 C1 이행 — 커밋된 4테스트를 design-gate.yml 하드 게이트로 배선하고 §3 U2 ④의 두 CI
+  관심사를 계약으로 분리(전환 diff D1·D2). 개발=Codex MCP.
+[컨텍스트] .github/workflows/design-gate.yml(현재 JOB1 brand-lint/token-drift/ΔE + JOB2 serve+shoot 3게이트,
+  test 러너 참조 0 — 실측), skills/detail-page/package.json(name 'detail-page', main shoot.js, test 스크립트
+  없음 — 실측), 커밋된 4테스트(mechanical-score / harness-invariants[W1-W9] / s2pass-branch-coverage /
+  s2pass-escape-anyof — 현재 `node --test scripts/tests/` 4/4 pass 0 fail 실측), UC1.9 퍼플 verdict C1·C2.
+[작업]
+ 1. `node --test skills/detail-page/scripts/tests/` 스텝을 design-gate.yml JOB1(fast·무브라우저)에 additive
+    추가 — 4테스트 실패 시 exit 1(빨간 빌드). 기존 3게이트 스텝 무수정(스텝 append만).
+ 2. package.json에 `"test": "node --test scripts/tests/"` additive(기존 필드 무수정). detector 자체 semver·bin은
+    U4 소관 — 여기선 test 스크립트만.
+ 3. **D2 계약 분리 명문화**(이 goal 산출 doc + §2-B 계약 노트): (i) 커밋 단위테스트 배선[본 goal] / (ii)
+    anti-ai-eval severity→exit gating[UC2.6]은 별개이며, exit gating은 반드시 boolean s2Pass/verdict를 키로
+    exit하고 **mechanicalScore를 게이트 키로 쓰지 않는다**(non-weakenable·퍼플 C2). exit gating이 mechanicalScore를
+    소비하면 diagnostic 지표가 ship 게이트로 승격 = UC1.6 판정 위반.
+ 4. 배선 비공허성 실증: 임의 테스트 1건 일시 변조(어서트 반전)→CI/로컬 스텝 exit 1 재현→원복. 4/4 pass 로그 +
+    변조 FAIL 로그 둘 다 캡처.
+ 5. codex 반박 리뷰(스텝 배치가 기존 게이트를 약화/우회 안 하는지·러너가 fixtures를 실제 로드하는지)→반영.
+    코드 diff는 adversarial-review 경유.
+[DoD — 전부 실행 증거]
+ - design-gate.yml에 `node --test` 스텝 실재 + 로컬 재현 로그(4/4 pass) + 변조 시 exit 1 FAIL 재현 로그.
+ - package.json `test` 스크립트 실재(`npm test`/`node --test` exit 0).
+ - D2 두 관심사 분리 계약 문단 실재(mechanicalScore를 exit 키로 안 씀을 조작적으로 명시).
+ - 기존 JOB1/JOB2 스텝 무수정(additive diff). 두 사본 동기화(design-gate.yml은 repo 루트 단일 파일 —
+   미러 대상 아님; package.json·tests/는 정본↔미러 바이트 동일).
+[depends] 없음 — U2 첫 goal(전환 D1로 placeholder-shipped보다 전진).
+```
+
+### UC2.2 — detector-SET 멤버십 어서트(D8) + placeholder-shipped 검출기(rule#1)  ·  **[Codex]**  ·  ⏸ **HUMAN_GATE 후보**(anti-ai-eval.js 커밋 + s2Pass 배선 분리 D9)
+```
+/goal 전환 diff D8을 계약으로 물질화 — detectors[] 확장을 SET 멤버십 어서트로 잠근 뒤, 최고가성비 첫 룰
+  placeholder-shipped를 additive concat-append로 흡수(§3 U2 ①·⑥). s2Pass flip은 분리(D9). 개발=Codex MCP.
+[컨텍스트] anti-ai-eval.js(computeS2Pass L1788 escape any-of / main() L1835 무가드 / module.exports 부재 L1882
+  — 실측; detectors[] 인라인 리터럴은 UC1.1 track-contract·memory#8이 동결), ui-craft rules.mjs:561-584
+  placeholder-shipped(Lorem ipsum/TODO/XXX/Placeholder/John|Jane Doe/555-0xxx per-line regex), UC1.9 퍼플
+  C2(mechanicalScore diagnostic 유지), 전환 D8(concat-append numstat 삭제 0 우회 → SET 멤버십 어서트 페어링
+  필수)·D9(placeholder severity high→s2Pass 반영은 escapeTells/computeS2Pass 편집 = HUMAN_GATE).
+[작업]
+ 1. **detector-SET 멤버십 어서트 신설**(additive 신규 tests/detector-set-membership.test.js): 현 detectors[]
+    SET 검출기 이름을 스냅샷 어서트 + '신규 검출기는 이 SET과 함께 갱신돼야 통과' 계약. concat-append(numstat
+    삭제 0)로도 SET 변경이 무가드 통과 못하게 잠금. CI 배선은 UC2.1의 `node --test scripts/tests/`가 이미 포함.
+ 2. **placeholder-shipped 흡수**(재구현·KR 확장): Lorem ipsum/TODO/XXX/Placeholder/John·Jane Doe/555-01xx +
+    KR('내용을 입력하세요'/'여기에 텍스트'/'제목을 입력'/'홍길동'/'000-0000-0000' 등 실서비스 placeholder). 신규
+    파일 scripts/copy-detectors.js에 함수로, anti-ai-eval.js는 `detectors.concat([placeholderShipped])` 새 라인
+    append(기존 배열 리터럴 라인 무수정) + require 라인 append.
+ 3. **발행 채널 = additive 텔 + mechanicalScore 기여만**(D9 기본값): severity high 텔 발행 → severityScore→
+    mechanicalScore additive. **s2Pass/escapeTells 배선 안 함** — placeholder를 s2Pass=false로 flip하려면
+    computeS2Pass/escapeTells 편집 = 별도 소유자 승인 ⏸ HUMAN_GATE 결정(D9). 본 goal은 텔+점수까지만.
+ 4. **오탐 0 3종 게이트**(rule 3): 와디즈 실물 references/captures/{400620,403454} + starter
+    assets/starter/index.html + designer 픽스처 3종(editorial-restraint-29cm/color-confident-band/proof-dense
+    -material)에 placeholder-shipped 발화 0 실측(와디즈 껍데기=미발화로 해석).
+ 5. **밴드 재측정**: 신규 텔이 slop 픽스처(empty-placeholder-panels/smartstore-urgency-theatre) 점수를
+    낮추므로 manifest.json·baselines-draft expected_band 재측정 + mechanical-score.test.js 재실행 → in-band
+    PASS + designerMin>slopMax 분리 gap 유지(분리는 structural-tell 축 — U1 사실#1, monotony 기여 0).
+ 6. attribution: 재구현이라 헤더 주석 권장(rules.mjs:561-584 idea, MIT (c) 2026 Eduardo Calvo) + ATTRIBUTIONS.md
+    항목. codex 반박 리뷰(regex 오탐·KR placeholder 실서비스 대표성)→adversarial-review 경유.
+[DoD — 전부 실행 증거]
+ - detector-set-membership.test.js 실재 + node 단독 PASS + 미페어링 추가 시 FAIL 재현(SET 우회 잠금 실증).
+ - 리포트에 placeholder-shipped 텔 발화(Lorem/TODO/KR placeholder 심은 페이지) + mechanicalScore 하락 실측.
+   `git diff --numstat` anti-ai-eval.js 삭제 0(concat-append 확인).
+ - **불변식 증명**: computeS2Pass escape any-of 값 전후 동일(placeholder는 s2Pass 미접촉 — D9 준수). W1-W9 PASS.
+ - 와디즈2 + starter + designer 3종 오탐 0. manifest 재측정 + mechanical-score.test.js in-band PASS + 분리 gap
+   유지 로그.
+ - attribution 헤더/ATTRIBUTIONS 항목. 두 사본 바이트 동일. **anti-ai-eval.js 커밋 = 소유자 승인(⏸ HUMAN_GATE)**.
+[depends] UC2.1.
+```
+
+### UC2.3 — copy-lane 검출기 4종 (em-dash-flood / scroll-cue / duplicate-cta-intent / generic-cta)  ·  **[Codex]**  ·  ⏸ **HUMAN_GATE 후보**(anti-ai-eval.js 커밋)
+```
+/goal ui-craft copy 룰 4종을 KR 확장·재구현해 scripts/copy-detectors.js에 additive 흡수(§3 U2 ①). concat-append
+  + SET 어서트 확장. 개발=Codex MCP.
+[컨텍스트] ui-craft rules.mjs:1106-1129 em-dash-flood(visible text node — count>=3), :1032-1045 scroll-cue
+  ('scroll to explore' ↓⌄▼), :1066-1103 duplicate-cta-intent(동일 intent-set 두 라벨), :181-201 generic-cta
+  (button/a text only 'Learn more'/'Click here'). visigner copy-lint는 채널 length/CTA presence만(반대 극성).
+  UC2.2 copy-detectors.js + detector-set-membership.test.js.
+[작업]
+ 1. em-dash-flood: stripTags 후 visible text node 단위 — 대시(—) count>=3(major). **오탐 가드**: 코드/URL 제외,
+    KR 정당 용법(범위·인용)은 '~'/'–' 이라 —≥3 집중만 텔.
+ 2. scroll-cue(major): 'scroll to explore'/↓/⌄/▼ + **KR 확장** '스크롤'/'아래로'/'더 보기'가 스크롤 유도
+    마이크로카피로. text-node regex.
+ 3. duplicate-cta-intent(major): intent-set 이식 + **KR 세트** {신청하기·지금 신청·신청}=apply / {구매하기·지금
+    구매·결제하기}=purchase / {시작하기·지금 시작·무료로 시작}=start. **핵심 오탐 가드(전환 리뷰 정신)**: 동일
+    라벨의 정당 반복(상·하단 같은 '지금 신청' = 좋은 CTA 규율)은 텔 아님 — **동일 intent + 서로 다른 표면
+    라벨 >=2** 일 때만(라벨 불일치 = 희석). 랜딩의 반복 CTA를 오탐하면 conversion 미션 역행.
+ 4. generic-cta(major): on-page button/a + **KR generic**(더 알아보기/자세히 보기/신청/바로가기)이 페이지 **주**
+    전환 액션일 때. copy-lint:64-68(존재확인, 반대 극성)과 dedupe — 강한 primary 옆 secondary '자세히 보기'는
+    가드로 제외.
+ 5. 4종을 copy-detectors.js에 함수 append → anti-ai-eval.js `detectors.concat([...4])` 확장 + require, +
+    detector-set-membership.test.js SET 어서트 4종 추가. 발행은 텔+mechanicalScore only(s2Pass 미접촉).
+ 6. **오탐 0 3종**(와디즈2/starter/designer 3종) + **밴드 재측정**(mechanical-score.test.js 재실행, 분리 gap
+    유지). attribution: intent-set/regex 복제 시 헤더 + ATTRIBUTIONS. codex 반박(KR 세트 대표성·반복CTA 오탐)
+    →adversarial-review.
+[DoD — 전부 실행 증거]
+ - 4텔이 슬롯 심은 페이지에서 발화(em-dash≥3 / scroll-cue / dup-intent 서로다른 라벨 / generic primary)
+   + 정당 반복 CTA·secondary 링크에서 **미발화** 실측(오탐 가드 증명).
+ - detector-set-membership.test.js SET 13→17 어서트 PASS + 미페어링 FAIL 재현.
+ - 와디즈2/starter/designer 3종 오탐 0. manifest 재측정 + mechanical-score.test.js in-band + 분리 gap 유지.
+ - `git diff --numstat` anti-ai-eval.js 삭제 0. W1-W9 PASS. 두 사본 바이트 동일. **커밋=소유자 승인(⏸)**.
+[depends] UC2.2.
+```
+
+### UC2.4 — style/structure 검출기 4종 + dedupe (glassmorphism / gradient-numeral / uppercase-heading[D4] / emoji-icon[D6])  ·  **[Codex]**  ·  ⏸ **HUMAN_GATE**(detectEnDisplayLabels 기존라인 확장 + 커밋)
+```
+/goal computed-style/structure 텔 4종 흡수 — glassmorphism·gradient-numeral는 신규, uppercase-heading은 기존
+  detectEnDisplayLabels와 dedupe(D4), emoji-icon은 brand-lint emoji와 이중계수 회피(D6)(§3 U2 ①). 개발=Codex MCP.
+[컨텍스트] ui-craft engine.mjs:249-270 glassmorphism(backdrop-blur AND bg-white/rgba(255) AND border-white
+  3-signal), rules.mjs:136-149 gradient-text-metric(bg-clip-text + text-transparent + large size), :118-134
+  uppercase-heading(h1-4 uppercase/text-transform), :151-160/:273-282 emoji(before h2-4 / in aria-label).
+  visigner: detectGhostNumerals(outline 역처리 형제), detectEnDisplayLabels(aggregate ALL-CAPS EN 라벨),
+  brand-lint AI_TELL_RULES emoji(이미 mechanicalScore에 scored — UC1.4). 전환 D4·D6.
+[작업]
+ 1. glassmorphism-stack(critical): 렌더 요소의 backdrop-filter/backdrop-blur AND 반투명 흰 배경 AND 흰 보더
+    3신호 AND. 2021 AI-default. 신규 detector, concat-append.
+ 2. gradient-numeral(major): detectGhostNumerals 형제 branch — background-clip:text + transparent fill on
+    large numeric. SIZE만 보는 기존 big-number와 별개(TREATMENT 축).
+ 3. **uppercase-heading — D4 dedupe(신규 독립 검출기 신설 금지)**: 단일 ALL-CAPS h1/h2 신호를 **기존
+    detectEnDisplayLabels 안에서** 처리(확장/가드). aggregate EN 라벨과 이중 텔 카운트 방지. **이 편집은
+    기존 검출기 라인 수정 = HUMAN_GATE**(concat-append 아님).
+ 4. **emoji-feature-icon — D6 이중계수 회피**: 구조적 위치(heading 앞 emoji / aria-label emoji)만 타겟,
+    일반 emoji 존재는 재점수 안 함(brand-lint emoji AI_TELL_RULE가 이미 mechanicalScore 반영). 소비지점 dedupe
+    명시. 신규 detector이되 brand-lint emoji와 겹치는 신호는 카운트 1회.
+ 5. glassmorphism·gradient-numeral·emoji-icon = concat-append + SET 어서트 추가(발행 텔+mechanicalScore only);
+    uppercase는 detectEnDisplayLabels 내부 확장(HUMAN_GATE). attribution 헤더 + ATTRIBUTIONS.
+ 6. **오탐 0 3종**(와디즈2/starter/designer 3종 — 특히 color-confident-band의 정당 대문자 카테고리 라벨을
+    uppercase-heading이 오탐 안 하는지) + **밴드 재측정**. codex 반박(glassmorphism 3신호 AND 오탐·emoji dedupe
+    누출)→adversarial-review.
+[DoD — 전부 실행 증거]
+ - glassmorphism(backdrop-blur+흰반투명+흰보더 페이지)·gradient-numeral·emoji-icon(heading앞/aria) 발화 실측.
+ - **uppercase dedupe 증명**: 단일 ALL-CAPS h2가 detectEnDisplayLabels 안에서 1회만 카운트(en-label과 중복 0).
+   **emoji dedupe 증명**: emoji-icon + brand-lint emoji가 mechanicalScore에 이중 반영 0(delta 검증).
+ - detectEnDisplayLabels 확장은 **기존라인 수정 = HUMAN_GATE**(diff 소유자 승인). concat 3종은 삭제 0.
+ - 와디즈2/starter/designer 3종 오탐 0(color-confident-band 대문자 라벨 미발화). manifest 재측정 +
+   mechanical-score.test.js in-band + 분리 gap 유지. W1-W9 PASS. 두 사본 바이트 동일. **커밋=소유자 승인**.
+[depends] UC2.2.
+```
+
+### UC2.5 — 비점수 렌즈: static pre-flight(②) + build-hygiene report(D5·D7) + fix_apply autofix(⑥)  ·  **[Codex]**
+```
+/goal 점수/게이트에 안 먹이는 렌즈 3종 — 렌더 전 소스 pre-flight, image-no-dim/outline-none 비점수 report,
+  기계적 텔 autofix — 를 신규 스크립트로 흡수(§3 U2 ②·⑥, 전환 D5·D7). 개발=Codex MCP.
+[컨텍스트] ui-craft rules.mjs:26-49,75-103,204-222 static 소스 토큰(transition-all/animate-bounce) + :37-48,
+  85-102 autofix + engine.mjs:315-328 fix_apply, :917-957 image-no-dimensions(<img> width/height/aspect 부재),
+  :666-692/:285-305 outline-none-no-focus-visible. visigner shoot.js:815-905(런타임 computed 감사 — 소스
+  pre-render 부재). UC1.6 결함(build-hygiene 합산=raw-hex 실수, 와디즈 100→88, ρ 0.857→0.514). §3 U2 경계
+  (a11y-auditor axe 실행 > code inspection).
+[작업]
+ 1. **static pre-flight(②)**: 신규 scripts/preflight.js — 렌더 전 소스 문자열 스캔(transition-all/animate-bounce
+    class 토큰). shoot 게이트 앞 fast 무-브라우저 패스, agent edit loop용. anti-ai-eval.js 미접촉(별도 스크립트).
+ 2. **image-no-dimensions — D5 비점수**: <img> width+height 또는 aspect-ratio/aspect-[] 부재를 **build-hygiene
+    report-only**(severityScore/s2Pass/mechanicalScore 미소비). CLS/perf 이슈이지 AI 미학 텔 아님 — UC1.6 raw-hex
+    실수 반복 금지. 별도 buildHygiene 리포트에 출력.
+ 3. **outline-none-a11y — D7 최하위·선택**: outline:none/focus:outline-none without focus-visible를 report-only
+    최하위. axe(a11y-auditor)가 이미 커버 + §3 경계(app-a11y 근접) → 점수 미반영, 우선순위 예산 최소.
+ 4. **fix_apply autofix(⑥, 기계적 텔만)**: 좁은 --fix — transition:all→opacity,transform / scroll-cue 노드 삭제
+    / Lorem 제거만. `fix_apply({content})→{content,fixed}` 계약. 미학 판단 텔(팔레트·구조)은 절대 autofix 안 함.
+ 5. 셋 다 신규 스크립트/report-only이므로 anti-ai-eval.js scored 경로 무접촉(HUMAN_GATE 회피). attribution:
+    복제 시 헤더 + ATTRIBUTIONS. codex 반박(autofix가 정당 코드 훼손·image-no-dim 점수 누출)→adversarial-review.
+[DoD — 전부 실행 증거]
+ - preflight.js가 transition-all/animate-bounce 심은 소스에서 발화 + clean 소스 무발화(무-브라우저 exit 로그).
+ - image-no-dim·outline-none이 buildHygiene report-only에만 출력, **severityScore/mechanicalScore/s2Pass 불변**
+   실측(와디즈 실물 100 유지 — build-hygiene 누출 0 증명, UC1.6 반례 재발 방지).
+ - fix_apply가 transition:all→opacity,transform / scroll-cue 삭제 / Lorem 제거만 수행, 미학 텔 무변경(diff 인용).
+ - anti-ai-eval.js scored 경로 무접촉(신규 스크립트만). 두 사본 바이트 동일.
+[depends] UC2.3(copy 텔 확정 후 autofix 대상 정합).
+```
+
+### UC2.6 — 아키텍처 배선: PostToolUse hook(③) + severity→exit gating(④-ii) + config/suppression(⑤) + SARIF(⑥)  ·  **[Codex]**  ·  ⏸ **HUMAN_GATE**(anti-ai-eval.js main() 기존라인 + 커밋)
+```
+/goal ui-craft architecture_adopt 4종 배선 — 편집중 훅·severity→exit·config/inline-suppress·SARIF. exit gating은
+  boolean 키만(D2·C2), 훅은 CLI 소환(export-seam 미추가). 개발=Codex MCP.
+[컨텍스트] ui-craft hooks.mjs(PostToolUse Edit|Write|MultiEdit, critical/major면 exit 2, 내부오류 exit 0
+  fails-open), engine.mjs:468-478 + ci.mjs failOn severity→exit, engine.mjs:61-113 applyConfigToFinding +
+  :127-169 applyIgnoreComments, :349-403 toSarif. visigner: anti-ai-eval.js main() L1835는 항상 report 쓰고
+  return(exit gating 없음), module.exports 부재(L1882 무가드) → 훅은 CLI 서브프로세스 소환(D11 export-seam은
+  U4). shoot.js GATE_EXIT 패턴(미러 대상). 퍼플 C2(mechanicalScore diagnostic).
+[작업]
+ 1. **PostToolUse hook(③)**: 신규 hook 스크립트 + .claude/settings.json hooks.PostToolUse matcher
+    "Edit|Write|MultiEdit" — 편집 페이지에 anti-ai-eval **CLI 서브프로세스** 실행(module.exports 부재라 require
+    불가·미추가), critical/major면 exit 2로 findings 피드백, **fails-open**(내부오류 exit 0 — broken hook이 스킬
+    정지 금지).
+ 2. **severity→exit gating(④-ii)**: anti-ai-eval.js main()에 `--fail-on`/GATE_EXIT — verdict∈{ai-likely,suspect}
+    or **s2Pass===false → exit 1**. **키는 boolean s2Pass/verdict, mechanicalScore 아님**(D2·C2 — 지표 승격
+    금지). main() 기존 동작 변경 = **기존라인 수정 HUMAN_GATE**. design-gate.yml JOB1 편입(shoot GATE_EXIT 미러).
+ 3. **config + inline suppression(⑤)**: .anti-ai-rc.json rules{id:off|warn|error} + `<!-- anti-ai-ignore:
+    <rule> -->` — 의도된 editorial(mono-label/한자 넘버링 브랜드) escape hatch. finding 방출 경로 수정 =
+    HUMAN_GATE. **가드**: suppression이 boolean s2Pass any-of를 약화 못 함(escapeTell 억제 불가 — non-weakenable).
+ 4. **SARIF 출력(⑥)**: toSarif additive 함수 — anti-ai-report.json → SARIF(GitHub Security tab/IDE panel).
+    저노력 고가시성, additive.
+ 5. codex 반박(exit gating이 mechanicalScore를 키로 쓰지 않는지·suppression이 escapeTell 약화 안 하는지·훅
+    fails-open 실증)→adversarial-review. 커밋은 소유자 승인.
+[DoD — 전부 실행 증거]
+ - 훅: 텔 심은 편집→exit 2 findings 출력 / 내부오류 주입→exit 0(fails-open) 재현. CLI 서브프로세스 소환
+   증명(module.exports 미추가 = grep 부재 유지).
+ - exit gating: s2Pass=false 페이지→exit 1 / s2Pass=true→exit 0. **mechanicalScore를 게이트 키로 안 씀**을
+   코드/테스트로 어서트(예: mechanicalScore=0이어도 s2Pass=true면 exit 0). W1-W9 PASS.
+ - suppression: `<!-- anti-ai-ignore -->` 로 특정 룰 억제되나 **escapeTell/s2Pass는 억제 불가** 실측(불변식).
+ - SARIF 스키마 유효 출력. anti-ai-eval.js main()/finding 경로 수정 diff = **소유자 승인(⏸ HUMAN_GATE)**.
+   두 사본 바이트 동일.
+[depends] UC2.2(검출기·SET 확정 후 훅/게이트가 소환).
+```
+
+### UC2.7 — 회귀 가드 + 밴드 재측정 통합 + 두 사본 동기화 + fable_check(⑦)  ·  **[Codex]**
+```
+/goal U2 additive 변경(검출기 6종·pre-flight·훅·gating·config·SARIF)이 기존 게이트·불변식을 안 깨는지 통합
+  회귀 + 밴드 재측정 종합(§3 U2 ⑦). 개발=Codex MCP.
+[컨텍스트] UC1.7 회귀 절차, 기존 스크립트(shoot.js/brand-lint.js/keyword-picker.js/anti-ai-eval.js), 커밋
+  4테스트 + 신규 detector-set-membership.test.js, mechanical-score.test.js 밴드, 두 사본. 퍼플 C2(mechanicalScore
+  비게이팅), U1 사실#5(내용삭제 역인센티브).
+[작업]
+ 1. 기존 스모크 전부 재실행: shoot.js(starter) / brand-lint(single·dir) / keyword-picker(plan·pick·search) /
+    anti-ai-eval(starter·와디즈2) / 4테스트 + detector-set-membership.test.js.
+ 2. **통합 밴드 재측정**: UC2.2~2.4 신규 검출기 전부 반영 후 manifest.json/baselines 최종 재측정 →
+    mechanical-score.test.js in-band PASS + **designerMin>slopMax 분리 gap 유지**(신규 텔로 slop만 하락, designer
+    불변). designer/와디즈2/starter 신규 텔 0 확인(오탐 누적 0).
+ 3. **불변식 회귀**: computeS2Pass escape any-of 값 U2 전후 동일 · W1-W9 · s2pass-escape-anyof PASS ·
+    mechanicalScore는 여전히 diagnostic(어떤 exit도 mechanicalScore를 키로 쓰지 않음 — UC2.6 어서트 재확인).
+ 4. **역인센티브 스팟체크(U1 사실#5)**: fake-blob-render 섹션 5→3 축소가 신규 검출기로 s2Pass=true를 만들지
+    않는지(삭제 보상 미생성) 확인.
+ 5. Visigner↔미러 전 변경/신규 파일 바이트 동일(cmp) + fable_check(code).
+[DoD — 전부 실행 증거]
+ - 전 스크립트 exit 0 로그. 4+1 테스트 PASS. anti-ai-eval 기존 출력(verdict/s2Pass/tellsDetected/monotony/
+   presence) U2 전후 불변 diff.
+ - 통합 재측정: in-band PASS + 분리 gap 값 인용 + designer/와디즈/starter 오탐 0.
+ - 불변식 PASS(W1-W9 + escape any-of 불변). 역인센티브 스팟체크 통과. cmp 바이트 동일. fable_check(code)=PASS.
+[depends] UC2.2, UC2.3, UC2.4, UC2.5, UC2.6.
+```
+
+### UC2.9 — 통합 검증 + adversarial GO 게이트 (불변식 + C1/C2 blocking)
+```
+/goal Stage U2 통합 검증 + adversarial-review GO 게이트.
+[작업] U2 산출(CI 배선·SET 어서트·검출기 6종·pre-flight·비점수 report·훅/exit/config/SARIF·회귀) 전부 증거
+  실측 → adversarial-review 스킬로 GO / CONDITIONAL-GO / NO-GO. **blocking**: ① non-weakenable(computeS2Pass
+  escape any-of를 어떤 신규 검출기·suppression·exit gating도 무손상) ② detector-SET 멤버십 어서트 배선·강제(D8,
+  concat-append 우회 잠금) ③ mechanicalScore diagnostic 유지 — exit gating이 boolean 키만 소비(D2·C2, 지표 미승격)
+  ④ 분리 gap 유지(designerMin>slopMax, 신규 텔 후 재측정) ⑤ out-of-scope(dark-pattern/app-a11y/forms/tables/
+  dataviz) 룰 미이식 ⑥ 퍼플 C1(node --test design-gate.yml 배선·강제) 실증 ⑦ D9 s2Pass-flip을 무단으로 안 함.
+[DoD] - 각 goal 증거 경로 확인 - 불변식/C1/C2 명시 판정(약화 1건이라도 = GO 불가) - verdict + 게이트 점수 기록
+  - NO-GO 또는 지표 승격 위반이면 HUMAN_GATE.
+[depends] UC2.1~UC2.7 전부.
+```
+
+### UC2.9.5 — 전환 리뷰 (독립 에이전트)
+```
+/goal 신선-컨텍스트 독립 에이전트가 U3~U4 남은 goal의 추가/변경/삭제/재정렬을 diff로 제안.
+[작업] U2 검출기 오탐률·밴드 이동·C1/C2 결과 반영해 로드맵 조정 제안. 특히 (a) D3(팔레트/fake-render 검출기)를
+  S4 vision·텔 인프라로 라우팅할지 vs U3 신규 검출기 goal로 신설할지 재평가, (b) U4 D10(공개 surface
+  mechanicalScore 노출 금지)·D11(export-seam HUMAN_GATE) 제약을 U3.10→U4 생성 계약에 이월 확정, (c) U3 커맨드
+  우선순위(bolder #1 미결 cure). 저위험 자동 반영 + 원장 변경 로그; 범위 변경은 HUMAN_GATE.
+[DoD] - 리뷰 diff + 원장 변경 로그 기입.
+[depends] UC2.9.
+```
+
+### UC2.10 — 메타-goal: Stage U3 상세 생성  ·  **[Claude]**
+```
+/goal 원장·U2 실제 결과 기준으로 Stage U3(커맨드·persona·references) 상세 goal 프롬프트 생성.
+[작업] uicraft-analysis.json architecture.commands_to_adopt(bolder/colorize/quieter/… 9종) + persona_model
+  (SUBJECT-PRESET, 4 sub-skill split 금지) + references_gaps(finish-bar/heuristics/personas/state-design) +
+  acceptance_bar를 입력으로 UC3.x 전문 작성(§3 U3 개요 계약 ①~⑦ 준수) → 로드맵 §2-C 확장 + 원장 등록. U4 이월
+  HUMAN_GATE(D10·D11) 명시. 순수 additive commands/·references/(agent 층 무접촉). 원장 ▶NEXT 이동은 UC2.9.5
+  이후 오케스트레이터 소관.
+[DoD] - U3 goal 전문 6~10개(고정형 UC3.9/UC3.9.5/UC3.10 포함) - 개요 계약 커버 표 - HUMAN_GATE 매핑(D10·D11 U4
+  이월 포함).
+[depends] UC2.9.5.
+```
+
+---
+
+### ⏸ HUMAN_GATE 결정 대기 (드레인 시퀀스 밖) — 전환 diff D3
+> **D3 (범위변경·HIGH):** 팔레트/렌더 슬롭 검출기(cool-palette 저채도 팔레트 단조 · fake-render/empty-placeholder
+> image-baked)는 11룰에 **조용히 추가 금지** — 명시적 HUMAN_GATE 결정으로 등록. U1 실측(사실#3): 하네스 1.2.1은
+> 팔레트/렌더 슬롭에 맹목(cool-palette 슬롭이 텔 0개로 mech 100), ai-purple은 brand-lint 룰로만·fake-render 검출기
+> 부재. **라우팅 권고**: fake-render/image-baked → **anti-ai S4 vision layer**(§5-C vision=S4 소관) · cool-palette
+> (저채도 팔레트 단조) → **anti-ai 텔 인프라**(monotony/palette 축). 소유자가 U2/U3 신규검출기 goal로 신설을 택하면
+> **HUMAN_GATE + detector-SET 멤버십 어서트[D8] 페어링 필수**. 이 결정은 UC2.9.5가 재평가(위 goal 작업 (a)).
+
+---
+
 ## 3. Stage U2~U4 개요 계약 (각 스테이지 메타-goal이 반드시 포함할 체크리스트)
 
 각 스테이지 상세 goal은 이전 스테이지 `UCx.10`이 **그 시점 실제 상태 기준**으로 생성한다. 모든 스테이지는 마지막 3개 goal을 `UCx.9 / UCx.9.5 / UCx.10` 고정형으로 끝낸다. additive 우선, 기존 동작코드 비-additive 변경은 HUMAN_GATE, ui-craft verbatim 이식은 attribution(공통규약 5).
