@@ -99,7 +99,7 @@
 - 불변식(non-weakenable): boolean `s2Pass` + `escapeTells` any-of 게이트 무약화. graded 복합점수는 strictly additive.
 - Session-claim: claude-opus-4-8 c52b908b @ 2026-07-09 KST (RUN 모드, UC1.1부터, HUMAN_GATE에서만 정지).
 
-▶ NEXT (UC 트랙): **UC2.1** 진행 (회귀가드 CI 배선 = 퍼플 C1 이행. LOW·非HUMAN_GATE. Stage U1 CONDITIONAL-GO 완료 후 착수). 이후 UC2.2~UC2.4·UC2.6은 anti-ai-eval.js 편집/커밋으로 ⏸ HUMAN_GATE.
+▶ NEXT (UC 트랙): **UC2.2** 진행. **소유자 HUMAN_GATE 승인 2026-07-10**: UC2.2/2.3/2.4/2.6 의 anti-ai-eval.js detectors[] 확장·커밋 승인됨. 경계: **D9(placeholder→s2Pass flip, escapeTells/computeS2Pass 편집)는 별도 미승인** — 신규 검출기는 additive 텔로 verdict·mechanicalScore 에만 기여, non-weakenable 불변식 무접촉. UC2.1 완료(퍼플 C1 이행).
 
 ## 공유 파일 잠금 레지스트리 (UC1.1 계약 — anti-ai ↔ UC 직렬화)
 
