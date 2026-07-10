@@ -6,7 +6,7 @@
     "email": "sbmelon1@gmail.com"
   },
   "description": "Visigner — a single-install design toolkit for Claude Code, built on one shared core. Bundles landing/detail-page, app & web UI, design systems, brand identity, UX, design-to-code, and conversion skills, a global image service (latest OpenAI/Gemini models), and Claude Design (claude.ai/design) publishing, plus review agents and slash commands.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "plugins": [
     {
       "name": "visigner",
