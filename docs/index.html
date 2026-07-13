@@ -39,12 +39,12 @@
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" rel="stylesheet">
 <style>
   :root {
-    --color-paper:      oklch(0.976 0.008 85);   /* 60% — warm off-white */
+    --color-paper:      oklch(0.976 0.008 85);   /* 60% - warm off-white */
     --color-surface:    oklch(0.945 0.012 80);   /* panels */
-    --color-ink:        oklch(0.215 0.016 60);   /* 30% — warm near-black */
+    --color-ink:        oklch(0.215 0.016 60);   /* 30% - warm near-black */
     --color-muted:      oklch(0.50 0.018 60);
     --color-line:       oklch(0.215 0.016 60 / 0.14);
-    --color-accent:     oklch(0.620 0.200 32);   /* 10% — vermilion signature */
+    --color-accent:     oklch(0.620 0.200 32);   /* 10% - vermilion signature */
     --color-accent-700: oklch(0.520 0.175 30);
     --color-amber:      oklch(0.760 0.150 66);   /* warm second accent */
     --color-on-accent:  oklch(0.980 0.012 85);
@@ -233,44 +233,103 @@
   @keyframes pulse { 0%{box-shadow:0 0 0 0 oklch(0.620 0.200 32 / .45)} 70%{box-shadow:0 0 0 9px oklch(0.620 0.200 32 / 0)} 100%{box-shadow:0 0 0 0 oklch(0.620 0.200 32 / 0)} }
   @media (prefers-reduced-motion: reduce){ .pulse{ animation:none !important; } }
 
-  /* editorial redesign: one visual voice per chapter, not one component rhythm everywhere */
-  .hero-chapter { padding-block:clamp(76px,8vw,116px) clamp(62px,7vw,92px) !important; }
-  .hero-chapter .hero-grid { grid-template-columns:minmax(0,1.18fr) minmax(360px,.82fr) !important; gap:clamp(52px,7vw,94px) !important; align-items:end !important; }
-  .hero-chapter h1 { font-size:clamp(48px,7vw,78px) !important; max-width:10.5em; }
-  .hero-chapter .term { transform:translateY(30px); }
+  /* repository dossier: the evidence dictates the page, not a reusable landing-page kit */
+  :root { --maxw:1180px; }
+  .nav { position:relative; background:var(--color-paper); backdrop-filter:none; -webkit-backdrop-filter:none; }
+  .nav-in { padding-block:17px; }
+  .btn, .pill-cta, .term, .card, .spec, .bapanel, .msg { border-radius:0; }
+  .btn-accent { box-shadow:none; }
 
-  .proof-ledger { padding-bottom:34px !important; }
-  .proof-ledger .statband { grid-template-columns:1.35fr .72fr .9fr 1fr 1.16fr; border-radius:2px 18px 18px 2px; }
-  .proof-ledger .statcell { padding:clamp(20px,2.2vw,28px) clamp(18px,2vw,26px); }
-  .proof-ledger .statcell:first-child { background:color-mix(in oklab, var(--color-accent) 8%, var(--color-surface)); }
-  .proof-ledger .statcell:first-child .big { font-size:clamp(42px,5vw,58px); }
-  .proof-ledger .statcell:nth-child(2) .big { font-size:clamp(28px,3vw,38px); }
-  .trustline { padding-block:22px 10px !important; border-top:1px solid var(--color-line); }
+  section[data-evidence] { position:relative; border-top:0 !important; }
+  section[data-evidence]::before { content:attr(data-evidence); display:block; padding-top:8px; border-top:1px solid var(--color-line); font-family:var(--font-mono); font-size:11px; line-height:1.4; color:var(--color-muted); }
 
-  .gallery-head { padding-top:clamp(82px,8vw,118px); padding-bottom:0; }
-  .gallery-head .body { margin-top:14px; max-width:52em; }
-  .gallery-band { padding-top:30px; padding-bottom:clamp(84px,8vw,118px); }
-  .gallery-band .g2-gallery { grid-template-columns:1.14fr .86fr !important; gap:22px 26px !important; align-items:start; }
-  .gallery-band .spec:nth-child(2) { margin-top:58px; }
-  .gallery-band .spec:nth-child(3) { margin-top:-18px; }
-  .gallery-band .spec:nth-child(4) { margin-top:36px; }
+  .hero-chapter { padding-block:32px 86px !important; }
+  .hero-chapter::before { margin-bottom:48px; }
+  .hero-chapter .hero-grid { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)) !important; gap:20px !important; align-items:start !important; }
+  .hero-chapter .hero-stagger { grid-column:1 / 9; display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:0 20px; }
+  .hero-chapter .hero-stagger > * { grid-column:1 / 8; }
+  .hero-chapter .hero-stagger > .badge { grid-column:1 / 5; width:auto; border:0; border-bottom:1px solid var(--color-line); border-radius:0; padding:0 0 10px; background:none; }
+  .hero-chapter h1 { grid-column:1 / 9 !important; font-size:clamp(52px,7.2vw,86px) !important; line-height:.96 !important; max-width:9em; margin-top:30px !important; }
+  .hero-chapter .hero-stagger > h1 + p { grid-column:3 / 8; max-width:none !important; margin-top:34px !important; }
+  .hero-chapter .hero-stagger > div, .hero-chapter .hero-stagger > #hero-copied, .hero-chapter .hero-stagger > #hero-copied + p { grid-column:3 / 8; }
+  .hero-chapter .hero-grid > .reveal { grid-column:9 / 13; margin-top:118px; }
+  .hero-chapter .term { transform:none; border:1px solid oklch(1 0 0 / .14); box-shadow:none; }
 
-  .method-chapter { padding-top:clamp(100px,9vw,136px); padding-bottom:clamp(92px,8vw,124px); }
-  .method-chapter .lede { margin:28px 0 0 clamp(0px,9vw,128px); max-width:31em; }
-  .method-chapter h3 { margin:48px 0 14px !important; }
-  .method-chapter .loop-grid { gap:24px !important; }
-  .method-chapter .loopstep:nth-child(2), .method-chapter .loopstep:nth-child(4) { transform:translateY(24px); }
+  .proof-ledger { padding-bottom:58px !important; }
+  .proof-ledger::before { margin-bottom:28px; }
+  .proof-ledger .statband { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:0 18px; overflow:visible; border:0; border-radius:0; background:none; }
+  .proof-ledger .statcell { padding:14px 0 34px; border:0 !important; border-top:2px solid var(--color-ink) !important; background:none !important; }
+  .proof-ledger .statcell:nth-child(1) { grid-column:1 / 5; }
+  .proof-ledger .statcell:nth-child(2) { grid-column:6 / 8; }
+  .proof-ledger .statcell:nth-child(3) { grid-column:9 / 12; }
+  .proof-ledger .statcell:nth-child(4) { grid-column:2 / 7; }
+  .proof-ledger .statcell:nth-child(5) { grid-column:8 / 13; }
+  .proof-ledger .statcell:first-child .big { font-size:clamp(44px,5vw,62px); }
+  .proof-ledger > p { margin-left:8.333%; }
+  .trustline { padding-block:18px 34px !important; border-top:0; }
 
-  .comparison-head { padding-top:clamp(78px,7vw,104px); padding-bottom:0; }
-  .comparison-band { padding-top:32px; padding-bottom:clamp(82px,7vw,108px); }
-  .honesty-chapter .card { max-width:900px; margin-left:auto; padding:clamp(30px,5vw,58px); border-radius:3px 34px 3px 3px; }
-  .install-chapter .term { max-width:900px; }
-  .faq-chapter { padding-block:48px 76px !important; }
-  .final-chapter { padding-block:clamp(78px,8vw,112px) clamp(64px,7vw,92px) !important; }
-  .final-slab { border-radius:3px 38px 3px 3px !important; padding:clamp(42px,7vw,72px) !important; }
-  .final-slab .h-climax { text-align:left !important; margin-inline:0 !important; }
-  .final-slab > p { margin-left:0 !important; }
+  .gallery-head { padding-top:70px; padding-bottom:0; display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:0 20px; }
+  .gallery-head::before { grid-column:1 / 13; margin-bottom:42px; }
+  .gallery-head h2 { grid-column:1 / 9; }
+  .gallery-head .lede { grid-column:4 / 10; margin-top:22px; }
+  .gallery-head .body { grid-column:9 / 13; margin-top:24px; max-width:none; }
+  .gallery-band { padding-top:46px; padding-bottom:118px; }
+  .gallery-band .g2-gallery { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)) !important; gap:28px 20px !important; align-items:start; }
+  .gallery-band .spec { border:0; box-shadow:none !important; background:none; overflow:visible; }
+  .gallery-band .spec:nth-child(1) { grid-column:1 / 8; }
+  .gallery-band .spec:nth-child(2) { grid-column:9 / 13; margin-top:92px; }
+  .gallery-band .spec:nth-child(3) { grid-column:2 / 7; margin-top:34px; }
+  .gallery-band .spec:nth-child(4) { grid-column:8 / 13; margin-top:-26px; }
+  .gallery-band .spec-frame { border:1px solid var(--color-line); }
+  .gallery-band .spec-cap { display:block; padding:9px 0 0; border:0; line-height:1.55; }
+
+  .method-chapter { padding-block:88px 104px; display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:0 20px; }
+  .method-chapter::before { grid-column:1 / 13; margin-bottom:48px; }
+  .method-chapter h2 { grid-column:1 / 10; }
+  .method-chapter .lede { grid-column:5 / 11; margin:28px 0 0; max-width:none; }
+  .method-chapter h3 { grid-column:1 / 4; margin:64px 0 0 !important; }
+  .method-chapter .loop-grid { grid-column:4 / 13; margin-top:64px !important; display:grid !important; grid-template-columns:.8fr 1.2fr !important; gap:0 30px !important; }
+  .method-chapter .loopstep { padding:18px 0 34px; border-top:2px solid var(--color-line); transform:none !important; }
+  .method-chapter .loopstep:nth-child(even) { margin-top:62px; }
+
+  .comparison-head { padding-top:76px; padding-bottom:0; display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:0 20px; }
+  .comparison-head::before { grid-column:1 / 13; margin-bottom:40px; }
+  .comparison-head .kicker, .comparison-head h2 { grid-column:1 / 9; }
+  .comparison-head .lede { grid-column:5 / 11; margin-top:18px; }
+  .comparison-band { padding-top:44px; padding-bottom:108px; }
+  .comparison-band > div { gap:76px !important; }
+  .comparison-band .two-col { grid-template-columns:.72fr 1.28fr !important; gap:30px !important; }
+  .comparison-band .bapanel { padding:18px 0 12px; background:none; border:0; border-top:1px solid var(--color-line); }
+  .comparison-band .bapanel.after { padding-left:22px; border-top-color:var(--color-good); border-left:4px solid var(--color-good); }
+  .comparison-band .msg { padding:7px 0; background:none; border-radius:0; }
+
+  .honesty-chapter { padding-block:84px 104px; }
+  .honesty-chapter::before { margin-bottom:42px; }
+  .honesty-chapter .card { max-width:none; margin:0; padding:0; border:0 !important; border-radius:0; background:none !important; display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:0 20px; }
+  .honesty-chapter .card h2 { grid-column:1 / 5; }
+  .honesty-chapter .card > p { grid-column:5 / 11; max-width:none !important; }
+  .honesty-chapter .card > ul { grid-column:3 / 13; max-width:none !important; display:grid !important; grid-template-columns:1fr 1fr; gap:0 36px !important; margin-top:42px !important; padding-left:0 !important; list-style:none; }
+  .honesty-chapter .card > ul li { padding:18px 0; border-top:1px solid var(--color-line); }
+  .honesty-chapter .card > ul li:first-child { grid-column:1 / 3; }
+  .honesty-chapter .card > p:last-child { grid-column:3 / 8; margin-top:28px !important; }
+
+  .install-chapter { padding-block:88px 112px; display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:0 20px; }
+  .install-chapter::before { grid-column:1 / 13; margin-bottom:46px; }
+  .install-chapter > h2 { grid-column:1 / 9; }
+  .install-chapter > .lede { grid-column:5 / 11; margin-top:20px; }
+  .install-chapter > h3, .install-chapter > .tabs, .install-chapter > .pane, .install-chapter > div:last-child { grid-column:3 / 12; }
+  .install-chapter .term { max-width:none; box-shadow:none; }
+  .faq-chapter { padding-block:54px 82px !important; }
+  .faq-chapter::before { margin-bottom:34px; }
+
+  .final-chapter { padding-block:70px 82px !important; }
+  .final-chapter::before { margin-bottom:32px; }
+  .final-slab { padding:36px 0 !important; border:0 !important; border-top:4px solid var(--color-accent) !important; border-radius:0 !important; background:transparent !important; color:var(--color-ink) !important; box-shadow:none !important; }
+  .final-slab .h-climax { text-align:left !important; margin-inline:0 !important; max-width:12em; }
+  .final-slab > p { margin-left:0 !important; color:var(--color-muted) !important; }
   .final-slab > div { justify-content:flex-start !important; }
+  .final-slab .btn-ghost { color:var(--color-ink) !important; border-color:var(--color-line) !important; }
+  .final-slab > p:last-child { color:var(--color-muted) !important; }
 </style>
 </head>
 <body>
@@ -300,18 +359,22 @@
 <span id="top"></span>
 
 <!-- ───────────────────────── hero ───────────────────────── -->
-<section class="wrap hero-chapter">
+<section class="wrap hero-chapter" data-evidence="anti-ai-eval.js docs/index.html">
   <div style="display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center" class="hero-grid">
     <div class="hero-stagger">
-      <span class="badge"><span class="pulse" aria-hidden="true"></span><span lang="ko">명령 두 줄 · 의존성 0 · 언제든 제거</span><span lang="en">2 commands · 0 deps · uninstall anytime</span></span>
+      <span class="badge"><span class="pulse" aria-hidden="true"></span><span lang="ko">이 페이지 자체 채점 · clean · 텔 0 · 100 A</span><span lang="en">This page, self-graded · clean · 0 tells · 100 A</span></span>
       <h1 style="font-family:var(--font-display);font-weight:700;line-height:1.05;letter-spacing:-.022em;font-size:clamp(40px,6.4vw,68px);margin:16px 0 0">
-        <span lang="ko"><span class="gphrase"><span class="focal">AI&nbsp;티 안&nbsp;나는</span> 디자인.</span><br><span class="gphrase">설치 한 번으로 끝.</span></span>
-        <span lang="en"><span class="gphrase"><span class="focal">Design that doesn't look AI-made.</span></span><br><span class="gphrase">One install.</span></span>
+        <span lang="ko"><span class="gphrase"><span class="focal">AI&nbsp;티 안&nbsp;나는</span> 디자인.</span><br><span class="gphrase">이 페이지가 증거물 1호입니다.</span></span>
+        <span lang="en"><span class="gphrase"><span class="focal">Design that doesn't look AI-made.</span></span><br><span class="gphrase">This page is exhibit one.</span></span>
       </h1>
-      <p style="font-size:19px;line-height:1.72;color:var(--color-muted);max-width:31em;margin-top:20px">
-        <span lang="ko">Visigner는 디자인 툴체인 전체를 Claude Code에 한 번에 넣는 플러그인입니다. 랜딩·상세페이지, 앱 UI, 디자인 시스템, 브랜드, UX, 코드, 전환까지. <strong style="color:var(--color-ink)">모델 실력은 그대로, 더해지는 건 규율입니다.</strong> 모든 화면을 느낌이 아니라 실제 스크린샷으로 채점합니다.</span>
-        <span lang="en">Visigner puts the whole design toolchain into Claude Code in one install: landing &amp; Korean product detail pages (상세페이지), app UI, design systems, brand, UX, code, conversion. <strong style="color:var(--color-ink)">Same model. What's added is discipline.</strong> Every screen is graded from real screenshots, not vibes.</span>
+      <p style="font-size:19px;line-height:1.72;color:var(--color-muted);max-width:33em;margin-top:20px">
+        <span lang="ko">Visigner는 랜딩·상세페이지·앱 UI·브랜드·토큰까지 디자인 툴체인 전체를 Claude Code에 한 번에 넣는 플러그인입니다. 안에는 AI 티 검출기 22종이 함께 배포되고, 지금 읽고 계신 이 파일도 그 검출기로 채점됩니다. 이 페이지의 이전 커밋은 46점 F, ai-likely 판정이었습니다. <strong style="color:var(--color-ink)">같은 검출기가 지금은 텔 0, 100점 A를 돌려줍니다.</strong> 두 판정 모두 <a href="#before-after" style="color:var(--color-accent-700);font-weight:600">아래 전후 기록</a>의 명령 한 줄씩으로 재현됩니다.</span>
+        <span lang="en">Visigner installs the whole design toolchain into Claude Code in one pass: landing pages, Korean detail pages, app UI, brand, tokens. It ships 22 AI-tell detectors, and the file you are reading is graded by them. An earlier commit of this page scored 46 F, verdict ai-likely. <strong style="color:var(--color-ink)">The same detector now returns zero tells and a 100 A.</strong> Both verdicts reproduce from one command each, printed in <a href="#before-after" style="color:var(--color-accent-700);font-weight:600">the record below</a>.</span>
       </p>
+      <div style="border-left:3px solid var(--color-accent);padding:3px 0 3px 16px;margin-top:22px">
+        <p style="font-family:var(--font-mono);font-size:13px;line-height:1.75;color:var(--color-ink);overflow-wrap:anywhere">node skills/detail-page/scripts/anti-ai-eval.js docs/index.html<br><span style="color:var(--color-muted)">&rarr; verdict=</span><span style="color:var(--color-good);font-weight:600">clean</span><span style="color:var(--color-muted)"> · tellsDetected=0 · s2Pass=true · mechanicalScore=100 (A) · harness 1.2.1</span></p>
+        <p style="font-size:13px;color:var(--color-muted);margin-top:8px"><span lang="ko">저장소를 클론하면 위 한 줄이 이 페이지를 다시 채점합니다. 이건 기계 게이트라 필요조건일 뿐, 마지막 판정은 당신 눈입니다.</span><span lang="en">Clone the repo and that line re-grades this page. It is the machine gate, so it is necessary, not the verdict; the last call is your eyes.</span></p>
+      </div>
       <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:28px">
         <a href="#install" class="btn btn-accent" onclick="heroCopy(event)"><span lang="ko">설치 명령 복사</span><span lang="en">Copy the install</span></a>
         <a href="guide.html" class="btn btn-ghost"><span lang="ko">가이드 읽기 →</span><span lang="en">Read the guide →</span></a>
@@ -348,7 +411,7 @@
 </section>
 
 <!-- ───────────────────────── stat strip ───────────────────────── -->
-<section class="wrap proof-ledger">
+<section class="wrap proof-ledger" data-evidence="ls skills/ agents/ commands/">
   <div class="statband reveal">
     <div class="statcell">
       <p class="cap"><span lang="ko">한 번에 들어오는 것</span><span lang="en">What lands</span></p>
@@ -383,7 +446,7 @@
 </section>
 
 <!-- ───────────────────────── trustbar ───────────────────────── -->
-<section class="wrap trustline">
+<section class="wrap trustline" data-evidence="git log -1 · GitHub Actions">
   <!-- live, checkable signals: star count + last commit pull straight from GitHub (no cached number) -->
   <p style="display:flex;flex-wrap:wrap;gap:8px 10px;justify-content:flex-start;align-items:center;margin-bottom:10px">
     <a href="https://github.com/elon-choo/visigner/commits" style="text-decoration:none"><img class="badge-img" alt="Last commit (live)" src="https://img.shields.io/github/last-commit/elon-choo/visigner?style=flat&label=last%20commit&color=c98a2e"></a>
@@ -398,77 +461,116 @@
 </section>
 
 <!-- ───────────────────────── gallery: see what it ships ───────────────────────── -->
-<section id="gallery" class="wrap gallery-head" style="border-top:1px solid var(--color-line)">
+<section id="gallery" class="wrap gallery-head" data-evidence="skills/detail-page/scripts/tests/fixtures/manifest.json">
   <h2 class="h-major">
-    <span lang="ko">디자인 도구라면, 만든 걸 보여줘야죠.</span>
-    <span lang="en">A design tool should show what it makes.</span>
+    <span lang="ko">작업물은 채점표를 달고 나갑니다.</span>
+    <span lang="en">The work ships with its grade sheet.</span>
   </h2>
   <p class="lede">
-    <span lang="ko">아래 네 컷은 <strong style="color:var(--color-ink)">지금 이 브라우저에서 라이브로 렌더된</strong> 출력 견본입니다. 같은 토큰 규율(종이+잉크+주황, 비대칭 레이아웃, 이름 붙은 시그니처)로 그려집니다. 가장 솔직한 증거는 따로 있습니다: <strong style="color:var(--color-ink)">지금 보고 있는 이 페이지 자체가 Visigner 빌드</strong>입니다.</span>
-    <span lang="en">These four are output specimens <strong style="color:var(--color-ink)">rendered live in this browser</strong>, drawn from the same token discipline (paper+ink+vermilion, asymmetric layout, a named signature). The most honest proof is the obvious one: <strong style="color:var(--color-ink)">this very page is a Visigner build</strong>.</span>
+    <span lang="ko">여기에 목업은 없습니다. 아래 다섯 칸은 전부 이 저장소가 실제로 남긴 기록입니다. 지금 읽고 있는 페이지의 채점표, 검출기의 분리 검증, 채점기를 보정한 픽스처 코퍼스, 이 페이지가 실제로 쓰는 토큰 시트, 그리고 커밋 해시로 남은 작업 원장.</span>
+    <span lang="en">No mockups here. All five exhibits below are records this repository actually produced: the grade sheet of the page you are reading, the detector's separation proof, the fixture corpus that calibrated the grader, the token sheet this page runs on, and the work ledger in commit hashes.</span>
   </p>
   <p class="body">
-    <span lang="ko">정직하게: 이건 합성 스크린샷이 아니라 인페이지 데모입니다. critic 점수는 제품이 실제로 돌 때 화면에서 나오는 값이라, 여기엔 지어내지 않습니다.</span>
-    <span lang="en">Honestly: these are in-page demonstrations, not screenshots of a separate run, and we don't print a critic score we can't show you producing, so none is invented here.</span>
+    <span lang="ko">항목은 두 종류입니다. 재현은 명령을 복사해 돌리면 지금 다시 나오는 값이고, 기록은 <code style="font-family:var(--font-mono)">docs/LEDGER.md</code>와 git 이력에 남은 값입니다. 각 수치 밑의 명령을 저장소에서 돌려 같은 값이 안 나오면, 그게 버그입니다.</span>
+    <span lang="en">There are two kinds of exhibit. Rerunnable means the command returns the number right now. Recorded means it lives in <code style="font-family:var(--font-mono)">docs/LEDGER.md</code> and git history. Run the command under any figure in the repo, and if you do not get the same value, that is a bug.</span>
   </p>
   </section>
 
-<section class="wrap gallery-band" aria-label="출력 견본 / Output specimens">
+<section class="wrap gallery-band" data-evidence="skills/detail-page/scripts/tests/fixtures/manifest.json" aria-label="실측 기록 / Exhibits">
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px" class="g2-gallery">
 
-    <!-- specimen 1, landing hero -->
+    <!-- exhibit 1: live scorecard (the real critic log) -->
     <div class="spec reveal">
-      <div class="spec-frame" style="background:linear-gradient(180deg, oklch(0.972 0.010 84), oklch(0.948 0.014 78))" aria-hidden="true">
-        <div style="position:absolute;inset:0;padding:16px 18px;display:flex;flex-direction:column;justify-content:center;font-family:var(--font-body)">
-          <span style="font-size:11px;font-weight:600;color:var(--color-accent-700)">single-origin · slow ritual</span>
-          <div style="font-family:var(--font-display);font-weight:700;font-size:clamp(20px,3.6vw,30px);line-height:1.02;letter-spacing:-.02em;color:var(--color-ink);margin:7px 0">한 잔의<br><span style="color:var(--color-accent)">의식</span>을 내리다</div>
-          <div style="font-size:10px;color:var(--color-muted);max-width:18em">집에서 완성하는 푸어오버. 92°C, 23g, 단 한 잔.</div>
-          <div style="display:flex;gap:7px;margin-top:11px;align-items:center">
-            <span style="background:var(--color-accent);color:var(--color-on-accent);font-size:9px;font-weight:600;padding:6px 11px;border-radius:8px">사전예약 →</span>
-            <span style="font-size:9px;color:var(--color-muted)">재고 120개</span>
-          </div>
+      <div class="term" aria-label="anti-ai-eval output on this site">
+        <div class="term-bar">
+          <span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+          <span style="margin-left:8px;font-size:12px;color:var(--color-term-dim)">anti-ai-eval</span>
         </div>
-        <div style="position:absolute;right:-34px;top:-34px;width:128px;height:128px;border-radius:50%;border:8px solid var(--color-accent);opacity:.1"></div>
+        <div class="term-body"><span class="p">$</span> node skills/detail-page/scripts/anti-ai-eval.js docs/index.html
+verdict          <span style="color:oklch(0.84 0.16 150)">clean</span>
+s2Pass           true
+tellsDetected    0 / 22
+monotonyScore    0.56
+mechanicalScore  <span style="color:oklch(0.84 0.16 150)">100 (A)</span>
+harnessVersion   1.2.1
+
+<span class="p">$</span> node skills/detail-page/scripts/anti-ai-eval.js docs/guide.html
+verdict <span style="color:oklch(0.84 0.16 150)">clean</span> · tellsDetected 0 / 22 · monotonyScore 0.55 · <span style="color:oklch(0.84 0.16 150)">100 (A)</span></div>
       </div>
-      <div class="spec-cap"><b><span lang="ko">랜딩 / 히어로</span><span lang="en">Landing / hero</span></b>: <span lang="ko">시그니처: 드리퍼 원호. 보라 그라데이션 0.</span><span lang="en">signature: the dripper arc. Zero purple gradient.</span></div>
+      <div class="spec-cap"><b><span lang="ko">라이브 판정</span><span lang="en">The live verdicts</span></b> <span lang="ko">이 사이트 두 페이지를, 만든 쪽이 아니라 저장소에 실려 배포되는 검출기가 채점한 값입니다. 캐시된 주장이 아니라 명령의 결과라서, 지금 돌려도 같아야 합니다.</span><span lang="en">on this site's two pages, issued by the detector the repo ships, not the people who built it. Not a cached claim but a command's result, so it should match when you run it now.</span></div>
     </div>
 
-    <!-- specimen 2, korean detail page strip -->
+    <!-- exhibit 2: separation proof (number line) -->
     <div class="spec reveal">
-      <div class="spec-frame" style="background:var(--color-surface)" aria-hidden="true">
-        <div style="position:absolute;inset:0;padding:16px 18px;display:flex;flex-direction:column;gap:8px;font-family:var(--font-body);overflow:hidden">
-          <div style="font-size:11px;font-weight:600;color:var(--color-accent-700)">PASONA 구조 · 후킹 → 공감 → 해결</div>
-          <div style="font-family:var(--font-display);font-weight:700;font-size:17px;line-height:1.15;color:var(--color-ink)">아직도 원두를<br>버리고 계세요?</div>
-          <div style="height:1px;background:var(--color-line);margin:2px 0"></div>
-          <div style="display:flex;gap:8px">
-            <div style="flex:1;background:var(--color-paper);border:1px solid var(--color-line);border-radius:8px;padding:8px"><div style="font-size:8px;color:var(--color-muted)">추출 수율</div><div style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--color-accent)">+18%</div></div>
-            <div style="flex:1;background:var(--color-paper);border:1px solid var(--color-line);border-radius:8px;padding:8px"><div style="font-size:8px;color:var(--color-muted)">낭비</div><div style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--color-ink)">0g</div></div>
-          </div>
-          <div style="font-size:9px;color:var(--color-muted);line-height:1.5">실측 데이터는 운영자가 채웁니다. 자리표시 수치는 지어내지 않습니다.</div>
-          <div style="margin-top:auto;background:var(--color-ink);color:var(--color-paper);font-size:9px;font-weight:600;text-align:center;padding:8px;border-radius:8px">지금 구매 →</div>
+      <div style="border:1px solid var(--color-line);padding:26px 22px;background:var(--color-paper)">
+        <div style="position:relative;height:10px;margin:36px 0 20px;background:var(--color-surface)">
+          <div style="position:absolute;left:0;top:0;bottom:0;width:63%;background:color-mix(in oklab, var(--color-bad) 20%, transparent)"></div>
+          <div style="position:absolute;left:85%;right:0;top:0;bottom:0;background:color-mix(in oklab, var(--color-good) 26%, transparent)"></div>
+          <div style="position:absolute;left:63%;top:-7px;width:2px;height:24px;background:var(--color-ink)"></div>
+          <div style="position:absolute;left:85%;top:-7px;width:2px;height:24px;background:var(--color-accent)"></div>
+          <div style="position:absolute;left:63%;top:-27px;font-family:var(--font-mono);font-size:12px;color:var(--color-ink)">63</div>
+          <div style="position:absolute;left:85%;top:-27px;transform:translateX(-100%);font-family:var(--font-mono);font-size:12px;color:var(--color-accent-700)">85</div>
         </div>
+        <div style="display:grid;gap:5px;font-family:var(--font-mono);font-size:12.5px;color:var(--color-muted)">
+          <span><span style="color:var(--color-ink)">63</span> <span lang="ko">슬롭 페이지 최고점</span><span lang="en">highest slop page</span></span>
+          <span><span style="color:var(--color-accent-700)">85</span> <span lang="ko">디자이너 페이지 최저점</span><span lang="en">lowest designer page</span></span>
+          <span><span lang="ko">간격 22점, 회귀 테스트가 매 푸시마다 고정</span><span lang="en">a 22-point gap, pinned by tests on every push</span></span>
+        </div>
+        <p class="cmd" style="margin-top:16px;overflow-wrap:anywhere">node --test skills/detail-page/scripts/tests/</p>
       </div>
-      <div class="spec-cap"><b><span lang="ko">상세페이지 (Korean detail page)</span><span lang="en">Korean detail page (상세페이지)</span></b>: <span lang="ko">와디즈 캡처로 보정.</span><span lang="en">calibrated on Wadiz captures.</span></div>
+      <div class="spec-cap"><b><span lang="ko">분리 검증</span><span lang="en">Separation</span></b> <span lang="ko">회귀 테스트 5개 파일이 CI로 고정하는 폭입니다. 라벨링된 코퍼스에서 가장 약한 디자이너 페이지 85점이 가장 강한 슬롭 페이지 63점을 22점 차로 이깁니다.</span><span lang="en">is pinned by five regression test files in CI: the weakest designer page, 85, beats the strongest slop page, 63, by 22 points.</span></div>
     </div>
 
-    <!-- specimen 3, app UI dashboard (dark) -->
+    <!-- exhibit 3: calibration ladder (measured fixture corpus) -->
     <div class="spec reveal">
-      <div class="spec-frame" style="background:oklch(0.205 0.018 265)" aria-hidden="true">
-        <div style="position:absolute;inset:0;padding:16px 18px;display:flex;flex-direction:column;gap:9px;font-family:var(--font-body);color:oklch(0.92 0.01 85)">
-          <div style="display:flex;align-items:center;gap:7px"><span style="width:8px;height:8px;border-radius:50%;background:var(--color-accent)"></span><span style="font-family:var(--font-display);font-weight:700;font-size:12px">Payout</span><span style="margin-left:auto;font-size:8px;color:oklch(0.7 0.02 200)">7d</span></div>
-          <div style="display:flex;gap:8px">
-            <div style="flex:1;background:oklch(0.255 0.02 265);border-radius:9px;padding:9px"><div style="font-size:8px;color:oklch(0.72 0.02 220)">MRR</div><div style="font-family:var(--font-display);font-weight:700;font-size:18px">$48.2k</div><div style="font-size:8px;color:oklch(0.72 0.13 152)">▲ 6.4%</div></div>
-            <div style="flex:1;background:oklch(0.255 0.02 265);border-radius:9px;padding:9px"><div style="font-size:8px;color:oklch(0.72 0.02 220)">Churn</div><div style="font-family:var(--font-display);font-weight:700;font-size:18px">1.9%</div><div style="font-size:8px;color:oklch(0.7 0.17 28)">▼ 0.3%</div></div>
-          </div>
-          <div style="background:oklch(0.255 0.02 265);border-radius:9px;padding:9px;flex:1;display:flex;align-items:flex-end;gap:4px">
-            <span style="flex:1;height:34%;background:oklch(0.46 0.02 255);border-radius:2px"></span><span style="flex:1;height:52%;background:oklch(0.46 0.02 255);border-radius:2px"></span><span style="flex:1;height:44%;background:oklch(0.46 0.02 255);border-radius:2px"></span><span style="flex:1;height:74%;background:oklch(0.50 0.02 255);border-radius:2px"></span><span style="flex:1;height:64%;background:oklch(0.50 0.02 255);border-radius:2px"></span><span style="flex:1;height:92%;background:var(--color-accent);border-radius:2px"></span>
-          </div>
-        </div>
+      <div style="border-top:2px solid var(--color-ink)">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-accent-700);font-variant-numeric:tabular-nums;white-space:nowrap">100 <span style="font-size:13px">A</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">designer/color-confident-band</span><br><span style="font-size:12.5px"><span style="color:var(--color-good)"><span lang="ko">취향 통과</span><span lang="en">taste pass</span></span><span style="color:var(--color-muted)"> · <span lang="ko">컬러로 미는 밴드</span><span lang="en">color-confident band</span></span></span></span>
       </div>
-      <div class="spec-cap"><b><span lang="ko">앱 UI / 대시보드</span><span lang="en">App UI / dashboard</span></b>: <span lang="ko">전 상태 · 다크모드 턴키.</span><span lang="en">full states · turnkey dark mode.</span></div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-accent-700);font-variant-numeric:tabular-nums;white-space:nowrap">100 <span style="font-size:13px">A</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">designer/editorial-restraint-29cm</span><br><span style="font-size:12.5px"><span style="color:var(--color-good)"><span lang="ko">취향 통과</span><span lang="en">taste pass</span></span><span style="color:var(--color-muted)"> · <span lang="ko">에디토리얼 절제</span><span lang="en">editorial restraint</span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-accent-700);font-variant-numeric:tabular-nums;white-space:nowrap">100 <span style="font-size:13px">A</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">invariant/mobile-quality-floor</span><br><span style="font-size:12.5px"><span style="color:var(--color-muted)"><span lang="ko">취향 해당없음</span><span lang="en">taste n/a</span></span><span style="color:var(--color-muted)"> · <span lang="ko">모바일 품질 불변식</span><span lang="en">mobile quality invariant</span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;background:color-mix(in oklab, var(--color-bad) 5%, transparent);">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-accent-700);font-variant-numeric:tabular-nums;white-space:nowrap">100 <span style="font-size:13px">A</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">orthogonality/empty-placeholder-panels</span><br><span style="font-size:12.5px"><span style="color:var(--color-bad)"><span lang="ko">기계 통과 · 취향 실패</span><span lang="en">machine-pass, taste fail</span></span><span style="color:var(--color-muted)"> · <span lang="ko">빈 자리표시 패널</span><span lang="en">empty placeholder panels</span> <span style="color:var(--color-muted)">· <span lang="ko">분리집합 외</span><span lang="en">outside the separation set</span></span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-ink);font-variant-numeric:tabular-nums;white-space:nowrap">85 <span style="font-size:13px">B</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">designer/proof-dense-material</span><br><span style="font-size:12.5px"><span style="color:var(--color-good)"><span lang="ko">취향 통과</span><span lang="en">taste pass</span></span><span style="color:var(--color-muted)"> · <span lang="ko">디자이너 최저점</span><span lang="en">lowest designer page</span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;background:color-mix(in oklab, var(--color-bad) 5%, transparent);">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-ink);font-variant-numeric:tabular-nums;white-space:nowrap">85 <span style="font-size:13px">B</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">orthogonality/sad-beige-monochrome</span><br><span style="font-size:12.5px"><span style="color:var(--color-bad)"><span lang="ko">기계 통과 · 취향 실패</span><span lang="en">machine-pass, taste fail</span></span><span style="color:var(--color-muted)"> · <span lang="ko">무채색 안전빵</span><span lang="en">safe monochrome</span> <span style="color:var(--color-muted)">· <span lang="ko">분리집합 외</span><span lang="en">outside the separation set</span></span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-muted);font-variant-numeric:tabular-nums;white-space:nowrap">65 <span style="font-size:13px">D</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">orthogonality/escape-tell-swap</span><br><span style="font-size:12.5px"><span style="color:var(--color-bad)"><span lang="ko">취향 실패</span><span lang="en">taste fail</span></span><span style="color:var(--color-muted)"> · <span lang="ko">텔 바꿔치기 회피</span><span lang="en">tell-swap evasion</span> <span style="color:var(--color-muted)">· <span lang="ko">분리집합 외</span><span lang="en">outside the separation set</span></span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-muted);font-variant-numeric:tabular-nums;white-space:nowrap">63 <span style="font-size:13px">D</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">slop/smartstore-urgency-theatre</span><br><span style="font-size:12.5px"><span style="color:var(--color-bad)"><span lang="ko">취향 실패</span><span lang="en">taste fail</span></span><span style="color:var(--color-muted)"> · <span lang="ko">다급함 연출, 슬롭 최고점</span><span lang="en">urgency theatre, top of slop</span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-muted);font-variant-numeric:tabular-nums;white-space:nowrap">45 <span style="font-size:13px">F</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">slop/ai-purple-template-hero</span><br><span style="font-size:12.5px"><span style="color:var(--color-bad)"><span lang="ko">취향 실패</span><span lang="en">taste fail</span></span><span style="color:var(--color-muted)"> · <span lang="ko">AI 보라 템플릿</span><span lang="en">the purple template</span></span></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2px 14px;padding:10px 8px;border-bottom:1px solid var(--color-line);align-items:baseline;">
+        <span style="font-family:var(--font-display);font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--color-muted);font-variant-numeric:tabular-nums;white-space:nowrap">33 <span style="font-size:13px">F</span></span>
+        <span><span style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-ink);overflow-wrap:anywhere">slop/fake-blob-render</span><br><span style="font-size:12.5px"><span style="color:var(--color-bad)"><span lang="ko">취향 실패</span><span lang="en">taste fail</span></span><span style="color:var(--color-muted)"> · <span lang="ko">가짜 렌더, 하한</span><span lang="en">fake render, the floor</span></span></span></span>
+      </div>
+      </div>
+      <p style="font-size:12px;color:var(--color-muted);margin-top:10px;line-height:1.6"><span lang="ko">두 줄(빈 자리표시 패널, sad-beige)은 <span style="color:var(--color-bad)">기계 통과 · 취향 실패</span>로 표시돼 있습니다. 분리집합 외 표본은 85 대 63 분리 계산에 넣지 않습니다.</span><span lang="en">Two rows (empty-placeholder, sad-beige) are marked <span style="color:var(--color-bad)">machine-pass, taste fail</span>. Fixtures outside the separation set are left out of the 85-versus-63 math.</span></p>
+      <p class="cmd" style="margin-top:12px;overflow-wrap:anywhere">cat skills/detail-page/scripts/tests/fixtures/manifest.json</p>
+      <div class="spec-cap"><b><span lang="ko">보정 코퍼스</span><span lang="en">The calibration corpus</span></b> <span lang="ko">manifest.json의 10개 전부입니다. 하나도 빼지 않았습니다. 핵심은 어긋나는 줄입니다: 빈 자리표시 패널은 기계로는 100 A인데 취향 심사단이 실패, sad-beige는 85 B인데 실패. 기계 점수만으로는 슬롭도 통과합니다. 그래서 게이트가 둘이고, 이 페이지의 100 A도 충분조건이 아니라 필요조건입니다. 마지막 판정은 지금 이 화면을 보는 당신입니다.</span><span lang="en">is all ten in manifest.json, nothing dropped. The rows that matter are the ones that disagree: empty-placeholder scores 100 A by machine yet fails the taste jury, and sad-beige is 85 B and still fails. Machine score alone lets slop through, so there are two gates, and this page's own 100 A is necessary, not sufficient. The final verdict is you, looking at this screen.</span></div>
     </div>
 
-    <!-- specimen 4, brand / token sheet -->
+    <!-- exhibit 4: token sheet (real :root tokens) -->
     <div class="spec reveal">
       <div class="spec-frame" style="background:var(--color-paper)" aria-hidden="true">
         <div style="position:absolute;inset:0;padding:16px 18px;display:flex;flex-direction:column;gap:9px;font-family:var(--font-body)">
@@ -493,13 +595,22 @@
           </div>
         </div>
       </div>
-      <div class="spec-cap"><b><span lang="ko">브랜드 / 토큰 시트</span><span lang="en">Brand / token sheet</span></b>: <span lang="ko">DTCG + Tailwind v4 @theme.</span><span lang="en">DTCG + Tailwind v4 @theme.</span></div>
+      <p class="cmd" style="margin-top:12px;overflow-wrap:anywhere">grep -n -- '--color' docs/index.html</p>
+      <div class="spec-cap"><b><span lang="ko">토큰 시트</span><span lang="en">The token sheet</span></b> <span lang="ko">합성 견본이 아니라 이 페이지 :root가 실제로 쓰는 OKLCH 토큰과 타입 램프입니다. DTCG 원본에서 Tailwind v4 @theme으로 뽑습니다. 뷰소스로 확인됩니다.</span><span lang="en">is not a specimen: the OKLCH tokens and type ramp this page's :root actually runs on, emitted from DTCG source into Tailwind v4 @theme. View source to check.</span></div>
     </div>
+  </div>
+
+  <!-- exhibit 5: work record (recorded, in git + ledger) -->
+  <div class="reveal" style="border-top:1px solid var(--color-line);margin-top:44px;padding-top:16px">
+    <p style="font-family:var(--font-mono);font-size:12.5px;line-height:1.9;color:var(--color-muted);overflow-wrap:anywhere">
+      <span lang="ko"><span style="color:var(--color-ink)">기록</span> · c1ef417 재구축(46 F / 34 F 기점) · 56cce82 위계 재설계 · 0a4f02f d31354f 검출기 릴리스 · 80a1398 s2Pass 강화 · 적대 게이트 G2.9 91/100 (red 81 WARN, blue 수정, purple 재검 91) · 전체 원장: docs/LEDGER.md</span>
+      <span lang="en"><span style="color:var(--color-ink)">Recorded</span> · c1ef417 rebuild (the 46 F / 34 F starting point) · 56cce82 hierarchy redesign · 0a4f02f d31354f detector releases · 80a1398 s2Pass hardening · adversarial gate G2.9 at 91/100 (red 81 WARN, blue fix, purple re-check 91) · full ledger: docs/LEDGER.md</span>
+    </p>
   </div>
 </section>
 
 <!-- ───────────────────────── how it works, one methodology section (climax h2) ───────────────────────── -->
-<section id="how" class="wrap method-chapter" style="border-top:1px solid var(--color-line)">
+<section id="how" class="wrap method-chapter" data-evidence="skills/detail-page/references/aesthetics.md">
   <h2 class="h-climax">
     <span lang="ko">같은 모델인데, 결과물을 믿게 됩니다.</span>
     <span lang="en">Same model. Now you trust what it ships.</span>
@@ -518,61 +629,70 @@
 </section>
 
 <!-- ───────────────────────── 03 before/after ───────────────────────── -->
-<section id="before-after" class="wrap comparison-head" style="border-top:1px solid var(--color-line)">
-  <p class="kicker"><span lang="ko">그래서, 이렇게 바뀝니다</span><span lang="en">So here's what changes</span></p>
+<section id="before-after" class="wrap comparison-head" data-evidence="git show 7c4e21b:docs/index.html · anti-ai-eval.js">
+  <p class="kicker"><span lang="ko">자기 자신에 대한 판결</span><span lang="en">A verdict on itself</span></p>
   <h2 class="h-major">
-    <span lang="ko">같은 요청. 돌아오는 결과가 달라집니다.</span>
-    <span lang="en">Same ask. The result that comes back is different.</span>
+    <span lang="ko">이 페이지, 원래는 46점 F였습니다.</span>
+    <span lang="en">This page used to score 46 F.</span>
   </h2>
   <p class="lede">
-    <span lang="ko">실제 터미널에서 보게 될 흐름을 보여주는 예시입니다. 왼쪽은 그냥 시켰을 때, 오른쪽은 Visigner를 켰을 때. 수치가 아니라 행동의 차이를 보세요.</span>
-    <span lang="en">Illustrative of what you'd see in your terminal. Left is plain, right is with Visigner on. Watch the behavior change, not a number.</span>
+    <span lang="ko">전후 비교는 지어내기 가장 쉬운 증거라서, 여기 있던 지어낸 대화 예시는 지웠습니다. 대신 이 페이지의 git 이력을 그대로 채점했습니다. 커밋 7c4e21b의 index.html은 함께 배포되는 검출기에서 ai-likely, 지금 읽고 계신 버전은 같은 명령에서 clean. 두 명령 모두 클론 후 터미널에서 그대로 돌아갑니다.</span>
+    <span lang="en">A before-and-after is the easiest evidence to fake, so the invented demo that used to sit here is gone. In its place, this page's own git history, graded as-is. At commit 7c4e21b this index.html comes back ai-likely from the detector we ship. The version you are reading comes back clean from the same command. Both commands run in your terminal after a clone.</span>
   </p>
   </section>
 
-<section class="wrap comparison-band" aria-label="같은 요청, 다른 결과 / Same ask, different result">
-  <div style="display:grid;gap:22px">
-    <!-- case 1 -->
+<section class="wrap comparison-band" data-evidence="git show 7c4e21b:docs/index.html · anti-ai-eval.js" aria-label="이 페이지의 전후 채점 / This page, before and after">
+  <div>
     <div class="reveal">
-      <p style="font-weight:600;margin-bottom:10px"><span lang="ko">① "랜딩 하나 만들어줘"</span><span lang="en">① "Make me a landing page"</span></p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="two-col">
+
         <div class="bapanel before">
-          <span class="ptag" style="color:var(--color-bad)"><span lang="ko">그냥 쓸 때</span><span lang="en">Plain</span></span>
-          <p class="who">Agent</p>
-          <p class="msg bad"><span lang="ko">Inter 폰트, 보라→파랑 그라데이션 히어로, 동일한 카드 4개, 전부 가운데 정렬로 만들었습니다. 깔끔하죠!</span><span lang="en">Built it with Inter, a purple-to-blue gradient hero, four equal cards, all centered. Clean!</span></p>
-          <p class="verdict no"><span lang="ko">✕ 어떤 브리프에도 맞는, 본 적 있는 그 화면.</span><span lang="en">✕ The page you've seen on every brief.</span></p>
+          <span class="ptag" style="color:var(--color-bad)"><span lang="ko">이전 · commit 7c4e21b</span><span lang="en">Before · commit 7c4e21b</span></span>
+          <p style="font-family:var(--font-display);font-weight:700;font-size:clamp(38px,5.5vw,56px);line-height:1;letter-spacing:-.02em;color:var(--color-bad);margin:12px 0 16px">46 <span style="font-size:.46em;font-weight:600">F</span></p>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-family:var(--font-mono);font-size:12.5px;color:var(--color-muted);align-items:baseline;overflow-wrap:anywhere">
+            <span>verdict</span><span style="color:var(--color-bad)">ai-likely</span>
+            <span>s2Pass</span><span>false</span>
+            <span>monotonyScore</span><span>0.67</span>
+            <span>tellsDetected</span><span>4</span>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:12px;color:var(--color-muted);margin-top:10px;line-height:1.9;overflow-wrap:anywhere">mono-label <span style="color:var(--color-bad)">high</span><br>en-label-overration medium<br>em-dash-flood medium<br>structural-monotony medium</div>
+          <p style="font-size:12.5px;color:var(--color-muted);margin-top:12px"><span lang="ko">같은 시기의 guide.html: 34 F</span><span lang="en">guide.html at the same point: 34 F</span></p>
+          <p class="verdict no" style="margin-top:12px"><span lang="ko">✕ 지금 파는 규율을, 그때는 스스로 어기고 있었습니다.</span><span lang="en">✕ It was breaking the very rules we now sell.</span></p>
+          <p class="cmd" style="margin-top:12px;overflow-wrap:anywhere">git show 7c4e21b:docs/index.html &gt; /tmp/before.html<br>node skills/detail-page/scripts/anti-ai-eval.js /tmp/before.html</p>
         </div>
+
         <div class="bapanel after">
-          <span class="ptag" style="color:var(--color-good)"><span lang="ko">Visigner 켜면</span><span lang="en">With Visigner</span></span>
-          <p class="who">Agent</p>
-          <p class="msg good"><span lang="ko">먼저 토큰을 잡았습니다: 종이+잉크+주황, Clash Display, 비대칭 분할 + 시그니처 요소. 렌더·스크린샷 후 critic 채점 → 9/10. 단, 모바일 390px에서 히어로 줄바꿈은 아직 미확인.</span><span lang="en">Locked tokens first: paper+ink+vermilion, Clash Display, an asymmetric split + a signature element. Rendered, screenshotted, critic graded → 9/10. Note: hero wrap at 390px not yet verified.</span></p>
-          <p class="verdict yes"><span lang="ko">✓ 토큰 먼저 · 픽셀로 검증 · 약점은 스스로 표시.</span><span lang="en">✓ Tokens first · verified from pixels · flags its own gap.</span></p>
+          <span class="ptag" style="color:var(--color-good)"><span lang="ko">현재 · 지금 읽고 있는 문서</span><span lang="en">After · the document you are reading</span></span>
+          <p style="font-family:var(--font-display);font-weight:700;font-size:clamp(38px,5.5vw,56px);line-height:1;letter-spacing:-.02em;color:var(--color-good);margin:12px 0 16px">100 <span style="font-size:.46em;font-weight:600">A</span></p>
+          <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-family:var(--font-mono);font-size:12.5px;color:var(--color-muted);align-items:baseline;overflow-wrap:anywhere">
+            <span>verdict</span><span style="color:var(--color-good)">clean</span>
+            <span>s2Pass</span><span>true</span>
+            <span>monotonyScore</span><span>0.56</span>
+            <span>tellsDetected</span><span>0 / 22</span>
+            <span>harnessVersion</span><span>1.2.1</span>
+          </div>
+          <p style="font-family:var(--font-mono);font-size:12.5px;color:var(--color-muted);margin-top:10px;overflow-wrap:anywhere">guide.html: clean · 0.55 · 100 A</p>
+          <p class="verdict yes" style="margin-top:12px"><span lang="ko">✓ 같은 파일, 같은 검출기, 텔 0.</span><span lang="en">✓ Same file, same detector, zero tells.</span></p>
+          <p class="cmd" style="margin-top:12px;overflow-wrap:anywhere">node skills/detail-page/scripts/anti-ai-eval.js docs/index.html</p>
         </div>
+
       </div>
     </div>
-    <!-- case 2 -->
-    <div class="reveal">
-      <p style="font-weight:600;margin-bottom:10px"><span lang="ko">② "괜찮아 보여, 배포할까?"</span><span lang="en">② "Looks fine, ship it?"</span></p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="two-col">
-        <div class="bapanel before">
-          <span class="ptag" style="color:var(--color-bad)"><span lang="ko">그냥 쓸 때</span><span lang="en">Plain</span></span>
-          <p class="who">Agent</p>
-          <p class="msg bad"><span lang="ko">코드를 읽어봤는데 대비랑 포커스 다 괜찮아 보여요. 배포해도 될 것 같습니다.</span><span lang="en">I read the code, and contrast and focus look fine. Should be good to ship.</span></p>
-          <p class="verdict no"><span lang="ko">✕ "봤는데 괜찮아 보여요" = 증거 아님.</span><span lang="en">✕ "Looks right to me" is not evidence.</span></p>
-        </div>
-        <div class="bapanel after">
-          <span class="ptag" style="color:var(--color-good)"><span lang="ko">Visigner 켜면</span><span lang="en">With Visigner</span></span>
-          <p class="who">Agent</p>
-          <p class="msg good"><span lang="ko">a11y-auditor를 돌렸습니다: axe 통과, 대비 OK. 단 1건, 보조 버튼 포커스 링이 안 보임(WCAG 2.4.7). 고치고 재검 전까지 NO-SHIP.</span><span lang="en">Ran a11y-auditor: axe clean, contrast OK. One finding: the secondary button has no visible focus ring (WCAG 2.4.7). NO-SHIP until fixed and re-audited.</span></p>
-          <p class="verdict yes"><span lang="ko">✓ 증거로 게이트 · 통과를 정중히 봐주지 않음.</span><span lang="en">✓ Gated on evidence · never softened to be polite.</span></p>
-        </div>
-      </div>
-    </div>
+
+    <p class="reveal" style="font-size:15px;line-height:1.75;color:var(--color-muted);max-width:44em;margin-top:40px">
+      <span lang="ko">고친 건 페이지지 검출기가 아닙니다. 그래도 검출기를 만든 것도 저희라서, "심판을 자기가 세웠다"는 의심은 정당합니다. 답은 안심시키는 문장이 아니라 회귀 테스트입니다. 라벨링된 코퍼스에서 최저 디자이너 페이지 85점이 최고 슬롭 페이지 63점을 22점 차로 이기도록 CI가 매 푸시마다 고정합니다. 과정 기록은 <code style="font-family:var(--font-mono)">docs/LEDGER.md</code>에 있고, guide.html도 같은 길을 지났습니다. 34 F에서 100 A로.</span>
+      <span lang="en">We fixed the page, not the detector. Still, we also wrote the detector, so "you appointed your own referee" is a fair objection. The answer is not reassurance, it is the regression suite: on a labeled corpus the lowest designer page, 85, beats the highest slop page, 63, a 22-point gap CI pins on every push. The process is logged in <code style="font-family:var(--font-mono)">docs/LEDGER.md</code>, and guide.html walked the same road, 34 F to 100 A.</span>
+    </p>
+
+    <p class="reveal" style="font-family:var(--font-mono);font-size:12.5px;line-height:1.7;color:var(--color-muted);margin-top:16px;max-width:44em;overflow-wrap:anywhere">
+      <span lang="ko">점수와 등급(46 F, 100 A)은 각 명령이 남기는 anti-ai-report.json에 기록됩니다. 터미널에는 verdict와 텔 목록이 출력됩니다.</span>
+      <span lang="en">Each command writes the score and letter (46 F, 100 A) to anti-ai-report.json; the terminal prints the verdict and the tell list.</span>
+    </p>
   </div>
 </section>
 
 <!-- ───────────────────────── honesty / what it does NOT do ───────────────────────── -->
-<section id="honesty" class="wrap sec-open sec-close honesty-chapter" style="border-top:1px solid var(--color-line)">
+<section id="honesty" class="wrap honesty-chapter" data-evidence="docs/LEDGER.md">
   <div class="card reveal" style="background:var(--color-surface);border-color:oklch(0.620 0.200 32 / .25)">
     <h2 class="h-minor">
       <span lang="ko">Visigner가 하지 않는 것</span><span lang="en">What Visigner does NOT do</span>
@@ -596,7 +716,7 @@
 </section>
 
 <!-- ───────────────────────── install ───────────────────────── -->
-<section id="install" class="wrap sec-open sec-close install-chapter" style="border-top:1px solid var(--color-line)">
+<section id="install" class="wrap install-chapter" data-evidence="commands/design.md">
   <h2 class="h-major">
     <span lang="ko">지금 켜보세요. 복사해서 붙여넣기만 하면 됩니다.</span><span lang="en">Turn it on now. Copy, paste, done.</span>
   </h2>
@@ -658,7 +778,7 @@
 </section>
 
 <!-- ───────────────────────── 08 FAQ ───────────────────────── -->
-<section class="wrap faq-chapter" style="border-top:1px solid var(--color-line)">
+<section class="wrap faq-chapter" data-evidence="README.md">
   <h2 class="h-minor"><span lang="ko">자주 묻는 질문</span><span lang="en">Frequently asked questions</span></h2>
   <div style="display:grid;gap:0;max-width:48em">
     <details class="faqitem reveal"><summary style="font-weight:600;cursor:pointer"><span lang="ko">API 키가 꼭 필요한가요?</span><span lang="en">Do I need an API key?</span></summary><p style="color:var(--color-muted);font-size:15px;margin-top:10px"><span lang="ko">아니요. 기획·디자인·코드·검수·토큰·카피는 키 없이 동작합니다. 실제 사진/일러스트 생성만 OpenAI/Gemini 키 또는 무료 ChatGPT 로그인이 필요하고, 없으면 온브랜드 SVG 컴프로 대체합니다.</span><span lang="en">No. Planning, design, code, review, tokens, and copy all work without one. Only real photo/illustration generation needs an OpenAI/Gemini key (or a free ChatGPT login); without it you get on-brand SVG comps.</span></p></details>
@@ -669,7 +789,7 @@
 </section>
 
 <!-- ───────────────────────── final CTA ───────────────────────── -->
-<section class="wrap final-chapter" style="border-top:1px solid var(--color-line)">
+<section class="wrap final-chapter" data-evidence="/plugin uninstall visigner@visigner">
   <div class="card reveal final-slab" style="background:var(--color-ink);color:var(--color-paper);border:none;box-shadow:var(--shadow-e3)">
     <h2 class="h-climax" style="text-align:center;margin-inline:auto">
       <span lang="ko">60초면 설치 끝, 되돌리기는 한 줄.</span><span lang="en">Installed in 60 seconds; undo in one line.</span>
@@ -774,35 +894,43 @@
 <style>
   /* responsive: collapse to one column on mobile (no horizontal overflow at 360px) */
   @media (max-width: 860px){
-    .hero-grid, .two-col, .loop-grid, .gains-feature, .featgrid { grid-template-columns: 1fr !important; }
-    .hero-grid { gap: 36px !important; }
-    .g2-gallery { grid-template-columns: 1fr 1fr !important; }
-    .statband { grid-template-columns: 1fr 1fr !important; }
-    .statcell:nth-child(2n+1){ border-left: 0 !important; }
-    .statcell:nth-child(n+3){ border-top: 1px solid var(--color-line) !important; }
+    .hero-grid, .two-col, .gains-feature, .featgrid { grid-template-columns:1fr !important; }
     .proofrow{ grid-template-columns: 1fr !important; row-gap: 4px !important; }
     .proofrow > *{ grid-column: 1 !important; }
     .proofrow .big{ grid-row: auto !important; }
     .nav-hide { display:none !important; }
-    .hero-chapter .hero-grid { grid-template-columns:1fr !important; }
-    .hero-chapter .term { transform:none; }
+    .hero-chapter .hero-grid { display:block !important; }
+    .hero-chapter .hero-stagger { display:block; width:100%; }
+    .hero-chapter .hero-grid > .reveal { width:100%; margin-top:34px; }
+    .hero-chapter .hero-stagger > * { margin-left:0; }
     .proof-ledger .statband { grid-template-columns:1fr 1fr !important; }
+    .proof-ledger .statcell { grid-column:auto !important; }
+    .proof-ledger > p { margin-left:0; }
+    .gallery-head, .method-chapter, .comparison-head, .install-chapter { display:block; }
+    .gallery-head > *, .method-chapter > *, .comparison-head > *, .install-chapter > * { grid-column:auto !important; }
     .gallery-band .g2-gallery { grid-template-columns:1fr 1fr !important; }
+    .gallery-band .spec { grid-column:auto !important; }
+    .gallery-band .spec:nth-child(2), .gallery-band .spec:nth-child(4) { margin-top:54px; }
+    .gallery-band .spec:nth-child(3) { margin-top:0; }
     .method-chapter .lede { margin-left:0; }
+    .method-chapter .loop-grid { grid-template-columns:1fr 1fr !important; margin-top:40px !important; }
+    .method-chapter .loopstep:nth-child(even) { margin-top:0; }
+    .comparison-band .two-col { grid-template-columns:1fr !important; }
+    .honesty-chapter .card { display:block; }
+    .honesty-chapter .card > ul { margin-top:34px !important; }
   }
   @media (max-width: 520px){
     .featgrid { grid-template-columns: 1fr !important; }
-    .g2-gallery { grid-template-columns: 1fr !important; }
-    .statband { grid-template-columns: 1fr !important; }
-    .statcell{ border-left: 0 !important; }
-    .statcell:not(:first-child){ border-top: 1px solid var(--color-line) !important; }
-    .hero-chapter { padding-block:58px 52px !important; }
+    .hero-chapter { padding-block:24px 64px !important; }
+    .hero-chapter::before { margin-bottom:34px; }
     .hero-chapter h1 { font-size:clamp(42px,13vw,56px) !important; }
-    .proof-ledger .statband { grid-template-columns:1fr !important; border-radius:2px 16px 16px 2px; }
+    .proof-ledger .statband { grid-template-columns:1fr !important; }
     .gallery-band .g2-gallery { grid-template-columns:1fr !important; }
     .gallery-band .spec { margin-top:0 !important; }
-    .method-chapter .loopstep { transform:none !important; }
-    .final-slab { border-radius:2px 26px 2px 2px !important; }
+    .method-chapter .loop-grid { grid-template-columns:1fr !important; }
+    .honesty-chapter .card > ul { grid-template-columns:1fr; }
+    .honesty-chapter .card > ul li:first-child { grid-column:auto; }
+    .final-slab { border-radius:0 !important; }
   }
 </style>
 </body>

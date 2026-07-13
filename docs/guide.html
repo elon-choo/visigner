@@ -147,66 +147,119 @@
   .reveal.in{ opacity:1; transform:none; }
   @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; } }
 
-  /* editorial chapter system: section number rail + unequal chapter voices */
-  .guide-hero { padding-block:clamp(72px,8vw,108px) clamp(76px,8vw,112px); }
-  .guide-hero h1 { font-size:clamp(44px,6.4vw,68px) !important; max-width:12em; }
-  .guide-hero > .wrap > p:nth-of-type(1) { max-width:34em !important; }
+  /* field manual: the repository becomes the navigation, margin and evidence source */
+  :root { --maxw:980px; }
+  .nav { background:var(--paper); backdrop-filter:none; -webkit-backdrop-filter:none; }
+  .btn, .term, .card, .card-open, .card-rule, .warn { border-radius:0; }
+  .btn-accent, .term { box-shadow:none; }
 
-  .chapter { padding-block:72px 68px; }
-  .chapter > .wrap { display:grid; grid-template-columns:76px minmax(0,1fr); column-gap:clamp(24px,4vw,52px); }
+  .manual-index { position:fixed; z-index:12; top:84px; left:max(18px,calc(50% - 700px)); width:184px; padding:8px 8px 12px; background:var(--paper); font-size:12px; line-height:1.35; }
+  .manual-index > p { margin:0 0 12px; padding-top:8px; border-top:2px solid var(--ink); font-weight:600; }
+  .manual-index a { display:grid; grid-template-columns:26px 1fr; gap:7px; padding:6px 0; border-top:1px solid var(--line); color:var(--muted); text-decoration:none; }
+  .manual-index a:hover { color:var(--ink); }
+  .manual-index a span:first-child { color:var(--accent-700); font-variant-numeric:tabular-nums; }
+
+  .guide-hero { padding-block:54px 92px; }
+  .guide-hero > .wrap { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:0 20px; }
+  .guide-hero > .wrap > * { grid-column:1 / 8; }
+  .guide-hero > .wrap > .kicker { grid-column:1 / 4; padding-bottom:9px; border-bottom:1px solid var(--line); }
+  .guide-hero h1 { grid-column:1 / 8; font-size:clamp(42px,5.5vw,62px) !important; line-height:.98 !important; max-width:11em; margin-top:30px !important; }
+  .guide-hero h1 + p { grid-column:3 / 8; max-width:none !important; margin-top:30px !important; }
+  .guide-hero h1 + p + p, .guide-hero h1 + p + p + div, .guide-hero .warn { grid-column:3 / 8; }
+
+  .chapter { position:relative; padding-block:68px 48px; }
+  .chapter[data-record]::after { content:attr(data-record); position:absolute; top:20px; right:max(18px,calc(50% - 620px)); font-family:var(--font-body); font-size:10px; letter-spacing:.02em; color:var(--muted); }
+  .chapter > .wrap { display:grid; grid-template-columns:46px minmax(0,1fr); column-gap:28px; }
   .chapter > .wrap > * { grid-column:2; min-width:0; }
-  .chapter > .wrap > .secnum { grid-column:1; grid-row:1 / span 2; align-self:start; font-family:var(--font-display); font-size:clamp(42px,5vw,64px); line-height:.9; letter-spacing:-.04em; color:var(--accent); opacity:.42; }
-  .chapter h2 { line-height:1.08; letter-spacing:-.025em; max-width:18em; }
-  .chapter-minor { padding-block:62px 58px; }
-  .chapter-minor h2 { font-size:clamp(27px,3.2vw,34px); font-weight:600; }
-  .chapter-major { padding-block:clamp(92px,8vw,118px) clamp(82px,7vw,104px); }
-  .chapter-major h2 { font-size:clamp(36px,4.7vw,48px); font-weight:650; }
-  .chapter-climax { padding-block:clamp(112px,10vw,148px) clamp(88px,8vw,118px); background:var(--surface); }
-  .chapter-climax h2 { font-size:clamp(42px,5.8vw,60px); font-weight:700; max-width:14em; }
-  .chapter-climax .secnum { opacity:.72 !important; }
+  .chapter > .wrap > .secnum { grid-column:1; grid-row:1 / span 2; align-self:start; margin-top:5px; font-family:var(--font-body); font-size:12px; line-height:1; letter-spacing:0; color:var(--accent-700); opacity:1; }
+  .chapter > .wrap > .secnum::before { content:'§'; margin-right:2px; }
+  .chapter h2 { margin:0; max-width:18em; font-family:var(--font-display); font-size:clamp(28px,3.4vw,38px); font-weight:600; line-height:1.08; letter-spacing:-.022em; }
+  .chapter .lede { margin-top:12px; max-width:35em; }
+  #install { padding-block:94px 58px; }
+  #install h2 { font-size:clamp(38px,4.4vw,48px); }
+  #first-run h2 { font-size:clamp(30px,3.7vw,42px); }
+  #map, #extend, #faq, #uninstall { padding-block:54px 38px; }
+  #map h2, #extend h2, #faq h2 { font-size:clamp(25px,2.8vw,32px); }
+  #worked-example { padding-block:98px 54px; }
+  #worked-example h2 { font-size:clamp(40px,4.8vw,52px); max-width:14em; }
+  #screenshot-loop { padding-block:96px 54px; background:var(--term); color:var(--term-ink); }
+  #screenshot-loop::after { color:var(--term-dim); }
+  #screenshot-loop .secnum { color:var(--amber); }
+  #screenshot-loop h2 { font-size:clamp(38px,4.6vw,50px); max-width:14em; }
+  #screenshot-loop .lede { color:var(--term-dim); }
+  #boundaries { padding-block:90px 54px; }
+  #boundaries h2 { font-size:clamp(34px,4vw,44px); }
+  #uninstall h2 { font-size:26px; }
 
-  .chapter-band { padding-block:0 clamp(78px,7vw,104px); border-top:0; }
+  .chapter-band { padding-block:0 84px; border-top:0; }
   .chapter-band .wrap { max-width:var(--maxw); }
-  .intro-band .grid3 { grid-template-columns:1.18fr .92fr .8fr; align-items:start; gap:18px; }
-  .intro-band .card-rule { margin-top:34px; }
-  .intro-band .card { margin-top:12px; }
+  .card, .card-open, .card-rule { padding:18px 0; border:0; border-top:2px solid var(--line); background:none; }
+  .intro-band .grid3 { grid-template-columns:.82fr 1.18fr 1fr; align-items:start; gap:28px; }
   .map-skills-band { padding-bottom:28px; }
-  .map-skills-band .card-open { max-width:100%; padding:24px 28px; }
-  .map-skills-band .tight { columns:2; column-gap:52px; }
+  .map-skills-band .card-open { padding:20px 0; }
+  .map-skills-band .tight { columns:2; column-gap:56px; }
   .map-skills-band .tight li { break-inside:avoid; }
-  .map-support-band .grid2 { grid-template-columns:.82fr 1.18fr; align-items:start; gap:18px; }
-  .map-support-band .card { margin-top:26px; }
-  .worked-band ol { max-width:48em; margin-left:clamp(0px,9vw,112px); }
-  .worked-band .warn { max-width:48em; margin-left:clamp(0px,9vw,112px); }
-  .loop-band { background:var(--surface); padding-bottom:clamp(100px,9vw,132px); }
-  .loop-band .grid3 { grid-template-columns:.82fr 1fr 1.18fr; align-items:start; gap:18px; }
-  .loop-band .card-rule { margin-top:32px; }
-  .loop-band .card { margin-top:64px; }
-  .closing-band { padding-bottom:clamp(84px,8vw,112px); }
+  .map-support-band .grid2 { grid-template-columns:.74fr 1.26fr; align-items:start; gap:32px; }
+  .worked-band ol { max-width:49em; margin-left:74px; }
+  .worked-band .warn { max-width:49em; margin-left:74px; }
+  .loop-band { padding-bottom:102px; background:var(--term); color:var(--term-ink); }
+  .loop-band .grid3 { grid-template-columns:.72fr 1fr 1.28fr; align-items:start; gap:28px; }
+  .loop-band .card, .loop-band .card-open, .loop-band .card-rule { border-color:oklch(1 0 0 / .2); color:var(--term-ink); }
+  .loop-band .card p, .loop-band .card-open p, .loop-band .card-rule p { color:var(--term-dim) !important; }
+  .loop-band .card p:nth-child(2), .loop-band .card-open p:nth-child(2), .loop-band .card-rule p:nth-child(2) { color:var(--term-ink) !important; }
+  .loop-band > .wrap > p { color:var(--term-dim); }
+  .closing-band { padding-bottom:76px; }
 
-  .chapter .term { max-width:800px; }
-  .chapter table { margin-top:18px; }
-  .chapter h3 { margin-top:34px !important; font-size:21px !important; }
-  .card, .card-open, .card-rule { border-radius:3px 20px 3px 3px; }
-  .grid3 .card:nth-child(2) { border-radius:3px 24px 3px 3px; }
+  .chapter .term { max-width:820px; }
+  #first-run .term { background:transparent; color:var(--ink); border-top:2px solid var(--ink); border-bottom:1px solid var(--line); }
+  #first-run .term-bar { border-bottom:1px solid var(--line); }
+  #first-run .term pre { color:var(--ink); }
+  #first-run .term pre .c { color:var(--muted); }
+  #first-run .term pre .p { color:var(--accent-700); }
+  #worked-example .term { max-width:690px; margin-left:74px; border-left:4px solid var(--accent); }
+  #uninstall .term { max-width:620px; background:var(--surface); }
+  #uninstall .term-bar { border-bottom:1px solid var(--line); }
+  #uninstall .term pre { color:var(--ink); }
+  #uninstall .term pre .c { color:var(--muted); }
+  #uninstall .term pre .p { color:var(--accent-700); }
+  .chapter table { margin-top:22px; }
+  .chapter h3 { margin-top:38px !important; font-size:20px !important; }
+  .warn { background:none; border-left:3px solid var(--amber); padding:12px 0 12px 16px; }
+  #extend ul.tight { columns:2; column-gap:44px; }
+  #extend ul.tight li { break-inside:avoid; margin-bottom:18px; }
+  dl.faq { display:grid; grid-template-columns:minmax(190px,.7fr) 1.3fr; column-gap:34px; }
+  dl.faq dt, dl.faq dd { padding:15px 0; border-top:1px solid var(--line); margin:0; }
 
   footer{ border-top:1px solid var(--line); padding-block:26px 46px; color:var(--muted); font-size:13.5px; }
 
+  @media (max-width:1240px){
+    .manual-index { position:static; width:auto; max-width:var(--maxw); margin:0 auto; padding:18px 22px 0; display:flex; gap:16px; overflow-x:auto; }
+    .manual-index > p { min-width:max-content; margin:0; border-top:0; }
+    .manual-index a { min-width:max-content; display:flex; border-top:0; padding:0; }
+    .chapter[data-record]::after { display:none; }
+  }
   @media (max-width:760px){
     .grid2,.grid3{ grid-template-columns:1fr; }
     .nav-hide{ display:none !important; }
-    .guide-hero { padding-block:58px 72px; }
-    .guide-hero h1 { font-size:clamp(40px,12vw,54px) !important; }
-    .chapter { padding-block:70px 62px; }
+    .manual-index { gap:13px; }
+    .manual-index a span:not(:first-child) { display:none; }
+    .guide-hero { padding-block:44px 76px; }
+    .guide-hero > .wrap { display:block; }
+    .guide-hero h1 { font-size:clamp(38px,11vw,50px) !important; }
+    .guide-hero h1 + p { margin-top:24px !important; }
+    .chapter { padding-block:62px 42px !important; }
     .chapter > .wrap { grid-template-columns:1fr; }
     .chapter > .wrap > *, .chapter > .wrap > .secnum { grid-column:1; }
-    .chapter > .wrap > .secnum { grid-row:auto; font-size:20px; opacity:.7; margin-bottom:14px; }
-    .chapter-minor h2, .chapter-major h2 { font-size:clamp(30px,9vw,40px); }
-    .chapter-climax h2 { font-size:clamp(38px,10.5vw,48px); }
+    .chapter > .wrap > .secnum { grid-row:auto; margin:0 0 12px; font-size:12px; }
+    .chapter h2, #install h2, #first-run h2, #worked-example h2, #screenshot-loop h2, #boundaries h2 { font-size:clamp(29px,8.5vw,40px); }
     .intro-band .grid3, .map-support-band .grid2, .loop-band .grid3 { grid-template-columns:1fr; }
-    .intro-band .card-rule, .intro-band .card, .map-support-band .card, .loop-band .card-rule, .loop-band .card { margin-top:0; }
     .map-skills-band .tight { columns:1; }
     .worked-band ol, .worked-band .warn { margin-left:0; }
+    #worked-example .term { margin-left:0; }
+    #extend ul.tight { columns:1; }
+    dl.faq { grid-template-columns:1fr; }
+    dl.faq dt { padding-bottom:4px; }
+    dl.faq dd { padding-top:0; border-top:0; }
   }
 </style>
 </head>
@@ -237,6 +290,20 @@
 
 <main id="main">
 
+<nav class="manual-index" aria-label="Guide index">
+  <p>Visigner · 01—10</p>
+  <a href="#what"><span>01</span><span lang="ko">정의</span><span lang="en">Definition</span></a>
+  <a href="#install"><span>02</span><span lang="ko">설치</span><span lang="en">Install</span></a>
+  <a href="#first-run"><span>03</span><span lang="ko">첫 명령</span><span lang="en">First run</span></a>
+  <a href="#map"><span>04</span><span lang="ko">지도</span><span lang="en">Map</span></a>
+  <a href="#worked-example"><span>05</span><span lang="ko">실전 예시</span><span lang="en">Worked example</span></a>
+  <a href="#screenshot-loop"><span>06</span><span lang="ko">스크린샷 루프</span><span lang="en">Screenshot loop</span></a>
+  <a href="#extend"><span>07</span><span lang="ko">확장</span><span lang="en">Extend</span></a>
+  <a href="#boundaries"><span>08</span><span lang="ko">경계</span><span lang="en">Boundaries</span></a>
+  <a href="#faq"><span>09</span><span lang="ko">문제 해결</span><span lang="en">Troubleshooting</span></a>
+  <a href="#uninstall"><span>10</span><span lang="ko">제거</span><span lang="en">Remove</span></a>
+</nav>
+
 <!-- ───────────── hero ───────────── -->
 <section class="guide-hero" style="border-top:none">
   <div class="wrap">
@@ -263,7 +330,7 @@
 </section>
 
 <!-- ───────────── 01 what ───────────── -->
-<section id="what" class="chapter chapter-minor">
+<section id="what" class="chapter chapter-minor" data-record="skills/*/SKILL.md">
   <div class="wrap">
     <p class="secnum">01</p>
     <h2><span lang="ko">Visigner가 뭔가요: 1분 정의</span><span lang="en">What Visigner is, in one minute</span></h2>
@@ -291,7 +358,7 @@
 </section>
 
 <!-- ───────────── 02 install ───────────── -->
-<section id="install" class="chapter chapter-major">
+<section id="install" class="chapter chapter-major" data-record="commands/design-setup.md">
   <div class="wrap">
     <p class="secnum">02</p>
     <h2><span lang="ko">Claude Code에 설치: 명령 두 줄</span><span lang="en">Install in Claude Code: two commands</span></h2>
@@ -327,7 +394,7 @@
 </section>
 
 <!-- ───────────── 03 first-run ───────────── -->
-<section id="first-run" class="chapter chapter-major">
+<section id="first-run" class="chapter chapter-major" data-record="commands/design.md">
   <div class="wrap">
     <p class="secnum">03</p>
     <h2><span lang="ko">첫 명령: 그냥 평소 말로</span><span lang="en">Your first command: just say it plainly</span></h2>
@@ -362,7 +429,7 @@
 </section>
 
 <!-- ───────────── 04 map ───────────── -->
-<section id="map" class="chapter chapter-minor">
+<section id="map" class="chapter chapter-minor" data-record="ls skills/ commands/ agents/">
   <div class="wrap">
     <p class="secnum">04</p>
     <h2><span lang="ko">지도: 스킬 · 커맨드 · 에이전트</span><span lang="en">The map: skills · commands · agents</span></h2>
@@ -412,7 +479,7 @@
 </section>
 
 <!-- ───────────── 05 worked-example ───────────── -->
-<section id="worked-example" class="chapter chapter-major">
+<section id="worked-example" class="chapter chapter-major" data-record="skills/detail-page/SKILL.md">
   <div class="wrap">
     <p class="secnum">05</p>
     <h2><span lang="ko">실전 예시: 상세페이지/랜딩 처음부터 끝까지</span><span lang="en">Worked example: a Korean detail page (상세페이지) / landing, end to end</span></h2>
@@ -444,7 +511,7 @@
 </section>
 
 <!-- ───────────── 06 screenshot-loop ───────────── -->
-<section id="screenshot-loop" class="chapter chapter-climax">
+<section id="screenshot-loop" class="chapter chapter-climax" data-record="scripts/shoot.js → agents/design-critic.md">
   <div class="wrap">
     <p class="secnum">06</p>
     <h2><span lang="ko">스크린샷 자기비평 루프: 왜 AI 티가 안 나나</span><span lang="en">The screenshot self-critique loop: why it doesn't look AI-made</span></h2>
@@ -464,7 +531,7 @@
 </section>
 
 <!-- ───────────── 07 extend ───────────── -->
-<section id="extend" class="chapter chapter-minor">
+<section id="extend" class="chapter chapter-minor" data-record="skills/detail-page/scripts/">
   <div class="wrap">
     <p class="secnum">07</p>
     <h2><span lang="ko">확장 &amp; 설정</span><span lang="en">How to extend &amp; configure</span></h2>
@@ -478,7 +545,7 @@
 </section>
 
 <!-- ───────────── 08 boundaries ───────────── -->
-<section id="boundaries" class="chapter chapter-major">
+<section id="boundaries" class="chapter chapter-major" data-record="docs/LEDGER.md">
   <div class="wrap">
     <p class="secnum">08</p>
     <h2><span lang="ko">하지 않는 것 (정직 섹션)</span><span lang="en">What it does NOT do (the honesty section)</span></h2>
@@ -501,7 +568,7 @@
 </section>
 
 <!-- ───────────── 09 faq ───────────── -->
-<section id="faq" class="chapter chapter-minor">
+<section id="faq" class="chapter chapter-minor" data-record="README.md">
   <div class="wrap">
     <p class="secnum">09</p>
     <h2><span lang="ko">FAQ &amp; 문제 해결</span><span lang="en">FAQ &amp; troubleshooting</span></h2>
@@ -521,7 +588,7 @@
 </section>
 
 <!-- ───────────── 10 uninstall ───────────── -->
-<section id="uninstall" class="chapter chapter-minor">
+<section id="uninstall" class="chapter chapter-minor" data-record="/plugin uninstall visigner@visigner">
   <div class="wrap">
     <p class="secnum">10</p>
     <h2><span lang="ko">제거 / 삭제</span><span lang="en">Uninstall / remove</span></h2>
