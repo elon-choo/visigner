@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ── primary ── -->
+<title>Visigner 실전 활용: 깔았는데 왜 그대로일까, 그리고 실제로 달라지는 법</title>
+<meta name="description" content="설치만으로는 절반입니다. Visigner의 차이는 첫 출력이 아니라 게이트까지 도는 루프에 있습니다. /design-setup 한 번으로 스크린샷 자기비평 루프를 켜고, /design·/landing·/plan·/design-review로 부르고, 토큰 계획·critic 점수·A/B로 차이를 눈으로 확인하는 법.">
+<link rel="canonical" href="https://elon-choo.github.io/visigner/how-to.html">
+
+<!-- ── open graph ── -->
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Visigner">
+<meta property="og:url" content="https://elon-choo.github.io/visigner/how-to.html">
+<meta property="og:title" content="Visigner 실전 활용: 그냥 AI와 뭐가 다른가">
+<meta property="og:description" content="설치는 절반. 차이는 게이트까지 도는 루프에 있습니다. /design-setup으로 켜고, 슬래시 명령으로 부르고, critic·A/B로 차이를 눈으로 확인하는 법.">
+<meta property="og:image" content="https://elon-choo.github.io/visigner/og-card.png">
+<meta property="og:image:width" content="2400">
+<meta property="og:image:height" content="1260">
+<meta property="og:image:alt" content="Visigner 가이드. 설치부터 첫 페이지까지. 따뜻한 종이 질감 위 주황 시그니처.">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+
+<!-- ── twitter ── -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Visigner 실전 활용: 그냥 AI와 뭐가 다른가">
+<meta name="twitter:description" content="설치는 절반. /design-setup으로 스크린샷 루프를 켜고, 슬래시 명령으로 부르고, critic·A/B로 차이를 확인하는 법.">
+<meta name="twitter:image" content="https://elon-choo.github.io/visigner/og-card.png">
+<meta name="twitter:image:alt" content="Visigner guide OG card.">
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23f7f3ea'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%23d4501e'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<!-- Korean text + display face so KO headlines render in a real face, not the OS fallback -->
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css" rel="stylesheet">
+<style>
+  :root{
+    --paper: oklch(0.976 0.008 85);
+    --surface: oklch(0.945 0.012 80);
+    --ink: oklch(0.215 0.016 60);
+    --muted: oklch(0.50 0.018 60);
+    --line: oklch(0.215 0.016 60 / 0.14);
+    --accent: oklch(0.620 0.200 32);
+    --accent-700: oklch(0.520 0.175 30);
+    --amber: oklch(0.760 0.150 66);
+    --on-accent: oklch(0.980 0.012 85);
+    --good: oklch(0.520 0.130 150);
+    --term: oklch(0.205 0.018 265);
+    --term-ink: oklch(0.90 0.02 150);
+    --term-dim: oklch(0.70 0.02 200);
+    /* Clash/General Sans carry no Hangul → Pretendard picks up KO glyphs per-character */
+    --font-display: "Clash Display", "Pretendard Variable", Pretendard, ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+    --font-body: "General Sans", "Pretendard Variable", Pretendard, ui-sans-serif, -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --maxw: 940px;
+    --shadow-e2: 0 14px 40px oklch(0.21 0.016 60 / 0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --paper: oklch(0.205 0.014 60);
+      --surface: oklch(0.255 0.016 60);
+      --ink: oklch(0.945 0.010 85);
+      --muted: oklch(0.72 0.016 70);
+      --line: oklch(0.945 0.010 85 / 0.14);
+      --accent: oklch(0.700 0.165 38);
+      --accent-700: oklch(0.760 0.150 45);
+      --amber: oklch(0.800 0.130 70);
+      --on-accent: oklch(0.180 0.014 60);
+      --good: oklch(0.700 0.130 152);
+      --shadow-e2: 0 14px 40px oklch(0 0 0 / 0.4);
+    }
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; scroll-padding-top:78px; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation:none !important; transition:none !important; } }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:17px; line-height:1.7; -webkit-font-smoothing:antialiased; word-break:keep-all; line-break:strict; }
+  /* Korean breaks at eojeol (spaces), never mid-word; only long Latin/code tokens may break */
+  code, pre, .copybtn{ overflow-wrap:break-word; word-break:normal; }
+
+  html[data-lang="ko"] [lang="en"], html[data-lang="en"] [lang="ko"]{ display:none; }
+
+  a{ color:var(--accent-700); }
+  a:focus-visible, button:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:3px; }
+  code{ font-family:var(--font-mono); font-size:.92em; }
+  h1,h2,h3{ text-wrap:balance; letter-spacing:-.01em; }
+
+  .wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline:22px; }
+  .skip{ position:absolute; left:-9999px; top:0; background:var(--ink); color:var(--paper); padding:10px 16px; z-index:60; }
+  .skip:focus{ left:8px; top:8px; border-radius:8px; }
+
+  /* nav */
+  .nav{ position:sticky; top:0; z-index:40; background:color-mix(in oklab, var(--paper) 82%, transparent); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .nav-in{ max-width:var(--maxw); margin-inline:auto; padding:11px 22px; display:flex; align-items:center; gap:16px; }
+  .brand-dot{ width:11px; height:11px; border-radius:50%; background:linear-gradient(100deg,var(--accent),var(--amber)); display:inline-block; }
+  .nav a.anchor { font-size:14px; color:var(--muted); text-decoration:none; }
+  .nav a.anchor:hover{ color:var(--accent-700); }
+  .lang-toggle button { font-size:12px; padding:5px 9px; border-radius:7px; border:1px solid var(--line); background:transparent; color:var(--muted); cursor:pointer; }
+  .lang-toggle button[aria-pressed="true"]{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
+  .kicker { font-size:13px; font-weight:500; color:var(--muted); }
+  .secnum { font-variant-numeric:tabular-nums; font-size:13px; font-weight:600; color:var(--muted); }
+  section{ border-top:1px solid var(--line); }
+  section h2{ font-family:var(--font-display); font-weight:600; font-size:clamp(24px,3.4vw,34px); margin:0; }
+  .lede{ color:var(--muted); max-width:34em; margin:10px 0 22px; }
+
+  .btn{ display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:15px; padding:12px 20px; border-radius:11px; text-decoration:none; min-height:46px; }
+  .btn-accent{ background:var(--accent); color:var(--on-accent); box-shadow:var(--shadow-e2); }
+  .btn-ghost{ border:1.5px solid var(--line); color:var(--ink); }
+
+  .card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; }
+  /* 같은 카드 넷을 나란히 두는 건 AI 티의 대표 문법이다. 두 번째 소재를 만들어 프레임 반복을 깬다. */
+  .card-open{ background:transparent; border:1px solid oklch(0.620 0.200 32 / .22); border-radius:20px; padding:18px; }
+  .card-rule{ background:var(--surface); border:1px solid var(--line); border-left:3px solid oklch(0.620 0.200 32 / .35); border-radius:6px 14px 14px 6px; padding:18px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  /* lift the middle card of each trio: deliberate emphasis, and it breaks the uniform 3-identical-card grid */
+  .grid3 .card:nth-child(2){ border-radius:18px; box-shadow:var(--shadow-e2); border-color:transparent; }
+
+  /* terminal copy box */
+  .term{ background:var(--term); border-radius:13px; overflow:hidden; box-shadow:var(--shadow-e2); margin:14px 0; }
+  .term-bar{ display:flex; align-items:center; gap:7px; padding:11px 14px; border-bottom:1px solid oklch(1 0 0 / .08); }
+  .dot{ width:11px; height:11px; border-radius:50%; }
+  .copybtn { font-size:12px; color:var(--term-dim); background:oklch(1 0 0 / .06); border:1px solid oklch(1 0 0 / .1); border-radius:7px; padding:4px 9px; cursor:pointer; }
+  .copybtn:hover{ color:var(--term-ink); }
+  .term pre{ margin:0; padding:15px 16px; font-family:var(--font-mono); font-size:15px; line-height:1.6; color:var(--term-ink); white-space:pre-wrap; overflow-wrap:anywhere; }
+  .term pre .p{ color:var(--amber); }
+  .term pre .c{ color:var(--term-dim); }
+
+  table{ width:100%; border-collapse:collapse; margin:8px 0 4px; font-size:15px; line-height:1.6; }
+  th,td{ text-align:left; padding:14px 13px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); font-weight:600; }
+  td code{ color:var(--accent-700); }
+  .no { color:oklch(0.560 0.180 28); font-weight:600; font-size:14px; }
+  .yes{ color:var(--good); font-weight:600; font-family:var(--font-mono); font-size:13px; }
+
+  .warn{ border-left:3px solid var(--amber); background:oklch(0.760 0.150 66 / .08); padding:14px 16px; border-radius:0 10px 10px 0; margin:14px 0; font-size:15px; }
+  ul.tight{ margin:10px 0; padding-left:20px; }
+  ul.tight li{ margin:6px 0; }
+  dl.faq dt{ font-weight:600; margin-top:16px; }
+  dl.faq dd{ margin:6px 0 0; color:var(--muted); }
+
+  .reveal{ opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; } }
+
+  /* field manual: the repository becomes the navigation, margin and evidence source */
+  :root { --maxw:980px; }
+  .nav { background:var(--paper); backdrop-filter:none; -webkit-backdrop-filter:none; }
+  .btn, .term, .card, .card-open, .card-rule, .warn { border-radius:0; }
+  .btn-accent, .term { box-shadow:none; }
+
+  .manual-index { position:fixed; z-index:12; top:84px; left:max(18px,calc(50% - 700px)); width:184px; padding:8px 8px 12px; background:var(--paper); font-size:12px; line-height:1.35; }
+  .manual-index > p { margin:0 0 12px; padding-top:8px; border-top:2px solid var(--ink); font-weight:600; }
+  .manual-index a { display:grid; grid-template-columns:26px 1fr; gap:7px; padding:6px 0; border-top:1px solid var(--line); color:var(--muted); text-decoration:none; }
+  .manual-index a:hover { color:var(--ink); }
+  .manual-index a span:first-child { color:var(--accent-700); font-variant-numeric:tabular-nums; }
+
+  .guide-hero { padding-block:54px 92px; }
+  .guide-hero > .wrap { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:0 20px; }
+  .guide-hero > .wrap > * { grid-column:1 / 8; }
+  .guide-hero > .wrap > .kicker { grid-column:1 / 4; padding-bottom:9px; border-bottom:1px solid var(--line); }
+  .guide-hero h1 { grid-column:1 / 8; font-size:clamp(42px,5.5vw,62px) !important; line-height:.98 !important; max-width:11em; margin-top:30px !important; }
+  .guide-hero h1 + p { grid-column:3 / 8; max-width:none !important; margin-top:30px !important; }
+  .guide-hero h1 + p + p, .guide-hero h1 + p + p + div, .guide-hero .warn { grid-column:3 / 8; }
+
+  .chapter { position:relative; padding-block:68px 48px; }
+  .chapter[data-record]::after { content:attr(data-record); position:absolute; top:20px; right:max(18px,calc(50% - 620px)); font-family:var(--font-body); font-size:10px; letter-spacing:.02em; color:var(--muted); }
+  .chapter > .wrap { display:grid; grid-template-columns:46px minmax(0,1fr); column-gap:28px; }
+  .chapter > .wrap > * { grid-column:2; min-width:0; }
+  .chapter > .wrap > .secnum { grid-column:1; grid-row:1 / span 2; align-self:start; margin-top:5px; font-family:var(--font-body); font-size:12px; line-height:1; letter-spacing:0; color:var(--accent-700); opacity:1; }
+  .chapter > .wrap > .secnum::before { content:'§'; margin-right:2px; }
+  .chapter h2 { margin:0; max-width:18em; font-family:var(--font-display); font-size:clamp(28px,3.4vw,38px); font-weight:600; line-height:1.08; letter-spacing:-.022em; }
+  .chapter .lede { margin-top:12px; max-width:35em; }
+  #install { padding-block:94px 58px; }
+  #install h2 { font-size:clamp(38px,4.4vw,48px); }
+  #first-run h2 { font-size:clamp(30px,3.7vw,42px); }
+  #map, #extend, #faq, #uninstall { padding-block:54px 38px; }
+  #map h2, #extend h2, #faq h2 { font-size:clamp(25px,2.8vw,32px); }
+  #worked-example { padding-block:98px 54px; }
+  #worked-example h2 { font-size:clamp(40px,4.8vw,52px); max-width:14em; }
+  #screenshot-loop { padding-block:96px 54px; background:var(--term); color:var(--term-ink); }
+  #screenshot-loop::after { color:var(--term-dim); }
+  #screenshot-loop .secnum { color:var(--amber); }
+  #screenshot-loop h2 { font-size:clamp(38px,4.6vw,50px); max-width:14em; }
+  #screenshot-loop .lede { color:var(--term-dim); }
+  #boundaries { padding-block:90px 54px; }
+  #boundaries h2 { font-size:clamp(34px,4vw,44px); }
+  #uninstall h2 { font-size:26px; }
+
+  .chapter-band { padding-block:0 84px; border-top:0; }
+  .chapter-band .wrap { max-width:var(--maxw); }
+  .card, .card-open, .card-rule { padding:18px 0; border:0; border-top:2px solid var(--line); background:none; }
+  .intro-band .grid3 { grid-template-columns:.82fr 1.18fr 1fr; align-items:start; gap:28px; }
+  .map-skills-band { padding-bottom:28px; }
+  .map-skills-band .card-open { padding:20px 0; }
+  .map-skills-band .tight { columns:2; column-gap:56px; }
+  .map-skills-band .tight li { break-inside:avoid; }
+  .map-support-band .grid2 { grid-template-columns:.74fr 1.26fr; align-items:start; gap:32px; }
+  .worked-band ol { max-width:49em; margin-left:74px; }
+  .worked-band .warn { max-width:49em; margin-left:74px; }
+  .loop-band { padding-bottom:102px; background:var(--term); color:var(--term-ink); }
+  .loop-band .grid3 { grid-template-columns:.72fr 1fr 1.28fr; align-items:start; gap:28px; }
+  .loop-band .card, .loop-band .card-open, .loop-band .card-rule { border-color:oklch(1 0 0 / .2); color:var(--term-ink); }
+  .loop-band .card p, .loop-band .card-open p, .loop-band .card-rule p { color:var(--term-dim) !important; }
+  .loop-band .card p:nth-child(2), .loop-band .card-open p:nth-child(2), .loop-band .card-rule p:nth-child(2) { color:var(--term-ink) !important; }
+  .loop-band > .wrap > p { color:var(--term-dim); }
+  .closing-band { padding-bottom:76px; }
+
+  .chapter .term { max-width:820px; }
+  #first-run .term { background:transparent; color:var(--ink); border-top:2px solid var(--ink); border-bottom:1px solid var(--line); }
+  #first-run .term-bar { border-bottom:1px solid var(--line); }
+  #first-run .term pre { color:var(--ink); }
+  #first-run .term pre .c { color:var(--muted); }
+  #first-run .term pre .p { color:var(--accent-700); }
+  #worked-example .term { max-width:690px; margin-left:74px; border-left:4px solid var(--accent); }
+  #uninstall .term { max-width:620px; background:var(--surface); }
+  #uninstall .term-bar { border-bottom:1px solid var(--line); }
+  #uninstall .term pre { color:var(--ink); }
+  #uninstall .term pre .c { color:var(--muted); }
+  #uninstall .term pre .p { color:var(--accent-700); }
+  .chapter table { margin-top:22px; }
+  .chapter h3 { margin-top:38px !important; font-size:20px !important; }
+  .warn { background:none; border-left:3px solid var(--amber); padding:12px 0 12px 16px; }
+  #extend ul.tight { columns:2; column-gap:44px; }
+  #extend ul.tight li { break-inside:avoid; margin-bottom:18px; }
+  dl.faq { display:grid; grid-template-columns:minmax(190px,.7fr) 1.3fr; column-gap:34px; }
+  dl.faq dt, dl.faq dd { padding:15px 0; border-top:1px solid var(--line); margin:0; }
+
+  footer{ border-top:1px solid var(--line); padding-block:26px 46px; color:var(--muted); font-size:13.5px; }
+
+  @media (max-width:1240px){
+    .manual-index { position:static; width:auto; max-width:var(--maxw); margin:0 auto; padding:18px 22px 0; display:flex; gap:16px; overflow-x:auto; }
+    .manual-index > p { min-width:max-content; margin:0; border-top:0; }
+    .manual-index a { min-width:max-content; display:flex; border-top:0; padding:0; }
+    .chapter[data-record]::after { display:none; }
+  }
+  @media (max-width:760px){
+    .grid2,.grid3{ grid-template-columns:1fr; }
+    .nav-hide{ display:none !important; }
+    .manual-index { gap:13px; }
+    .manual-index a span:not(:first-child) { display:none; }
+    .guide-hero { padding-block:44px 76px; }
+    .guide-hero > .wrap { display:block; }
+    .guide-hero h1 { font-size:clamp(38px,11vw,50px) !important; }
+    .guide-hero h1 + p { margin-top:24px !important; }
+    .chapter { padding-block:62px 42px !important; }
+    .chapter > .wrap { grid-template-columns:1fr; }
+    .chapter > .wrap > *, .chapter > .wrap > .secnum { grid-column:1; }
+    .chapter > .wrap > .secnum { grid-row:auto; margin:0 0 12px; font-size:12px; }
+    .chapter h2, #install h2, #first-run h2, #worked-example h2, #screenshot-loop h2, #boundaries h2 { font-size:clamp(29px,8.5vw,40px); }
+    .intro-band .grid3, .map-support-band .grid2, .loop-band .grid3 { grid-template-columns:1fr; }
+    .map-skills-band .tight { columns:1; }
+    .worked-band ol, .worked-band .warn { margin-left:0; }
+    #worked-example .term { margin-left:0; }
+    #extend ul.tight { columns:1; }
+    dl.faq { grid-template-columns:1fr; }
+    dl.faq dt { padding-bottom:4px; }
+    dl.faq dd { padding-top:0; border-top:0; }
+  }
+</style>
+</head>
+<body>
+<a href="#main" class="skip" lang="ko">본문으로 건너뛰기</a><a href="#main" class="skip" lang="en">Skip to content</a>
+
+<nav class="nav" aria-label="primary">
+  <div class="nav-in">
+    <a href="index.html" style="display:flex;align-items:baseline;gap:9px;text-decoration:none;color:var(--ink)">
+      <span class="brand-dot" aria-hidden="true"></span>
+      <span style="font-family:var(--font-display);font-weight:700;font-size:19px">Visigner</span>
+      <span class="kicker nav-hide" style="font-size:11px"><span lang="ko">실전 활용</span><span lang="en">How-to</span></span>
+    </a>
+    <a class="anchor nav-hide" href="#why"><span lang="ko">왜 그대로일까</span><span lang="en">Why the same</span></a>
+    <a class="anchor nav-hide" href="#turn-on"><span lang="ko">켜기</span><span lang="en">Turn on</span></a>
+    <a class="anchor nav-hide" href="#difference"><span lang="ko">차이</span><span lang="en">Difference</span></a>
+    <a class="anchor nav-hide" href="#commands"><span lang="ko">명령</span><span lang="en">Commands</span></a>
+    <a class="anchor nav-hide" href="#recipes"><span lang="ko">레시피</span><span lang="en">Recipes</span></a>
+    <span style="flex:1"></span>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button id="ko-btn" aria-pressed="true" onclick="setLang('ko')">KO</button>
+      <button id="en-btn" aria-pressed="false" onclick="setLang('en')">EN</button>
+    </div>
+    <a class="anchor" href="guide.html" style="text-decoration:none"><span lang="ko">레퍼런스 가이드</span><span lang="en">Reference guide</span></a>
+  </div>
+</nav>
+
+<main id="main">
+
+<nav class="manual-index" aria-label="How-to index">
+  <p>Visigner · 실전 01-08</p>
+  <a href="#why"><span>01</span><span lang="ko">왜 그대로일까</span><span lang="en">Why it feels same</span></a>
+  <a href="#turn-on"><span>02</span><span lang="ko">2분 만에 켜기</span><span lang="en">Turn it on</span></a>
+  <a href="#difference"><span>03</span><span lang="ko">그냥 AI와 차이</span><span lang="en">vs raw AI</span></a>
+  <a href="#commands"><span>04</span><span lang="ko">부르는 법</span><span lang="en">Commands</span></a>
+  <a href="#see-it"><span>05</span><span lang="ko">차이를 눈으로</span><span lang="en">See the difference</span></a>
+  <a href="#recipes"><span>06</span><span lang="ko">목표별 레시피</span><span lang="en">Recipes</span></a>
+  <a href="#tips"><span>07</span><span lang="ko">잘 뽑는 요령</span><span lang="en">Get the best</span></a>
+  <a href="#stuck"><span>08</span><span lang="ko">안 되면</span><span lang="en">If it's stuck</span></a>
+</nav>
+
+<section class="guide-hero" style="border-top:none">
+  <div class="wrap">
+    <span class="kicker"><span lang="ko">실전 활용 · 그냥 AI와 뭐가 다른가</span><span lang="en">How to use it · what changes vs raw AI</span></span>
+    <h1 style="font-family:var(--font-display);font-weight:700">
+      <span lang="ko">깔았는데 그대로인 이유,<br>그리고 실제로 달라지는 법.</span>
+      <span lang="en">Why it feels the same after install,<br>and how to make it actually different.</span>
+    </h1>
+    <p style="font-size:19px;color:var(--muted)">
+      <span lang="ko">설치만으로는 절반입니다. Visigner의 차이는 <strong style="color:var(--ink)">한 번의 첫 출력이 아니라, 게이트까지 도는 루프</strong>에 있습니다. 그 루프는 셋업 한 줄과, 부르는 방법 하나로 켜집니다. 그리고 이 페이지는 벤치마크 숫자가 아니라 <strong style="color:var(--ink)">지금 당장 눈으로 차이를 확인하는 법</strong>을 알려줍니다.</span>
+      <span lang="en">Installing is only half of it. The difference in Visigner is not the first output but <strong style="color:var(--ink)">the loop it runs to a gate</strong>. That loop switches on with one setup line and one way of asking. And this page is not about benchmark numbers, it is about <strong style="color:var(--ink)">seeing the difference with your own eyes right now</strong>.</span>
+    </p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+      <a href="#turn-on" class="btn btn-accent"><span lang="ko">2분 만에 켜기</span><span lang="en">Turn it on in 2 min</span></a>
+      <a href="#difference" class="btn btn-ghost"><span lang="ko">뭐가 다른지 보기 →</span><span lang="en">See what changes →</span></a>
+    </div>
+    <p class="warn" style="margin-top:26px"><span lang="ko"><strong>솔직하게:</strong> "그냥 깔고 디자인 시키니까 큰 차이를 모르겠다"는 건 대개 도구가 나빠서가 아닙니다. <strong>차이를 만드는 단계가 아직 안 켜졌거나(스크린샷 루프), 한 방으로 받고 끝냈기 때문</strong>입니다. 아래 셋이면 달라집니다. 켜기, 제대로 부르기, 눈으로 확인.</span><span lang="en"><strong>Straight up:</strong> "I installed it and asked it to design, and I don't see a big difference" is usually not the tool. It is that <strong>the step that makes the difference is not switched on yet (the screenshot loop), or you took the first one-shot and stopped</strong>. Three things fix it: turn it on, ask it right, and make the difference visible.</span></p>
+  </div>
+</section>
+
+<section id="why" class="chapter" data-record="commands/design.md">
+  <div class="wrap">
+    <p class="secnum">01</p>
+    <h2><span lang="ko">왜 그냥 시키면 똑같아 보이나</span><span lang="en">Why it looks the same when you just ask</span></h2>
+    <p class="lede"><span lang="ko">세 가지 중 하나(보통은 셋 다)입니다. 전부 몇 분이면 고쳐집니다.</span><span lang="en">One of three things, usually all three. Each takes minutes to fix.</span></p>
+  </div>
+</section>
+<section class="chapter-band" aria-label="세 가지 이유 / Three reasons">
+  <div class="wrap">
+    <div class="grid3">
+      <div class="card">
+        <p style="font-weight:600;margin:0 0 6px"><span lang="ko">1 · 진짜 단계가 안 켜졌다</span><span lang="en">1 · The real step isn't on</span></p>
+        <p style="color:var(--muted);margin:0"><span lang="ko">AI 티를 실제로 벗기는 건 <strong style="color:var(--ink)">스크린샷 자기비평 루프</strong>입니다. 이건 <code>/design-setup</code>을 한 번 해야 켜집니다. 안 하면 기획·디자인·코드·검수는 되지만 "렌더, 스크린샷, 채점, 반복" 단계가 조용히 건너뛰어져 raw AI에 가까운 결과가 나옵니다.</span><span lang="en">The thing that actually strips the AI look is the <strong style="color:var(--ink)">screenshot self-critique loop</strong>, and it only turns on after one <code>/design-setup</code>. Without it, plan, design, code, and review still run, but "render, screenshot, score, repeat" is silently skipped, so you get output closer to raw AI.</span></p>
+      </div>
+      <div class="card">
+        <p style="font-weight:600;margin:0 0 6px"><span lang="ko">2 · 한 방으로 받고 끝냈다</span><span lang="en">2 · You took the one-shot</span></p>
+        <p style="color:var(--muted);margin:0"><span lang="ko">차이는 첫 출력이 아니라 <strong style="color:var(--ink)">게이트까지 도는 반복</strong>에 있습니다. 첫 시안을 그대로 받아들이면 루프가 돌 기회가 없습니다. 독립 critic이 10차원으로 채점하고, 통과(10점 만점에 8점 이상)할 때까지 스스로 고치게 두어야 합니다.</span><span lang="en">The difference is not the first output but <strong style="color:var(--ink)">the iteration to a gate</strong>. Accept the first draft and the loop never runs. Let an independent critic grade 10 dimensions and keep fixing until it clears the gate (8 of 10 or higher).</span></p>
+      </div>
+      <div class="card">
+        <p style="font-weight:600;margin:0 0 6px"><span lang="ko">3 · 눈으로 확인을 안 했다</span><span lang="en">3 · You didn't make it visible</span></p>
+        <p style="color:var(--muted);margin:0"><span lang="ko">차이는 저절로 튀지 않습니다. <strong style="color:var(--ink)">토큰 계획</strong>을 먼저 보여달라 하고, <code>/design-review</code>로 점수를 받고, 같은 브리프를 그냥·Visigner 두 번 만들어 대보면 그제야 보입니다. §05가 그 방법입니다.</span><span lang="en">The difference doesn't announce itself. Ask to see the <strong style="color:var(--ink)">token plan</strong> first, run <code>/design-review</code> for a score, and build the same brief twice (plain versus Visigner) to compare. §05 shows how.</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="turn-on" class="chapter" data-record="commands/design-setup.md">
+  <div class="wrap">
+    <p class="secnum">02</p>
+    <h2><span lang="ko">지금 2분: 실제로 켜기</span><span lang="en">Two minutes: actually turn it on</span></h2>
+    <p class="lede"><span lang="ko">Claude Code 안에서 슬래시 명령 한 줄이면 됩니다. 경로와 설정은 명령이 알아서 처리합니다.</span><span lang="en">One slash command inside Claude Code. It handles the paths and setup for you.</span></p>
+    <div class="term">
+      <div class="term-bar"><span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-size:12px;color:var(--term-dim)">claude code</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'/design-setup')">copy</button>
+      </div>
+      <pre><span class="c"># <span lang="ko">스크린샷 자기비평 루프를 켜는 일회성 셋업 (브라우저 설치)</span><span lang="en">one-time setup that turns on the screenshot loop (installs a browser)</span></span>
+<span class="p">/</span>design-setup</pre>
+    </div>
+    <p style="color:var(--muted)"><span lang="ko">이게 켜는 것: 자기 출력을 렌더·캡처하는 <code>shoot.js</code> 스크린샷 루프, 실제 레퍼런스(와디즈 등) 캡처, ultracode 디자인 워크플로. 순수 가이드(기획·디자인·코드·검수)는 이것 없이도 동작합니다. <strong style="color:var(--ink)">플러그인을 업데이트한 뒤에는 한 번 더</strong> 돌려주세요. 설치 폴더의 node_modules가 새로 깔리기 때문입니다.</span><span lang="en">What it turns on: the <code>shoot.js</code> screenshot loop that renders and captures your own output, real reference capture (Wadiz and the like), and the ultracode design workflow. Pure guidance (plan, design, code, review) works without it. <strong style="color:var(--ink)">Run it once more after a plugin update</strong>, since the install folder's node_modules is reinstalled.</span></p>
+    <h3><span lang="ko">실제 이미지가 필요하면 (선택)</span><span lang="en">If you want real images (optional)</span></h3>
+    <p style="color:var(--muted)"><span lang="ko">히어로 사진·제품 컷 같은 실제 이미지 생성은 자격증명 하나가 필요합니다. 하나만 고르세요. 없으면 이미지 슬롯은 온브랜드 SVG 자리표시로 채워지고, 나머지는 그대로 동작합니다.</span><span lang="en">Generating real images (hero shots, product photos) needs one credential. Pick one. Without it, image slots fill with on-brand SVG placeholders and everything else still runs.</span></p>
+    <div class="term">
+      <div class="term-bar"><span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-size:12px;color:var(--term-dim)">shell</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'codex login')">copy</button>
+      </div>
+      <pre><span class="c"># <span lang="ko">추천 · 무료: ChatGPT/codex 로그인 (API 키 불필요)</span><span lang="en">recommended, free: ChatGPT/codex login (no API key)</span></span>
+codex login
+<span class="c"># <span lang="ko">또는 유료 키 하나</span><span lang="en">or one paid key</span></span>
+export OPENAI_API_KEY=sk-...
+<span class="c"># <span lang="ko">한글 이미지·정확한 비율엔 Gemini가 낫습니다</span><span lang="en">Gemini is better for Korean text-in-image and exact ratios</span></span>
+export GEMINI_API_KEY=...</pre>
+    </div>
+    <p style="color:var(--muted);font-size:15px"><span lang="ko">Claude Design(claude.ai/design)로 컴포넌트 라이브러리를 발행하려면 <code>/design-publish</code>가 계정 접근을 한 번 확인합니다. 설치·키 불필요.</span><span lang="en">To publish a component library to Claude Design (claude.ai/design), <code>/design-publish</code> confirms account access once. No install or key.</span></p>
+  </div>
+</section>
+
+<section id="difference" class="chapter" data-record="skills/design-core · agents/design-critic.md">
+  <div class="wrap">
+    <p class="secnum">03</p>
+    <h2><span lang="ko">그냥 AI에게 시킬 때와, 무엇이 다른가</span><span lang="en">What actually changes versus raw AI</span></h2>
+    <p class="lede"><span lang="ko">그냥 시키면 모델은 학습 데이터의 평균을 뱉습니다. Inter, 보라 그라데이션, 똑같은 카드 4개, 전부 가운데 정렬. 그게 "AI 티"입니다. Visigner는 모델을 더 똑똑하게 만들지 않습니다. 대신 모든 스킬에 같은 척추를 박아 그 평균을 거부하고, 느낌이 아니라 픽셀로 검증합니다.</span><span lang="en">Left alone, a model returns the average of its training data: Inter, a purple gradient, four identical cards, all centered. That average is the AI look. Visigner does not make the model smarter. It runs the same spine through every skill, rejects that average, and verifies from pixels, not vibes.</span></p>
+  </div>
+</section>
+<section class="chapter-band loop-band" aria-label="그냥 AI vs Visigner / Raw AI vs Visigner">
+  <div class="wrap">
+    <div class="grid2" style="gap:28px">
+      <div class="card-rule">
+        <p style="font-weight:600;margin:0 0 10px;color:var(--term-ink)"><span lang="ko">그냥 시킬 때</span><span lang="en">Just asking</span></p>
+        <p style="margin:0;color:var(--term-dim)"><span lang="ko">브리프를 받자마자 코드부터 뱉습니다. 색·타입은 기본값, 레이아웃은 대칭, 검증은 "코드 읽어보니 괜찮아 보여요". 첫 출력에서 끝. 어떤 브리프에도 맞을 법한, 본 적 있는 그 화면.</span><span lang="en">It writes code the moment it gets the brief. Colors and type are defaults, the layout is symmetric, and the check is "I read the code, looks fine." First output, done. The page you've seen on every brief.</span></p>
+      </div>
+      <div class="card-open">
+        <p style="font-weight:600;margin:0 0 10px;color:var(--term-ink)"><span lang="ko">Visigner를 켜면 (같은 척추 4단계)</span><span lang="en">With Visigner (the same 4-step spine)</span></p>
+        <ol style="margin:0;padding-left:20px;color:var(--term-dim);line-height:1.7">
+          <li><span lang="ko"><strong style="color:var(--term-ink)">토큰 먼저.</strong> 색·타입·레이아웃·<em>이름 붙은 시그니처</em>를 코드 전에 설계합니다.</span><span lang="en"><strong style="color:var(--term-ink)">Plan tokens first.</strong> color, type, layout, and a <em>named signature</em>, before any code.</span></li>
+          <li><span lang="ko"><strong style="color:var(--term-ink)">기본값 거부.</strong> 금지 목록으로, 어떤 브리프에도 맞을 법한 건 전부 바꿉니다.</span><span lang="en"><strong style="color:var(--term-ink)">Reject defaults.</strong> banned lists change anything that would fit any brief.</span></li>
+          <li><span lang="ko"><strong style="color:var(--term-ink)">찍어서 본다.</strong> 자기 출력을 렌더·캡처하고 390px 오버플로와 접근성(axe)까지 확인합니다.</span><span lang="en"><strong style="color:var(--term-ink)">Screenshot itself.</strong> renders and captures its own output, with a 390px overflow check and an axe accessibility pass.</span></li>
+          <li><span lang="ko"><strong style="color:var(--term-ink)">채점·반복.</strong> 만든 쪽이 아닌 독립 design-critic이 10차원으로 채점하고, 게이트(8점 이상, 어떤 차원도 7 미만 불가)를 통과할 때까지 고칩니다.</span><span lang="en"><strong style="color:var(--term-ink)">Score and iterate.</strong> an independent design-critic grades 10 dimensions and fixes until it clears the gate (8 or higher, no dimension below 7).</span></li>
+        </ol>
+      </div>
+    </div>
+    <p style="color:var(--term-dim);margin-top:26px;font-size:15px"><span lang="ko">증거가 필요하면 이 사이트 자체가 그 예입니다. 랜딩 페이지가 자기 검출기에서 <a href="index.html#before-after" style="color:var(--amber)">46점 F에서 100점 A로</a> 올라간 기록이 공개돼 있습니다.</span><span lang="en">If you want proof, this very site is the example. Its landing page went from <a href="index.html#before-after" style="color:var(--amber)">46 F to 100 A</a> on its own detector, and the record is public.</span></p>
+  </div>
+</section>
+
+<section id="commands" class="chapter" data-record="commands/*.md">
+  <div class="wrap">
+    <p class="secnum">04</p>
+    <h2><span lang="ko">부르는 법: 목적에 맞는 명령</span><span lang="en">How to call it: the command for the job</span></h2>
+    <p class="lede"><span lang="ko">잘 모르겠으면 <code>/design</code> 하나면 됩니다. 알아서 맞는 스킬로 보냅니다. 목적이 분명하면 바로 해당 명령을 쓰세요.</span><span lang="en">Not sure? <code>/design</code> alone works and routes you to the right skill. If the goal is clear, call the matching command directly.</span></p>
+  </div>
+</section>
+<section class="chapter-band" aria-label="명령 표 / Command table">
+  <div class="wrap">
+    <table>
+      <thead><tr>
+        <th><span lang="ko">명령</span><span lang="en">Command</span></th>
+        <th><span lang="ko">이럴 때</span><span lang="en">Use when</span></th>
+      </tr></thead>
+      <tbody>
+        <tr><td><code>/design &lt;설명&gt;</code></td><td><span lang="ko"><strong>현관문.</strong> 평범한 말로 원하는 걸 적으면 의도를 파악해 맞는 스킬로 보내고, 게이트까지 돌립니다. 뭘 골라야 할지 모를 때.</span><span lang="en"><strong>The front door.</strong> Describe it plainly; it infers intent, routes to the right skill, and runs to the gate. When you don't know which to pick.</span></td></tr>
+        <tr><td><code>/landing &lt;브리프&gt;</code></td><td><span lang="ko">랜딩·세일즈·<strong>상세페이지</strong>·와디즈/펀딩. PASONA 구조, 토큰 먼저, 390px 스티키 CTA.</span><span lang="en">Landing, sales, <strong>Korean 상세페이지</strong>, Wadiz, funding. PASONA structure, tokens first, a 390px sticky CTA.</span></td></tr>
+        <tr><td><code>/ui &lt;화면&gt;</code></td><td><span lang="ko">앱·웹 UI, 대시보드, SaaS, 폼, 단일 컴포넌트. 상태(빈/로딩/에러)·모션·다크모드까지.</span><span lang="en">App and web UI, dashboards, SaaS, forms, a single component. States (empty/loading/error), motion, dark mode.</span></td></tr>
+        <tr><td><code>/plan &lt;아이디어&gt;</code></td><td><span lang="ko"><strong>기획부터.</strong> 색·코드 전에 플로우·IA·와이어프레임·PRD. 막연한 아이디어를 만들 수 있는 브리프로.</span><span lang="en"><strong>Planning first.</strong> flows, IA, wireframes, and a PRD before any color or code. A vague idea into a buildable brief.</span></td></tr>
+        <tr><td><code>/brand &lt;사업&gt;</code></td><td><span lang="ko">브랜드 전략·보이스·네이밍·로고 방향·<strong>브랜드 토큰</strong>. 그다음 그 토큰으로 페이지를 만들면 온브랜드.</span><span lang="en">Brand strategy, voice, naming, logo direction, and <strong>brand tokens</strong>. Then build pages on those tokens to stay on-brand.</span></td></tr>
+        <tr><td><code>/design-tokens</code></td><td><span lang="ko">디자인 시스템·토큰·테마·다크모드·멀티브랜드. 기존 페이지에서 토큰 추출도.</span><span lang="en">Design system, tokens, theming, dark mode, multi-brand. Also extract tokens from an existing page.</span></td></tr>
+        <tr><td><code>/campaign &lt;아이디어&gt;</code></td><td><span lang="ko">하나의 캠페인 아이디어를 랜딩·광고·소셜·이메일에 <strong>메시지 일관성</strong>을 강제하며 펼침.</span><span lang="en">One campaign idea across landing, ads, social, and email with <strong>message-match enforced</strong>.</span></td></tr>
+        <tr><td><code>/design-image &lt;설명&gt;</code></td><td><span lang="ko">어떤 디자인이든 실제 이미지 자산(히어로·제품컷·커버·OG). 최신 OpenAI/Gemini 모델.</span><span lang="en">Real image assets for any design (hero, product, cover, OG). Latest OpenAI/Gemini models.</span></td></tr>
+        <tr><td><code>/design-review &lt;파일/URL&gt;</code></td><td><span lang="ko"><strong>독립 게이트.</strong> 만든 게 아닌 쪽이 10차원으로 채점하고 접근성·브랜드 정합까지 봐서 SHIP 또는 NO-SHIP.</span><span lang="en"><strong>Independent gate.</strong> a non-builder grades 10 dimensions plus accessibility and brand fit, then returns SHIP or NO-SHIP.</span></td></tr>
+      </tbody>
+    </table>
+    <p class="warn"><span lang="ko"><strong>명령을 외울 필요는 없습니다.</strong> 그냥 한국어로 "상세페이지 만들어줘", "대시보드 디자인해줘", "브랜드 만들어줘"라고 해도 맞는 스킬이 자동으로 켜집니다. 명령은 그 스킬을 <em>확실히</em> 부르는 지름길일 뿐입니다.</span><span lang="en"><strong>You don't have to memorize commands.</strong> Just say "make me a landing page", "design a dashboard", "make a brand" and the right skill auto-triggers. The commands are simply the sure way to invoke that skill.</span></p>
+  </div>
+</section>
+
+<section id="see-it" class="chapter" data-record="commands/design-review.md">
+  <div class="wrap">
+    <p class="secnum">05</p>
+    <h2><span lang="ko">차이를 눈으로 보는 세 가지</span><span lang="en">Three ways to see the difference</span></h2>
+    <p class="lede"><span lang="ko">"느낌"으로는 안 보입니다. 아래 셋 중 하나만 해도 차이가 수치·증거로 드러납니다.</span><span lang="en">You won't feel it. Do any one of these and the difference shows up as a number or evidence.</span></p>
+    <h3><span lang="ko">① 토큰 계획을 먼저 보여달라 하기</span><span lang="en">① Ask to see the token plan first</span></h3>
+    <p style="color:var(--muted)"><span lang="ko">"코드 짜기 전에 <strong style="color:var(--ink)">토큰 계획부터 보여줘</strong>. 색·타입·레이아웃·시그니처." raw AI는 이 단계를 건너뛰고 바로 화면을 뱉습니다. Visigner는 이 계획이 있어야 다음으로 갑니다. 계획이 먼저 나오면, 그게 이미 "그냥 시킬 때"와 갈리는 지점입니다.</span><span lang="en">"Before any code, <strong style="color:var(--ink)">show me the token plan</strong>: color, type, layout, signature." Raw AI skips this and jumps to a screen. Visigner won't move on without it. When the plan appears first, that is already where it diverges from just-asking.</span></p>
+    <h3><span lang="ko">② critic을 돌리기</span><span lang="en">② Run the critic</span></h3>
+    <div class="term">
+      <div class="term-bar"><span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
+        <span style="margin-left:8px;font-size:12px;color:var(--term-dim)">claude code</span>
+        <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'/design-review ./my-page.html')">copy</button>
+      </div>
+      <pre><span class="p">/</span>design-review ./my-page.html</pre>
+    </div>
+    <p style="color:var(--muted)"><span lang="ko">독립 design-critic이 10차원(후킹·구조·증명·시각 완성도·독창성 등)으로 채점하고, <strong style="color:var(--ink)">점수를 깎은 이유마다 구체적인 "슬롭 텔"을 이름으로 지목</strong>합니다. 접근성(WCAG 2.2 AA)과 브랜드 정합까지 보고 SHIP 또는 NO-SHIP을 냅니다. 그냥 만든 페이지에 이걸 돌려보면, 무엇이 AI 티인지 이름으로 나옵니다.</span><span lang="en">An independent design-critic grades 10 dimensions (hook, structure, proof, visual craft, distinctiveness, and more) and <strong style="color:var(--ink)">names the specific slop tell behind every deduction</strong>. It checks accessibility (WCAG 2.2 AA) and brand fit, then returns SHIP or NO-SHIP. Run it on a plain page and the AI tells come back by name.</span></p>
+    <h3><span lang="ko">③ A/B로 대보기 (가장 확실함)</span><span lang="en">③ A/B them (the surest test)</span></h3>
+    <p style="color:var(--muted)"><span lang="ko">같은 브리프로 두 번 만드세요. (a) 그냥 시켜서, (b) <code>/landing</code>으로. 둘 다 <code>/design-review</code>에 넣어 점수를 비교합니다. 이 저장소가 자기 페이지로 한 게 정확히 이것입니다. 같은 검출기로 <strong style="color:var(--ink)">46점에서 100점으로</strong>. 숫자를 믿기 전에, 당신 화면으로 직접 재현해 보세요.</span><span lang="en">Build the same brief twice: (a) just asking, (b) with <code>/landing</code>. Put both through <code>/design-review</code> and compare. This is exactly what the repo did to its own page, <strong style="color:var(--ink)">46 to 100</strong> on the same detector. Before trusting the number, reproduce it on your own screen.</span></p>
+  </div>
+</section>
+
+<section id="recipes" class="chapter" data-record="skills/*/SKILL.md">
+  <div class="wrap">
+    <p class="secnum">06</p>
+    <h2><span lang="ko">목표별 레시피: 이렇게 부르면 이렇게 나옵니다</span><span lang="en">Recipes by goal: call it this way, get this</span></h2>
+    <p class="lede"><span lang="ko">무엇을 만드느냐에 따라 부르는 법과 나오는 것이 다릅니다. 자주 쓰는 넷.</span><span lang="en">How you call it and what you get depend on what you're making. The four you'll use most.</span></p>
+  </div>
+</section>
+<section class="chapter-band" aria-label="목표별 레시피 / Recipes by goal">
+  <div class="wrap">
+    <div class="card">
+      <p style="font-weight:600;margin:0 0 6px"><span lang="ko">랜딩 · 상세페이지 · 와디즈</span><span lang="en">Landing · Korean detail page · Wadiz</span></p>
+      <p style="color:var(--muted);margin:0"><span lang="ko"><code>/landing 홈 바리스타용 프리미엄 드리퍼, 목표는 사전예약</code>처럼 <strong style="color:var(--ink)">주제·타깃·단 하나의 목표</strong>를 주세요. 나오는 것: 토큰 계획, PASONA 구조(후킹, 공감, 해결, 증명, CTA), 렌더·스크린샷, 채점, 게이트까지 반복. 이미지가 많이 필요한 상세페이지면 <code>/design-image</code>로 실제 컷을 채웁니다.</span><span lang="en">Give it <strong style="color:var(--ink)">subject, audience, and one goal</strong>: <code>/landing a premium pour-over dripper for home baristas, goal = pre-orders</code>. You get a token plan, a PASONA structure (hook, empathy, solution, proof, CTA), then render, screenshot, score, and iterate to the gate. For image-heavy detail pages, fill real shots with <code>/design-image</code>.</span></p>
+    </div>
+    <div class="card">
+      <p style="font-weight:600;margin:0 0 6px"><span lang="ko">앱 UI · 대시보드</span><span lang="en">App UI · dashboard</span></p>
+      <p style="color:var(--muted);margin:0"><span lang="ko"><code>/ui 물류 SaaS 대시보드, 정산 화면</code>. 나오는 것: 컴포넌트 해부, 전 상태(빈·로딩·에러), 마이크로 인터랙션, 다크모드. 실제 코드로 옮기려면 이어서 "이거 React로 짜줘"(frontend-build)로 넘기면 됩니다.</span><span lang="en"><code>/ui a logistics SaaS dashboard, the payout screen</code>. You get component anatomy, full states (empty, loading, error), micro-interactions, and dark mode. To ship it, follow with "build this in React" (frontend-build).</span></p>
+    </div>
+    <div class="card">
+      <p style="font-weight:600;margin:0 0 6px"><span lang="ko">브랜드부터 (일관성이 중요할 때)</span><span lang="en">Brand first (when consistency matters)</span></p>
+      <p style="color:var(--muted);margin:0"><span lang="ko"><code>/brand 아이 치과, 따뜻하고 안 무서운</code> 하면 포지셔닝·보이스·로고 방향·<strong style="color:var(--ink)">브랜드 토큰</strong>이 나옵니다. 그다음 <code>/landing</code>·<code>/ui</code>가 그 토큰을 그대로 써서, 페이지와 앱이 한 브랜드로 읽힙니다.</span><span lang="en"><code>/brand a kids' dental clinic, warm and not scary</code> gives positioning, voice, logo direction, and <strong style="color:var(--ink)">brand tokens</strong>. Then <code>/landing</code> and <code>/ui</code> consume those tokens so pages and apps read as one brand.</span></p>
+    </div>
+    <div class="card">
+      <p style="font-weight:600;margin:0 0 6px"><span lang="ko">막연할 때 · 기획부터</span><span lang="en">When it's vague · plan first</span></p>
+      <p style="color:var(--muted);margin:0"><span lang="ko">화면부터 만들지 말고 <code>/plan 재고 관리 앱</code>. 플로우·정보구조·와이어프레임·PRD가 먼저 나오고, 그걸 <code>/ui</code>·<code>/landing</code>에 넘기면 훨씬 덜 헤맵니다. 색·폰트는 일부러 여기서 안 정합니다.</span><span lang="en">Don't start with screens. <code>/plan an inventory app</code> gives flows, IA, wireframes, and a PRD first; hand them to <code>/ui</code> or <code>/landing</code> and you wander far less. It deliberately stops before color and fonts.</span></p>
+    </div>
+  </div>
+</section>
+
+<section id="tips" class="chapter" data-record="commands/design.md">
+  <div class="wrap">
+    <p class="secnum">07</p>
+    <h2><span lang="ko">잘 뽑는 요령</span><span lang="en">Getting the best out of it</span></h2>
+    <p class="lede"><span lang="ko">같은 도구라도 이렇게 쓰면 결과가 확 올라갑니다.</span><span lang="en">Same tool, but these habits lift the result a lot.</span></p>
+  </div>
+</section>
+<section class="chapter-band" aria-label="요령 / Tips">
+  <div class="wrap">
+    <ul class="tight" style="font-size:16px;padding-left:20px">
+      <li><span lang="ko"><strong>진짜 재료를 줘라.</strong> 제품의 실제 어휘·수치·사진·경쟁사 페이지를 주면 결과가 non-generic해집니다. 뻔하지 않은 디자인은 바로 거기서 나옵니다. 재료가 없으면 알아서 합리적 값을 정하고 한 줄로 알려줍니다.</span><span lang="en"><strong>Give it real materials.</strong> the product's actual vocabulary, numbers, photos, and competitor pages. Non-generic design comes straight from those. With none, it picks sensible specifics and tells you in one line.</span></li>
+      <li><span lang="ko"><strong>한 방으로 끝내지 마라.</strong> "critic 8점 넘을 때까지 고쳐", "게이트 통과할 때까지 돌려"라고 하세요. 루프가 도는 게 핵심입니다.</span><span lang="en"><strong>Don't stop at the one-shot.</strong> say "fix until the critic clears 8", "run it until it passes the gate." Letting the loop run is the whole point.</span></li>
+      <li><span lang="ko"><strong>수치는 네가 채워라.</strong> 전환율·후기·실측 벤치마크는 운영자 몫입니다. Visigner는 지어내지 않고 자리표시로 둡니다. 실제 데이터를 넣어야 페이지가 완성됩니다.</span><span lang="en"><strong>You supply the numbers.</strong> conversion, reviews, and measured benchmarks are yours to fill. Visigner won't invent them; it leaves honest placeholders. Real data is what finishes the page.</span></li>
+      <li><span lang="ko"><strong>규모가 크면 ultracode.</strong> "ultracode로 진행해"라고 하면 여러 후보를 경쟁시키고 매 라운드 실제 픽셀로 채점해 가장 좋은 라운드를 고릅니다.</span><span lang="en"><strong>Go ultracode for bigger jobs.</strong> say "run this ultracode" and it competes several candidates, grading each round on real pixels, and keeps the best round.</span></li>
+    </ul>
+  </div>
+</section>
+
+<section id="stuck" class="chapter" data-record="commands/design-setup.md">
+  <div class="wrap">
+    <p class="secnum">08</p>
+    <h2><span lang="ko">그래도 차이가 안 느껴지면</span><span lang="en">If you still don't feel a difference</span></h2>
+    <dl class="faq">
+      <dt><span lang="ko">"디자인 시켜도 그냥 AI 같아요."</span><span lang="en">"It still looks like plain AI."</span></dt>
+      <dd><span lang="ko"><code>/design-setup</code>을 돌렸나요? 안 돌렸으면 스크린샷 채점 루프가 꺼진 채라 결과가 raw AI에 가깝습니다. 돌린 뒤 "찍어서 채점하고, 게이트 통과할 때까지 고쳐"라고 명시하세요. 그리고 <code>/design-review</code>로 점수를 받아 무엇이 문제인지 이름으로 확인하세요.</span><span lang="en">Did you run <code>/design-setup</code>? Without it the screenshot-grading loop is off, so output stays close to raw AI. After it, explicitly say "screenshot it, grade it, and fix until it passes the gate." Then run <code>/design-review</code> to get the problems back by name.</span></dd>
+      <dt><span lang="ko">스크린샷·채점 단계가 그냥 넘어가요.</span><span lang="en">The screenshot or grading step gets skipped.</span></dt>
+      <dd><span lang="ko">브라우저 툴이 아직 없다는 뜻입니다. <code>/design-setup</code>을 돌리세요. <strong>플러그인을 업데이트한 뒤에도 한 번 더</strong> 돌려야 합니다. 설치 폴더가 새로 깔리기 때문입니다.</span><span lang="en">It means the browser tooling isn't installed yet. Run <code>/design-setup</code>. <strong>Run it again after a plugin update</strong>, since the install folder is reinstalled.</span></dd>
+      <dt><span lang="ko">이미지가 회색 자리표시로 나와요.</span><span lang="en">Images come out as grey placeholders.</span></dt>
+      <dd><span lang="ko">자격증명이 없어서 정직하게 자리표시로 둔 것입니다. <code>codex login</code>(무료) 또는 <code>OPENAI_API_KEY</code>·<code>GEMINI_API_KEY</code>를 넣으면 실제 이미지가 생성됩니다.</span><span lang="en">No credential, so it honestly leaves a placeholder. Add <code>codex login</code> (free) or an <code>OPENAI_API_KEY</code>/<code>GEMINI_API_KEY</code> and it generates real images.</span></dd>
+    </dl>
+    <h3><span lang="ko">다음 단계</span><span lang="en">Next step</span></h3>
+    <p style="color:var(--muted)"><span lang="ko">전체 명령·스킬·경계를 자세히 보려면 <a href="guide.html">레퍼런스 가이드</a>에 설치·지도·실전 예시·스크린샷 루프·하지 않는 것까지 정리돼 있습니다. 이 페이지는 "어떻게 써서 차이를 내나"에 집중한 실전편입니다.</span><span lang="en">For the full command, skill, and boundary reference, the <a href="guide.html">reference guide</a> covers install, the map, a worked example, the screenshot loop, and what it does NOT do. This page is the practical half: how to use it to make a difference.</span></p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+      <a href="index.html#install" class="btn btn-accent"><span lang="ko">설치 명령 보기</span><span lang="en">See the install</span></a>
+      <a href="guide.html" class="btn btn-ghost"><span lang="ko">레퍼런스 가이드 →</span><span lang="en">Reference guide →</span></a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p style="line-height:1.6;max-width:54em;margin:0;color:color-mix(in oklab, var(--ink) 74%, var(--paper))">
+      <span lang="ko"><b style="color:var(--ink)">Anthropic과 무관합니다.</b> "Claude", "Anthropic", "Claude Code"는 각 소유자의 상표이며, Visigner가 함께 동작하는 대상을 가리키기 위해 명목적으로만 사용합니다. 제휴·보증을 뜻하지 않습니다. Visigner는 API 키를 읽거나 저장하지 않습니다. MIT 라이선스 · Claude Code <b>v2.1.100+</b> 필요. 이 페이지의 인벤토리 수치(스킬 8·에이전트 3·커맨드 11·스크립트 30)는 저장소에서 직접 다시 셀 수 있으며, 수치가 저장소와 어긋나면 저장소가 맞습니다.</span>
+      <span lang="en"><b style="color:var(--ink)">Not affiliated with Anthropic.</b> "Claude", "Anthropic", and "Claude Code" are trademarks of their owner, used nominatively only to name what Visigner works with. No affiliation or endorsement implied. Visigner never reads or stores your API keys. MIT license · requires Claude Code <b>v2.1.100+</b>. Every inventory figure here (8 skills · 3 agents · 11 commands · 30 scripts) is recountable in the repo; if a figure disagrees with the repo, the repo wins.</span>
+    </p>
+    <p style="margin-top:14px;display:flex;flex-wrap:wrap;gap:12px">
+      <a href="https://github.com/elon-choo/visigner" style="text-decoration:none">GitHub</a>
+      <a href="https://github.com/elon-choo/visigner/blob/main/README.md" style="text-decoration:none">README</a>
+      <a href="index.html" style="text-decoration:none"><span lang="ko">랜딩 페이지</span><span lang="en">Landing page</span></a>
+    </p>
+  </div>
+</footer>
+
+<script>
+  function setLang(l){
+    document.documentElement.setAttribute('data-lang', l);
+    document.documentElement.setAttribute('lang', l);
+    document.getElementById('ko-btn').setAttribute('aria-pressed', l==='ko');
+    document.getElementById('en-btn').setAttribute('aria-pressed', l==='en');
+    try{ localStorage.setItem('visigner-lang', l); }catch(e){}
+  }
+  (function(){ try{ var s=localStorage.getItem('visigner-lang'); if(s) setLang(s); }catch(e){} })();
+
+  function copyText(btn, txt){
+    var done=function(){ var o=btn.textContent; btn.textContent='copied ✓'; setTimeout(function(){ btn.textContent=o; },1400); };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done, function(){ fb(txt); done(); });
+    } else { fb(txt); done(); }
+  }
+  function fb(txt){
+    var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.left='-9999px';
+    document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta);
+  }
+
+  // reveal on scroll (guarded)
+  function revealAll(){ document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ el.classList.add('in'); }); }
+  if('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, { threshold:0.1, rootMargin:'0px 0px -6% 0px' });
+    document.querySelectorAll('.reveal:not(.in)').forEach(function(el){ io.observe(el); });
+    window.addEventListener('load', function(){ setTimeout(revealAll, 800); });
+  } else { revealAll(); }
+</script>
+</body>
+</html>
