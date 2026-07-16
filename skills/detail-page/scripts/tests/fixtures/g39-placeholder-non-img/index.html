@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Non-img SVG reference channels</title>
+  <style>
+    .hero { background-image: url("assets/css-standin.svg"); }
+    .real-art { background-image: url("assets/real-art.svg"); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="hero" aria-label="Campaign hero"></div>
+    <div class="real-art" aria-label="Real decorative art"></div>
+    <object id="object-slot" data="assets/object-standin.svg" type="image/svg+xml" aria-label="Product diagram"></object>
+    <picture>
+      <source data-slot="picture-slot" srcset="assets/picture-standin.svg 1x, assets/real-art.svg 2x" type="image/svg+xml">
+      <img src="assets/real-art.svg" alt="Real fallback artwork">
+    </picture>
+  </main>
+</body>
+</html>

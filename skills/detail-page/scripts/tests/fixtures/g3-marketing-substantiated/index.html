@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>해온 백자 드리퍼 — 근거를 공개하는 여름 한정판</title>
+  <style>
+    :root {
+      --paper: #f4f0e8;
+      --ink: #18211f;
+      --pine: #1f5549;
+      --clay: #bd6547;
+      --line: #b9b4a8;
+      --mist: #dde5df;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 system-ui, sans-serif; }
+    main { width: min(1080px, 92vw); margin: 0 auto; padding: 52px 0 80px; }
+    h1, h2 { font-family: Georgia, "Noto Serif KR", serif; font-weight: 500; letter-spacing: -.035em; }
+    h1 { max-width: 11ch; margin: 0; font-size: clamp(48px, 8vw, 96px); line-height: .94; }
+    h2 { margin: 0 0 16px; font-size: clamp(30px, 4vw, 52px); }
+    p { margin: 0; }
+    .hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 42px; align-items: end; padding-bottom: 42px; border-bottom: 1px solid var(--line); }
+    .hero-copy { display: grid; gap: 22px; }
+    .eyebrow { color: var(--pine); font-weight: 750; }
+    .hero-art { margin: 0; background: var(--mist); border-radius: 46% 46% 18px 18px; overflow: hidden; }
+    .hero-art svg { display: block; width: 100%; height: auto; }
+    .availability { display: flex; flex-wrap: wrap; gap: 12px 28px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .availability strong { color: var(--clay); }
+    section { padding: 44px 0; border-bottom: 1px solid var(--line); }
+    .proof-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; }
+    .ranking { padding: 34px; background: var(--pine); color: var(--paper); border-radius: 28px 8px 28px 8px; }
+    .ranking strong { display: block; font: 500 clamp(64px, 10vw, 122px)/.9 Georgia, serif; }
+    .method { display: grid; align-content: space-between; gap: 30px; padding: 28px 0 6px; }
+    cite, .source { color: var(--pine); font-size: 14px; font-style: normal; }
+    .measurements { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .measurements article { padding: 24px 0; border-top: 3px solid var(--clay); }
+    .measurements strong { display: block; margin-bottom: 8px; font: 500 38px/1 Georgia, serif; }
+    .material { display: grid; grid-template-columns: .75fr 1.25fr; gap: 32px; align-items: center; }
+    .material figure { margin: 0; padding: 24px; border: 1px solid var(--line); border-radius: 50%; }
+    .material svg { display: block; width: 100%; }
+    .details { display: grid; gap: 14px; }
+    .details li { padding-left: 8px; }
+    .shipping { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .shipping aside { padding: 28px; background: #e8dfd2; border-radius: 10px 34px 10px 10px; }
+    .cta { display: inline-block; margin-top: 24px; padding: 15px 22px; background: var(--clay); color: white; text-decoration: none; border-radius: 8px; }
+    @media (max-width: 720px) {
+      .hero, .proof-grid, .material, .shipping { grid-template-columns: 1fr; }
+      .measurements { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">해온 도예 · 2026 여름 소성분</p>
+        <h1>물이 머무는 42초를 빚다</h1>
+        <p>경남 고령토와 제주 화산재 유약을 섞어 한 번에 60점만 굽는 백자 드리퍼입니다. 추출 속도와 세척 결과를 공개해 장식보다 쓰임을 먼저 확인할 수 있습니다.</p>
+      </div>
+      <figure class="hero-art" aria-label="백자 드리퍼와 유약 표면의 실제 형태">
+        <svg viewBox="0 0 520 620" role="img" aria-labelledby="dripper-title">
+          <title id="dripper-title">소나무색 받침 위에 놓인 백자 드리퍼</title>
+          <rect width="520" height="620" fill="#dde5df"/>
+          <ellipse cx="260" cy="520" rx="180" ry="42" fill="#1f5549"/>
+          <path d="M120 130h280l-62 300c-9 43-46 72-90 67l-23-3c-37-5-66-34-73-71Z" fill="#f8f5ee" stroke="#18211f" stroke-width="8"/>
+          <path d="M160 190c78 24 150 24 217 0M151 248c83 25 157 25 214 0M143 306c79 24 147 25 210 2" fill="none" stroke="#bd6547" stroke-width="7"/>
+          <circle cx="260" cy="458" r="17" fill="#18211f"/>
+        </svg>
+      </figure>
+    </header>
+
+    <div class="availability" aria-label="판매 일정과 재고">
+      <span><strong>마감 D-3</strong> · 2026년 7월 17일 18:00 KST</span>
+      <span><strong>남은 수량 18점</strong> · 2026년 7월 14일 10:30 KST 재고 스냅샷</span>
+      <span>다음 소성 예정일 · 2026년 8월 28일</span>
+    </div>
+
+    <section class="proof-grid" aria-labelledby="rank-title" data-source="https://research.example.test/2026-pourover-blind-test">
+      <article class="ranking">
+        <p>독립 홈카페 블라인드 테스트</p>
+        <p><strong>#1</strong></p>
+        <p id="rank-title">추출 균일성 부문 1위</p>
+      </article>
+      <div class="method">
+        <div>
+          <h2>순위보다 방법을 먼저 공개합니다</h2>
+          <p>동일 원두 20g, 물 300g, 분쇄도 22클릭 조건으로 드리퍼 8종을 각 12회씩 비교했습니다. 평가자는 제품명을 보지 않은 채 추출 편차를 기록했습니다.</p>
+        </div>
+        <cite><a href="https://research.example.test/2026-pourover-blind-test">한국 홈브루 리서치, 2026 드리퍼 블라인드 테스트 원자료</a></cite>
+      </div>
+    </section>
+
+    <section aria-labelledby="numbers-title">
+      <h2 id="numbers-title">숫자 옆에 출처를 둡니다</h2>
+      <div class="measurements">
+        <article data-citation="2026-06 customer follow-up, n=312">
+          <p><strong>99.9% satisfaction</strong></p>
+          <p>구매 30일 뒤 응답한 312명 중 311명이 사용 경험에 만족 또는 매우 만족으로 답했습니다.</p>
+          <p class="source">Source: 해온 도예 구매자 후속 조사, 2026년 6월, n=312</p>
+        </article>
+        <article>
+          <p><strong>Rated 4.9/5</strong></p>
+          <p>2026년 1월부터 6월까지 본인 인증 구매 후기 184건의 산술 평균입니다.</p>
+          <a class="source" href="https://reviews.example.test/haeon/verified-2026-h1">검증 후기 전체와 계산 방법 보기</a>
+        </article>
+        <article data-attribution="Independent Ceramic Review, issue 18">
+          <p><strong>the best product</strong></p>
+          <p>독립 세라믹 리뷰 18호의 6개 소형 드리퍼 비교에서 세척 편의성 부문 최우수 평가를 받은 문구입니다.</p>
+          <cite>Independent Ceramic Review, issue 18, 표 3</cite>
+        </article>
+      </div>
+    </section>
+
+    <section class="material" aria-labelledby="material-title">
+      <figure aria-label="유약 단면과 물길 구조">
+        <svg viewBox="0 0 360 360" role="img" aria-labelledby="glaze-title">
+          <title id="glaze-title">유약층과 세 방향 물길을 나타낸 단면도</title>
+          <circle cx="180" cy="180" r="144" fill="#f8f5ee" stroke="#18211f" stroke-width="7"/>
+          <circle cx="180" cy="180" r="94" fill="#dde5df" stroke="#bd6547" stroke-width="12"/>
+          <path d="M180 88v184M101 226l158-92M101 134l158 92" stroke="#1f5549" stroke-width="9"/>
+        </svg>
+      </figure>
+      <div>
+        <h2 id="material-title">손으로 확인하는 세 가지 기준</h2>
+        <ul class="details">
+          <li>림 두께는 3.2~3.8mm 범위로 선별해 필터가 접히지 않도록 했습니다.</li>
+          <li>1,240℃ 환원 소성 뒤 흡수율을 측정하고 0.5%를 넘는 제품은 출고하지 않습니다.</li>
+          <li>바닥의 세 방향 물길은 각 제품마다 실제 물 300g을 부어 막힘 여부를 확인합니다.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="shipping" aria-labelledby="shipping-title">
+      <div>
+        <h2 id="shipping-title">받는 날까지 제품의 일부입니다</h2>
+        <p>재생 펄프 완충재, 관리 카드, 검사자 서명이 적힌 소성 기록표를 함께 보냅니다. 파손은 수령 후 7일 안에 사진을 보내면 동일 소성분으로 교환합니다.</p>
+        <a class="cta" href="#order">소성 기록을 확인하고 예약 주문</a>
+      </div>
+      <aside>
+        <h2>주문 전 확인</h2>
+        <p>수작업 유약은 점과 흐름이 제품마다 다릅니다. 화면의 색상 차이는 불량이 아니며, 정확한 크기는 지름 118mm · 높이 92mm · 무게 286~304g입니다.</p>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

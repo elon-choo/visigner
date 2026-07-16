@@ -16,3 +16,10 @@ package-lock.json
 # anti-ai-eval / brand-lint run artifacts — they embed the scanned page's own copy
 anti-ai-report.json
 brand-lint.json
+
+# Internal autopilot orchestration artifacts (local only — not part of the published plugin)
+docs/autopilot/
+docs/LEDGER-autopilot-*.md
+docs/ROADMAP-autopilot-*.md
+docs/goals/
+anti-ai-report.json

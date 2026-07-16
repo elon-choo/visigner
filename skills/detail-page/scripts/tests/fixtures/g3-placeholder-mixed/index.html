@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Mixed asset detector fixture</title></head>
+<body>
+  <img src="assets/marker-standin.svg" alt="Marked stand-in">
+  <img src="assets/manifest-standin.svg" alt="Manifest stand-in">
+  <img src="assets/real-photo.svg" alt="Real editorial photograph">
+  <img src="assets/real-icon.svg" alt="Real vector icon">
+  <img src="assets/unreadable-missing.svg" alt="Unknown missing reference">
+  <svg id="external-symbol" role="img" aria-label="Externally referenced composition" viewBox="0 0 100 60">
+    <use href="assets/inline-reference-standin.svg#art"></use>
+  </svg>
+  <svg id="inline-standin" role="img" aria-label="inline chart placeholder" viewBox="0 0 100 60">
+    <rect width="100" height="60" fill="#ddd"></rect>
+    <text x="5" y="50">chart · 5:3 · placeholder</text>
+  </svg>
+</body>
+</html>

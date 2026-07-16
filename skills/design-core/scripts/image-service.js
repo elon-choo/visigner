@@ -105,6 +105,21 @@ if (argv.includes('--doctor')) {
   process.exit(runEngine(GEN_ASSETS, ['--doctor']));
 }
 
+let credentialPreflightRan = false;
+function surfaceCredentialPreflight() {
+  if (credentialPreflightRan) return;
+  credentialPreflightRan = true;
+  try {
+    const { detectImageCredentials } = require(path.resolve(__dirname, '..', '..', '..', 'hooks', 'cred-detect.js'));
+    const report = detectImageCredentials({ env: withLatestDefaults() });
+    console.error(`[image-service] ${report.systemMessage}`);
+    console.error(report.additionalContext);
+  } catch (error) {
+    const reason = String(error && error.message || error || 'unknown error').replace(/\s+/g, ' ').trim().slice(0, 800);
+    console.error(`[image-service] credential preflight unavailable (non-blocking): ${reason}`);
+  }
+}
+
 const aspect = takeFlag('--aspect');
 const provider = takeFlag('--provider');
 const briefPath = takeFlag('--brief');
@@ -119,12 +134,14 @@ const positionals = argv.filter((a) => !a.startsWith('--'));
 // ---- mode: existing plan ----
 if (planPath && planPath !== true) {
   const outDir = positionals[0] || undefined;
+  surfaceCredentialPreflight();
   process.exit(runEngine(GEN_ASSETS, outDir ? [planPath, outDir] : [planPath]));
 }
 
 // ---- mode: brief -> plan -> render ----
 if (briefPath && briefPath !== true) {
   const outDir = positionals[0] || path.join('/tmp', 'visigner-assets');
+  surfaceCredentialPreflight();
   fs.mkdirSync(outDir, { recursive: true });
   const genPlanOut = path.join(outDir, 'asset-plan.json');
   const s1 = runEngine(GEN_PLAN, [briefPath, genPlanOut]);
@@ -143,6 +160,7 @@ if (!imagePrompt) {
 // When --image supplied the prompt, the outDir is the FIRST positional; otherwise the prompt is
 // positional[0], so the outDir is positional[1]. (Fixes the `--image "x" outDir` silent-ignore.)
 const outDir = (promptFromFlag ? positionals[0] : positionals[1]) || path.join('/tmp', 'visigner-image');
+surfaceCredentialPreflight();
 fs.mkdirSync(outDir, { recursive: true });
 
 const id = slug(imagePrompt, 'image');

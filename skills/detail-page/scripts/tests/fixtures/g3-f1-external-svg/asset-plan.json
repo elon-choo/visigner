@@ -1,0 +1,39 @@
+{
+  "defaults": {
+    "provider": "openai",
+    "aspect": "4:3"
+  },
+  "style": "Editorial product study with warm paper, charcoal ink, and a restrained cobalt accent.",
+  "slots": [
+    {
+      "id": "hero-product",
+      "role": "hero product photograph",
+      "prompt": "Ceramic water filter on a warm paper surface, editorial studio light",
+      "aspect": "4:3"
+    },
+    {
+      "id": "material-closeup",
+      "role": "material closeup photograph",
+      "prompt": "Close detail of ceramic texture and metal fitting",
+      "aspect": "4:3"
+    },
+    {
+      "id": "lab-detail",
+      "role": "laboratory detail photograph",
+      "prompt": "Water quality testing glassware in a restrained editorial composition",
+      "aspect": "4:3"
+    },
+    {
+      "id": "kitchen-scene",
+      "role": "kitchen use photograph",
+      "prompt": "Quiet morning kitchen scene with filtered water",
+      "aspect": "4:3"
+    },
+    {
+      "id": "package-detail",
+      "role": "package detail photograph",
+      "prompt": "Product packaging and replacement cartridge arranged on paper",
+      "aspect": "4:3"
+    }
+  ]
+}

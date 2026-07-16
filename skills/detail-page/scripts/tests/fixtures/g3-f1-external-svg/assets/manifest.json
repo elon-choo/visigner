@@ -1,0 +1,76 @@
+{
+  "outDir": "skills/detail-page/scripts/tests/fixtures/g3-f1-external-svg/assets",
+  "provider": "openai",
+  "openaiModel": "gpt-image-1.5",
+  "geminiModel": "gemini-3-pro-image",
+  "judge": false,
+  "bestOfN": 1,
+  "styleDNA": false,
+  "canonicalRefs": 0,
+  "total": 5,
+  "ok": 5,
+  "placeholders": 5,
+  "note": "Slots with \"placeholder\":true are license-clear SVG stand-ins, not real photos. To upgrade them: enable a provider (run `node gen-assets.js --doctor` to see how — `codex login` is free), then re-run this same command; real images overwrite the placeholders.",
+  "slots": [
+    {
+      "id": "hero-product",
+      "file": "skills/detail-page/scripts/tests/fixtures/g3-f1-external-svg/assets/hero-product.svg",
+      "provider": "openai",
+      "aspect": "4:3",
+      "role": "hero product photograph",
+      "bytes": 2236,
+      "ok": true,
+      "placeholder": true,
+      "placeholderKind": "hero",
+      "reason": "no credentials for provider \"openai\""
+    },
+    {
+      "id": "material-closeup",
+      "file": "skills/detail-page/scripts/tests/fixtures/g3-f1-external-svg/assets/material-closeup.svg",
+      "provider": "openai",
+      "aspect": "4:3",
+      "role": "material closeup photograph",
+      "bytes": 1281,
+      "ok": true,
+      "placeholder": true,
+      "placeholderKind": "scene",
+      "reason": "no credentials for provider \"openai\""
+    },
+    {
+      "id": "lab-detail",
+      "file": "skills/detail-page/scripts/tests/fixtures/g3-f1-external-svg/assets/lab-detail.svg",
+      "provider": "openai",
+      "aspect": "4:3",
+      "role": "laboratory detail photograph",
+      "bytes": 1259,
+      "ok": true,
+      "placeholder": true,
+      "placeholderKind": "scene",
+      "reason": "no credentials for provider \"openai\""
+    },
+    {
+      "id": "kitchen-scene",
+      "file": "skills/detail-page/scripts/tests/fixtures/g3-f1-external-svg/assets/kitchen-scene.svg",
+      "provider": "openai",
+      "aspect": "4:3",
+      "role": "kitchen use photograph",
+      "bytes": 1258,
+      "ok": true,
+      "placeholder": true,
+      "placeholderKind": "scene",
+      "reason": "no credentials for provider \"openai\""
+    },
+    {
+      "id": "package-detail",
+      "file": "skills/detail-page/scripts/tests/fixtures/g3-f1-external-svg/assets/package-detail.svg",
+      "provider": "openai",
+      "aspect": "4:3",
+      "role": "package detail photograph",
+      "bytes": 1269,
+      "ok": true,
+      "placeholder": true,
+      "placeholderKind": "scene",
+      "reason": "no credentials for provider \"openai\""
+    }
+  ]
+}

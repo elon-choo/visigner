@@ -94,6 +94,19 @@ Left alone, a model emits the high-probability **generic center** — the "AI sl
 2. **Banned defaults** — explicit lists of the generic tells to avoid.
 3. **Verify from pixels** — render and screenshot your own output (`shoot.js`), then grade what you SEE against a rubric, with an independent critic. "I reviewed the code and it looks right" is not allowed.
 
+### It runs by default — you don't have to remember it
+
+Writing an `*.html` design artifact **auto-fires** the anti-slop check — a `PostToolUse` hook grades the page the moment it's written, with no manual call and no way to silently skip it. On that same auto-fire you also get:
+
+- a **human-gate STOP checklist** in plain language when the draft still needs a person — placeholder images that are still lo-fi comps, unfinished/stand-in copy, and unsourced numeric claims are enumerated with a concrete fix each (it only *detects and suggests* — it never fabricates the missing data);
+- a **one-time first-run welcome** the first time you produce a design in a workspace — what just happened, why it matters, and the exact one-tap next steps (the setup one-liners when a tool is missing, else "just describe the page you want").
+
+Honest scope of the auto-fire:
+- The auto-grade runs the **static** anti-slop lint (structural tells, monotony, placeholder-shipped, taste-suspect) **and now folds in the font/colour token check** — a **banned font (Inter/system-ui) is now scored** (it shows up in the grade's `token_discipline` dimension, −2 per finding), and unearned purple is scored when it's in OKLCH/token form. This is an *advisory* dock, not a hard ship-gate: a banned font alone doesn't flip `s2Pass` (an otherwise-clean Inter page still scores ~93/A) — it makes the tell **visible in the grade** rather than silently ignored. Only brand-lint's *AI-tell* rules affect the score; its build-hygiene rules (raw hex, off-grid spacing) are reported but never demote a hand-written page, so real pages don't cry-wolf. (`/design-review` still runs the full brand-lint report — incl. hex-purple + hygiene — on demand.)
+- Full **pixel** critique needs a browser: run **`/design-setup`** once. Without it the static grade still fires and loudly says *pixel critique is OFF* — it is never silently skipped.
+- **Machine-clean is necessary, not sufficient:** a page can score 100/A and still read as AI, so the taste-suspect flag and a human eye are carried, never replaced by the machine score.
+- **The auto-fire needs the plugin enabled in your session** — like any Claude Code plugin hook, "runs by default" means *once the plugin is enabled*. After install, confirm it fires once: write one `*.html` and check the grade appears. It applies to `*.html` design artifacts (not, e.g., React/JSX output).
+
 ---
 
 ## Bundled zero-dep scripts (no npm install, built-in Node only)

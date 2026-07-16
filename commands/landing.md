@@ -7,7 +7,7 @@ description: Build a high-converting landing page or Korean 상세페이지 / Wa
 
 Brief: **$ARGUMENTS**
 
-Invoke the **detail-page** skill and run its full loop — do not improvise a generic page.
+Invoke the **detail-page** skill and run its full loop — do not improvise a generic page. **The grade runs by default:** writing the `*.html` page auto-fires the anti-slop critique (the plugin's `PostToolUse` hook → `anti-ai-eval`), so steps 5–6 are not optional — you iterate to the ship gate. If no browser is installed, the static grade still runs and you MUST say *pixel critique is OFF — run `/design-setup`* rather than pass off an unshot page as done; and machine-clean is necessary, not sufficient — carry the taste read.
 
 1. **Brief** — pin the subject, audience, the ONE message; pick mode (Landing / web vs 상세페이지·Wadiz detail mode) and platform width. Set the Schwartz pre-flight (awareness + sophistication) so the page starts in the right place.
 2. **Plan the token system** before any code (color / type / layout / signature); reject the banned defaults.

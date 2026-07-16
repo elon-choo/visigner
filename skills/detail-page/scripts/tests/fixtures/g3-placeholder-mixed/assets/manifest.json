@@ -1,0 +1,25 @@
+{
+  "total": 3,
+  "slots": [
+    {
+      "id": "manifest-standin",
+      "role": "manifest-declared product image",
+      "file": "manifest-standin.svg",
+      "ok": true,
+      "placeholder": true
+    },
+    {
+      "id": "real-photo",
+      "role": "finished editorial photograph",
+      "file": "real-photo.svg",
+      "ok": true,
+      "placeholder": false
+    },
+    {
+      "id": "real-icon",
+      "role": "finished vector icon",
+      "file": "real-icon.svg",
+      "ok": true
+    }
+  ]
+}

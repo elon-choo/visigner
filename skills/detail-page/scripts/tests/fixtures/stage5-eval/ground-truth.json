@@ -1,0 +1,80 @@
+{
+  "note": "Planted issues phrased independently of detector example literals (T1). inScope=false items are expected-MISS (T2/T3) and are excluded from the recall denominator.",
+  "fixtures": [
+    {
+      "dir": "naive-placeholder",
+      "clean": false,
+      "issues": [
+        {
+          "type": "placeholder-image",
+          "expectedComponent": "human-gate:images",
+          "inScope": true
+        },
+        {
+          "type": "unsourced-metric-claim",
+          "expectedComponent": "human-gate:claims",
+          "inScope": true
+        }
+      ]
+    },
+    {
+      "dir": "naive-standin",
+      "clean": false,
+      "issues": [
+        {
+          "type": "lorem-standin-copy",
+          "expectedComponent": "human-gate:copy",
+          "inScope": true
+        },
+        {
+          "type": "empty-heading",
+          "expectedComponent": "human-gate:copy",
+          "inScope": true
+        }
+      ]
+    },
+    {
+      "dir": "naive-empty",
+      "clean": false,
+      "issues": [
+        {
+          "type": "empty-shell",
+          "expectedComponent": "taste-suspect",
+          "inScope": true
+        }
+      ]
+    },
+    {
+      "dir": "naive-brandtells",
+      "clean": false,
+      "issues": [
+        {
+          "type": "banned-font-inter",
+          "expectedComponent": "brand-lint:token",
+          "inScope": true
+        },
+        {
+          "type": "unearned-purple-hex",
+          "expectedComponent": "brand-lint:ai-purple(oklch-only)",
+          "inScope": false
+        },
+        {
+          "type": "uniform-card-monotony",
+          "expectedComponent": "anti-ai-eval:monotony",
+          "inScope": true
+        }
+      ]
+    },
+    {
+      "dir": "clean-fresh",
+      "clean": true,
+      "freshUntuned": true,
+      "issues": []
+    }
+  ],
+  "reusedCleanPages": [
+    "docs/index.html",
+    "docs/guide.html",
+    "docs/how-to.html"
+  ]
+}

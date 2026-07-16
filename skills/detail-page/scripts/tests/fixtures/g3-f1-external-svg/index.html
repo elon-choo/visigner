@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stillwater Counter Filter</title>
+  <style>
+    :root { --paper: #f3efe6; --ink: #202523; --line: #b8b5aa; --accent: #164f86; }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 16px/1.45 Georgia, serif; }
+    main { width: min(1080px, 92vw); margin: 0 auto; padding: 52px 0 80px; }
+    header { display: grid; grid-template-columns: 1.2fr .8fr; gap: 30px; align-items: end; border-bottom: 1px solid var(--line); padding-bottom: 28px; }
+    h1 { max-width: 12ch; margin: 0; font-size: clamp(46px, 7vw, 92px); line-height: .92; font-weight: 500; }
+    .claims { display: grid; gap: 10px; font: 700 18px/1.2 Arial, sans-serif; color: var(--accent); }
+    section { border-bottom: 1px solid var(--line); padding: 24px 0; }
+    .lead-study { display: grid; grid-template-columns: 1.4fr .6fr; gap: 18px; }
+    .side-study { display: flex; gap: 24px; align-items: center; }
+    .side-study .media { width: 58%; }
+    .band-study { display: grid; gap: 12px; }
+    .band-study .media { max-width: 640px; margin-left: auto; }
+    .closing-study { display: grid; grid-template-columns: .7fr 1.3fr; gap: 24px; align-items: end; }
+    .spec-study dl { display: grid; grid-template-columns: auto 1fr; gap: 8px 24px; margin: 0; }
+    .spec-study dt { color: var(--accent); font-weight: 700; }
+    .spec-study dd { margin: 0; }
+    .media { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--line); background: #ded9ce; }
+    .media img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .note { border-top: 1px solid var(--line); padding-top: 18px; font-style: italic; }
+    @media (max-width: 720px) { header, .lead-study, .closing-study { grid-template-columns: 1fr; } .side-study { display: grid; } .side-study .media { width: 100%; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Stillwater, measured daily.</h1>
+      <div>Counter scale, mineral body, steel tap.</div>
+    </header>
+    <section class="lead-study" aria-label="Product study">
+      <figure class="media"><img src="assets/hero-product.svg" alt="Ceramic counter filter"></figure>
+      <figure class="media"><img src="assets/material-closeup.svg" alt="Ceramic material detail"></figure>
+    </section>
+    <section class="side-study" aria-label="Laboratory study">
+      <div>99.8% reduction across 12,480 internal trials.</div>
+      <figure class="media"><img src="assets/lab-detail.svg" alt="Laboratory glassware"></figure>
+    </section>
+    <section class="band-study" aria-label="Home study">
+      <figure class="media"><img src="assets/kitchen-scene.svg" alt="Morning kitchen use"></figure>
+      <div>4.9 out of 5 at day thirty.</div>
+    </section>
+    <section class="closing-study" aria-label="Package study">
+      <div class="claims"><span>97.4% repeat intent</span><span>Six month rhythm</span></div>
+      <figure class="media"><img src="assets/package-detail.svg" alt="Filter package and cartridge"></figure>
+    </section>
+    <section class="spec-study" aria-label="Flow specifications">
+      <dl><dt>Flow</dt><dd>2.8 litres each minute</dd><dt>Volume</dt><dd>4,200 litres per cartridge</dd></dl>
+    </section>
+    <div class="note">One cartridge, one paper reminder.</div>
+  </main>
+</body>
+</html>

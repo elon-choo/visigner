@@ -1,0 +1,21 @@
+{
+  "description": "Automatically run Visigner's static anti-AI grade and optional browser capture after Claude Code writes or edits HTML.",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/run-node.sh",
+            "args": [
+              "${CLAUDE_PLUGIN_ROOT}/hooks/auto-critique-hook.js"
+            ],
+            "timeout": 120,
+            "statusMessage": "Running Visigner auto-grade and optional capture"
+          }
+        ]
+      }
+    ]
+  }
+}
