@@ -42,7 +42,12 @@ test('T2 returning/expert workspace with persistent gaps → 0 onboarding lines,
   // the hook still surfaces the guided-install affordance (persistent browser gap) — not silenced
   const child = spawnSync(process.execPath, [HOOK], {
     cwd: ws,
-    env: { ...process.env, HOME: noCredEnv().HOME, VISIGNER_FORCE_BROWSER_MISSING: '1' },
+    env: {
+      ...process.env,
+      HOME: noCredEnv().HOME,
+      VISIGNER_FORCE_BROWSER_MISSING: '1',
+      VISIGNER_NO_AUTO_BROWSER: '1',
+    },
     input: JSON.stringify(ev(ws, target)),
     encoding: 'utf8',
     timeout: 30000,
@@ -64,7 +69,12 @@ test('first-run Write through the hook DOES emit onboarding (positive control, n
   fs.writeFileSync(target, '<!doctype html><html><body><h1>First</h1></body></html>');
   const child = spawnSync(process.execPath, [HOOK], {
     cwd: ws,
-    env: { ...process.env, HOME: noCredEnv().HOME, VISIGNER_FORCE_BROWSER_MISSING: '1' },
+    env: {
+      ...process.env,
+      HOME: noCredEnv().HOME,
+      VISIGNER_FORCE_BROWSER_MISSING: '1',
+      VISIGNER_NO_AUTO_BROWSER: '1',
+    },
     input: JSON.stringify(ev(ws, target)),
     encoding: 'utf8',
     timeout: 30000,

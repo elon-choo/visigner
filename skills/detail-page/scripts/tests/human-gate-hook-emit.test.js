@@ -17,6 +17,7 @@ function isolatedEnv(home) {
     HOME: home,
     CODEX_HOME: path.join(home, '.codex'),
     VISIGNER_FORCE_BROWSER_MISSING: '1',
+    VISIGNER_NO_AUTO_BROWSER: '1',
   };
   for (const key of ['OPENAI_API_KEY', 'GEMINI_API_KEY', 'IMG_PROVIDER', 'OPENAI_RESPONSES_AUTH']) delete env[key];
   return env;

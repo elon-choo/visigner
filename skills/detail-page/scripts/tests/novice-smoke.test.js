@@ -53,7 +53,12 @@ test('novice first-run smoke: onboarding + grade + human-gate ALL fire through t
   const noCredHome = fs.mkdtempSync(path.join(os.tmpdir(), 'g45-nc-'));
   const child = spawnSync(process.execPath, [HOOK], {
     cwd: ws,
-    env: { ...process.env, HOME: noCredHome, VISIGNER_FORCE_BROWSER_MISSING: '1' },
+    env: {
+      ...process.env,
+      HOME: noCredHome,
+      VISIGNER_FORCE_BROWSER_MISSING: '1',
+      VISIGNER_NO_AUTO_BROWSER: '1',
+    },
     input: hookEvent(ws, target), // Write of the sole HTML in a bare workspace = first-run
     encoding: 'utf8',
     timeout: 30000,

@@ -63,6 +63,7 @@ test('fresh checkout first HTML write is loud, guided, and statically graded', a
       env: {
         ...process.env,
         VISIGNER_FORCE_BROWSER_MISSING: '1',
+        VISIGNER_NO_AUTO_BROWSER: '1',
         VISIGNER_SIMULATE_NODE_MODULES_ABSENT: '1',
       },
     });

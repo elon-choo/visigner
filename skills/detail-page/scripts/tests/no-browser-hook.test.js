@@ -17,7 +17,11 @@ function invokeHook(event, extraEnv = {}) {
     encoding: 'utf8',
     timeout: 30_000,
     maxBuffer: 8 * 1024 * 1024,
-    env: { ...process.env, ...extraEnv },
+    env: {
+      ...process.env,
+      VISIGNER_NO_AUTO_BROWSER: '1',
+      ...extraEnv,
+    },
   });
 }
 

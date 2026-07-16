@@ -1,6 +1,6 @@
 ---
 name: design-setup
-description: One-time setup for the visigner power features — installs the Patchright (headed Chrome) dependency and the Chromium browser used by the screenshot self-critique loop, reference capture, and image-asset placement. Run this once after installing the plugin (and again after a plugin UPDATE, since node_modules lives in the install dir). Pure design guidance works WITHOUT this step; only the render/screenshot/capture scripts need it.
+description: Manual browser setup fallback for Visigner power features — installs Patchright and Chromium for the screenshot self-critique loop, reference capture, and image-asset placement. First design use now auto-provisions this in the background; use this command for offline/CI setup or to force a reinstall after a plugin update.
 allowed-tools:
   - Bash
   - Read
@@ -8,7 +8,7 @@ allowed-tools:
 
 # /design-setup — install the browser tooling for the screenshot loop
 
-Most of the Visigner is pure guidance and needs **no install** — you can plan, design, write code, and review immediately. Only these power features touch a real browser and therefore need a one-time dependency install:
+On first design use, Visigner now auto-provisions Patchright + Chromium in the background, so most users never need this command. `/design-setup` remains the manual/offline/CI fallback and the way to force a reinstall after a plugin update. Most of Visigner is pure guidance and needs **no install**; only these power features touch a real browser:
 
 - the **screenshot self-critique loop** (`detail-page` skill: `scripts/shoot.js`) — render your own page and grade the pixels,
 - **reference capture** (`scripts/capture-reference.js`, `scripts/capture-reference-patchright.js`) — screenshot a live competitor/exemplar page (incl. Wadiz/Akamai bot-walled pages),

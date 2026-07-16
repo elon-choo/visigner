@@ -28,7 +28,11 @@ function invokeHook(artifact) {
     encoding: 'utf8',
     timeout: 30_000,
     maxBuffer: 8 * 1024 * 1024,
-    env: { ...process.env, VISIGNER_FORCE_BROWSER_MISSING: '1' },
+    env: {
+      ...process.env,
+      VISIGNER_FORCE_BROWSER_MISSING: '1',
+      VISIGNER_NO_AUTO_BROWSER: '1',
+    },
   });
 }
 

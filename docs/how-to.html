@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- ── primary ── -->
-<title>Visigner 실전 활용: 깔았는데 왜 그대로일까, 그리고 실제로 달라지는 법</title>
-<meta name="description" content="설치만으로는 절반입니다. Visigner의 차이는 첫 출력이 아니라 게이트까지 도는 루프에 있습니다. /design-setup 한 번으로 스크린샷 자기비평 루프를 켜고, /design·/landing·/plan·/design-review로 부르고, 토큰 계획·critic 점수·A/B로 차이를 눈으로 확인하는 법.">
+<title>Visigner v1.5 실전 활용: 설치만 하면 픽셀 루프까지 자동으로</title>
+<meta name="description" content="Visigner v1.5는 플러그인 설치 두 줄이면 됩니다. HTML 저장 즉시 정적 안티-AI 채점과 STOP 체크리스트가 돌고, 픽셀 루프용 브라우저는 첫 디자인 저장 때 백그라운드에서 자동 설치됩니다. 첫 저장은 정적 채점만, 다음 저장부터 픽셀 비평까지 자동으로 켜지는 흐름과 활용법.">
 <link rel="canonical" href="https://elon-choo.github.io/visigner/how-to.html">
 
 <!-- ── open graph ── -->
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Visigner">
 <meta property="og:url" content="https://elon-choo.github.io/visigner/how-to.html">
-<meta property="og:title" content="Visigner 실전 활용: 그냥 AI와 뭐가 다른가">
-<meta property="og:description" content="설치는 절반. 차이는 게이트까지 도는 루프에 있습니다. /design-setup으로 켜고, 슬래시 명령으로 부르고, critic·A/B로 차이를 눈으로 확인하는 법.">
+<meta property="og:title" content="Visigner v1.5: 설치만 하면 픽셀 루프까지 자동으로">
+<meta property="og:description" content="HTML 저장 즉시 정적 채점과 STOP 체크리스트가 돌고, 픽셀 브라우저는 첫 디자인 저장 때 백그라운드에서 자동 설치됩니다. 첫 저장은 정적 채점만, 다음 저장부터 픽셀 비평까지 자동.">
 <meta property="og:image" content="https://elon-choo.github.io/visigner/og-card.png">
 <meta property="og:image:width" content="2400">
 <meta property="og:image:height" content="1260">
@@ -24,8 +24,8 @@
 
 <!-- ── twitter ── -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Visigner 실전 활용: 그냥 AI와 뭐가 다른가">
-<meta name="twitter:description" content="설치는 절반. /design-setup으로 스크린샷 루프를 켜고, 슬래시 명령으로 부르고, critic·A/B로 차이를 확인하는 법.">
+<meta name="twitter:title" content="Visigner v1.5: 설치만 하면 픽셀 루프까지 자동으로">
+<meta name="twitter:description" content="플러그인 설치 두 줄이면 끝. 첫 HTML 저장은 정적 채점, 브라우저는 백그라운드 자동 설치, 다음 저장부터 픽셀 비평까지 자동으로 돕니다.">
 <meta name="twitter:image" content="https://elon-choo.github.io/visigner/og-card.png">
 <meta name="twitter:image:alt" content="Visigner guide OG card.">
 
@@ -111,14 +111,14 @@
   .btn-accent{ background:var(--accent); color:var(--on-accent); box-shadow:var(--shadow-e2); }
   .btn-ghost{ border:1.5px solid var(--line); color:var(--ink); }
 
-  .card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; }
-  /* 같은 카드 넷을 나란히 두는 건 AI 티의 대표 문법이다. 두 번째 소재를 만들어 프레임 반복을 깬다. */
-  .card-open{ background:transparent; border:1px solid oklch(0.620 0.200 32 / .22); border-radius:20px; padding:18px; }
-  .card-rule{ background:var(--surface); border:1px solid var(--line); border-left:3px solid oklch(0.620 0.200 32 / .35); border-radius:6px 14px 14px 6px; padding:18px; }
+  /* 같은 카드 넷을 나란히 두는 건 AI 티의 대표 문법이다. 세 소재를 만들어 프레임 반복을 깬다. */
+  .card{ background:var(--surface); border-radius:14px; padding:18px; }
+  .card-open{ background:transparent; border-radius:20px; padding:18px; }
+  .card-rule{ background:var(--surface); border-radius:6px 14px 14px 6px; padding:18px; }
   .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  /* lift the middle card of each trio: deliberate emphasis, and it breaks the uniform 3-identical-card grid */
-  .grid3 .card:nth-child(2){ border-radius:18px; box-shadow:var(--shadow-e2); border-color:transparent; }
+  /* all trio cards share one flat treatment — emphasis is an accent top-border, never a lone raised shadow */
+  .grid3 .card.card--mark{ border-top-color:var(--accent); }
 
   /* terminal copy box */
   .term{ background:var(--term); border-radius:13px; overflow:hidden; box-shadow:var(--shadow-e2); margin:14px 0; }
@@ -148,16 +148,28 @@
   @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; } }
 
   /* field manual: the repository becomes the navigation, margin and evidence source */
-  :root { --maxw:980px; }
+  :root { --maxw:1180px; }
   .nav { background:var(--paper); backdrop-filter:none; -webkit-backdrop-filter:none; }
   .btn, .term, .card, .card-open, .card-rule, .warn { border-radius:0; }
   .btn-accent, .term { box-shadow:none; }
 
-  .manual-index { position:fixed; z-index:12; top:84px; left:max(18px,calc(50% - 700px)); width:184px; padding:8px 8px 12px; background:var(--paper); font-size:12px; line-height:1.35; }
-  .manual-index > p { margin:0 0 12px; padding-top:8px; border-top:2px solid var(--ink); font-weight:600; }
-  .manual-index a { display:grid; grid-template-columns:26px 1fr; gap:7px; padding:6px 0; border-top:1px solid var(--line); color:var(--muted); text-decoration:none; }
+  /* Doc layout: the index is a real grid track beside the content, so rail and column share ONE
+     coordinate system and can never overlap (the old bug was a viewport-fixed rail colliding with a
+     separately-centered column). The sticky rail scrolls with the content and never floats over a band. */
+  .doc { max-width:var(--maxw); margin-inline:auto; padding-inline:22px; }
+  .doc__flow { min-width:0; }
+  .doc__flow > .wrap, .doc__flow section > .wrap { max-width:none; margin-inline:0; padding-inline:0; }
+  @media (min-width:1120px){
+    .doc { display:grid; grid-template-columns:200px minmax(0,1fr); column-gap:56px; align-items:start; }
+    .manual-index { position:sticky; top:82px; align-self:start; max-height:calc(100dvh - 104px); overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; }
+    .manual-index::-webkit-scrollbar{ display:none; }
+  }
+  .manual-index > p { margin:0 0 11px; padding-top:8px; border-top:2px solid var(--ink); font-weight:600; letter-spacing:-.005em; }
+  .manual-index a { display:grid; grid-template-columns:26px 1fr; gap:8px; padding:7px 0; border-top:1px solid var(--line); color:var(--muted); text-decoration:none; }
   .manual-index a:hover { color:var(--ink); }
   .manual-index a span:first-child { color:var(--accent-700); font-variant-numeric:tabular-nums; }
+  .manual-index a[aria-current="true"] span:not(:first-child){ color:var(--ink); }
+  .manual-index a[aria-current="true"]{ box-shadow:inset 2px 0 0 var(--accent); padding-left:8px; margin-left:-8px; }
 
   .guide-hero { padding-block:54px 92px; }
   .guide-hero > .wrap { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:0 20px; }
@@ -168,7 +180,7 @@
   .guide-hero h1 + p + p, .guide-hero h1 + p + p + div, .guide-hero .warn { grid-column:3 / 8; }
 
   .chapter { position:relative; padding-block:68px 48px; }
-  .chapter[data-record]::after { content:attr(data-record); position:absolute; top:20px; right:max(18px,calc(50% - 620px)); font-family:var(--font-body); font-size:10px; letter-spacing:.02em; color:var(--muted); }
+  .chapter[data-record]::after { content:attr(data-record); position:absolute; top:22px; right:0; font-family:var(--font-body); font-size:10.5px; letter-spacing:.02em; color:var(--muted); }
   .chapter > .wrap { display:grid; grid-template-columns:46px minmax(0,1fr); column-gap:28px; }
   .chapter > .wrap > * { grid-column:2; min-width:0; }
   .chapter > .wrap > .secnum { grid-column:1; grid-row:1 / span 2; align-self:start; margin-top:5px; font-family:var(--font-body); font-size:12px; line-height:1; letter-spacing:0; color:var(--accent-700); opacity:1; }
@@ -193,7 +205,11 @@
 
   .chapter-band { padding-block:0 84px; border-top:0; }
   .chapter-band .wrap { max-width:var(--maxw); }
-  .card, .card-open, .card-rule { padding:18px 0; border:0; border-top:2px solid var(--line); background:none; }
+  /* three distinct flat card materials so a row of them is never a uniform frame loop (the AI tell this page rejects) */
+  .card, .card-open, .card-rule { padding:18px 0; border:0; background:none; }
+  .card { border-top:2px solid var(--line); }
+  .card-open { border-top:2px solid var(--accent); }
+  .card-rule { border-left:3px solid var(--accent); padding-left:18px; }
   .intro-band .grid3 { grid-template-columns:.82fr 1.18fr 1fr; align-items:start; gap:28px; }
   .map-skills-band { padding-bottom:28px; }
   .map-skills-band .card-open { padding:20px 0; }
@@ -202,7 +218,7 @@
   .map-support-band .grid2 { grid-template-columns:.74fr 1.26fr; align-items:start; gap:32px; }
   .worked-band ol { max-width:49em; margin-left:74px; }
   .worked-band .warn { max-width:49em; margin-left:74px; }
-  .loop-band { padding-bottom:102px; background:var(--term); color:var(--term-ink); }
+  .loop-band { padding:48px 36px 92px; background:var(--term); color:var(--term-ink); }
   .loop-band .grid3 { grid-template-columns:.72fr 1fr 1.28fr; align-items:start; gap:28px; }
   .loop-band .card, .loop-band .card-open, .loop-band .card-rule { border-color:oklch(1 0 0 / .2); color:var(--term-ink); }
   .loop-band .card p, .loop-band .card-open p, .loop-band .card-rule p { color:var(--term-dim) !important; }
@@ -232,10 +248,14 @@
 
   footer{ border-top:1px solid var(--line); padding-block:26px 46px; color:var(--muted); font-size:13.5px; }
 
-  @media (max-width:1240px){
-    .manual-index { position:static; width:auto; max-width:var(--maxw); margin:0 auto; padding:18px 22px 0; display:flex; gap:16px; overflow-x:auto; }
-    .manual-index > p { min-width:max-content; margin:0; border-top:0; }
-    .manual-index a { min-width:max-content; display:flex; border-top:0; padding:0; }
+  @media (max-width:1119px){
+    /* below the rail width, the index becomes a sticky chapter-chip rail under the nav — one coordinate system, no overlap possible */
+    .manual-index { position:sticky; top:58px; z-index:30; width:auto; max-width:var(--maxw); margin:0 auto; padding:12px 22px; display:flex; align-items:center; gap:18px; overflow-x:auto; background:color-mix(in oklab, var(--paper) 94%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line); scrollbar-width:none; }
+    .manual-index::-webkit-scrollbar{ display:none; }
+    .manual-index > p { min-width:max-content; margin:0; border-top:0; padding-top:0; }
+    .manual-index a { min-width:max-content; display:flex; gap:6px; border-top:0; padding:0; }
+    .manual-index a[aria-current="true"]{ box-shadow:none; padding-left:0; margin-left:0; }
+    .manual-index a[aria-current="true"] span:not(:first-child){ color:var(--ink); }
     .chapter[data-record]::after { display:none; }
   }
   @media (max-width:760px){
@@ -274,7 +294,7 @@
       <span class="kicker nav-hide" style="font-size:11px"><span lang="ko">실전 활용</span><span lang="en">How-to</span></span>
     </a>
     <a class="anchor nav-hide" href="#why"><span lang="ko">왜 그대로일까</span><span lang="en">Why the same</span></a>
-    <a class="anchor nav-hide" href="#turn-on"><span lang="ko">켜기</span><span lang="en">Turn on</span></a>
+    <a class="anchor nav-hide" href="#turn-on"><span lang="ko">자동 준비</span><span lang="en">Auto setup</span></a>
     <a class="anchor nav-hide" href="#difference"><span lang="ko">차이</span><span lang="en">Difference</span></a>
     <a class="anchor nav-hide" href="#commands"><span lang="ko">명령</span><span lang="en">Commands</span></a>
     <a class="anchor nav-hide" href="#recipes"><span lang="ko">레시피</span><span lang="en">Recipes</span></a>
@@ -288,11 +308,12 @@
 </nav>
 
 <main id="main">
+<div class="doc">
 
 <nav class="manual-index" aria-label="How-to index">
   <p>Visigner · 실전 01-08</p>
   <a href="#why"><span>01</span><span lang="ko">왜 그대로일까</span><span lang="en">Why it feels same</span></a>
-  <a href="#turn-on"><span>02</span><span lang="ko">2분 만에 켜기</span><span lang="en">Turn it on</span></a>
+  <a href="#turn-on"><span>02</span><span lang="ko">자동 준비 방식</span><span lang="en">Automatic setup</span></a>
   <a href="#difference"><span>03</span><span lang="ko">그냥 AI와 차이</span><span lang="en">vs raw AI</span></a>
   <a href="#commands"><span>04</span><span lang="ko">부르는 법</span><span lang="en">Commands</span></a>
   <a href="#see-it"><span>05</span><span lang="ko">차이를 눈으로</span><span lang="en">See the difference</span></a>
@@ -301,6 +322,7 @@
   <a href="#stuck"><span>08</span><span lang="ko">안 되면</span><span lang="en">If it's stuck</span></a>
 </nav>
 
+<div class="doc__flow">
 <section class="guide-hero" style="border-top:none">
   <div class="wrap">
     <span class="kicker"><span lang="ko">실전 활용 · 그냥 AI와 뭐가 다른가</span><span lang="en">How to use it · what changes vs raw AI</span></span>
@@ -309,14 +331,14 @@
       <span lang="en">Why it feels the same after install,<br>and how to make it actually different.</span>
     </h1>
     <p style="font-size:19px;color:var(--muted)">
-      <span lang="ko">설치만으로는 절반입니다. Visigner의 차이는 <strong style="color:var(--ink)">한 번의 첫 출력이 아니라, 게이트까지 도는 루프</strong>에 있습니다. 그 루프는 셋업 한 줄과, 부르는 방법 하나로 켜집니다. 그리고 이 페이지는 벤치마크 숫자가 아니라 <strong style="color:var(--ink)">지금 당장 눈으로 차이를 확인하는 법</strong>을 알려줍니다.</span>
-      <span lang="en">Installing is only half of it. The difference in Visigner is not the first output but <strong style="color:var(--ink)">the loop it runs to a gate</strong>. That loop switches on with one setup line and one way of asking. And this page is not about benchmark numbers, it is about <strong style="color:var(--ink)">seeing the difference with your own eyes right now</strong>.</span>
+      <span lang="ko">v1.5에서는 설치 두 줄이면 준비가 끝납니다. HTML을 저장하면 정적 채점과 STOP 체크리스트가 즉시 돌고, 픽셀 루프용 브라우저는 첫 디자인 저장 때 백그라운드에서 자동 설치됩니다. 차이는 여전히 <strong style="color:var(--ink)">한 번의 첫 출력이 아니라, 게이트까지 도는 루프</strong>에 있습니다. 이 페이지는 추가 셋업 명령이 아니라 <strong style="color:var(--ink)">그 자동 루프를 끝까지 쓰고 눈으로 확인하는 법</strong>을 알려줍니다.</span>
+      <span lang="en">In v1.5, the two-line install is all the setup you need. Saving HTML immediately runs the static grade and STOP checklist, while the pixel-loop browser auto-installs in the background on the first design save. The difference still lives <strong style="color:var(--ink)">not in the first output, but in the loop to a gate</strong>. This page shows how to let that automatic loop finish and <strong style="color:var(--ink)">see the difference with your own eyes</strong>.</span>
     </p>
     <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
-      <a href="#turn-on" class="btn btn-accent"><span lang="ko">2분 만에 켜기</span><span lang="en">Turn it on in 2 min</span></a>
+      <a href="#turn-on" class="btn btn-accent"><span lang="ko">자동 준비 방식 보기</span><span lang="en">See automatic setup</span></a>
       <a href="#difference" class="btn btn-ghost"><span lang="ko">뭐가 다른지 보기 →</span><span lang="en">See what changes →</span></a>
     </div>
-    <p class="warn" style="margin-top:26px"><span lang="ko"><strong>솔직하게:</strong> "그냥 깔고 디자인 시키니까 큰 차이를 모르겠다"는 건 대개 도구가 나빠서가 아닙니다. <strong>차이를 만드는 단계가 아직 안 켜졌거나(스크린샷 루프), 한 방으로 받고 끝냈기 때문</strong>입니다. 아래 셋이면 달라집니다. 켜기, 제대로 부르기, 눈으로 확인.</span><span lang="en"><strong>Straight up:</strong> "I installed it and asked it to design, and I don't see a big difference" is usually not the tool. It is that <strong>the step that makes the difference is not switched on yet (the screenshot loop), or you took the first one-shot and stopped</strong>. Three things fix it: turn it on, ask it right, and make the difference visible.</span></p>
+    <p class="warn" style="margin-top:26px"><span lang="ko"><strong>솔직하게:</strong> 첫 디자인 저장은 브라우저가 백그라운드에서 내려오는 동안 정적 채점만 합니다. 그래서 "설치했는데 아직 큰 차이를 모르겠다"면 <strong>첫 다운로드가 끝나기 전에 멈췄거나, 다음 저장·반복 없이 한 방으로 받고 끝낸 경우</strong>가 많습니다. 아래 셋이면 달라집니다. 한 번 더 저장하기, 제대로 부르기, 눈으로 확인.</span><span lang="en"><strong>Straight up:</strong> the first design save grades static-only while the browser downloads in the background. So if "I installed it and still don't see a big difference," you often <strong>stopped before that first download finished, or took the one-shot without the next save and iteration</strong>. Three things fix it: save once more, ask it right, and make the difference visible.</span></p>
   </div>
 </section>
 
@@ -325,15 +347,15 @@
     <p class="secnum">01</p>
     <h2><span lang="ko">왜 그냥 시키면 똑같아 보이나</span><span lang="en">Why it looks the same when you just ask</span></h2>
     <p class="lede"><span lang="ko">세 가지 중 하나(보통은 셋 다)입니다. 전부 몇 분이면 고쳐집니다.</span><span lang="en">One of three things, usually all three. Each takes minutes to fix.</span></p>
-    <p class="lede" style="margin-top:14px;padding-left:16px;border-left:3px solid var(--accent);font-size:16px"><span lang="ko"><strong style="color:var(--ink)">v1.4 업데이트:</strong> 채점 자체는 이제 기본값입니다. <code>*.html</code>을 저장하면 정적 채점이 자동으로 발화하고 — 브라우저가 없으면 "픽셀 비평 꺼짐"을 큰 소리로 알립니다(조용히 건너뛰기는 이제 없습니다) — 사람이 채워야 할 것은 평문 STOP 체크리스트로 돌아옵니다. 아래 세 가지는 그 위에서 <strong style="color:var(--ink)">더 완전한 차이</strong>(픽셀 루프까지)를 켜는 법입니다.</span><span lang="en"><strong style="color:var(--ink)">v1.4 update:</strong> the grade itself is now the default. Saving an <code>*.html</code> fires the static grade automatically — and loudly says "pixel critique is OFF" when there's no browser (no more silent skip) — while whatever a human must fill comes back as a plain-language STOP checklist. The three below are how you turn on the <strong style="color:var(--ink)">fuller difference</strong> (all the way to the pixel loop) on top of that.</span></p>
+    <p class="lede" style="margin-top:14px;padding-left:16px;border-left:3px solid var(--accent);font-size:16px"><span lang="ko"><strong style="color:var(--ink)">v1.5 업데이트:</strong> v1.4에서 <code>*.html</code> 저장 즉시 정적 안티-AI 채점과 평문 STOP 체크리스트가 기본값이 됐습니다. 이제 v1.5에서는 브라우저가 없으면 Patchright + Chromium(약 150MB)도 첫 디자인 저장 때 백그라운드에서 1회 자동 설치됩니다. 첫 저장은 다운로드 중 정적 채점만 하고, 다음 저장부터 픽셀 비평까지 자동으로 이어집니다. <strong style="color:var(--ink)">설치만 하면 전부 도는 흐름</strong>입니다.</span><span lang="en"><strong style="color:var(--ink)">v1.5 update:</strong> v1.4 made the static anti-AI grade and plain-language STOP checklist fire by default whenever you save an <code>*.html</code>. Now v1.5 also auto-installs Patchright + Chromium (~150MB) once in the background on the first design save when the browser is missing. That first save grades static-only while it downloads; from the next save pixel critique joins automatically. <strong style="color:var(--ink)">Install once, and the whole flow runs.</strong></span></p>
   </div>
 </section>
 <section class="chapter-band" aria-label="세 가지 이유 / Three reasons">
   <div class="wrap">
     <div class="grid3">
       <div class="card">
-        <p style="font-weight:600;margin:0 0 6px"><span lang="ko">1 · 진짜 단계가 안 켜졌다</span><span lang="en">1 · The real step isn't on</span></p>
-        <p style="color:var(--muted);margin:0"><span lang="ko">AI 티를 실제로 벗기는 건 <strong style="color:var(--ink)">스크린샷 자기비평 루프</strong>입니다. 이건 <code>/design-setup</code>을 한 번 해야 켜집니다. 안 하면 기획·디자인·코드·검수는 되지만 "렌더, 스크린샷, 채점, 반복" 단계가 조용히 건너뛰어져 raw AI에 가까운 결과가 나옵니다.</span><span lang="en">The thing that actually strips the AI look is the <strong style="color:var(--ink)">screenshot self-critique loop</strong>, and it only turns on after one <code>/design-setup</code>. Without it, plan, design, code, and review still run, but "render, screenshot, score, repeat" is silently skipped, so you get output closer to raw AI.</span></p>
+        <p style="font-weight:600;margin:0 0 6px"><span lang="ko">1 · 첫 저장은 브라우저 준비 시간이다</span><span lang="en">1 · The first save prepares the browser</span></p>
+        <p style="color:var(--muted);margin:0"><span lang="ko">AI 티를 실제로 벗기는 <strong style="color:var(--ink)">스크린샷 자기비평 루프</strong>용 브라우저는 첫 디자인 저장 때 백그라운드에서 자동 설치됩니다(약 150MB). 그 저장은 정적 채점과 STOP 체크리스트까지 완료하고, 다운로드가 끝난 다음 저장부터 "렌더, 스크린샷, 채점, 반복"이 자동으로 붙습니다. 오프라인·CI에서는 <code>/design-setup</code>이 유일한 수동 단계입니다.</span><span lang="en">The browser behind the <strong style="color:var(--ink)">screenshot self-critique loop</strong> auto-installs in the background on the first design save (~150MB). That save still completes the static grade and STOP checklist; from the next save after the download, "render, screenshot, score, repeat" joins automatically. Offline or in CI, <code>/design-setup</code> is the one manual step.</span></p>
       </div>
       <div class="card">
         <p style="font-weight:600;margin:0 0 6px"><span lang="ko">2 · 한 방으로 받고 끝냈다</span><span lang="en">2 · You took the one-shot</span></p>
@@ -350,17 +372,17 @@
 <section id="turn-on" class="chapter" data-record="commands/design-setup.md">
   <div class="wrap">
     <p class="secnum">02</p>
-    <h2><span lang="ko">지금 2분: 실제로 켜기</span><span lang="en">Two minutes: actually turn it on</span></h2>
-    <p class="lede"><span lang="ko">Claude Code 안에서 슬래시 명령 한 줄이면 됩니다. 경로와 설정은 명령이 알아서 처리합니다.</span><span lang="en">One slash command inside Claude Code. It handles the paths and setup for you.</span></p>
+    <h2><span lang="ko">설치만 하면 자동으로 준비됩니다</span><span lang="en">Install once; setup happens automatically</span></h2>
+    <p class="lede"><span lang="ko">보통은 아무 명령도 더 필요 없습니다. 첫 디자인 저장 때 브라우저가 백그라운드에서 1회 자동 설치되고, 첫 저장은 정적 채점만, 다음 저장부터 픽셀 루프까지 자동입니다. 아래 명령은 오프라인·CI·업데이트 후 강제 재설치·자동 다운로드 옵트아웃 때만 쓰는 수동 경로입니다.</span><span lang="en">Normally, there is no extra command. The browser auto-installs once in the background on the first design save; that save is static-only, and the pixel loop is automatic from the next save. The command below is only the manual path for offline/CI use, a forced reinstall after an update, or auto-download opt-out.</span></p>
     <div class="term">
       <div class="term-bar"><span class="dot" style="background:oklch(0.69 0.19 25)"></span><span class="dot" style="background:oklch(0.83 0.16 80)"></span><span class="dot" style="background:oklch(0.75 0.19 145)"></span>
         <span style="margin-left:8px;font-size:12px;color:var(--term-dim)">claude code</span>
         <button class="copybtn" style="margin-left:auto" onclick="copyText(this,'/design-setup')">copy</button>
       </div>
-      <pre><span class="c"># <span lang="ko">스크린샷 자기비평 루프를 켜는 일회성 셋업 (브라우저 설치)</span><span lang="en">one-time setup that turns on the screenshot loop (installs a browser)</span></span>
+      <pre><span class="c"># <span lang="ko">수동·오프라인·CI·강제 재설치용 브라우저 준비</span><span lang="en">manual/offline/CI/forced-reinstall browser setup</span></span>
 <span class="p">/</span>design-setup</pre>
     </div>
-    <p style="color:var(--muted)"><span lang="ko">이게 켜는 것: 자기 출력을 렌더·캡처하는 <code>shoot.js</code> 스크린샷 루프, 실제 레퍼런스(와디즈 등) 캡처, ultracode 디자인 워크플로. 순수 가이드(기획·디자인·코드·검수)는 이것 없이도 동작합니다. <strong style="color:var(--ink)">플러그인을 업데이트한 뒤에는 한 번 더</strong> 돌려주세요. 설치 폴더의 node_modules가 새로 깔리기 때문입니다.</span><span lang="en">What it turns on: the <code>shoot.js</code> screenshot loop that renders and captures your own output, real reference capture (Wadiz and the like), and the ultracode design workflow. Pure guidance (plan, design, code, review) works without it. <strong style="color:var(--ink)">Run it once more after a plugin update</strong>, since the install folder's node_modules is reinstalled.</span></p>
+    <p style="color:var(--muted)"><span lang="ko">자동 준비되는 것: 자기 출력을 렌더·캡처하는 <code>shoot.js</code> 스크린샷 루프, 실제 레퍼런스(와디즈 등) 캡처, ultracode 디자인 워크플로용 Patchright + Chromium입니다. 첫 저장은 다운로드 중 정적 채점만 하고, 다음 저장부터 픽셀 루프가 자동으로 붙습니다. <strong style="color:var(--ink)">VISIGNER_NO_AUTO_BROWSER=1로 자동 다운로드를 껐거나 오프라인·CI에서 미리 준비할 때, 또는 업데이트 후 즉시 강제 재설치할 때만 /design-setup을 쓰세요.</strong></span><span lang="en">What prepares automatically: Patchright + Chromium for the <code>shoot.js</code> loop that renders and captures your output, real reference capture (Wadiz and the like), and the ultracode design workflow. The first save grades static-only during the download; from the next save the pixel loop joins automatically. <strong style="color:var(--ink)">Use /design-setup only if auto-download is disabled with VISIGNER_NO_AUTO_BROWSER=1, to prepare ahead of time offline/in CI, or to force an immediate reinstall after an update.</strong></span></p>
     <h3><span lang="ko">실제 이미지가 필요하면 (선택)</span><span lang="en">If you want real images (optional)</span></h3>
     <p style="color:var(--muted)"><span lang="ko">히어로 사진·제품 컷 같은 실제 이미지 생성은 자격증명 하나가 필요합니다. 하나만 고르세요. 없으면 이미지 슬롯은 온브랜드 SVG 자리표시로 채워지고, 나머지는 그대로 동작합니다.</span><span lang="en">Generating real images (hero shots, product photos) needs one credential. Pick one. Without it, image slots fill with on-brand SVG placeholders and everything else still runs.</span></p>
     <div class="term">
@@ -510,9 +532,9 @@ export GEMINI_API_KEY=...</pre>
     <h2><span lang="ko">그래도 차이가 안 느껴지면</span><span lang="en">If you still don't feel a difference</span></h2>
     <dl class="faq">
       <dt><span lang="ko">"디자인 시켜도 그냥 AI 같아요."</span><span lang="en">"It still looks like plain AI."</span></dt>
-      <dd><span lang="ko"><code>/design-setup</code>을 돌렸나요? 안 돌렸으면 스크린샷 채점 루프가 꺼진 채라 결과가 raw AI에 가깝습니다. 돌린 뒤 "찍어서 채점하고, 게이트 통과할 때까지 고쳐"라고 명시하세요. 그리고 <code>/design-review</code>로 점수를 받아 무엇이 문제인지 이름으로 확인하세요.</span><span lang="en">Did you run <code>/design-setup</code>? Without it the screenshot-grading loop is off, so output stays close to raw AI. After it, explicitly say "screenshot it, grade it, and fix until it passes the gate." Then run <code>/design-review</code> to get the problems back by name.</span></dd>
+      <dd><span lang="ko"><code>/design-setup</code>은 보통 필요 없습니다. 첫 디자인 저장 직후라면 브라우저가 백그라운드에서 내려오는 중일 수 있으니, 다운로드가 끝난 다음 한 번 더 저장하고 "찍어서 채점하고, 게이트 통과할 때까지 고쳐"라고 명시하세요. 오프라인·CI이거나 자동 다운로드를 껐다면 그때만 수동으로 씁니다. 그리고 <code>/design-review</code>로 점수를 받아 무엇이 문제인지 이름으로 확인하세요.</span><span lang="en"><code>/design-setup</code> is normally unnecessary. Right after the first design save, the browser may still be downloading in the background, so save once more after it finishes and explicitly say "screenshot it, grade it, and fix until it passes the gate." Use the command manually only if you are offline/in CI or disabled auto-download. Then run <code>/design-review</code> to get the problems back by name.</span></dd>
       <dt><span lang="ko">스크린샷·채점 단계가 그냥 넘어가요.</span><span lang="en">The screenshot or grading step gets skipped.</span></dt>
-      <dd><span lang="ko">브라우저 툴이 아직 없다는 뜻입니다. <code>/design-setup</code>을 돌리세요. <strong>플러그인을 업데이트한 뒤에도 한 번 더</strong> 돌려야 합니다. 설치 폴더가 새로 깔리기 때문입니다.</span><span lang="en">It means the browser tooling isn't installed yet. Run <code>/design-setup</code>. <strong>Run it again after a plugin update</strong>, since the install folder is reinstalled.</span></dd>
+      <dd><span lang="ko">첫 저장이라면 정상입니다. 정적 채점과 STOP 체크리스트는 이미 끝났고, Patchright + Chromium(약 150MB)이 백그라운드에서 자동 설치되는 중입니다. 끝난 뒤 다음 저장부터 픽셀 단계가 자동으로 켜집니다. 계속 건너뛰면 <code>/design-setup</code>으로 수동 설치 또는 강제 재설치하세요. <strong>오프라인·CI·권한 문제나 업데이트 후 즉시 복구할 때 쓰는 수동 경로입니다.</strong></span><span lang="en">On the first save, that is expected. The static grade and STOP checklist have already finished while Patchright + Chromium (~150MB) auto-installs in the background. From the next save after it completes, the pixel step switches on automatically. If it keeps skipping, use <code>/design-setup</code> for a manual install or forced reinstall. <strong>It is the manual path for offline/CI use, permission issues, or immediate recovery after an update.</strong></span></dd>
       <dt><span lang="ko">이미지가 회색 자리표시로 나와요.</span><span lang="en">Images come out as grey placeholders.</span></dt>
       <dd><span lang="ko">자격증명이 없어서 정직하게 자리표시로 둔 것입니다. <code>codex login</code>(무료) 또는 <code>OPENAI_API_KEY</code>·<code>GEMINI_API_KEY</code>를 넣으면 실제 이미지가 생성됩니다.</span><span lang="en">No credential, so it honestly leaves a placeholder. Add <code>codex login</code> (free) or an <code>OPENAI_API_KEY</code>/<code>GEMINI_API_KEY</code> and it generates real images.</span></dd>
     </dl>
@@ -525,6 +547,8 @@ export GEMINI_API_KEY=...</pre>
   </div>
 </section>
 
+</div><!-- .doc__flow -->
+</div><!-- .doc -->
 </main>
 
 <footer>

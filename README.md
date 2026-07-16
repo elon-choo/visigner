@@ -12,7 +12,7 @@ It's built on Anthropic's `frontend-design` aesthetic discipline (plan a token s
 
 - **Replaces** — other installable design *skills / plugins / packages* for Claude Code. The suite produces the actual artifacts: page/component **code**, **SVG**, design **tokens**, handoff **specs**, **diagrams/wireframes**, conversion **copy**, ESP-ready **email HTML**, the **experiment stats** (A/B sizing, Welch t / SRM / Bayesian readouts, funnel drop-off), and the **test math** (contrast, touch targets, overflow) — all as zero-dependency Node scripts.
 - **Feeds, does not replace** — it hands off to the tools downstream of design, it does not become them: live-canvas GUIs (**Figma / FigJam**), raster editors (**Photoshop**), and runtime infrastructure (**web hosting**, **ESP send**, the **analytics warehouse**). You still ship through those.
-- **Real photo/illustration generation** needs an image API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, each image slot **renders as an intentional lo-fi comp** — a deterministic, on-brand SVG (classified into one of eight comp archetypes — incl. logo-scaffold, hero, and portrait — full palette, slot tag) that marks the slot's intent, *not* a finished asset. The operator still replaces these comps with real art before shipping. The **screenshot browser** is installed once by **`/design-setup`**.
+- **Real photo/illustration generation** needs an image API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`) or a ChatGPT login; without one, each image slot **renders as an intentional lo-fi comp** — a deterministic, on-brand SVG (classified into one of eight comp archetypes — incl. logo-scaffold, hero, and portrait — full palette, slot tag) that marks the slot's intent, *not* a finished asset. The operator still replaces these comps with real art before shipping. The **screenshot browser** now **auto-installs in the background on your first design save** (~150MB, one time); **`/design-setup`** remains the manual/offline/CI fallback.
 
 ---
 
@@ -27,7 +27,7 @@ In Claude Code:
 
 That's it — all skills, agents, and commands are now available. Requires Claude Code **v2.1.100+** (`claude --version`).
 
-> **One-time setup for the power features (optional):** the screenshot self-critique loop, live reference capture, and image-asset placement use a headless browser. Run **`/design-setup`** once to install it. Everything else — planning, designing, writing code, reviewing — works immediately with no setup.
+> **Install-only — no setup step:** the screenshot self-critique loop, live reference capture, and image-asset placement use a headless browser, which **auto-installs in the background the first time you save a design** (~150MB, one time). Everything else — planning, designing, writing code, reviewing — works immediately. `/design-setup` still exists as the manual/offline/CI fallback and to force a reinstall after a plugin update; set `VISIGNER_NO_AUTO_BROWSER=1` to opt out of the auto-download.
 
 ### Team install (auto-enable for everyone)
 
@@ -103,7 +103,7 @@ Writing an `*.html` design artifact **auto-fires** the anti-slop check — a `Po
 
 Honest scope of the auto-fire:
 - The auto-grade runs the **static** anti-slop lint (structural tells, monotony, placeholder-shipped, taste-suspect) **and now folds in the font/colour token check** — a **banned font (Inter/system-ui) is now scored** (it shows up in the grade's `token_discipline` dimension, −2 per finding), and unearned purple is scored when it's in OKLCH/token form. This is an *advisory* dock, not a hard ship-gate: a banned font alone doesn't flip `s2Pass` (an otherwise-clean Inter page still scores ~93/A) — it makes the tell **visible in the grade** rather than silently ignored. Only brand-lint's *AI-tell* rules affect the score; its build-hygiene rules (raw hex, off-grid spacing) are reported but never demote a hand-written page, so real pages don't cry-wolf. (`/design-review` still runs the full brand-lint report — incl. hex-purple + hygiene — on demand.)
-- Full **pixel** critique needs a browser: run **`/design-setup`** once. Without it the static grade still fires and loudly says *pixel critique is OFF* — it is never silently skipped.
+- Full **pixel** critique needs a browser, which **auto-installs in the background on your first design save** (~150MB) — no command. The first save grades static-only while it downloads; from the next save pixel critique is on. `/design-setup` is the manual/offline/CI fallback, and the static grade always fires meanwhile and loudly says *pixel critique is OFF* until the browser is ready — never silently skipped.
 - **Machine-clean is necessary, not sufficient:** a page can score 100/A and still read as AI, so the taste-suspect flag and a human eye are carried, never replaced by the machine score.
 - **The auto-fire needs the plugin enabled in your session** — like any Claude Code plugin hook, "runs by default" means *once the plugin is enabled*. After install, confirm it fires once: write one `*.html` and check the grade appears. It applies to `*.html` design artifacts (not, e.g., React/JSX output).
 
@@ -129,7 +129,7 @@ Beyond the screenshot loop (`shoot.js`), the suite ships runnable helpers you in
 
 ## Notes
 
-- **Image generation** (`/design-image`) needs **no browser install** — only a credential: a free ChatGPT/codex login (`codex login`) is preferred, else an API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`). Without one, image slots render as **intentional lo-fi comps** (deterministic on-brand SVG) you replace with real art. Run `image-service.js --doctor` to see what's live. (**Live page capture** — screenshotting a real competitor page — is the part that needs the one-time `/design-setup` Patchright + Chromium install.)
+- **Image generation** (`/design-image`) needs **no browser install** — only a credential: a free ChatGPT/codex login (`codex login`) is preferred, else an API key (`OPENAI_API_KEY` / `GEMINI_API_KEY`). Without one, image slots render as **intentional lo-fi comps** (deterministic on-brand SVG) you replace with real art. Run `image-service.js --doctor` to see what's live. (**Live page capture** — screenshotting a real competitor page — uses the same Patchright + Chromium browser, which auto-installs on your first design save; `/design-setup` installs it manually/offline.)
 - **Claude Design publishing** (`/design-publish`) pushes a component library to your **claude.ai/design** design-system project via the native DesignSync tool. It needs design-system access on your claude.ai login (run `/design-login` once if a read fails); it never re-implements sync, and every push confirms the target project first.
 - **Compliance** (ad/labeling law, claim substantiation) is intentionally left to you — the suite optimizes for design and conversion quality, not legal review.
 - License: MIT.

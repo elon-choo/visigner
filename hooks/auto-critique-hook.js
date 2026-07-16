@@ -4,21 +4,27 @@
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const { spawnSync } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 
 const MAX_EVENT_BYTES = 32 * 1024 * 1024;
 const RUNNER = path.resolve(__dirname, 'auto-grade-runner.js');
+const AUTO_PROVISION = path.resolve(__dirname, 'auto-provision-browser.js');
 const PIXEL_OFF_NOTICE = 'PIXEL CRITIQUE IS OFF — run /design-setup to enable full visual critique.';
+const AUTO_PROVISION_NOTICE = '픽셀 비평용 브라우저를 백그라운드에서 1회 자동 준비 중입니다 — 약 150MB 다운로드, 끝나면 다음 저장부터 픽셀 루프가 자동으로 켜집니다.';
 
 let input = '';
 
-process.stdin.setEncoding('utf8');
-process.stdin.on('data', (chunk) => {
-  input += chunk;
-  if (Buffer.byteLength(input, 'utf8') > MAX_EVENT_BYTES) process.exit(0);
-});
-process.stdin.on('end', run);
-process.stdin.resume();
+// Read the PostToolUse event from stdin only when run as the actual hook. When required (unit tests), skip
+// the stdin wiring so maybeAutoProvision/autoProvisionDisabled can be exercised directly.
+if (require.main === module) {
+  process.stdin.setEncoding('utf8');
+  process.stdin.on('data', (chunk) => {
+    input += chunk;
+    if (Buffer.byteLength(input, 'utf8') > MAX_EVENT_BYTES) process.exit(0);
+  });
+  process.stdin.on('end', run);
+  process.stdin.resume();
+}
 
 function emitContext(message, userMessage) {
   process.stdout.write(JSON.stringify({
@@ -91,7 +97,7 @@ function buildHumanGate(target, result) {
   }
 }
 
-function compactGrade(result, event, humanGate) {
+function compactGrade(result, event, humanGate, autoProvision) {
   const grade = result.staticGrade || {};
   const verdict = typeof grade.verdict === 'string' && grade.verdict.length
     ? grade.verdict
@@ -106,6 +112,9 @@ function compactGrade(result, event, humanGate) {
     : 'unavailable';
   const render = result.render || { status: 'skipped', reason: 'render result unavailable' };
   const pixelOff = render.status !== 'fired';
+  const autoProvisionActive = pixelOff
+    && autoProvision
+    && (autoProvision.status === 'kicked' || autoProvision.status === 'in-flight');
   const guidedInstall = render.setupRequired && render.provisioning
     && typeof render.provisioning.installCommand === 'string'
     ? render.provisioning
@@ -121,8 +130,8 @@ function compactGrade(result, event, humanGate) {
     : null;
 
   const userMessage = [
-    pixelOff ? PIXEL_OFF_NOTICE : null,
-    guidedInstall ? `ONE-TAP GUIDED BROWSER SETUP (consent required; not auto-run): ${guidedInstall.installCommand}` : null,
+    autoProvisionActive ? AUTO_PROVISION_NOTICE : pixelOff ? PIXEL_OFF_NOTICE : null,
+    guidedInstall && !autoProvisionActive ? `ONE-TAP GUIDED BROWSER SETUP (consent required; not auto-run): ${guidedInstall.installCommand}` : null,
     `STATIC GRADE EMITTED — verdict: ${verdict}; s2Pass: ${s2Pass}; tellsDetected: ${tells.length}; mechanicalScore: ${mechanical}; render: ${render.status}.`,
     `tasteSuspect: ${tasteSuspect}.`,
     tasteSuspect ? `HUMAN TASTE REVIEW REQUIRED — ${tasteCaveat}` : null,
@@ -131,6 +140,7 @@ function compactGrade(result, event, humanGate) {
 
   const lines = [
     pixelOff ? PIXEL_OFF_NOTICE : null,
+    pixelOff && autoProvision ? `autoProvision: ${autoProvision.status}` : null,
     guidedInstall ? 'guidedInstallStatus: available' : null,
     guidedInstall ? `guidedInstallCommand: ${guidedInstall.installCommand}` : null,
     guidedInstall ? `guidedInstallSource: ${guidedInstall.source}` : null,
@@ -169,6 +179,50 @@ function compactGrade(result, event, humanGate) {
     lines.push(checklistText);
   }
   return { modelMessage: lines.join('\n'), userMessage };
+}
+
+function autoProvisionDisabled(env = process.env) {
+  return /^(1|true|yes)$/i.test(String(env.VISIGNER_NO_AUTO_BROWSER || ''));
+}
+
+function maybeAutoProvision(result, {
+  env = process.env,
+  fsApi = fs,
+  spawnFn = spawn,
+  now = Date.now(),
+} = {}) {
+  // Only auto-provision when the render reports the browser is GENUINELY MISSING (setupRequired:true — set for
+  // 'skipped-no-browser' and capture-time no-browser). A non-'fired' render can ALSO be a transient capture
+  // failure on a WORKING browser, or a fail-closed grade on a broken/full tmpdir; provisioning on those would
+  // falsely claim a ~150MB download and, on a broken tmpdir, respawn a detached process on every save (H-01/M-01).
+  if (!result || !result.render || result.render.setupRequired !== true) return null;
+  if (autoProvisionDisabled(env)) return { status: 'disabled' };
+
+  try {
+    const {
+      lastRunFailed,
+      lockIsFresh,
+      provisioningPaths,
+      readLastRun,
+    } = require('./auto-provision-browser.js');
+    const paths = provisioningPaths();
+    if (lastRunFailed(readLastRun(paths.lastRunFile, fsApi))) return { status: 'failed' };
+    if (lockIsFresh(paths.lockFile, { fsApi, now })) return { status: 'in-flight' };
+
+    const script = typeof env.VISIGNER_AUTO_PROVISION_SCRIPT === 'string'
+      && env.VISIGNER_AUTO_PROVISION_SCRIPT.length > 0
+      ? path.resolve(env.VISIGNER_AUTO_PROVISION_SCRIPT)
+      : AUTO_PROVISION;
+    const child = spawnFn(process.execPath, [script], {
+      detached: true,
+      stdio: 'ignore',
+      windowsHide: true,
+    });
+    child.unref();
+    return { status: 'kicked' };
+  } catch (_) {
+    return { status: 'failed' };
+  }
 }
 
 async function buildOnboarding(event, result) {
@@ -260,8 +314,9 @@ async function run() {
     }
 
     const result = JSON.parse(child.stdout);
+    const autoProvision = maybeAutoProvision(result);
     const humanGate = buildHumanGate(target, result);
-    const messages = compactGrade(result, event, humanGate);
+    const messages = compactGrade(result, event, humanGate, autoProvision);
     // Additive: prepend the one-time first-run onboarding when this is a genuine first/cold run (read-only novelty).
     const onboarding = await buildOnboarding(event, result);
     if (onboarding && typeof onboarding.message === 'string' && onboarding.message.length) {
@@ -274,3 +329,5 @@ async function run() {
     emitFailClosedGrade(target, `hook failed safely: ${error.message}`);
   }
 }
+
+module.exports = { maybeAutoProvision, autoProvisionDisabled };

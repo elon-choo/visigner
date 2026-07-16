@@ -30,6 +30,7 @@ test('launcher finds nvm node and runs the grade hook when node is off launch PA
     PATH: '/usr/bin:/bin',
     NVM_DIR: path.join(os.tmpdir(), `visigner-missing-nvm-${process.pid}-${Date.now()}`),
     VISIGNER_FORCE_BROWSER_MISSING: '1',
+    VISIGNER_NO_AUTO_BROWSER: '1',
   };
   const ambientNode = spawnSync('/bin/sh', ['-c', 'command -v node'], {
     env: launchEnv,

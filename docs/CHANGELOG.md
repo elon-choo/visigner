@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.5.0 — Install-only: the pixel browser auto-provisions (2026-07-16)
+
+v1.4 made the **grade** the default. v1.5 makes the **pixel self-critique loop** install-only too, so a beginner who never runs a single command still gets the full loop.
+
+### Added
+- **Background browser auto-provisioning** — the first time you save a design `*.html` on a machine that lacks the Patchright/Chromium browser, Visigner kicks off the ~150MB install **in the background** (`hooks/auto-provision-browser.js`, spawned detached + `unref`'d from the auto-grade hook). The first save grades static-only while it downloads; from the next save the pixel loop is on. No command required. Single-flight (a lock file prevents duplicate installers), fail-open (any error never breaks the grade/human-gate emit), and opt-out via `VISIGNER_NO_AUTO_BROWSER=1`. `/design-setup` remains the manual/offline/CI fallback and the way to force a reinstall after a plugin update.
+
+### Changed
+- **Docs site rebuilt for craft + correctness** — `docs/{index,guide,how-to}.html`. Fixed a real desktop layout bug where the guide/how-to left index rail (viewport-`fixed`, positioned by `calc(50% - …)`) collided with the separately-centered content column and clipped the H1 in the ~1120–1440px range; the rail is now a real CSS-grid track (`.doc`) that shares one coordinate system with the content and cannot overlap, collapsing to a sticky chapter-chip rail below 1120px and a compact strip on mobile. Removed a lone raised middle-card (a `box-shadow` surviving a flat-card override) and restored three distinct **flat** card materials so a card row is never a uniform-frame AI tell. Dark editorial bands became contained content-width panels (no more rail floating over them mid-scroll). All copy reframed to the install-only model. All three pages still self-grade `verdict=clean · s2Pass=true · 100/A` with 0 mobile overflow.
+
 ## 1.4.0 — Auto-activation spine (2026-07-14)
 
 The anti-slop grade is now **default, not something you remember to run.** Producing an `*.html` design artifact auto-fires the check, and the honest gaps a machine can't fix are surfaced in plain language.

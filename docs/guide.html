@@ -111,14 +111,14 @@
   .btn-accent{ background:var(--accent); color:var(--on-accent); box-shadow:var(--shadow-e2); }
   .btn-ghost{ border:1.5px solid var(--line); color:var(--ink); }
 
-  .card{ background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:18px; }
-  /* 같은 카드 넷을 나란히 두는 건 AI 티의 대표 문법이다. 두 번째 소재를 만들어 프레임 반복을 깬다. */
-  .card-open{ background:transparent; border:1px solid oklch(0.620 0.200 32 / .22); border-radius:20px; padding:18px; }
-  .card-rule{ background:var(--surface); border:1px solid var(--line); border-left:3px solid oklch(0.620 0.200 32 / .35); border-radius:6px 14px 14px 6px; padding:18px; }
+  /* 같은 카드 넷을 나란히 두는 건 AI 티의 대표 문법이다. 세 소재를 만들어 프레임 반복을 깬다. */
+  .card{ background:var(--surface); border-radius:14px; padding:18px; }
+  .card-open{ background:transparent; border-radius:20px; padding:18px; }
+  .card-rule{ background:var(--surface); border-radius:6px 14px 14px 6px; padding:18px; }
   .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
   .grid3{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  /* lift the middle card of each trio: deliberate emphasis, and it breaks the uniform 3-identical-card grid */
-  .grid3 .card:nth-child(2){ border-radius:18px; box-shadow:var(--shadow-e2); border-color:transparent; }
+  /* all trio cards share one flat treatment — emphasis is an accent top-border, never a lone raised shadow */
+  .grid3 .card.card--mark{ border-top-color:var(--accent); }
 
   /* terminal copy box */
   .term{ background:var(--term); border-radius:13px; overflow:hidden; box-shadow:var(--shadow-e2); margin:14px 0; }
@@ -148,16 +148,28 @@
   @media (prefers-reduced-motion: reduce){ .reveal{ opacity:1 !important; transform:none !important; } }
 
   /* field manual: the repository becomes the navigation, margin and evidence source */
-  :root { --maxw:980px; }
+  :root { --maxw:1180px; }
   .nav { background:var(--paper); backdrop-filter:none; -webkit-backdrop-filter:none; }
   .btn, .term, .card, .card-open, .card-rule, .warn { border-radius:0; }
   .btn-accent, .term { box-shadow:none; }
 
-  .manual-index { position:fixed; z-index:12; top:84px; left:max(18px,calc(50% - 700px)); width:184px; padding:8px 8px 12px; background:var(--paper); font-size:12px; line-height:1.35; }
-  .manual-index > p { margin:0 0 12px; padding-top:8px; border-top:2px solid var(--ink); font-weight:600; }
-  .manual-index a { display:grid; grid-template-columns:26px 1fr; gap:7px; padding:6px 0; border-top:1px solid var(--line); color:var(--muted); text-decoration:none; }
+  /* Doc layout: the index is a real grid track beside the content, so rail and column share ONE
+     coordinate system and can never overlap (the old bug was a viewport-fixed rail colliding with a
+     separately-centered column). The sticky rail scrolls with the content and never floats over a band. */
+  .doc { max-width:var(--maxw); margin-inline:auto; padding-inline:22px; }
+  .doc__flow { min-width:0; }
+  .doc__flow > .wrap, .doc__flow section > .wrap { max-width:none; margin-inline:0; padding-inline:0; }
+  @media (min-width:1120px){
+    .doc { display:grid; grid-template-columns:200px minmax(0,1fr); column-gap:56px; align-items:start; }
+    .manual-index { position:sticky; top:82px; align-self:start; max-height:calc(100dvh - 104px); overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; }
+    .manual-index::-webkit-scrollbar{ display:none; }
+  }
+  .manual-index > p { margin:0 0 11px; padding-top:8px; border-top:2px solid var(--ink); font-weight:600; letter-spacing:-.005em; }
+  .manual-index a { display:grid; grid-template-columns:26px 1fr; gap:8px; padding:7px 0; border-top:1px solid var(--line); color:var(--muted); text-decoration:none; }
   .manual-index a:hover { color:var(--ink); }
   .manual-index a span:first-child { color:var(--accent-700); font-variant-numeric:tabular-nums; }
+  .manual-index a[aria-current="true"] span:not(:first-child){ color:var(--ink); }
+  .manual-index a[aria-current="true"]{ box-shadow:inset 2px 0 0 var(--accent); padding-left:8px; margin-left:-8px; }
 
   .guide-hero { padding-block:54px 92px; }
   .guide-hero > .wrap { display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:0 20px; }
@@ -168,7 +180,7 @@
   .guide-hero h1 + p + p, .guide-hero h1 + p + p + div, .guide-hero .warn { grid-column:3 / 8; }
 
   .chapter { position:relative; padding-block:68px 48px; }
-  .chapter[data-record]::after { content:attr(data-record); position:absolute; top:20px; right:max(18px,calc(50% - 620px)); font-family:var(--font-body); font-size:10px; letter-spacing:.02em; color:var(--muted); }
+  .chapter[data-record]::after { content:attr(data-record); position:absolute; top:22px; right:0; font-family:var(--font-body); font-size:10.5px; letter-spacing:.02em; color:var(--muted); }
   .chapter > .wrap { display:grid; grid-template-columns:46px minmax(0,1fr); column-gap:28px; }
   .chapter > .wrap > * { grid-column:2; min-width:0; }
   .chapter > .wrap > .secnum { grid-column:1; grid-row:1 / span 2; align-self:start; margin-top:5px; font-family:var(--font-body); font-size:12px; line-height:1; letter-spacing:0; color:var(--accent-700); opacity:1; }
@@ -182,7 +194,7 @@
   #map h2, #extend h2, #faq h2 { font-size:clamp(25px,2.8vw,32px); }
   #worked-example { padding-block:98px 54px; }
   #worked-example h2 { font-size:clamp(40px,4.8vw,52px); max-width:14em; }
-  #screenshot-loop { padding-block:96px 54px; background:var(--term); color:var(--term-ink); }
+  #screenshot-loop { padding:88px 36px 54px; background:var(--term); color:var(--term-ink); }
   #screenshot-loop::after { color:var(--term-dim); }
   #screenshot-loop .secnum { color:var(--amber); }
   #screenshot-loop h2 { font-size:clamp(38px,4.6vw,50px); max-width:14em; }
@@ -193,7 +205,12 @@
 
   .chapter-band { padding-block:0 84px; border-top:0; }
   .chapter-band .wrap { max-width:var(--maxw); }
-  .card, .card-open, .card-rule { padding:18px 0; border:0; border-top:2px solid var(--line); background:none; }
+  /* three distinct flat card materials so a row of them is never a uniform frame loop (the AI tell this
+     very page rejects) — emphasis is a border, never a raised shadow */
+  .card, .card-open, .card-rule { padding:18px 0; border:0; background:none; }
+  .card { border-top:2px solid var(--line); }
+  .card-open { border-top:2px solid var(--accent); }
+  .card-rule { border-left:3px solid var(--accent); padding-left:18px; }
   .intro-band .grid3 { grid-template-columns:.82fr 1.18fr 1fr; align-items:start; gap:28px; }
   .map-skills-band { padding-bottom:28px; }
   .map-skills-band .card-open { padding:20px 0; }
@@ -202,7 +219,7 @@
   .map-support-band .grid2 { grid-template-columns:.74fr 1.26fr; align-items:start; gap:32px; }
   .worked-band ol { max-width:49em; margin-left:74px; }
   .worked-band .warn { max-width:49em; margin-left:74px; }
-  .loop-band { padding-bottom:102px; background:var(--term); color:var(--term-ink); }
+  .loop-band { padding:8px 36px 92px; background:var(--term); color:var(--term-ink); }
   .loop-band .grid3 { grid-template-columns:.72fr 1fr 1.28fr; align-items:start; gap:28px; }
   .loop-band .card, .loop-band .card-open, .loop-band .card-rule { border-color:oklch(1 0 0 / .2); color:var(--term-ink); }
   .loop-band .card p, .loop-band .card-open p, .loop-band .card-rule p { color:var(--term-dim) !important; }
@@ -232,10 +249,14 @@
 
   footer{ border-top:1px solid var(--line); padding-block:26px 46px; color:var(--muted); font-size:13.5px; }
 
-  @media (max-width:1240px){
-    .manual-index { position:static; width:auto; max-width:var(--maxw); margin:0 auto; padding:18px 22px 0; display:flex; gap:16px; overflow-x:auto; }
-    .manual-index > p { min-width:max-content; margin:0; border-top:0; }
-    .manual-index a { min-width:max-content; display:flex; border-top:0; padding:0; }
+  @media (max-width:1119px){
+    /* below the rail width, the index becomes a sticky chapter-chip rail under the nav — one coordinate system, no overlap possible */
+    .manual-index { position:sticky; top:58px; z-index:30; width:auto; max-width:var(--maxw); margin:0 auto; padding:12px 22px; display:flex; align-items:center; gap:18px; overflow-x:auto; background:color-mix(in oklab, var(--paper) 94%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line); scrollbar-width:none; }
+    .manual-index::-webkit-scrollbar{ display:none; }
+    .manual-index > p { min-width:max-content; margin:0; border-top:0; padding-top:0; }
+    .manual-index a { min-width:max-content; display:flex; gap:6px; border-top:0; padding:0; }
+    .manual-index a[aria-current="true"]{ box-shadow:none; padding-left:0; margin-left:0; }
+    .manual-index a[aria-current="true"] span:not(:first-child){ color:var(--ink); }
     .chapter[data-record]::after { display:none; }
   }
   @media (max-width:760px){
@@ -290,6 +311,7 @@
 </nav>
 
 <main id="main">
+<div class="doc">
 
 <nav class="manual-index" aria-label="Guide index">
   <p>Visigner · 01—10</p>
@@ -305,6 +327,7 @@
   <a href="#uninstall"><span>10</span><span lang="ko">제거</span><span lang="en">Remove</span></a>
 </nav>
 
+<div class="doc__flow">
 <!-- ───────────── hero ───────────── -->
 <section class="guide-hero" style="border-top:none">
   <div class="wrap">
@@ -318,8 +341,8 @@
       <span lang="en">One repo = the whole design toolchain, built on Anthropic's frontend-design discipline (plan tokens before code, reject the generic defaults) plus a <strong style="color:var(--ink)">screenshot self-critique loop</strong> so the output doesn't read as AI-generated.</span>
     </p>
     <p style="margin-top:12px">
-      <span lang="ko">Claude Code <strong>v2.1.100+</strong> 필요 · 기획·디자인·코드·검수는 설치 즉시 동작 · 파워 기능은 일회성 <code>/design-setup</code> 한 번.</span>
-      <span lang="en">Requires Claude Code <strong>v2.1.100+</strong> · plan/design/code/review work immediately · power features need one <code>/design-setup</code>.</span>
+      <span lang="ko">Claude Code <strong>v2.1.100+</strong> 필요 · 설치 두 줄이면 끝 · 픽셀 루프용 브라우저는 첫 디자인 저장 때 백그라운드에서 1회 자동 설치(약 150MB) · <code>/design-setup</code>은 수동·오프라인·CI·재설치용.</span>
+      <span lang="en">Requires Claude Code <strong>v2.1.100+</strong> · the two-line install is enough · the pixel-loop browser auto-installs once in the background on your first design save (~150MB) · <code>/design-setup</code> is for manual/offline/CI/reinstall use.</span>
     </p>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:22px">
       <a href="#install" class="btn btn-accent"><span lang="ko">Claude Code에 설치</span><span lang="en">Install in Claude Code</span></a>
@@ -375,7 +398,7 @@
 <span class="c"># <span lang="ko">2) 플러그인 설치, 스킬·에이전트·커맨드가 모두 켜집니다</span><span lang="en">2) install, and all skills, agents, commands load</span></span>
 <span class="p">/</span>plugin install visigner@visigner</pre>
     </div>
-    <p style="font-size:15px"><span lang="ko">기획·디자인·코드·검수는 여기서 바로 됩니다. <strong>스크린샷 캡처·이미지 배치 같은 파워 기능</strong>만 일회성 <code>/design-setup</code>(Patchright + Chromium)이 필요합니다.</span><span lang="en">Planning, designing, coding, and reviewing work right away. Only the <strong>screenshot/capture/image-placement power features</strong> need a one-time <code>/design-setup</code> (Patchright + Chromium).</span></p>
+    <p style="font-size:15px"><span lang="ko">여기까지가 초보자에게 필요한 전부입니다. HTML 저장 즉시 정적 채점과 STOP 체크리스트가 돌고, <strong>스크린샷 캡처·이미지 배치용 브라우저</strong>(Patchright + Chromium)는 첫 디자인 저장 때 백그라운드에서 1회 자동 설치됩니다(약 150MB). 첫 저장은 정적 채점만, 다음 저장부터 픽셀 루프까지 자동입니다. <code>/design-setup</code>은 수동·오프라인·CI·업데이트 후 강제 재설치용입니다.</span><span lang="en">This is everything a beginner needs. Saving HTML immediately runs the static grade and STOP checklist, while the <strong>screenshot/capture/image-placement browser</strong> (Patchright + Chromium) auto-installs once in the background on the first design save (~150MB). That first save is static-only; from the next save the pixel loop is automatic. <code>/design-setup</code> is for manual/offline/CI use or a forced reinstall after an update.</span></p>
     <h3 style="font-family:var(--font-display);font-size:19px;margin-top:22px"><span lang="ko">팀 전체 자동 적용</span><span lang="en">Team auto-enable</span></h3>
     <p class="lede"><span lang="ko">프로젝트 <code>.claude/settings.json</code>에 커밋해 두면 팀원은 워크스페이스를 신뢰하는 순간 자동으로 받습니다.</span><span lang="en">Commit this to your project's <code>.claude/settings.json</code> and teammates get it automatically on trusting the workspace.</span></p>
     <div class="term">
@@ -464,7 +487,7 @@
       <div class="card-rule reveal">
         <p class="kicker"><span lang="ko">커맨드 · 11 (지름길)</span><span lang="en">Commands · 11 (shortcuts)</span></p>
         <p style="font-family:var(--font-mono);font-size:13.5px;line-height:2;margin-top:8px">/design · /landing · /ui · /brand · /plan · /campaign · /design-image · /design-publish · /design-tokens · /design-review · /design-setup</p>
-        <p style="font-size:13.5px;color:var(--muted);margin-top:8px"><span lang="ko">디자인 커맨드 10 + 일회성 셋업 1(<code>/design-setup</code>). 스킬은 평소 말로도 자동 발동하므로 커맨드는 외울 필요 없습니다.</span><span lang="en">10 design commands + 1 one-time setup (<code>/design-setup</code>). Skills auto-trigger from plain language, so you needn't memorize the commands.</span></p>
+        <p style="font-size:13.5px;color:var(--muted);margin-top:8px"><span lang="ko">디자인 커맨드 10 + 수동·오프라인·CI·재설치용 브라우저 셋업 1(<code>/design-setup</code>). 평소 사용에는 필요 없고, 스킬도 자연어로 자동 발동하므로 커맨드를 외울 필요 없습니다.</span><span lang="en">10 design commands + 1 manual/offline/CI/reinstall browser setup (<code>/design-setup</code>). Normal use does not need it, and skills auto-trigger from plain language, so you needn't memorize the commands.</span></p>
       </div>
       <div class="card reveal">
         <p class="kicker"><span lang="ko">에이전트 · 3 (독립 리뷰어)</span><span lang="en">Agents · 3 (independent reviewers)</span></p>
@@ -506,7 +529,7 @@
       <li><span lang="ko"><strong>design-critic가 픽셀을 채점</strong>합니다. 10차원으로, 코드가 아니라 화면을 봅니다.</span><span lang="en"><strong>design-critic grades the pixels</strong>: 10 dimensions, looking at the screen, not the code.</span></li>
       <li><span lang="ko"><strong>게이트까지 반복</strong>합니다. 두 게이트를 모두 통과해야 합니다: 안티-슬롭 ≥8/10(어떤 차원도 7 미만 불가) <em>그리고</em> 취향 심사단 ≥7.5(색 확신·미적 야심 각 ≥7). "안티-슬롭은 통과하지만 안전하고 색 없는" 페이지를 걸러내는 두 번째 게이트입니다.</span><span lang="en"><strong>Iterates to the gate</strong>: it must clear BOTH: anti-slop ≥8/10 (no single dimension below 7) <em>and</em> a taste jury ≥7.5 (color-confidence · aesthetic ambition each ≥7). The second gate catches the page that passes anti-slop yet reads safe and colorless.</span></li>
       </ol>
-    <div class="warn"><span lang="ko"><strong>4–5단계는 일회성 <code>/design-setup</code>(Patchright + Chromium)이 필요합니다.</strong> 설치 직후 아직 브라우저가 없으면 페이지는 그대로 만들어지고 당신이 직접 검토하게 됩니다. 픽셀 스크린샷·critic 채점 단계만 건너뜁니다. <code>/design-setup</code>을 한 번 돌리면 그때부터 자동으로 켜집니다.</span><span lang="en"><strong>Steps 4–5 need the one-time <code>/design-setup</code> (Patchright + Chromium).</strong> Right after install, before you've added the browser, the page still builds and you self-review, only the pixel screenshot + critic grade are skipped. Run <code>/design-setup</code> once and they switch on from then on.</span></div>
+    <div class="warn"><span lang="ko"><strong>4–5단계용 <code>Patchright + Chromium</code>은 첫 디자인 저장 때 자동 준비됩니다.</strong> 약 150MB가 백그라운드에서 1회 내려오는 동안 첫 저장은 정적 안티-AI 채점과 평문 STOP 체크리스트까지 완료하고, 다음 저장부터 픽셀 스크린샷·critic 채점이 자동으로 이어집니다. 오프라인·CI·업데이트 후 강제 재설치 또는 VISIGNER_NO_AUTO_BROWSER=1로 자동 다운로드를 끈 경우에만 <code>/design-setup</code>을 수동으로 쓰세요.</span><span lang="en"><strong><code>Patchright + Chromium</code> for steps 4–5 prepares itself on the first design save.</strong> While the ~150MB download runs once in the background, that first save still completes the static anti-AI grade and plain-language STOP checklist; from the next save, pixel screenshots and critic grading join automatically. Use <code>/design-setup</code> manually only for offline/CI use, a forced reinstall after an update, or when auto-download is disabled with VISIGNER_NO_AUTO_BROWSER=1.</span></div>
     <div class="warn"><span lang="ko"><strong>이미지 키가 없을 때:</strong> 사진 슬롯은 의도된 온브랜드 lo-fi SVG 컴프로 렌더됩니다. 자리표시이지 완성 아트가 아닙니다. 운영자가 실제 사진으로 교체합니다(또는 OPENAI/GEMINI 키를 넣고 재생성). 정직하게, 가짜로 채우지 않습니다.</span><span lang="en"><strong>With no image key:</strong> photo slots render as intentional on-brand lo-fi SVG comps, placeholders, not finished art. The operator swaps in real photos (or adds an OPENAI/GEMINI key to regenerate). Kept honest: it never fakes the asset.</span></div>
   </div>
 </section>
@@ -527,7 +550,7 @@
       <div class="card-rule reveal"><p class="secnum">②</p><p style="font-weight:600;margin:6px 0 4px"><span lang="ko">기본값 금지 목록</span><span lang="en">Banned-defaults list</span></p><p style="font-size:14.5px;color:var(--muted)"><span lang="ko">Inter / 보라 그라데이션 / 동일 카드 4개 / 가운데 정렬. 전부 거부합니다.</span><span lang="en">Inter / purple gradient / four equal cards / centered, all rejected.</span></p></div>
       <div class="card reveal"><p class="secnum">③</p><p style="font-weight:600;margin:6px 0 4px"><span lang="ko">픽셀로 검증</span><span lang="en">Verify from pixels</span></p><p style="font-size:14.5px;color:var(--muted)"><span lang="ko"><code>shoot.js</code> / <code>serve-shoot.js</code>로 렌더·캡처 후 독립 critic이 채점.</span><span lang="en">render &amp; capture via <code>shoot.js</code> / <code>serve-shoot.js</code>, then an independent critic grades.</span></p></div>
       </div>
-    <p style="font-size:15px;margin-top:16px"><span lang="ko">렌더·캡처 기능은 일회성 <code>/design-setup</code>(Patchright + Chromium)으로 켭니다. 그 다음부터 독립 <strong>design-critic</strong>가 스크린샷을 읽고 <strong>SHIP / NO-SHIP</strong>을 냅니다. 만든 쪽의 말이 아니라 픽셀로 냅니다.</span><span lang="en">Render/capture is enabled by a one-time <code>/design-setup</code> (Patchright + Chromium). From then on an independent <strong>design-critic</strong> reads the screenshot and gates <strong>SHIP / NO-SHIP</strong>: on pixels, not on the builder's claims.</span></p>
+    <p style="font-size:15px;margin-top:16px"><span lang="ko">렌더·캡처용 Patchright + Chromium은 첫 디자인 저장 때 백그라운드에서 1회 자동 설치됩니다(약 150MB). <code>/design-setup</code>은 수동·오프라인·CI·재설치용 폴백입니다. 첫 저장은 정적 채점만 하고, 다음 저장부터 독립 <strong>design-critic</strong>가 스크린샷을 읽어 <strong>SHIP / NO-SHIP</strong>을 냅니다. 만든 쪽의 말이 아니라 픽셀로 냅니다.</span><span lang="en">Patchright + Chromium for render/capture auto-installs once in the background on the first design save (~150MB). <code>/design-setup</code> remains the manual/offline/CI/reinstall fallback. That first save grades static-only; from the next save an independent <strong>design-critic</strong> reads the screenshot and gates <strong>SHIP / NO-SHIP</strong>: on pixels, not on the builder's claims.</span></p>
   </div>
 </section>
 
@@ -537,7 +560,7 @@
     <p class="secnum">07</p>
     <h2><span lang="ko">확장 &amp; 설정</span><span lang="en">How to extend &amp; configure</span></h2>
     <ul class="tight" style="font-size:15.5px">
-      <li><span lang="ko"><strong>자동 채점 (v1.4, 기본 켜짐)</strong>: <code>*.html</code>을 저장하면 정적 안티-슬롭 채점과 "사람이 채워야 할 것" STOP 체크리스트가 자동으로 발화합니다. 플러그인 훅은 인터랙티브 세션에서 발화하고, 헤드리스 CLI에서도 확실히 띄우려면 <code>~/.claude/settings.json</code>의 <code>PostToolUse</code>에 등록하면 됩니다. 픽셀 비평까지 켜려면 <code>/design-setup</code>.</span><span lang="en"><strong>Auto-grade (v1.4, on by default)</strong>: saving an <code>*.html</code> auto-fires the static anti-slop grade and a plain-language STOP checklist of what a human must still fill. Plugin hooks fire in interactive sessions; to make it fire in the headless CLI too, register it in <code>~/.claude/settings.json</code> under <code>PostToolUse</code>. Turn on pixel critique with <code>/design-setup</code>.</span></li>
+      <li><span lang="ko"><strong>자동 채점 + 자동 브라우저 (v1.5, 기본 켜짐)</strong>: v1.4부터 <code>*.html</code> 저장 즉시 정적 안티-슬롭 채점과 "사람이 채워야 할 것" STOP 체크리스트가 자동 발화합니다. v1.5에서는 브라우저가 없는 첫 디자인 저장 때 Patchright + Chromium도 백그라운드에서 1회 자동 설치됩니다(약 150MB). 첫 저장은 정적 채점만, 다음 저장부터 픽셀 비평까지 자동입니다. 플러그인 훅은 인터랙티브 세션에서 발화하고, 헤드리스 CLI에서도 확실히 띄우려면 <code>~/.claude/settings.json</code>의 <code>PostToolUse</code>에 등록하세요. <code>/design-setup</code>은 수동·오프라인·CI·강제 재설치용입니다.</span><span lang="en"><strong>Auto-grade + auto-browser (v1.5, on by default)</strong>: since v1.4, saving an <code>*.html</code> auto-fires the static anti-slop grade and a plain-language STOP checklist of what a human must still fill. In v1.5, if the first design save finds no browser, Patchright + Chromium also auto-installs once in the background (~150MB). That first save is static-only; from the next save pixel critique is automatic too. Plugin hooks fire in interactive sessions; to make them fire reliably in the headless CLI, register the hook in <code>~/.claude/settings.json</code> under <code>PostToolUse</code>. <code>/design-setup</code> is for manual/offline/CI/forced-reinstall use.</span></li>
       <li><span lang="ko"><strong>실제 이미지 생성</strong>: <code>OPENAI_API_KEY</code> / <code>GEMINI_API_KEY</code>(또는 <code>codex login</code> 으로 ChatGPT 로그인). 없으면 lo-fi SVG 컴프로 대체.</span><span lang="en"><strong>Real image generation</strong>: <code>OPENAI_API_KEY</code> / <code>GEMINI_API_KEY</code> (or a ChatGPT login via <code>codex login</code>). Without it you get lo-fi SVG comps.</span></li>
       <li><span lang="ko"><strong>팀 자동 적용</strong>: <code>.claude/settings.json</code> (02번 참고).</span><span lang="en"><strong>Team auto-enable</strong>: via <code>.claude/settings.json</code> (see section 02).</span></li>
       <li><span lang="ko"><strong>직접 부를 수 있는 빌트인 Node 스크립트</strong>: <code>ab.js</code>(A/B 통계), <code>pull-funnel.js</code>, <code>copy-lint.js</code>, <code>email.js</code>, <code>icon-set.js</code>, <code>brand-book.js</code>, <code>logo-handoff.js</code>, <code>name-check.js</code>. 30개 전부 <code>skills/detail-page/scripts/</code> 아래에 있고, 모두 의존성 0입니다 (<code>ls skills/detail-page/scripts/*.js</code>).</span><span lang="en"><strong>Built-in Node scripts you can invoke directly</strong>: <code>ab.js</code> (A/B stats), <code>pull-funnel.js</code>, <code>copy-lint.js</code>, <code>email.js</code>, <code>icon-set.js</code>, <code>brand-book.js</code>, <code>logo-handoff.js</code>, <code>name-check.js</code>. All 30 live under <code>skills/detail-page/scripts/</code> and are zero-dependency (<code>ls skills/detail-page/scripts/*.js</code>).</span></li>
@@ -560,7 +583,7 @@
       <tbody>
         <tr><td><span lang="ko">"전환율 N% 올려준다"</span><span lang="en">"Lifts conversion by N%"</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span>: <span lang="ko">외부 성능 벤치마크가 저장소에 없습니다. 마케팅하는 건 인벤토리 카운트와 채점 규율뿐.</span><span lang="en">there's no external performance benchmark in the repo. What's marketed is inventory counts and a grading bar.</span></td></tr>
         <tr><td><span lang="ko">Figma·Photoshop을 대체한다</span><span lang="en">Replaces Figma/Photoshop</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span>: <span lang="ko">공급합니다. 코드·SVG·토큰·스펙을 만들어 넘기고, 호스팅·ESP·웨어하우스로는 여전히 배포합니다.</span><span lang="en">it feeds them. It makes code/SVG/tokens/specs; you still ship through hosting/ESP/warehouse.</span></td></tr>
-        <tr><td><span lang="ko">키 없이 모든 기능</span><span lang="en">Everything with no key</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span>: <span lang="ko">스크린샷 루프는 일회성 <code>/design-setup</code>, 실제 이미지 생성은 OPENAI/GEMINI 키 또는 ChatGPT 로그인이 필요.</span><span lang="en">the screenshot loop needs a one-time <code>/design-setup</code>; real image generation needs an OPENAI/GEMINI key or ChatGPT login.</span></td></tr>
+        <tr><td><span lang="ko">키 없이 모든 기능</span><span lang="en">Everything with no key</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span>: <span lang="ko">정적 채점·STOP 체크리스트·픽셀 루프는 키 없이 자동으로 동작하고, 브라우저도 첫 저장 때 백그라운드에서 준비됩니다. 실제 이미지 생성만 OPENAI/GEMINI 키 또는 ChatGPT 로그인이 필요. <code>/design-setup</code>은 수동·오프라인·CI·재설치용.</span><span lang="en">the static grade, STOP checklist, and pixel loop work without a key, and the browser prepares itself in the background on the first save. Only real image generation needs an OPENAI/GEMINI key or ChatGPT login. <code>/design-setup</code> is for manual/offline/CI/reinstall use.</span></td></tr>
         <tr><td><span lang="ko">완성된 사진/일러스트 제공</span><span lang="en">Ships finished photos</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span>: <span lang="ko">키가 없으면 lo-fi SVG 컴프(의도된 자리표시)이며 운영자가 실제 아트로 교체합니다.</span><span lang="en">without a key it's a lo-fi SVG comp (intentional placeholder) the operator replaces.</span></td></tr>
         <tr><td><span lang="ko">법적·표시광고 적합성 보장</span><span lang="en">Handles compliance/legal</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span>: <span lang="ko">컴플라이언스·주장 입증은 운영자 몫입니다. 디자인·전환 품질을 올릴 뿐.</span><span lang="en">compliance and claim-substantiation are the operator's. It raises design/conversion quality only.</span></td></tr>
         <tr><td><span lang="ko">모델을 더 똑똑하게</span><span lang="en">Makes the model smarter</span></td><td><span class="no"><span lang="ko">아니오</span><span lang="en">No</span></span>: <span lang="ko">모델 실력은 그대로입니다. 더하는 건 규율(토큰 먼저 · 픽셀로 검증 · 독립 채점)입니다.</span><span lang="en">the model's ability is unchanged. What's added is discipline (tokens first · verify from pixels · independent grading).</span></td></tr>
@@ -580,7 +603,7 @@
       <dt><span lang="ko"><code>/design-setup</code>에서 권한 오류가 나요</span><span lang="en"><code>/design-setup</code> permission error</span></dt>
       <dd><span lang="ko">플러그인 디렉터리에 쓰기 권한이 없는 경우입니다. <code>sudo</code>로 풀려고 하지 마세요. 설치 경로 권한을 확인하세요.</span><span lang="en">You lack write access to the plugin directory. Don't <code>sudo</code> it. Fix the install-dir permissions instead.</span></dd>
       <dt><span lang="ko">플러그인 업데이트 후엔?</span><span lang="en">After a plugin update?</span></dt>
-      <dd><span lang="ko"><strong>스크린샷 루프를 쓰는 경우에만</strong> 설치 디렉터리에서 <code>npm install</code>을 다시 돌리세요 (Chromium 캐시는 유지됩니다). 그 외에 기획·디자인·코드·검수·토큰·카피·빌트인 스크립트는 의존성 0이라 할 일이 없습니다. 핵심 경로엔 <code>npm install</code>이 필요 없습니다.</span><span lang="en"><strong>Only if you use the screenshot loop</strong>, re-run <code>npm install</code> in the plugin install dir (the Chromium cache survives). Otherwise, plan/design/code/review/tokens/copy and the built-in scripts are zero-dependency, so there's nothing to do. The core path never needs <code>npm install</code>.</span></dd>
+      <dd><span lang="ko"><strong>보통은 할 일이 없습니다.</strong> 업데이트 뒤 첫 디자인 저장에서 브라우저 런타임이 필요하면 백그라운드에서 자동 복구되고, Chromium 캐시는 유지됩니다. 오프라인·CI에서 미리 준비하거나 즉시 강제 재설치하려면 <code>/design-setup</code>을 쓰세요. 기획·디자인·코드·검수·토큰·카피·빌트인 스크립트는 그대로 의존성 0이고, 핵심 경로엔 별도 <code>npm install</code>이 필요 없습니다.</span><span lang="en"><strong>Usually, nothing.</strong> On the first design save after an update, the browser runtime restores itself in the background if needed, while the Chromium cache survives. Use <code>/design-setup</code> to prepare it ahead of time offline/in CI or force an immediate reinstall. Planning/design/code/review/tokens/copy and the built-in scripts remain zero-dependency, and the core path needs no separate <code>npm install</code>.</span></dd>
       <dt><span lang="ko">캡처·스크린샷은 어디에 저장되나요?</span><span lang="en">Where do captures/screenshots go?</span></dt>
       <dd><span lang="ko">스킬의 작업 디렉터리(예: <code>skills/detail-page/references/captures/</code>) 아래에 저장됩니다.</span><span lang="en">Under the skill's working directory (e.g. <code>skills/detail-page/references/captures/</code>).</span></dd>
       <dt><span lang="ko">커맨드를 쓸지, 그냥 설명할지?</span><span lang="en">Command vs. just describing?</span></dt>
@@ -615,6 +638,8 @@
   </div>
 </section>
 
+</div><!-- .doc__flow -->
+</div><!-- .doc -->
 </main>
 
 <footer>

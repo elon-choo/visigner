@@ -64,7 +64,11 @@ function invokeHook(page, env) {
     encoding: 'utf8',
     timeout: 45_000,
     maxBuffer: 12 * 1024 * 1024,
-    env: { ...env, VISIGNER_FORCE_BROWSER_MISSING: '1' },
+    env: {
+      ...env,
+      VISIGNER_FORCE_BROWSER_MISSING: '1',
+      VISIGNER_NO_AUTO_BROWSER: '1',
+    },
   });
 }
 
