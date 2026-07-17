@@ -203,6 +203,24 @@
   #boundaries h2 { font-size:clamp(34px,4vw,44px); }
   #uninstall h2 { font-size:26px; }
 
+  /* v1.5 auto band — the install-only hook: what YOU do (2) vs what fires automatically (4) */
+  .autoband { padding-block:8px 76px; border-top:0; }
+  .autoband > .wrap > .kicker { color:var(--accent-700); font-weight:600; display:block; }
+  .autoband h2 { font-family:var(--font-display); font-weight:700; font-size:clamp(30px,3.9vw,46px); line-height:1.04; letter-spacing:-.026em; margin:10px 0 0; max-width:15em; }
+  .autoband h2 em { font-style:normal; color:var(--accent); }
+  .autoband-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:0 48px; margin-top:34px; align-items:start; }
+  .autoband-col > p { display:flex; align-items:baseline; gap:10px; font-weight:600; font-size:13px; padding-bottom:7px; border-bottom:2px solid var(--ink); margin:0; }
+  .autoband-col > p b { font-family:var(--font-display); font-weight:700; font-size:30px; line-height:1; letter-spacing:-.03em; margin-left:auto; font-variant-numeric:tabular-nums; }
+  .autoband-auto > p { color:var(--accent-700); border-bottom-color:var(--accent); }
+  .autoband-auto > p b { color:var(--accent); }
+  .autoband ol, .autoband ul { list-style:none; margin:0; padding:0; }
+  .autoband li { padding:14px 0; border-bottom:1px solid var(--line); display:grid; grid-template-columns:20px 1fr; gap:11px; align-items:start; }
+  .autoband li > span:first-child { font-variant-numeric:tabular-nums; color:var(--muted); font-weight:600; font-size:13px; line-height:1.5; }
+  .autoband-auto li > span:first-child { color:var(--accent); font-weight:700; font-size:16px; line-height:1.35; }
+  .autoband li b { font-size:15.5px; line-height:1.45; }
+  .autoband li i { font-style:normal; color:var(--muted); display:block; font-size:13.5px; line-height:1.5; margin-top:3px; }
+  .autoband-foot { margin-top:28px; font-size:15px; color:var(--muted); padding-left:16px; border-left:3px solid var(--amber); max-width:44em; }
+
   .chapter-band { padding-block:0 84px; border-top:0; }
   .chapter-band .wrap { max-width:var(--maxw); }
   /* three distinct flat card materials so a row of them is never a uniform frame loop (the AI tell this
@@ -261,6 +279,8 @@
   }
   @media (max-width:760px){
     .grid2,.grid3{ grid-template-columns:1fr; }
+    .autoband-grid { grid-template-columns:1fr; gap:36px 0; }
+    .autoband { padding-bottom:56px; }
     .nav-hide{ display:none !important; }
     .manual-index { gap:13px; }
     .manual-index a span:not(:first-child) { display:none; }
@@ -341,8 +361,8 @@
       <span lang="en">One repo = the whole design toolchain, built on Anthropic's frontend-design discipline (plan tokens before code, reject the generic defaults) plus a <strong style="color:var(--ink)">screenshot self-critique loop</strong> so the output doesn't read as AI-generated.</span>
     </p>
     <p style="margin-top:12px">
-      <span lang="ko">Claude Code <strong>v2.1.100+</strong> 필요 · 설치 두 줄이면 끝 · 픽셀 루프용 브라우저는 첫 디자인 저장 때 백그라운드에서 1회 자동 설치(약 150MB) · <code>/design-setup</code>은 수동·오프라인·CI·재설치용.</span>
-      <span lang="en">Requires Claude Code <strong>v2.1.100+</strong> · the two-line install is enough · the pixel-loop browser auto-installs once in the background on your first design save (~150MB) · <code>/design-setup</code> is for manual/offline/CI/reinstall use.</span>
+      <span lang="ko">Claude Code <strong>v2.1.100+</strong> 필요 · 설치 두 줄, API 키 불필요 · <strong style="color:var(--ink)">그다음은 아래대로 전부 자동입니다.</strong></span>
+      <span lang="en">Requires Claude Code <strong>v2.1.100+</strong> · two lines to install, no API key · <strong style="color:var(--ink)">everything after that runs automatically, as below.</strong></span>
     </p>
     <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:22px">
       <a href="#install" class="btn btn-accent"><span lang="ko">Claude Code에 설치</span><span lang="en">Install in Claude Code</span></a>
@@ -350,6 +370,35 @@
       <a href="https://github.com/elon-choo/visigner" class="btn btn-ghost"><span lang="ko">저장소 보기</span><span lang="en">View the repo</span></a>
     </div>
     <p class="warn" style="margin-top:22px"><span lang="ko"><strong>이 가이드의 약속:</strong> 형용사가 아니라 셀 수 있는 것만 말합니다. Visigner에는 외부 성능 벤치마크가 없습니다. 그래서 인벤토리 수치, 채점 규율, 그리고 <em>하지 않는 것</em>으로 이야기합니다.</span><span lang="en"><strong>This guide's promise:</strong> countable facts, not adjectives. Visigner has no external performance benchmark, so it speaks in inventory counts, a grading bar, and what it <em>does not</em> do.</span></p>
+  </div>
+</section>
+
+<section class="chapter-band autoband" aria-label="자동으로 되는 것 / What runs automatically">
+  <div class="wrap">
+    <span class="kicker"><span lang="ko">v1.5 · 설치가 셋업의 전부</span><span lang="en">v1.5 · install IS the setup</span></span>
+    <h2>
+      <span lang="ko">설치 두 줄.<br>그다음은 <em>전부 자동</em>입니다.</span>
+      <span lang="en">Two lines to install.<br>Everything after that is <em>automatic</em>.</span>
+    </h2>
+    <div class="autoband-grid">
+      <div class="autoband-col autoband-you">
+        <p><span lang="ko">당신이 하는 것</span><span lang="en">You do</span><b>2</b></p>
+        <ol>
+          <li><span>01</span><span><b><span lang="ko">설치 두 줄</span><span lang="en">Install, two lines</span></b><i><span lang="ko">마켓플레이스 추가 + 플러그인 설치. 60초, API 키 불필요.</span><span lang="en">add the marketplace, install the plugin. 60 seconds, no API key.</span></i></span></li>
+          <li><span>02</span><span><b><span lang="ko"><code>*.html</code> 저장</span><span lang="en">Save an <code>*.html</code></span></b><i><span lang="ko">평소처럼 디자인하고 저장하면 끝. 외울 명령 없음.</span><span lang="en">design as usual and hit save. Nothing to memorize.</span></i></span></li>
+        </ol>
+      </div>
+      <div class="autoband-col autoband-auto">
+        <p><span lang="ko">그 순간 자동으로</span><span lang="en">Fires automatically</span><b>4</b></p>
+        <ul>
+          <li><span>✓</span><span><b><span lang="ko">안티-AI 채점</span><span lang="en">Anti-AI grade</span></b><i><span lang="ko">AI 티 텔 22종을 저장 즉시 검사하고, 점수와 깎인 이유를 이름으로 돌려줍니다.</span><span lang="en">22 AI tells checked the instant you save; you get a score and every deduction named.</span></i></span></li>
+          <li><span>✓</span><span><b><span lang="ko">STOP 체크리스트</span><span lang="en">STOP checklist</span></b><i><span lang="ko">사람이 채워야 할 것(자리표시 이미지·미완성 카피·근거 없는 수치)을 평문으로 세워줍니다.</span><span lang="en">what a human must still fill — placeholder images, stand-in copy, unsourced numbers — in plain language.</span></i></span></li>
+          <li><span>✓</span><span><b><span lang="ko">픽셀 비평용 브라우저</span><span lang="en">The pixel-critique browser</span></b><i><span lang="ko">없으면 첫 저장 때 백그라운드에서 1회 자동 설치됩니다(약 150MB). 당신이 칠 명령: 없음.</span><span lang="en">missing? it auto-installs once in the background on your first save (~150MB). Commands to type: none.</span></i></span></li>
+          <li><span>✓</span><span><b><span lang="ko">픽셀 비평 루프</span><span lang="en">The pixel-critique loop</span></b><i><span lang="ko">렌더·스크린샷·독립 critic 채점이 다음 저장부터 스스로 돕니다.</span><span lang="en">render, screenshot, and an independent critic's grade run themselves from the next save on.</span></i></span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="autoband-foot"><span lang="ko">예전엔 <code>/design-setup</code>을 <strong>알아야</strong> 이게 켜졌습니다. v1.5부터는 <strong>몰라도 됩니다.</strong> 오프라인·CI이거나 업데이트 후 강제 재설치가 필요할 때만 직접 부르면 됩니다(§02).</span><span lang="en">You used to have to <strong>know about</strong> <code>/design-setup</code> for any of this to switch on. From v1.5 you <strong>don't</strong>. Call it yourself only for offline/CI, or to force a reinstall after a plugin update (§02).</span></p>
   </div>
 </section>
 
