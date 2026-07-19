@@ -1,0 +1,15 @@
+{
+  "category": "ecommerce-pdp",
+  "recommended_pattern": "A gallery-and-buy-box detail page with unambiguous variant choice, material evidence, specifications, and post-purchase reassurance.",
+  "decision_rules": {
+    "if_luxury": "Let high-fidelity material imagery and restrained detail carry value before adding decorative effects.",
+    "if_variant_risk": "Update the gallery, availability, and key specifications with the selected variant.",
+    "if_conversion_focused": "Surface delivery, returns, and stock facts beside the purchase decision rather than behind an accordion."
+  },
+  "anti_patterns": [
+    "Urgency color that is not tied to a real stock, date, or delivery condition.",
+    "A buy control separated from price, variant, or fulfillment context.",
+    "A gallery that hides scale, material, or product-in-use evidence."
+  ],
+  "severity": "HIGH"
+}

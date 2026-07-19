@@ -1,0 +1,12 @@
+{
+  "category": "ecommerce-pdp",
+  "recommended_pattern": "Fixture only; it must be rejected before use.",
+  "decision_rules": {
+    "if_luxury": "Show material detail before decorative effects.",
+    "if_luxury": "Use a quiet luxury treatment."
+  },
+  "anti_patterns": [
+    "Fixture only."
+  ],
+  "severity": "HIGH"
+}

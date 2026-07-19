@@ -1,0 +1,53 @@
+{
+  "proposals": { "proposals": [] },
+  "signatureSamples": [
+    {
+      "signatures": [
+        {
+          "value": "Beta product-grid emblem",
+          "tile": "tile_00",
+          "why": "Its large repeated grid treatment is visible.",
+          "visibleEvidence": "A repeated product grid is plainly visible in tile_00."
+        },
+        {
+          "value": "Alpha framed product render",
+          "tile": "tile_01",
+          "why": "The large framed render is prominent.",
+          "visibleEvidence": "A large framed product render is plainly visible in tile_01."
+        }
+      ]
+    },
+    {
+      "signatures": [
+        {
+          "value": "Alpha framed product render",
+          "tile": "tile_01",
+          "why": "The large framed render is prominent.",
+          "visibleEvidence": "A large framed product render is plainly visible in tile_01."
+        },
+        {
+          "value": "Beta product-grid emblem",
+          "tile": "tile_00",
+          "why": "Its large repeated grid treatment is visible.",
+          "visibleEvidence": "A repeated product grid is plainly visible in tile_00."
+        }
+      ]
+    }
+  ],
+  "verifications": {
+    "verifications": [
+      {
+        "slot": "signature.salience.1",
+        "tile": "tile_01",
+        "confirmed": true,
+        "visibleEvidence": "Independent fixture verification confirms the framed product render in tile_01."
+      },
+      {
+        "slot": "signature.salience.2",
+        "tile": "tile_00",
+        "confirmed": true,
+        "visibleEvidence": "Independent fixture verification confirms the product grid in tile_00."
+      }
+    ]
+  }
+}

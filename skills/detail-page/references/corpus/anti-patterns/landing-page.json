@@ -1,0 +1,34 @@
+{
+  "category": "landing-page",
+  "anti_patterns": [
+    {
+      "id": "landing-page-browsing-nav",
+      "title": "Multi-destination navigation turns conversion into browsing",
+      "severity": "HIGH",
+      "do_not": "Offer a broad navigation menu when the page has one focused offer and one intended decision.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "(?<!<footer\\b(?:(?!</footer)[\\s\\S])*)<nav\\b[^>]*>(?:(?!</nav)[\\s\\S])*?<a\\b[^>]*href=[\"'](?!#)(?:(?!</nav)[\\s\\S])*?<a\\b[^>]*href=[\"'](?!#)(?:(?!</nav)[\\s\\S])*?<a\\b[^>]*href=[\"'](?!#)(?:(?!</nav)[\\s\\S])*?<a\\b[^>]*href=[\"'](?!#)",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "landing-page-competing-cta-labels",
+      "title": "Several CTA labels compete for one offer",
+      "severity": "HIGH",
+      "do_not": "Give the same conversion action multiple competing labels that make the next step ambiguous.",
+      "detect": {
+        "type": "manual"
+      }
+    },
+    {
+      "id": "landing-page-claim-without-demonstration",
+      "title": "Benefit claim arrives without proof",
+      "severity": "HIGH",
+      "do_not": "Lead with outcome claims without a concrete demonstration, credible result, or mechanism.",
+      "detect": {
+        "type": "manual"
+      }
+    }
+  ]
+}

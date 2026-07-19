@@ -1,0 +1,10 @@
+{
+  "url": "https://example.test/linear",
+  "status": 200,
+  "title": "Fixture Linear",
+  "headings": ["H1: Fixture"],
+  "imageCount": 3,
+  "bigImages": [],
+  "pageHeight": 3200,
+  "bodyTextLen": 800
+}

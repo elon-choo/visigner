@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "url": "https://www.wadiz.kr/web/campaign/detail/fixture",
+    "status": 200
+  },
+  "type": {
+    "display": null,
+    "body": null,
+    "mono": null,
+    "documentFonts": null
+  },
+  "color": {
+    "backgrounds": null,
+    "text": null
+  },
+  "cssVariables": null,
+  "spacing": null,
+  "radius": null,
+  "elevation": null,
+  "motion": {
+    "transitions": null,
+    "animations": null,
+    "prefersReducedMotion": null
+  },
+  "makerStyles": {
+    "status": "resolved",
+    "region": {
+      "status": "resolved",
+      "selector": "main > article.FundingStory-module_story__fixture",
+      "sourceSelector": "[class*=FundingStory]",
+      "width": 720,
+      "height": 1800,
+      "descendantCount": 12,
+      "imageCount": 2,
+      "textLength": 240
+    },
+    "scope": "maker-authored-region",
+    "color": {
+      "backgrounds": [
+        {
+          "value": "#08090a",
+          "cssRgb": "rgb(8, 9, 10)",
+          "areaShare": 1
+        }
+      ],
+      "text": [
+        {
+          "value": "#ffffff",
+          "cssRgb": "rgb(255, 255, 255)",
+          "areaShare": 0.9333333333333333
+        },
+        {
+          "value": "#c9ff3d",
+          "cssRgb": "rgb(201, 255, 61)",
+          "areaShare": 0.06666666666666667
+        }
+      ]
+    },
+    "exactAccent": {
+      "value": "#c9ff3d",
+      "source": {
+        "selector": "article.FundingStory-module_story__fixture > .maker-accent",
+        "property": "color",
+        "semanticSignal": "maker-accent campaign-highlight"
+      }
+    },
+    "gap": null
+  },
+  "chromeStyles": {
+    "status": "resolved",
+    "region": {
+      "status": "resolved",
+      "selector": null
+    },
+    "scope": "platform-chrome",
+    "color": {
+      "backgrounds": [
+        {
+          "value": "#f2f5f8",
+          "cssRgb": "rgb(242, 245, 248)",
+          "areaShare": 0.9090909090909091
+        },
+        {
+          "value": "#00c4c4",
+          "cssRgb": "rgb(0, 196, 196)",
+          "areaShare": 0.09090909090909091
+        }
+      ],
+      "text": [
+        {
+          "value": "#191f28",
+          "cssRgb": "rgb(25, 31, 40)",
+          "areaShare": 0.9090909090909091
+        },
+        {
+          "value": "#ffffff",
+          "cssRgb": "rgb(255, 255, 255)",
+          "areaShare": 0.09090909090909091
+        }
+      ]
+    },
+    "exactAccent": null,
+    "gap": null
+  },
+  "authoredRegion": {
+    "verdict": "likely-platform-chrome",
+    "signals": {
+      "cssVarCount": 5,
+      "pageHeightPx": 130712,
+      "bodyTextLen": 5838,
+      "bigImageCount": 33,
+      "textToHeightRatio": 0.04466307607564723,
+      "largestHeadingPx": 24
+    },
+    "note": "Fixture: platform chrome is separated from the resolved maker story region."
+  },
+  "gaps": []
+}

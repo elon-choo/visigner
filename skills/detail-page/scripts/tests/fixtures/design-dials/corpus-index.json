@@ -1,0 +1,26 @@
+{
+  "records": [
+    {
+      "id": "nearest",
+      "category": "dial-fixture",
+      "exemplar_role": "positive",
+      "retrieval": {
+        "signals": {
+          "awareness": { "value": "solution-aware" },
+          "text_density": { "value": 20 }
+        }
+      }
+    },
+    {
+      "id": "divergent",
+      "category": "dial-fixture",
+      "exemplar_role": "positive",
+      "retrieval": {
+        "signals": {
+          "awareness": { "value": "product-aware" },
+          "text_density": { "value": 80 }
+        }
+      }
+    }
+  ]
+}

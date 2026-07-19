@@ -1,0 +1,15 @@
+{
+  "category": "editorial-publication",
+  "recommended_pattern": "A reading-first spread with a clear headline hierarchy, deliberate measure, byline context, and images sequenced around the narrative.",
+  "decision_rules": {
+    "if_long_form": "Protect readable line length, stable progress cues, and return-to-reading behavior before adding modules.",
+    "if_live_updates": "Separate timestamps and update notices from the authored article chronology.",
+    "if_image_led": "Sequence images as evidence or pacing beats rather than as interchangeable decorative interruptions."
+  },
+  "anti_patterns": [
+    "Conversion overlays that repeatedly interrupt the reading flow.",
+    "Tiny body type or a compressed measure used to force more content above the fold.",
+    "A byline or dateline buried below unrelated promotional modules."
+  ],
+  "severity": "HIGH"
+}

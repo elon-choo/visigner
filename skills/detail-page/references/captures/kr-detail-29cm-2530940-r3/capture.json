@@ -1,0 +1,17 @@
+{
+  "url": "https://www.29cm.co.kr/products/2530940",
+  "status": 200,
+  "title": "[알로하 PICK] 시그니처 코튼 숏 팬츠 MDPT052_6 Colors - 감도 깊은 취향 셀렉트샵 29CM",
+  "pageHeight": 62171,
+  "bodyTextLen": 11207,
+  "imageCount": 43,
+  "tiles": 39,
+  "coveredHeight": 62400,
+  "maxTiles": 48,
+  "outDir": "/Users/elon/visigner/skills/detail-page/references/captures/kr-detail-29cm-2530940-r3",
+  "requestedUrl": "https://www.29cm.co.kr/product/catalog/2530940",
+  "capturedAt": "2026-07-19T04:47:32.035Z",
+  "renderer": "patchright-chromium-headless",
+  "hydrated": true,
+  "expanded": "더보기"
+}

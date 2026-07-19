@@ -1,0 +1,15 @@
+{
+  "category": "app-ui-surface",
+  "recommended_pattern": "A persistent task shell that foregrounds user data, controls, status, and recovery states over promotional presentation.",
+  "decision_rules": {
+    "if_data_heavy": "Use hierarchy, progressive disclosure, and stable table or list structure before adding decoration.",
+    "if_destructive_actions": "Separate irreversible actions and require an explicit, legible confirmation path.",
+    "if_collaborative": "Make ownership, status, and recent activity visible where the work is performed."
+  },
+  "anti_patterns": [
+    "Marketing-hero treatments inside the working surface.",
+    "Color-only status or error communication.",
+    "Controls that move when data refreshes or a panel expands."
+  ],
+  "severity": "HIGH"
+}

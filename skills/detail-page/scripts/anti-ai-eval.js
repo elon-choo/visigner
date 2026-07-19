@@ -57,6 +57,7 @@ function usage() {
   return [
     'usage: node anti-ai-eval.js <page.html> [--run run.json] [--tiles dir] [--manifest manifest.json]',
     '       [--brand-lint brand-lint.json]   fold token-discipline findings into mechanicalScore (fails open)',
+    '       [--recipe recipe.md] [--category category] [--grounding librarian-out.md]',
     '',
     'Writes ./anti-ai-report.json and prints a compact summary.',
   ].join('\n');
@@ -2143,6 +2144,98 @@ function validateOptionalInputs(args) {
   }
 }
 
+function optionalFlagValue(args, name) {
+  if (!Object.prototype.hasOwnProperty.call(args, name)) return null;
+  const value = args[name];
+  if (typeof value !== 'string' || !value.trim()) fail(`--${name} requires a value`, 2);
+  return value;
+}
+
+function groundingContext(file) {
+  const absolute = path.resolve(file);
+  const markdown = readText(absolute, 'librarian grounding');
+  const exemplar = markdown.match(/Retrieved exemplar(?: cited)?:\s*`([^`]+)`/iu);
+  const category = markdown.match(/(?:^|\n)Category:\s*`([^`]+)`/u);
+  return {
+    file: absolute,
+    exemplar: exemplar ? exemplar[1] : null,
+    category: category ? category[1] : null,
+  };
+}
+
+function checkConformance(args, page) {
+  const recipe = optionalFlagValue(args, 'recipe');
+  const category = optionalFlagValue(args, 'category');
+  const grounding = optionalFlagValue(args, 'grounding');
+  if (!recipe && !category && !grounding) return null;
+
+  const conformance = {};
+  if (recipe) {
+    try {
+      const { checkBuildHonesty, REFUSAL_MESSAGE } = require('./build-honesty-check.js');
+      const result = checkBuildHonesty(page, recipe);
+      conformance.buildHonesty = result.status === 'clean' ? result : { ...result, message: REFUSAL_MESSAGE };
+    } catch (error) {
+      fail(`recipe conformance refused: ${error.message}`, 2);
+    }
+  }
+  if (category) {
+    try {
+      const { reportForPage } = require('../../../scripts/anti-pattern-check.js');
+      conformance.antiPatterns = reportForPage(page, category);
+    } catch (error) {
+      fail(`category conformance refused: ${error.message}`, 2);
+    }
+    if (conformance.antiPatterns.status === 'MISS') {
+      fail(`category conformance refused: ${conformance.antiPatterns.message}`, 2);
+    }
+  }
+  if (grounding) conformance.grounding = groundingContext(grounding);
+  return conformance;
+}
+
+function conformanceFindings(conformance) {
+  const findings = [];
+  if (!conformance) return findings;
+  if (conformance.buildHonesty && conformance.buildHonesty.status !== 'clean') {
+    findings.push({
+      tell: 'unsupported-fabricated-content',
+      evidence: {
+        recipe: conformance.buildHonesty.recipe,
+        violations: conformance.buildHonesty.violations,
+      },
+      severity: 'high',
+    });
+  }
+  if (conformance.antiPatterns) {
+    for (const hit of conformance.antiPatterns.hits.filter((entry) => entry.severity === 'HIGH')) {
+      findings.push({ tell: `anti-pattern:${hit.id}`, evidence: hit, severity: 'high' });
+    }
+  }
+  return findings;
+}
+
+function printConformanceSummary(conformance) {
+  if (!conformance) return;
+  if (conformance.buildHonesty) {
+    console.log(`buildHonesty: ${conformance.buildHonesty.status}`);
+    for (const violation of conformance.buildHonesty.violations) {
+      const location = violation.location;
+      console.log(`UNSUPPORTED ${violation.kind} ${JSON.stringify(violation.value)} at ${conformance.buildHonesty.page}:${location.line}:${location.column}`);
+    }
+  }
+  if (conformance.antiPatterns) {
+    const counts = conformance.antiPatterns.counts;
+    console.log(`antiPatterns: ${conformance.antiPatterns.status} (HIGH=${counts.HIGH} MEDIUM=${counts.MEDIUM} LOW=${counts.LOW})`);
+    for (const row of conformance.antiPatterns.unchecked) {
+      console.log(`UNCHECKED ${row.severity} ${row.id}: ${row.title}`);
+    }
+  }
+  if (conformance.grounding) {
+    console.log(`grounding: exemplar=${conformance.grounding.exemplar || 'not claimed'} category=${conformance.grounding.category || 'not claimed'}`);
+  }
+}
+
 function printSummary(report, reportPath) {
   const tells = report.tellsDetected.map((t) => `${t.tell}:${t.severity}`).join(', ') || 'none';
   const presenceTotal = report.presence.expected.length;
@@ -2155,6 +2248,7 @@ function printSummary(report, reportPath) {
   console.log(`sectionDetection: ${report.sectionDetection}`);
   console.log(`externalCssSkipped: ${report.externalCssSkipped.length}`);
   console.log(`presence: ${presenceLine}`);
+  printConformanceSummary(report.conformance);
   console.log(`report: ${reportPath}`);
 }
 
@@ -2172,16 +2266,20 @@ function main() {
   const html = readText(page, 'page HTML');
   const sources = loadSources();
   const ctx = buildContext(html, page, args, sources);
+  const conformance = checkConformance(args, page);
 
   const tells = [];
   for (const detector of [detectMonoLabels, detectRepeatedDecorativeLabels, detectEnDisplayLabels, detectBrowserMockups, detectGhostNumerals, detectOutlineChips, detectUniformFrameLoop, detectLetterSquareAvatars, detectLetterCodeBadges, detectMarkerSequence, detectMultiscriptNumbering, detectJustifyDisplay, detectPaletteMonotony]) {
     const hit = detector(ctx);
     if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
   }
+  const appendedHits = [];
   for (const detector of [detectPlaceholderShipped, detectEmDashFlood, detectScrollCue, detectDuplicateCtaIntent, detectGenericCta, detectGlassmorphismStack, detectGradientNumeral, detectEmojiFeatureIcon]) {
     const hit = detector(ctx);
-    if (hit) pushTell(tells, hit.tell, hit.evidence, hit.severity);
+    if (hit) appendedHits.push(hit);
   }
+  appendedHits.push(...conformanceFindings(conformance));
+  for (const hit of appendedHits) pushTell(tells, hit.tell, hit.evidence, hit.severity);
 
   const monotony = computeMonotony(ctx);
   const structural = detectStructuralMonotony(ctx, monotony);
@@ -2203,6 +2301,7 @@ function main() {
     s2Pass: computeS2Pass(verdict, tells),
     mechanicalScore: mechanicalScore({ tellsDetected: tells, monotonyScore: monotony.score, contentSections: monotony.contentSections, presence }, brandLint),
   };
+  if (conformance) report.conformance = conformance;
 
   const reportPath = path.join(process.cwd(), REPORT_NAME);
   fs.writeFileSync(reportPath, JSON.stringify(report, null, 2));

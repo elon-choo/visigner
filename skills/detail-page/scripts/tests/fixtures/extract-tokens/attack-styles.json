@@ -1,0 +1,18 @@
+{
+  "authoredRegion": {
+    "verdict": "dom-authored"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Wadiz Sans"
+    }
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#f2f5f8",
+        "areaShare": 0.71
+      }
+    ]
+  }
+}

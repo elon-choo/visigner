@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0.0",
+  "id": "supabase",
+  "capture_dir": "captures/stage2/supabase",
+  "url": "https://supabase.com",
+  "title": "Supabase | The Postgres Development Platform",
+  "status": 200,
+  "captured_at": "2026-07-18",
+  "family": "app-ui",
+  "mode": "landing",
+  "category": "saas-marketing-site",
+  "exemplar_role": "positive",
+  "sector": "dev-tools",
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "Tags from the captured authored surface: layout-archetype=bento-grid; mood=clarity,order,precise; palette-family=dark-neutral-ui is not applicable—the captured surface is warm-white with a restrained green product accent; type-personality=neo-grotesque-neutral; signature-move=product-system-card-grid; platform-width=not-applicable; pasona-arc=landing-arc. Curation: exemplar_role=positive because tile_00.png and tile_03.png show an authored developer-platform page whose coherent product grid, code demonstration, and green dot-matrix open-source proof are concrete techniques, not a named cautionary default.",
+  "capture": {
+    "page_height_px": { "value": 7683, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/pageHeight", "gap": null },
+    "body_text_len": { "value": 8003, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bodyTextLen", "gap": null },
+    "image_count": { "value": 23, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/imageCount", "gap": null },
+    "big_images": { "value": ["https://supabase.com/_next/image?url=%2Fimages%2Findex%2Fproducts%2Fdatabase-dark.png&w=1920&q=100", "…19 more…"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages — …19 more…", "gap": "GAP-09" },
+    "tile_count": { "value": 5, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/tiles", "gap": null },
+    "tile_w_px": { "value": 1280, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR header, tile_00.png", "gap": null },
+    "tile_h_px": { "value": 1600, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR header, tile_00.png", "gap": null },
+    "tile_format": { "value": "png", "provenance": "derived", "confidence": null, "evidence": "PNG file header, tile_00.png", "gap": null },
+    "tile_scale": { "value": 1, "provenance": "derived", "confidence": null, "evidence": "1280/1280 = 1", "gap": null },
+    "covered_height_px": { "value": 8000, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/coveredHeight", "gap": null },
+    "coverage_ok": { "value": true, "provenance": "derived", "confidence": null, "evidence": "8000 >= 7683 = true", "gap": null },
+    "color_fidelity": { "value": "lossless", "provenance": "derived", "confidence": null, "evidence": "PNG + 1280/1280 scale = lossless", "gap": null },
+    "has_dom": { "value": false, "provenance": "derived", "confidence": null, "evidence": "capture directory contains styles.json but no captured DOM dump; has_dom = false", "gap": "GAP-01" }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": { "value": { "hue_family": "achromatic", "role_note": "Warm-white page ground and panels dominate the product grid." }, "provenance": "tile-vision", "confidence": 0.97, "evidence": "tile_00.png", "gap": null },
+      "secondary_30": { "value": { "hue_family": "achromatic", "role_note": "Black type, fine gray dividers, and interface outlines organize the white surface." }, "provenance": "tile-vision", "confidence": 0.92, "evidence": "tile_00.png and tile_03.png", "gap": null },
+      "accent_10": { "value": { "hue_family": "green", "role_note": "Supabase green is reserved for the hero second line, CTA, brand mark, and dot-matrix proof graphic." }, "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png and tile_03.png", "gap": null },
+      "field_committed": { "value": false, "provenance": "tile-vision", "confidence": 0.91, "evidence": "tile_00.png and tile_03.png show restrained green accents on a white surface, not a saturated field owning a band", "gap": null },
+      "field_evidence": { "value": "tile_00.png shows the white product-card field with a reserved green hero/CTA accent; tile_03.png shows the matching green dot-matrix proof treatment.", "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png and tile_03.png", "gap": null },
+      "field_sections": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" }
+    },
+    "temperature": { "value": "warm-neutral", "provenance": "tile-vision", "confidence": 0.82, "evidence": "tile_00.png", "gap": null },
+    "computed_backgrounds": {
+      "value": [
+        { "value": "oklch(0.995 0 34)", "cssRgb": "oklch(0.995 0 34)", "areaShare": 0.7791185886980992 },
+        { "value": "oklch(1 0 34)", "cssRgb": "oklch(1 0 34)", "areaShare": 0.20695574028200878 },
+        { "value": "oklab(0.995 0 0 / 0.9)", "cssRgb": "oklab(0.995 0 0 / 0.9)", "areaShare": 0.005213600894293671 },
+        { "value": "oklab(0.52065 0 0 / 0.1)", "cssRgb": "oklab(0.52065 0 0 / 0.1)", "areaShare": 0.004435650480522767 },
+        { "value": "#72e3ad", "cssRgb": "rgb(114, 227, 173)", "areaShare": 0.0010535171199019867 },
+        { "value": "oklab(0.57843 0.0338314 -0.232163 / 0.05)", "cssRgb": "oklab(0.57843 0.0338314 -0.232163 / 0.05)", "areaShare": 0.0010387889747791208 },
+        { "value": "oklab(0.1 0 0 / 0.0187709)", "cssRgb": "oklab(0.1 0 0 / 0.0187709)", "areaShare": 0.001003931241831259 },
+        { "value": "oklab(0.1 0 0 / 0.026)", "cssRgb": "oklab(0.1 0 0 / 0.026)", "areaShare": 0.0005239805619068311 }
+      ],
+      "provenance": "styles-json",
+      "confidence": null,
+      "evidence": "styles.json#/color/backgrounds",
+      "gap": null
+    },
+    "ramp": [],
+    "chroma_max_measured": { "value": null, "provenance": "tile-px", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "chrome_excluded": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No human chrome-region annotation is present.", "gap": "GAP-07" }
+  },
+  "type": {
+    "display": {
+      "family": { "value": "Manrope", "provenance": "styles-json", "confidence": null, "evidence": "styles.json#/type/display/resolvedFamily", "gap": null },
+      "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+    },
+    "body": {
+      "family": { "value": "Inter", "provenance": "styles-json", "confidence": null, "evidence": "styles.json#/type/body/resolvedFamily", "gap": null },
+      "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+    },
+    "mono": { "family": { "value": "Source Code Pro", "provenance": "styles-json", "confidence": null, "evidence": "styles.json#/type/mono/resolvedFamily", "gap": null } },
+    "scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "pairing_note": { "value": "Neutral sans product copy is paired with monospace code and command fragments inside the developer demonstrations.", "provenance": "tile-vision", "confidence": 0.92, "evidence": "tile_00.png", "gap": null },
+    "weight_contrast_observed": { "value": "moderate", "provenance": "tile-vision", "confidence": 0.78, "evidence": "tile_00.png and tile_03.png", "gap": null },
+    "kr_display_present": { "value": false, "provenance": "tile-vision", "confidence": 1, "evidence": "tile_00.png and tile_03.png", "gap": null }
+  },
+  "layout": {
+    "archetype": { "value": "bento-grid", "provenance": "tile-vision", "confidence": 0.82, "evidence": "tile_00.png; the product system is organized as unequal card cells beneath the hero", "gap": null },
+    "content_width_px": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "column_system": { "value": "Centered hero above an unequal multi-column product-card grid, followed by stacked proof bands.", "provenance": "tile-vision", "confidence": 0.89, "evidence": "tile_00.png and tile_03.png", "gap": null },
+    "primitive_repeated": { "value": "Fine-lined product cards that pair a product name, short explanation, and a restrained technical illustration or interface fragment.", "provenance": "tile-vision", "confidence": 0.93, "evidence": "tile_00.png", "gap": null }
+  },
+  "rhythm": {
+    "band_count": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "median_band_height_px": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "viewports": { "value": 4.8, "provenance": "derived", "confidence": null, "evidence": "data.json#/pageHeight ÷ capture.json#/coveredHeight/capture.json#/tiles; 7683 ÷ (8000 ÷ 5) = 4.8", "gap": null },
+    "text_density": { "value": 1667.3, "provenance": "derived", "confidence": null, "evidence": "data.json#/bodyTextLen ÷ derived viewports; 8003 ÷ 4.8 = 1667.3", "gap": null },
+    "image_density": { "value": 4.79, "provenance": "derived", "confidence": null, "evidence": "data.json#/imageCount ÷ derived viewports; 23 ÷ 4.8 = 4.79", "gap": null },
+    "spacing_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "radius_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+  },
+  "signature": {
+    "name": { "value": "Product-system card grid", "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png", "gap": null },
+    "family": { "value": "layout-editorial", "provenance": "tile-vision", "confidence": 0.75, "evidence": "tile_00.png; the unequal product-card grid is the page's dominant authored composition", "gap": null },
+    "description": { "value": "A concise hero feeds an unequal grid of white product cards, each combining a developer product, a short promise, and a precise line-art or interface demonstration.", "provenance": "tile-vision", "confidence": 0.95, "evidence": "tile_00.png", "gap": null },
+    "evidence_tiles": { "value": ["tile_00.png", "tile_03.png"], "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png and tile_03.png", "gap": "GAP-09" },
+    "embodies_brief": { "value": "The page makes an integrated developer platform legible by showing product modules as a coherent system, then reinforcing that system with real code, community, and open-source proof.", "provenance": "hand", "confidence": 0.86, "evidence": "tile_00.png, tile_03.png, and bodytext.txt:L17-L60,L248-L251", "gap": null },
+    "tell_risk": { "value": [], "provenance": "hand", "confidence": 0.84, "evidence": "tile_00.png and tile_03.png show an authored product system with technical evidence; no named anti-pattern is identified in the capture.", "gap": null },
+    "recurrence": { "value": "section-system", "provenance": "tile-vision", "confidence": 0.78, "evidence": "tile_00.png and tile_03.png", "gap": "GAP-09" }
+  },
+  "motion": {
+    "gif_asset_count": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "count of .gif URLs in data.json#/bigImages = 0", "gap": null },
+    "gif_evidence": { "value": null, "provenance": "capture-json", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "dynamic_demo_present": { "value": false, "provenance": "derived", "confidence": null, "evidence": "gif_asset_count > 0 = false", "gap": null },
+    "notes": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No hand-authored motion annotation is present; still capture data does not establish motion behavior.", "gap": "GAP-08" },
+    "durations_ms": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "easings": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "reduced_motion_honored": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+  },
+  "commerce": {
+    "awareness": { "value": "solution-aware", "provenance": "hand", "confidence": 0.84, "evidence": "bodytext.txt:L14-L19 opens with the scaling outcome and the concrete Postgres/Auth/API/Functions/Realtime/Storage/Vector platform mechanism.", "gap": "GAP-06" },
+    "sophistication": { "value": 3, "provenance": "hand", "confidence": 0.72, "evidence": "bodytext.txt:L14-L17,L21-L60 states a platform mechanism and immediately shows its component products rather than relying on a bare infrastructure claim.", "gap": "GAP-06" },
+    "arc": [
+      { "stage": "problem", "present": false, "evidence": "bodytext.txt full transcript opens with the platform outcome and capability list, not an explicit pain/agitation block." },
+      { "stage": "affinity", "present": false, "evidence": "bodytext.txt full transcript contains customer/community proof but no explicit reader-empathy beat before the platform solution." },
+      { "stage": "solution", "present": true, "evidence": "bodytext.txt:L14-L17 — the opening names the Postgres platform and its integrated product capabilities." },
+      { "stage": "offer", "present": true, "evidence": "bodytext.txt:L19-L20 — 'Start your project' and 'Request a demo' are explicit routes into the product." },
+      { "stage": "narrow", "present": false, "evidence": "bodytext.txt full transcript contains no time, capacity, price, or availability narrowing device; the retrieval record preserves this as false rather than fabricating scarcity." },
+      { "stage": "action", "present": true, "evidence": "bodytext.txt:L19 — 'Start your project' is the primary action CTA." }
+    ],
+    "arc_resolved": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "count of commerce.arc[] stages with present !== null = 6", "gap": null },
+    "arc_total": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "PASONA stage count = 6", "gap": null },
+    "arc_coverage": { "value": 0.5, "provenance": "derived", "confidence": null, "evidence": "3 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.5", "gap": null },
+    "authority_numbers": { "value": ["106.4K"], "provenance": "bodytext", "confidence": null, "evidence": "bodytext.txt:L11", "gap": "GAP-09" },
+    "reward_ladder": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "urgency_device": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "urgency_repetition": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 0", "gap": null },
+    "one_message": { "value": "An integrated Postgres platform lets developers start quickly with ready-made primitives and scale without assembling the infrastructure themselves.", "provenance": "hand", "confidence": 0.88, "evidence": "bodytext.txt:L14-L19,L21-L60", "gap": null }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "id": "invalid-evidence",
+  "capture_dir": "captures/400620",
+  "exemplar_role": "positive",
+  "commerce": {
+    "urgency_device": {
+      "value": "⏰오늘 23:59 완전 종료‼️잠시후 진짜 마지막입니다.",
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": "bodytext.txt:L1-1",
+      "gap": null
+    }
+  }
+}

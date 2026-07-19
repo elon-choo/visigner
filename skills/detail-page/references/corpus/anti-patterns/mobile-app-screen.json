@@ -1,0 +1,71 @@
+{
+  "category": "mobile-app-screen",
+  "anti_patterns": [
+    {
+      "id": "mobile-app-screen-web-card-overload",
+      "title": "Six or more web cards compete on one mobile screen",
+      "severity": "HIGH",
+      "do_not": "Compress a desktop card grid into the phone viewport instead of prioritizing the single task and its immediate state.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bclass\\s*=\\s*[\"'][^\"']*\\b(?:web-)?card\\b[^\"']*[\"']",
+        "flags": "i",
+        "minMatches": 6
+      }
+    },
+    {
+      "id": "mobile-app-screen-undersized-touch-control",
+      "title": "Interactive control is smaller than 44 by 44 pixels",
+      "severity": "HIGH",
+      "do_not": "Size a button, icon button, tap target, or touch target below 44 by 44 pixels and force precision tapping.",
+      "detect": {
+        "type": "css-pattern",
+        "regex": "(?:button|\\.(?:icon-button|tap-target|touch-target))[^\\{]{0,160}\\{(?=[^}]{0,500}\\b(?:width|min-width)\\s*:\\s*(?:[0-9]|[1-3][0-9]|4[0-3])px)(?=[^}]{0,500}\\b(?:height|min-height)\\s*:\\s*(?:[0-9]|[1-3][0-9]|4[0-3])px)[^}]{0,500}\\}",
+        "flags": "i"
+      }
+    },
+    {
+      "id": "mobile-app-screen-color-only-status-marker",
+      "title": "Critical status marked as color-only",
+      "severity": "HIGH",
+      "do_not": "Communicate a critical state with color alone; pair it with readable text, an icon, or a state label.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-color-only-status\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "mobile-app-screen-hidden-gesture-marker",
+      "title": "Required gesture marked as undisclosed",
+      "severity": "HIGH",
+      "do_not": "Make task completion depend on an undisclosed swipe, press, or precision gesture with no visible cue or alternative control.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-undisclosed-gesture\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "mobile-app-screen-web-card-density",
+      "title": "Desktop card density squeezed into a phone screen",
+      "severity": "HIGH",
+      "do_not": "Stack dense web-style cards into a mobile screen instead of prioritizing the immediate task.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "mobile-app-screen-precision-touch-targets",
+      "title": "Precision-dependent touch targets",
+      "severity": "HIGH",
+      "do_not": "Require precise taps or undisclosed gestures for controls that need to be reliably discoverable.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "mobile-app-screen-color-only-critical-status",
+      "title": "Critical status communicated by color alone",
+      "severity": "HIGH",
+      "do_not": "Make a critical state depend only on a status color without readable text, icon, or label.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

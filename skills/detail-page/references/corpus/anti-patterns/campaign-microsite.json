@@ -1,0 +1,30 @@
+{
+  "category": "campaign-microsite",
+  "anti_patterns": [
+    {
+      "id": "campaign-microsite-product-nav-sprawl",
+      "title": "Full product navigation dilutes the campaign",
+      "severity": "HIGH",
+      "do_not": "Bring a broad product-site navigation into a page whose job is to focus attention on one event or drop.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "campaign-microsite-orphan-countdown",
+      "title": "Countdown without an actionable deadline",
+      "severity": "HIGH",
+      "do_not": "Show a countdown when the page does not make the real deadline and the next participant action clear.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-countdown-only\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "campaign-microsite-anonymous-visuals",
+      "title": "Launch visuals do not identify the launch",
+      "severity": "MEDIUM",
+      "do_not": "Use energetic campaign imagery without showing what is being released, where, or when.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

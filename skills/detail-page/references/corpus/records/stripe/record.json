@@ -1,0 +1,509 @@
+{
+  "schema_version": "1.0.0",
+  "id": "stripe",
+  "capture_dir": "captures/app-ui/stripe",
+  "url": "https://stripe.com",
+  "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+  "status": 200,
+  "captured_at": "2026-06-30",
+  "family": "app-ui",
+  "mode": "landing",
+  "category": "saas-marketing-site",
+  "exemplar_role": "positive",
+  "sector": null,
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "TAXONOMY.md §8 tags not represented by schema-compatible provenance: layout-archetype=bento-grid; mood=clarity,authority,premium; palette-family=iridescent-wash; type-personality=neo-grotesque-neutral; signature-move=graphic-motif; platform-width=not-applicable; pasona-arc=landing-arc; sophistication=stage-3-mechanism. Curation: exemplar_role=positive because the recorded graphic-motif is a positive signature move and no cautionary tag is recorded.",
+  "capture": {
+    "page_height_px": {
+      "value": 14715,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/pageHeight",
+      "gap": null
+    },
+    "body_text_len": {
+      "value": 16117,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen",
+      "gap": null
+    },
+    "image_count": {
+      "value": 15,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/imageCount",
+      "gap": null
+    },
+    "big_images": {
+      "value": [
+        "https://images.stripeassets.com/fzn2n1nzq965/115d4Vd5LVAsqFGDR1ClAv/0ceb2c44a7a7182cd624262420af7544/wave-fallback-desktop.png?w=1392&fm=webp&q=60",
+        "…13 more…"
+      ],
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bigImages — …13 more…",
+      "gap": "GAP-09"
+    },
+    "tile_count": {
+      "value": 10,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/tiles",
+      "gap": null
+    },
+    "tile_w_px": {
+      "value": 1280,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_h_px": {
+      "value": 1600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_format": {
+      "value": "png",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG file header, tile_00.png",
+      "gap": null
+    },
+    "tile_scale": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1280/1280 = 1",
+      "gap": null
+    },
+    "covered_height_px": {
+      "value": 16000,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/coveredHeight",
+      "gap": null
+    },
+    "coverage_ok": {
+      "value": true,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "16000 >= 14715 = true",
+      "gap": null
+    },
+    "color_fidelity": {
+      "value": "lossless",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG + 1280/1280 scale = lossless",
+      "gap": null
+    },
+    "has_dom": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture directory has no styles.json or DOM dump; has_dom = false",
+      "gap": "GAP-01"
+    }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-06"
+      },
+      "secondary_30": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-06"
+      },
+      "accent_10": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-06"
+      },
+      "field_committed": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-06"
+      },
+      "field_sections": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      }
+    },
+    "temperature": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "ramp": [],
+    "chroma_max_measured": {
+      "value": null,
+      "provenance": "tile-px",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "chrome_excluded": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "SCHEMA.md §9 GAP-07 — platform chrome boundary is unmarked",
+      "gap": "GAP-07"
+    }
+  },
+  "type": {
+    "display": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-01"
+      }
+    },
+    "body": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-01"
+      }
+    },
+    "mono": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-01"
+      }
+    },
+    "scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-01"
+    },
+    "pairing_note": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "weight_contrast_observed": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "kr_display_present": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    }
+  },
+  "layout": {
+    "archetype": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "content_width_px": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "column_system": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "primitive_repeated": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    }
+  },
+  "rhythm": {
+    "band_count": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "median_band_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "viewports": {
+      "value": 9.2,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "pageHeight / 1600 = 9.2",
+      "gap": null
+    },
+    "text_density": {
+      "value": 1751.8,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "16117 chars / 9.2 viewports = 1751.8",
+      "gap": null
+    },
+    "image_density": {
+      "value": 1.63,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "15 images / 9.2 viewports = 1.63",
+      "gap": null
+    },
+    "spacing_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-01"
+    },
+    "radius_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-01"
+    }
+  },
+  "signature": {
+    "name": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "family": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "description": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "evidence_tiles": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "embodies_brief": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "SCHEMA.md §9 GAP-06 — brief embodiment is not populated",
+      "gap": "GAP-06"
+    },
+    "tell_risk": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "SCHEMA.md §9 GAP-06 — tell-risk judgement is not populated",
+      "gap": "GAP-06"
+    },
+    "recurrence": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    }
+  },
+  "motion": {
+    "gif_asset_count": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "bigImages[] entries ending .gif = 0",
+      "gap": null
+    },
+    "gif_evidence": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "dynamic_demo_present": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "gif_asset_count > 0 = false",
+      "gap": null
+    },
+    "notes": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "SCHEMA.md §9 GAP-08 — motion notes are not populated",
+      "gap": "GAP-08"
+    },
+    "durations_ms": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-08"
+    },
+    "easings": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-08"
+    },
+    "reduced_motion_honored": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-08"
+    }
+  },
+  "commerce": {
+    "awareness": {
+      "value": "product-aware",
+      "provenance": "hand",
+      "confidence": 0.95,
+      "evidence": "TAXONOMY.md §8",
+      "gap": "GAP-06"
+    },
+    "sophistication": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "TAXONOMY.md §8 — tag is a string; schema field requires integer 1–5",
+      "gap": "GAP-06"
+    },
+    "arc": [],
+    "arc_resolved": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "arc_total": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PASONA stage count = 6",
+      "gap": null
+    },
+    "arc_coverage": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "authority_numbers": {
+      "value": [
+        "135+ currencies and payment methods supported",
+        "$1.9T in payments volume processed in 2025",
+        "99.999% historical uptime for Stripe services",
+        "200M+ active subscriptions managed on Stripe Billing",
+        "500M+ API requests per day",
+        "10K+ API requests per second",
+        "150K+ transactions per minute"
+      ],
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": "bodytext.txt:L291-L305,L515-L525",
+      "gap": null
+    },
+    "reward_ladder": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-06"
+    },
+    "urgency_device": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_repetition": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "regex count of '얼리버드' over bodytext.txt = 0",
+      "gap": null
+    },
+    "one_message": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "SCHEMA.md §9 GAP-06 — one-message judgement is not populated",
+      "gap": "GAP-06"
+    }
+  }
+}

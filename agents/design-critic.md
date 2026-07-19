@@ -48,6 +48,21 @@ Then **Read the tiles** in `/tmp/critique-<id>` (full-page PNG + viewport tiles)
 
 If you genuinely cannot render (no Node, URL behind auth, only a static screenshot was provided), say so explicitly, grade only what the provided tiles show, and cap confidence — an unrendered critique is "advisory", not a ship gate.
 
+### Category anti-pattern evidence (built pages only)
+For every built page whose category is supplied or inferable from the brief, determine the category before the audit and **MUST run** the checker from the Visigner repo root:
+```bash
+cd "${CLAUDE_PLUGIN_ROOT}"
+node scripts/anti-pattern-check.js --page <page> --category <category>
+```
+Fold the JSON and stderr into the pixel verdict; do not leave checker evidence in a separate appendix.
+- Every machine `HIGH` hit becomes a named deduction in the relevant score dimension, cited by row id, and an anti-slop audit fail wherever that row maps to §2.
+- Every `UNCHECKED` manual row is your work: inspect it **BY EYE against the rendered pixels**, record its disposition, and cite the row id. Never convert `UNCHECKED` into a pass by omission.
+- Fold `MEDIUM` / `LOW` hits proportionally into the relevant dimension when the pixels corroborate them; cite the row id and tile.
+- If the inferred category has no table, or the category cannot be inferred, state `ANTI-PATTERN CATEGORY: MISS` explicitly in the verdict. Never skip the category check silently.
+- If the checker itself cannot run (script missing on this install, no Node), state `ANTI-PATTERN CHECKER: UNAVAILABLE` explicitly in the verdict and inspect the category's rows BY EYE against the rendered tiles instead — never skip silently.
+
+The checker is evidence input, not a verdict replacement. You remain the judge: verify machine hits against the tiles, execute the manual rows, assign the deductions, and decide the gate.
+
 ## 2 · Anti-slop visual audit (pass/fail — ANY fail blocks ship)
 Walk the tiles and mark each. Embedded here is the essential set; the full list + the capture-anchored calibration lives in `${CLAUDE_PLUGIN_ROOT}/skills/detail-page/references/review-rubric.md` (§A) and `…/references/aesthetics.md` (banned defaults) — load them.
 - [ ] **Fonts** — a distinctive display+body is actually loading; no Inter / Roboto / Arial / Open Sans / Lato / system stack. (Check the rendered glyphs, not just the `@font-face` declaration — a failed webfont silently falls back to Arial.)
@@ -88,7 +103,7 @@ Before assigning the distinctiveness number, open the two saved **real Wadiz** c
 ```bash
 NODE_PATH=$(npm root -g) node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/tell-count.js <file-or-url>
 # smoke-tested form on this machine:
-# NODE_PATH=/Users/elon/.claude/skills/detail-page/node_modules node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/tell-count.js <file>
+# NODE_PATH="${CLAUDE_PLUGIN_ROOT}/skills/detail-page/node_modules" node ${CLAUDE_PLUGIN_ROOT}/skills/detail-page/scripts/tell-count.js <file>
 ```
 It emits JSON with **`maxEqualCards`** (largest group of sibling cards sharing identical border-radius+box-shadow — the uniform-grid tell), **`centeredTextBlocks`** (elements with `text-align:center` carrying their own text, headings h1–h6 excluded — the centered-everything tell), and **`accentColor`/`accentOccurrences`/`distinctAccents`** (the dominant non-neutral color and how heavily it is reused — the monotone-accent tell), plus a transparent **`distinctivenessCap`** (10 = uncapped) from a documented mapping: `maxEqualCards ≥3 → cap 7 / ≥5 → cap 6`; `centeredTextBlocks ≥5 → cap 7 / ≥8 → cap 6`; a single accent used `≥40×` with `≤2` distinct accents → cap 7; the cap is the **minimum** of all triggered rules, and `tellsTriggered` lists the reasons.
 

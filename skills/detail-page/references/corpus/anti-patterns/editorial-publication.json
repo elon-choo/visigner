@@ -1,0 +1,38 @@
+{
+  "category": "editorial-publication",
+  "anti_patterns": [
+    {
+      "id": "editorial-publication-reading-overlay",
+      "title": "Fixed conversion overlay interrupts reading",
+      "severity": "HIGH",
+      "do_not": "Place a persistent marketing or subscription overlay over the reading column.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-reading-overlay\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "editorial-publication-compressed-body-copy",
+      "title": "Body copy shrunk to force above-the-fold density",
+      "severity": "HIGH",
+      "do_not": "Reduce article body type or line measure simply to fit more modules before the fold.",
+      "detect": {
+        "type": "css-pattern",
+        "regex": "(?:article|\\.article)[^{]{0,120}\\{[^}]{0,500}\\bfont-size\\s*:\\s*(?:[0-9]|1[0-3])px",
+        "flags": "i"
+      },
+      "good_bad": {
+        "good": "Article text is sized and measured for sustained reading.",
+        "bad": "The article rule fixes body copy at 12px to make room for promos."
+      }
+    },
+    {
+      "id": "editorial-publication-buried-byline",
+      "title": "Byline buried after promotion",
+      "severity": "MEDIUM",
+      "do_not": "Hide author and publication context below unrelated promotional material.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

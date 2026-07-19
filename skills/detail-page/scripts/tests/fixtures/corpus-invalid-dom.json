@@ -1,0 +1,16 @@
+{
+  "id": "invalid-dom",
+  "capture_dir": "captures/400620",
+  "exemplar_role": "positive",
+  "type": {
+    "display": {
+      "family": {
+        "value": "Invented Sans",
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/display/family",
+        "gap": null
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "category": "brand-site",
+  "anti_patterns": [
+    {
+      "id": "brand-site-generic-feature-grid",
+      "title": "Generic SaaS grid replaces a brand world",
+      "severity": "MEDIUM",
+      "do_not": "Substitute an interchangeable feature-card grid for a distinct brand story, material, or point of view.",
+      "detect": { "type": "manual" },
+      "good_bad": {
+        "good": "Navigation and imagery establish a recognizable world before routes into the offer.",
+        "bad": "Six identical feature cards could belong to any software company."
+      }
+    },
+    {
+      "id": "brand-site-interchangeable-stock-imagery",
+      "title": "Interchangeable stock imagery",
+      "severity": "MEDIUM",
+      "do_not": "Use images that could describe any competitor instead of the company's product, people, or material reality.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "brand-site-cta-overpressure",
+      "title": "Primary CTA repeated as pressure",
+      "severity": "LOW",
+      "do_not": "Repeat the same primary CTA so often that it overwhelms the brand narrative and meaningful routes.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-primary-cta\\b",
+        "minMatches": 5
+      }
+    }
+  ]
+}

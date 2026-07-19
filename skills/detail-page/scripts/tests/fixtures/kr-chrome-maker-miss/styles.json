@@ -1,0 +1,55 @@
+{
+  "makerStyles": {
+    "status": "MISS",
+    "region": {
+      "status": "MISS",
+      "selector": null,
+      "reason": "MISS — no resolvable maker-authored story region met the conservative size/content evidence threshold; no maker token will be inferred."
+    },
+    "scope": "maker-authored-region",
+    "color": {
+      "backgrounds": null,
+      "text": null
+    },
+    "exactAccent": null,
+    "gap": "MISS — no resolvable maker-authored story region met the conservative size/content evidence threshold; no maker token will be inferred."
+  },
+  "chromeStyles": {
+    "status": "resolved",
+    "region": {
+      "status": "resolved",
+      "selector": null
+    },
+    "scope": "platform-chrome",
+    "color": {
+      "backgrounds": [
+        {
+          "value": "#00c4c4",
+          "cssRgb": "rgb(0, 196, 196)",
+          "areaShare": 1
+        }
+      ],
+      "text": null
+    },
+    "exactAccent": null,
+    "gap": null
+  },
+  "authoredRegion": {
+    "verdict": "likely-platform-chrome",
+    "signals": {
+      "cssVarCount": 5,
+      "pageHeightPx": 130712,
+      "bodyTextLen": 5838,
+      "bigImageCount": 33,
+      "textToHeightRatio": 0.04466307607564723,
+      "largestHeadingPx": 24
+    },
+    "note": "Fixture: maker region is genuinely unresolved."
+  },
+  "gaps": [
+    {
+      "field": "makerStyles",
+      "reason": "MISS — no resolvable maker-authored story region met the conservative size/content evidence threshold; no maker token will be inferred."
+    }
+  ]
+}

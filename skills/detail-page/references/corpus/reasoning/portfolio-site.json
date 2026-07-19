@@ -1,0 +1,15 @@
+{
+  "category": "portfolio-site",
+  "recommended_pattern": "A work-first index with distinctive project previews that lead into concise case studies of role, constraints, and outcome.",
+  "decision_rules": {
+    "if_creative_field": "Give each project an art-directed preview that demonstrates range without erasing attribution.",
+    "if_minimal_portfolio": "Use crop, typography, and pacing to create character; keep motion subordinate to the work.",
+    "if_confidential_work": "State the constraint and describe the contribution without inventing undisclosable outcomes."
+  },
+  "anti_patterns": [
+    "Template cards that leave the visitor unable to identify the creator's role.",
+    "Generic mockups that make unrelated projects look interchangeable.",
+    "Motion that delays access to the actual work."
+  ],
+  "severity": "MEDIUM"
+}

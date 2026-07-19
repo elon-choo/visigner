@@ -1,0 +1,15 @@
+{
+  "category": "pricing-page",
+  "recommended_pattern": "A tier comparison that makes self-selection obvious, with a concise matrix for the limits that change the decision.",
+  "decision_rules": {
+    "if_multiple_personas": "Name each tier by its job or scale so readers can recognize themselves before comparing features.",
+    "if_high_stakes_purchase": "Disclose limits, renewal terms, and support boundaries next to the affected tier.",
+    "if_usage_based": "Show a realistic usage example alongside the unit price and overage rule."
+  },
+  "anti_patterns": [
+    "Feature names without the limits or quantities that make them comparable.",
+    "A preselected tier that obscures a cheaper suitable option.",
+    "Hiding billing cadence or renewal terms below the conversion point."
+  ],
+  "severity": "HIGH"
+}

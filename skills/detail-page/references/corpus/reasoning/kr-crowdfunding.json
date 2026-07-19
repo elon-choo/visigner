@@ -1,0 +1,15 @@
+{
+  "category": "kr-crowdfunding",
+  "recommended_pattern": "A campaign story column: problem, maker credibility, product proof, reward logic, delivery confidence, and risk-aware close.",
+  "decision_rules": {
+    "if_platform_chrome": "Judge and author only the maker story; do not treat the platform funding header or reward rail as campaign design.",
+    "if_reward_complex": "Explain tier differences early and preserve the same reward names through the decision path.",
+    "if_claim_requires_trust": "Show production readiness, testing, and delivery constraints beside the claim they substantiate."
+  },
+  "anti_patterns": [
+    "Borrowing Wadiz platform chrome as though it were maker-authored visual evidence.",
+    "Using acid-lime-on-black as the whole campaign identity without product-specific proof.",
+    "Using an AI-purple gradient as a replacement for a distinctive product story."
+  ],
+  "severity": "HIGH"
+}

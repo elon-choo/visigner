@@ -1,0 +1,13 @@
+{
+  "url": "https://supabase.com",
+  "status": 200,
+  "title": "Supabase | The Postgres Development Platform",
+  "pageHeight": 7683,
+  "bodyTextLen": 8003,
+  "imageCount": 23,
+  "expanded": null,
+  "tiles": 5,
+  "coveredHeight": 8000,
+  "maxTiles": 90,
+  "outDir": "references/captures/stage2/supabase"
+}

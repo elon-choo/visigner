@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "viewport": { "width": 1280, "height": 1600 }
+  },
+  "color": {
+    "backgrounds": [
+      { "value": "#08090a", "areaShare": 0.84 }
+    ]
+  },
+  "type": {
+    "display": { "resolvedFamily": "Inter Variable", "fontWeight": "510", "fontSize": "64px" },
+    "body": { "resolvedFamily": "Inter Variable", "fontWeight": "400", "fontSize": "15px" },
+    "mono": { "resolvedFamily": "Berkeley Mono", "fontWeight": "400", "fontSize": "14px" }
+  },
+  "authoredRegion": {
+    "verdict": "dom-authored",
+    "signals": { "textToHeightRatio": 0.778 }
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "id": "ecommerce-teenage-engineering-ep-133",
+  "capture_dir": "captures/ecommerce-teenage-engineering-ep-133",
+  "url": "https://teenage.engineering/store/ep-133",
+  "title": "buy EP–133 K.O. II - teenage engineering",
+  "status": 200,
+  "captured_at": "2026-07-19",
+  "family": "teenage-engineering",
+  "mode": "detail",
+  "category": "ecommerce-pdp",
+  "exemplar_role": "neutral",
+  "sector": "consumer-electronics",
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "Neutral ecommerce PDP structural reference: the subject-specific interface, orange control-like accents, sparse specs, and accessory shelf make the sampler legible without a generic card-heavy template. This is first-party product/site UI, so no marketplace chrome boundary applies; keep this neutral until the corpus has a second independent ecommerce capture for comparison.",
+  "capture": {
+    "page_height_px": { "value": 2317, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/pageHeight", "gap": null },
+    "body_text_len": { "value": 2746, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bodyTextLen", "gap": null },
+    "image_count": { "value": 15, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/imageCount", "gap": null },
+    "big_images": { "value": ["https://assets.teenage.engineering/_img/store/3886185653c53b036e03ab19491a8919f8b0661062c39cbaa33159e057260016.avif?w=768", "…6 more…"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages", "gap": "GAP-09" },
+    "tile_count": { "value": 2, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/tiles", "gap": null },
+    "tile_w_px": { "value": 1280, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_h_px": { "value": 1600, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_format": { "value": "png", "provenance": "derived", "confidence": null, "evidence": "tile_00.png filename + PNG IHDR header", "gap": null },
+    "tile_scale": { "value": 1, "provenance": "derived", "confidence": null, "evidence": "1280/1280 = 1600/1600 = 1", "gap": null },
+    "covered_height_px": { "value": 3200, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/coveredHeight", "gap": null },
+    "coverage_ok": { "value": true, "provenance": "derived", "confidence": null, "evidence": "3200 >= 2317", "gap": null },
+    "color_fidelity": { "value": "lossless", "provenance": "derived", "confidence": null, "evidence": "PNG tile format + tile_scale = 1", "gap": null },
+    "has_dom": { "value": false, "provenance": "derived", "confidence": null, "evidence": "capture stores tiles + JSON/text artefacts, not a DOM dump; has_dom = false", "gap": "GAP-01" }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": { "value": { "hue_family": "achromatic", "role_note": "white product field and black branded utility header dominate the composition" }, "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png", "gap": null },
+      "secondary_30": { "value": { "hue_family": "grey", "role_note": "the product's silvery hardware and pale accessory plates carry the secondary material tone" }, "provenance": "tile-vision", "confidence": 0.78, "evidence": "tile_00.png", "gap": null },
+      "accent_10": { "value": { "hue_family": "orange", "role_note": "small orange controls on the sampler provide the only high-salience accent" }, "provenance": "tile-vision", "confidence": 0.92, "evidence": "tile_00.png", "gap": null },
+      "field_committed": { "value": false, "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.png uses white product ground and a black utility header, not a saturated narrative band", "gap": null },
+      "field_evidence": { "value": "tile_00.png — colour is rationed to real instrument controls rather than used as a generic background field", "provenance": "tile-vision", "confidence": 0.92, "evidence": "tile_00.png", "gap": null },
+      "field_sections": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" }
+    },
+    "temperature": { "value": "neutral-ground-warm-accent", "provenance": "tile-vision", "confidence": 0.78, "evidence": "tile_00.png", "gap": null },
+    "computed_backgrounds": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "chroma_max_measured": { "value": null, "provenance": "tile-px", "confidence": null, "evidence": null, "gap": "GAP-02" },
+    "chrome_excluded": { "value": true, "provenance": "hand", "confidence": 0.94, "evidence": "tile_00.png is a first-party teenage engineering product page: its black icon header, product plate, cart CTA, and accessory shelf belong to the same branded experience.", "gap": null }
+  },
+  "type": {
+    "display": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "body": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "mono": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "pairing_note": { "value": "Thin technical sans display and compact specification copy echo the instrument's printed controls; exact families are not identified.", "provenance": "tile-vision", "confidence": 0.84, "evidence": "tile_00.png", "gap": "GAP-01" },
+    "weight_contrast_observed": { "value": "moderate", "provenance": "tile-vision", "confidence": 0.77, "evidence": "tile_00.png", "gap": null },
+    "kr_display_present": { "value": false, "provenance": "tile-vision", "confidence": 1, "evidence": "tile_00.png", "gap": null }
+  },
+  "layout": {
+    "archetype": { "value": "band-stack", "provenance": "tile-vision", "confidence": 0.82, "evidence": "tile_00.png has a branded header, product-detail split, then an accessory shelf; no maker-independent sticky rail is observed", "gap": null },
+    "content_width_px": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "column_system": { "value": "two-column product image and specification/buy column, followed by a four-item accessory shelf.", "provenance": "tile-vision", "confidence": 0.93, "evidence": "tile_00.png", "gap": null },
+    "primitive_repeated": { "value": "instrument/product plate → concise technical copy → black cart control → spare accessory object card", "provenance": "tile-vision", "confidence": 0.89, "evidence": "tile_00.png", "gap": null }
+  },
+  "rhythm": {
+    "band_count": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "median_band_height_px": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "viewports": { "value": 1.45, "provenance": "derived", "confidence": null, "evidence": "2317 / 1600 = 1.45", "gap": null },
+    "text_density": { "value": 1896.4, "provenance": "derived", "confidence": null, "evidence": "2746 / 1.45 = 1896.4 chars per viewport", "gap": null },
+    "image_density": { "value": 10.36, "provenance": "derived", "confidence": null, "evidence": "15 / 1.45 = 10.36 images per viewport", "gap": null },
+    "spacing_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "radius_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+  },
+  "signature": {
+    "name": { "value": "Instrument-control product plate", "provenance": "tile-vision", "confidence": 0.87, "evidence": "tile_00.png", "gap": null },
+    "family": { "value": "brand-commerce", "provenance": "tile-vision", "confidence": 0.84, "evidence": "tile_00.png — the black icon header and rationed orange hardware accents turn product UI into a branded commerce language", "gap": null },
+    "description": { "value": "The sampler is shown as a precise object plate while its own black-and-orange control language governs the surrounding navigation, cart control, and accessory shelf.", "provenance": "tile-vision", "confidence": 0.87, "evidence": "tile_00.png", "gap": null },
+    "evidence_tiles": { "value": ["tile_00.png"], "provenance": "tile-vision", "confidence": 0.87, "evidence": "tile_00.png; the two-tile capture cannot prove longer recurrence", "gap": "GAP-09" },
+    "embodies_brief": { "value": "The product's actual controls, not generic decorative icons, determine the page's visual language.", "provenance": "hand", "confidence": 0.88, "evidence": "tile_00.png", "gap": null },
+    "tell_risk": { "value": [], "provenance": "hand", "confidence": 0.91, "evidence": "The visual system is product-specific and does not rely on a banned mock browser, generic gradient, or uniform card loop.", "gap": null },
+    "recurrence": { "value": "page-spine", "provenance": "tile-vision", "confidence": 0.75, "evidence": "tile_00.png", "gap": "GAP-09" }
+  },
+  "motion": {
+    "gif_asset_count": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "bigImages[] entries ending .gif = 0", "gap": null },
+    "gif_evidence": { "value": null, "provenance": "capture-json", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "dynamic_demo_present": { "value": false, "provenance": "derived", "confidence": null, "evidence": "gif_asset_count > 0 = false", "gap": null },
+    "notes": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No archived motion inspection was performed.", "gap": "GAP-08" },
+    "durations_ms": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "easings": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "reduced_motion_honored": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" }
+  },
+  "commerce": {
+    "awareness": { "value": "product-aware", "provenance": "hand", "confidence": 0.95, "evidence": "tile_00.png opens with model name, price, ready-to-ship state, specifications, and add-to-cart control.", "gap": "GAP-06" },
+    "sophistication": { "value": 3, "provenance": "hand", "confidence": 0.66, "evidence": "tile_00.png differentiates with concrete sampler capabilities and dimensions rather than a broad superlative.", "gap": "GAP-06" },
+    "arc": [],
+    "arc_resolved": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "arc_total": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "PASONA stage count = 6", "gap": null },
+    "arc_coverage": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "authority_numbers": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "reward_ladder": { "value": [], "provenance": "tile-vision", "confidence": 0.98, "evidence": "tile_00.png shows one priced product and add-to-cart control, not tiers", "gap": null },
+    "urgency_device": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "urgency_repetition": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "regex count of captured urgency lexicon = 0", "gap": null },
+    "one_message": { "value": "A portable sampler is sold with the same precise visual language as its physical controls.", "provenance": "hand", "confidence": 0.9, "evidence": "tile_00.png", "gap": null }
+  }
+}

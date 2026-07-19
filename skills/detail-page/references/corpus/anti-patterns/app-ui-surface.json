@@ -1,0 +1,34 @@
+{
+  "category": "app-ui-surface",
+  "anti_patterns": [
+    {
+      "id": "app-ui-marketing-hero-in-workspace",
+      "title": "Marketing hero inside a task surface",
+      "severity": "HIGH",
+      "do_not": "Turn a working screen into a promotional hero when the user needs to inspect data or complete a task.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-marketing-hero\\b",
+        "minMatches": 1
+      },
+      "good_bad": {
+        "good": "A compact page title, current status, and task controls lead the work area.",
+        "bad": "A marked marketing hero precedes the user's live workspace."
+      }
+    },
+    {
+      "id": "app-ui-color-only-status",
+      "title": "Status conveyed only by color",
+      "severity": "HIGH",
+      "do_not": "Rely on a color change alone for errors, warnings, ownership, or task state.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "app-ui-moving-controls",
+      "title": "Controls shift with refreshed content",
+      "severity": "MEDIUM",
+      "do_not": "Let primary controls jump when data reloads, panels expand, or adjacent content changes height.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "category": "kr-detail-page",
+  "recommended_pattern": "A long image-band product story: hook, pain, product reveal, mechanism, comparative proof, benefit ladder, and purchase close.",
+  "decision_rules": {
+    "if_visual_claim": "Anchor the claim in an annotated product crop or use-in-context image instead of a text-only superlative.",
+    "if_specification_heavy": "Compress dimensions, material, care, and compatibility into one scannable reference band.",
+    "if_mobile_first": "Keep image-band type large enough to survive the narrow authored column without pinch zoom."
+  },
+  "anti_patterns": [
+    "Rasterizing every critical purchase condition so it cannot be searched, translated, or updated.",
+    "Low-resolution text baked into a long sequence of images.",
+    "Repeating delivery or discount claims instead of adding product proof."
+  ],
+  "severity": "HIGH"
+}

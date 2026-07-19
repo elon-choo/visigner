@@ -1,0 +1,15 @@
+{
+  "category": "brand-site",
+  "recommended_pattern": "A coherent brand world expressed through a restrained visual system, signature imagery, and a small set of meaningful paths into the company.",
+  "decision_rules": {
+    "if_luxury": "Use material, pace, and image restraint to signal value; keep interaction timing calm and intentional.",
+    "if_heritage": "Connect historical evidence to the present offer instead of relying on nostalgic decoration alone.",
+    "if_multi_audience": "Offer clearly named routes for each audience without collapsing the home page into a feature grid."
+  },
+  "anti_patterns": [
+    "A generic SaaS feature grid pasted onto a world-building brief.",
+    "Stock imagery that could belong to any competitor.",
+    "A primary CTA repeated so aggressively that the brand loses its point of view."
+  ],
+  "severity": "MEDIUM"
+}

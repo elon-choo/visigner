@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.0.0 — The v2 machine, wired in: reference-grounded builds + enforced honesty (2026-07-19)
+
+v1 graded pages after the fact. v2 grounds the build in a real-page corpus **before** code and enforces honesty/anti-pattern rules as machine gates — the capabilities were built and verified as a standalone pipeline, and this release wires them into the shipped skill (owner-approved).
+
+### Added — the wired v2 machine
+- **Reference-grounded plan step** — `librarian-inject` retrieves the top corpus exemplar for a brief, its evidence-backed recipe grounding, and the category **reasoning sidecar** (if/then decision rules + anti-patterns, 12 categories with a duplicate-key-rejecting validator), and the detail-page skill now treats that grounding as the build's design contract.
+- **Conformance grading** — `anti-ai-eval.js` gains opt-in `--recipe` (build-honesty gate: a number/label the recipe doesn't support fails the page, Korean unit-adjacent forms like `9,999,999원` covered), `--category` (anti-pattern table check: machine HIGH hits fail; manual rows surface as UNCHECKED, never auto-passed), and `--grounding` (conformance context reporting). **Flag-less behavior is byte-identical to v1.5** (proven in evidence).
+- **design-critic × anti-pattern tables** — the critic must now run `anti-pattern-check` per category and fold machine hits as named deductions; manual rows are checked by eye against pixels and cited by row id; an unavailable checker or unknown category is declared, never silently skipped.
+- **Standalone gates** (all new, additive): `scripts/smoke.js` (count-guarded regression net: 8 skills, 12 corpus records, 12/12 reasoning+anti-pattern tables, brand-lint fixture, Patchright render smoke; `RENDER=0` opt-out prints an explicit UNVERIFIED line), `scripts/anti-pattern-check.js` (12 category tables incl. machine-detect rows for kr-detail-page/ecommerce-pdp/mobile-app-screen/pricing-page), `build-honesty-check.js`, `design-system-persist.js` (MASTER + per-page overrides, `--force`-gated, traversal-safe), design dials `--variance/--motion/--density` (defaults byte-identical).
+- **Real-photo carrying** — vision crop step + data-URI embedding; the 403454 KR rebuild rescored **82/100** on the independent design-critic (was 73) with the "no real photos" residual cleared and WCAG-AA contrast fixes applied.
+- **Corpus 8 → 12 records** incl. the first KR-positive 상세페이지 exemplar (29CM), `capture-spa.js` for client-rendered KR commerce pages, and maker/chrome computed-style separation for exact maker hex with provenance.
+
+### Changed
+- **Thin-skill refactor** — 7 prose-heavy SKILL.md bodies thinned into 10 on-demand `references/*.md` (verbatim relocation, ~41k tokens saved per activation) with a hard plan-gate clause so the mandatory plan fields cannot be skipped.
+- **Docs a11y** — shared tokens adjusted to WCAG AA (all flagged pairs ≥4.5:1), guide's 320px table reflow fixed; all four audited pages now pass axe with 0 serious/critical.
+
+### Known limitations (honest)
+- Live 29CM maker styles.json collection is blocked in this build environment (headed-Chrome channel; two attempts logged) — KR exact-hex is proven on the derived-recipe path (color conformance 74.8→100); live re-score deferred.
+- Tumblbug captures blocked by WAF 403 in bundled Chromium — future capture waves need headed/manual capture.
+- The smoke render gate depends on a third-party badge host (shields.io); a badge-host outage can fail the render step (`RENDER=0` documents the skip). Removing that dependency is queued for v2.0.1, alongside an axe settle fix in `shoot.js` and a `copyText` aria-live improvement.
+- The starter page carries 2 MEDIUM taste tells (mono-label, en-label overration) — style-level, non-gating.
+
 ## 1.5.0 — Install-only: the pixel browser auto-provisions (2026-07-16)
 
 v1.4 made the **grade** the default. v1.5 makes the **pixel self-critique loop** install-only too, so a beginner who never runs a single command still gets the full loop.

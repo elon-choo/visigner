@@ -1,0 +1,508 @@
+{
+  "meta": {
+    "url": "https://www.wadiz.kr/web/campaign/detail/400620",
+    "status": 200,
+    "title": "[3.7억] 4년 갈고 닦은 AI 자동화 시스템 - 블로그·스레드·전자책 by 블로리즘 | wadiz",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-17T09:29:09.617Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Pretendard",
+      "rawStack": "Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, \"Helvetica Neue\", \"Segoe UI\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Malgun Gothic\", \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+      "fontWeight": "700",
+      "fontSize": "24px",
+      "lineHeight": "36px",
+      "letterSpacing": "normal",
+      "element": "h1",
+      "selector": "div.flex-column-center-24 > section > div > h1.TitleWithDescription-module_title__bde54"
+    },
+    "body": {
+      "resolvedFamily": "Pretendard",
+      "rawStack": "Pretendard, -apple-system, \"system-ui\", system-ui, Roboto, \"Helvetica Neue\", \"Segoe UI\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Malgun Gothic\", \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18px",
+      "lineHeight": "27px",
+      "letterSpacing": "normal",
+      "element": "p",
+      "selector": "div.FundingStory-module_story__a4b1b > div > div.inner-contents > p"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "400"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "500"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      },
+      {
+        "family": "Pretendard",
+        "weight": "700"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#f2f5f8",
+        "cssRgb": "rgb(242, 245, 248)",
+        "areaShare": 0.7108947231338403
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.1812117042463492
+      },
+      {
+        "value": "#fafbfd",
+        "cssRgb": "rgb(250, 251, 253)",
+        "areaShare": 0.08311936252023235
+      },
+      {
+        "value": "#e6fafa",
+        "cssRgb": "rgb(230, 250, 250)",
+        "areaShare": 0.012148215351700726
+      },
+      {
+        "value": "#00c4c4",
+        "cssRgb": "rgb(0, 196, 196)",
+        "areaShare": 0.005771706666563742
+      },
+      {
+        "value": "#f9fafb",
+        "cssRgb": "rgb(249, 250, 251)",
+        "areaShare": 0.00332194486633174
+      },
+      {
+        "value": "#0000004d",
+        "cssRgb": "rgba(0, 0, 0, 0.3)",
+        "areaShare": 0.0020658632201979933
+      },
+      {
+        "value": "#fff0f0",
+        "cssRgb": "rgb(255, 240, 240)",
+        "areaShare": 0.0004964261553894834
+      }
+    ],
+    "text": [
+      {
+        "value": "#191f28",
+        "cssRgb": "rgb(25, 31, 40)",
+        "areaShare": 0.9091451338964927
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.087426305331586
+      },
+      {
+        "value": "#b1b8c3",
+        "cssRgb": "rgb(177, 184, 195)",
+        "areaShare": 0.0023785707580209234
+      },
+      {
+        "value": "#4672f9",
+        "cssRgb": "rgb(70, 114, 249)",
+        "areaShare": 0.000808281833924564
+      },
+      {
+        "value": "#4e5968",
+        "cssRgb": "rgb(78, 89, 104)",
+        "areaShare": 0.00010487291281109281
+      },
+      {
+        "value": "#00c4c4",
+        "cssRgb": "rgb(0, 196, 196)",
+        "areaShare": 0.00004633370985616525
+      }
+    ]
+  },
+  "cssVariables": {
+    "--safe-area-inset-bottom": "0px",
+    "--safe-area-inset-left": "0px",
+    "--safe-area-inset-right": "0px",
+    "--safe-area-inset-top": "0px",
+    "--scrollbar-width": "15px"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 2083
+    },
+    {
+      "value": "4px",
+      "count": 135
+    },
+    {
+      "value": "16px",
+      "count": 108
+    },
+    {
+      "value": "8px",
+      "count": 75
+    },
+    {
+      "value": "12px",
+      "count": 14
+    },
+    {
+      "value": "2px",
+      "count": 14
+    },
+    {
+      "value": "397.688px",
+      "count": 8
+    },
+    {
+      "value": "24px",
+      "count": 7
+    },
+    {
+      "value": "40px",
+      "count": 7
+    },
+    {
+      "value": "80px",
+      "count": 3
+    },
+    {
+      "value": "20px",
+      "count": 2
+    },
+    {
+      "value": "48px",
+      "count": 2
+    },
+    {
+      "value": "6px",
+      "count": 2
+    },
+    {
+      "value": "15px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 789
+    },
+    {
+      "value": "4px",
+      "count": 48
+    },
+    {
+      "value": "8px",
+      "count": 40
+    },
+    {
+      "value": "16px",
+      "count": 12
+    },
+    {
+      "value": "100%",
+      "count": 6
+    },
+    {
+      "value": "12px",
+      "count": 2
+    },
+    {
+      "value": "50%",
+      "count": 2
+    },
+    {
+      "value": "100px",
+      "count": 1
+    },
+    {
+      "value": "20px",
+      "count": 1
+    },
+    {
+      "value": "2px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 901
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.05) 0px 4px 4px 0px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 829
+      },
+      {
+        "value": "transform 0.3s ease-out",
+        "count": 35
+      },
+      {
+        "value": "background-color 0.15s, border-color 0.15s, color 0.15s, opacity 0.15s",
+        "count": 10
+      },
+      {
+        "value": "fill 0.25s ease-in-out",
+        "count": 10
+      },
+      {
+        "value": "0.2s",
+        "count": 5
+      },
+      {
+        "value": "transform 0.15s ease-in",
+        "count": 5
+      },
+      {
+        "value": "0.2s ease-in-out",
+        "count": 3
+      },
+      {
+        "value": "color 0.3s",
+        "count": 2
+      },
+      {
+        "value": "background-color 0.2s",
+        "count": 1
+      },
+      {
+        "value": "border-color 0.15s, background-color 0.15s, color 0.15s",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.2s ease-out, visibility 0.2s ease-out, bottom 0.1s ease-in-out",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 902
+      }
+    ],
+    "prefersReducedMotion": false
+  },
+  "authoredRegion": {
+    "verdict": "likely-platform-chrome",
+    "signals": {
+      "cssVarCount": 5,
+      "pageHeightPx": 130712,
+      "bodyTextLen": 5838,
+      "bigImageCount": 33,
+      "textToHeightRatio": 0.04466307607564723,
+      "largestHeadingPx": 24
+    },
+    "note": "Tall, text-poor, image-dominant content with minimal CSS variables likely leaves the exemplar inside images rather than the DOM."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.wadiz.kr/global/main.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://use.fontawesome.com/7f85a56ba4.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.wadiz.kr/vendor/froala-editor/4.0.15/froala_style.min.css (SecurityError)"
+    }
+  ]
+}

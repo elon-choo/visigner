@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "id": "editorial-pudding-ethical-champions",
+  "capture_dir": "captures/editorial-pudding-ethical-champions",
+  "url": "https://pudding.cool/2026/06/ethical-champions/",
+  "title": "Ethical NBA Championships, Ranked",
+  "status": 200,
+  "captured_at": "2026-07-19",
+  "family": "the-pudding",
+  "mode": "editorial",
+  "category": "editorial-publication",
+  "exemplar_role": "positive",
+  "sector": "data-journalism",
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "Positive editorial-publication exemplar: hand-drawn player-head piles, team marks, and a sequential 2001–2026 ranking turn the argument itself into a memorable data illustration. It is a first-party Pudding article, so no marketplace chrome boundary applies.",
+  "capture": {
+    "page_height_px": { "value": 18776, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/pageHeight", "gap": null },
+    "body_text_len": { "value": 11792, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bodyTextLen", "gap": null },
+    "image_count": { "value": 10, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/imageCount", "gap": null },
+    "big_images": { "value": ["https://pudding.cool/2026/06/ethical-champions/assets/easy.png", "…8 more…"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages", "gap": "GAP-09" },
+    "tile_count": { "value": 12, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/tiles", "gap": null },
+    "tile_w_px": { "value": 1280, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_h_px": { "value": 1600, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_format": { "value": "png", "provenance": "derived", "confidence": null, "evidence": "tile_00.png filename + PNG IHDR header", "gap": null },
+    "tile_scale": { "value": 1, "provenance": "derived", "confidence": null, "evidence": "1280/1280 = 1600/1600 = 1", "gap": null },
+    "covered_height_px": { "value": 19200, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/coveredHeight", "gap": null },
+    "coverage_ok": { "value": true, "provenance": "derived", "confidence": null, "evidence": "19200 >= 18776", "gap": null },
+    "color_fidelity": { "value": "lossless", "provenance": "derived", "confidence": null, "evidence": "PNG tile format + tile_scale = 1", "gap": null },
+    "has_dom": { "value": false, "provenance": "derived", "confidence": null, "evidence": "capture stores tiles + JSON/text artefacts, not a DOM dump; has_dom = false", "gap": "GAP-01" }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": { "value": { "hue_family": "achromatic", "role_note": "white reading field and black text establish a newspaper-like ground" }, "provenance": "tile-vision", "confidence": 0.95, "evidence": "tile_00.png; tile_06.png", "gap": null },
+      "secondary_30": { "value": { "hue_family": "multi-hue", "role_note": "official team colours provide distributed data marks without overtaking the text" }, "provenance": "tile-vision", "confidence": 0.88, "evidence": "tile_00.png; tile_06.png", "gap": null },
+      "accent_10": { "value": { "hue_family": "yellow", "role_note": "the illustrated taxi and selected team marks use warm yellow as a narrative punctuation" }, "provenance": "tile-vision", "confidence": 0.7, "evidence": "tile_00.png", "gap": null },
+      "field_committed": { "value": false, "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png and tile_06.png preserve a white reading field instead of a saturated section band", "gap": null },
+      "field_evidence": { "value": "tile_00.png — visual emphasis comes from illustrated data marks on white, not a colour flood", "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png", "gap": null },
+      "field_sections": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" }
+    },
+    "temperature": { "value": "neutral-ground-multi-hue-data", "provenance": "tile-vision", "confidence": 0.77, "evidence": "tile_00.png; tile_06.png", "gap": null },
+    "computed_backgrounds": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "chroma_max_measured": { "value": null, "provenance": "tile-px", "confidence": null, "evidence": null, "gap": "GAP-02" },
+    "chrome_excluded": { "value": true, "provenance": "hand", "confidence": 0.95, "evidence": "tile_00.png identifies a first-party The Pudding article; masthead and article visualisation form one editorial experience.", "gap": null }
+  },
+  "type": {
+    "display": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "body": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "mono": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "pairing_note": { "value": "Large conversational sans prose is paired with small monospaced-looking chart labels; exact families are not identified.", "provenance": "tile-vision", "confidence": 0.87, "evidence": "tile_00.png; tile_06.png", "gap": "GAP-01" },
+    "weight_contrast_observed": { "value": "moderate", "provenance": "tile-vision", "confidence": 0.8, "evidence": "tile_00.png", "gap": null },
+    "kr_display_present": { "value": false, "provenance": "tile-vision", "confidence": 1, "evidence": "tile_00.png", "gap": null }
+  },
+  "layout": {
+    "archetype": { "value": "timeline-scroll", "provenance": "tile-vision", "confidence": 0.88, "evidence": "tile_00.png introduces a 2001–2026 ranking and tile_06.png continues it as sequential dated piles", "gap": null },
+    "content_width_px": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "column_system": { "value": "generous central reading measure interrupted by full-width data illustrations and a dated multi-column ranking grid.", "provenance": "tile-vision", "confidence": 0.91, "evidence": "tile_00.png; tile_06.png", "gap": null },
+    "primitive_repeated": { "value": "claim paragraph → illustrated score/axis → dated champion pile with team mark and numeric label", "provenance": "tile-vision", "confidence": 0.91, "evidence": "tile_00.png; tile_06.png", "gap": null }
+  },
+  "rhythm": {
+    "band_count": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "median_band_height_px": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "viewports": { "value": 11.74, "provenance": "derived", "confidence": null, "evidence": "18776 / 1600 = 11.74", "gap": null },
+    "text_density": { "value": 1004.4, "provenance": "derived", "confidence": null, "evidence": "11792 / 11.74 = 1004.4 chars per viewport", "gap": null },
+    "image_density": { "value": 0.85, "provenance": "derived", "confidence": null, "evidence": "10 / 11.74 = 0.85 images per viewport", "gap": null },
+    "spacing_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "radius_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+  },
+  "signature": {
+    "name": { "value": "Hand-drawn champion-head ranking", "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png; tile_06.png", "gap": null },
+    "family": { "value": "brand-commerce", "provenance": "tile-vision", "confidence": 0.88, "evidence": "tile_00.png; tile_06.png — an owned illustration language carries the data explanation", "gap": null },
+    "description": { "value": "Each season is rendered as a pile of hand-drawn opposing-player heads plus a team mark and metric, making a complex ethical-ranking argument readable and memorable without a generic dashboard chart.", "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png; tile_06.png", "gap": null },
+    "evidence_tiles": { "value": ["tile_00.png", "tile_06.png"], "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png; tile_06.png; no captured offset map proves every section", "gap": "GAP-09" },
+    "embodies_brief": { "value": "The size and grouping of illustrated heads transform missed games from an abstract statistic into a visual argument about each championship's difficulty.", "provenance": "hand", "confidence": 0.93, "evidence": "tile_00.png; tile_06.png", "gap": null },
+    "tell_risk": { "value": [], "provenance": "hand", "confidence": 0.92, "evidence": "The hand-drawn data device is specific to the article's research question and does not match a listed generic UI tell.", "gap": null },
+    "recurrence": { "value": "page-spine", "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.png; tile_06.png", "gap": "GAP-09" }
+  },
+  "motion": {
+    "gif_asset_count": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "bigImages[] entries ending .gif = 0", "gap": null },
+    "gif_evidence": { "value": null, "provenance": "capture-json", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "dynamic_demo_present": { "value": false, "provenance": "derived", "confidence": null, "evidence": "gif_asset_count > 0 = false", "gap": null },
+    "notes": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No archived motion inspection was performed.", "gap": "GAP-08" },
+    "durations_ms": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "easings": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "reduced_motion_honored": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" }
+  }
+}

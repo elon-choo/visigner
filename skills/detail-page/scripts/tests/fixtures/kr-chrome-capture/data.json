@@ -1,0 +1,10 @@
+{
+  "title": "KR chrome fixture",
+  "headings": [
+    "H1: Fixture hero",
+    "H2: Fixture statement",
+    "H2: Fixture chapter"
+  ],
+  "pageHeight": 100,
+  "bodyTextLen": 136
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.0.0",
+  "id": "400620",
+  "capture_dir": "captures/400620",
+  "url": "https://www.wadiz.kr/web/campaign/detail/400620",
+  "title": "[3.7억] 4년 갈고 닦은 AI 자동화 시스템 - 블로그·스레드·전자책 by 블로리즘",
+  "status": 200,
+  "captured_at": "2026-06-22",
+  "family": "wadiz",
+  "mode": "detail",
+  "category": "kr-crowdfunding",
+  "exemplar_role": "negative",
+  "sector": "ai-digital",
+  "locale": "ko-KR",
+  "expanded": "더보기",
+  "notes": "The right reward rail and the teal 재오픈 요청하기 button are Wadiz PLATFORM chrome, not 블로리즘's design. Palette fields describe the campaign-authored bands only — the boundary is unmarked in the capture (GAP-07). Style collector deferred (GAP-01): tiles captured at pageHeight 117039 versus styles.json pageHeight 130712 (drift 13673px); re-capture tiles + styles in one session before carrying class-C values. Curation: exemplar_role=negative because tile_00's acid-lime-on-black is a named banned default and signature.tell_risk contains palette-monotony; it is contrast-only.",
+  "capture": {
+    "page_height_px": { "value": 117039, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/pageHeight", "gap": null },
+    "body_text_len": { "value": 5894, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bodyTextLen", "gap": null },
+    "image_count": { "value": 39, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/imageCount", "gap": null },
+    "big_images": { "value": ["https://cdn3.wadiz.kr/studio/images/2026/04/21/2078a2e4-a30a-4aa1-859d-b03010961dbc.png/wadiz/resize/800/format/jpg/quality/85/", "…24 more…"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages — 26 entries, 25 unique, vs imageCount 39", "gap": "GAP-09" },
+    "tile_count": { "value": 74, "provenance": "derived", "confidence": null, "evidence": "count of tile_*.jpg on disk (tile_00..tile_73); Wadiz has no capture.json", "gap": null },
+    "tile_w_px": { "value": 720, "provenance": "derived", "confidence": null, "evidence": "JPEG header, tile_00.jpg", "gap": null },
+    "tile_h_px": { "value": 900, "provenance": "derived", "confidence": null, "evidence": "JPEG header, tile_00.jpg", "gap": null },
+    "tile_format": { "value": "jpeg", "provenance": "derived", "confidence": null, "evidence": "JFIF baseline, precision 8, 3 components", "gap": null },
+    "tile_scale": { "value": 0.5625, "provenance": "derived", "confidence": null, "evidence": "720/1280 = 900/1600 = 0.5625; captures/README.md notes the JPEGs are 축소본", "gap": null },
+    "covered_height_px": { "value": 118400, "provenance": "derived", "confidence": null, "evidence": "74 tiles × 1600px viewport height; 1600 is read off app-ui capture.json (11200/7), NOT recorded by this capture", "gap": "GAP-05" },
+    "coverage_ok": { "value": true, "provenance": "derived", "confidence": null, "evidence": "118400 >= 117039", "gap": "GAP-05" },
+    "color_fidelity": { "value": "degraded", "provenance": "derived", "confidence": null, "evidence": "baseline JPEG (chroma-subsampled) + 0.5625 downscale", "gap": "GAP-04" },
+    "has_dom": { "value": false, "provenance": "derived", "confidence": null, "evidence": "index.html is a generated view-capture.js viewer: its <style> is body{background:#222}/.page{max-width:720px} + 74 <img> tags. Zero campaign markup.", "gap": "GAP-01" }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": { "value": { "hue_family": "achromatic", "role_note": "black/charcoal ground floods the campaign image bands" }, "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.jpg hero band; tile_13.jpg story band", "gap": null },
+      "secondary_30": { "value": { "hue_family": "yellow", "role_note": "warm yellow in claim strips and highlight boxes" }, "provenance": "tile-vision", "confidence": 0.75, "evidence": "tile_00.jpg '4년 노하우 압축!' strip", "gap": null },
+      "accent_10": { "value": { "hue_family": "lime-green", "role_note": "acid-lime reserved for the focal claim and the ∞ glyph" }, "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.jpg '30분이면 자동 수익 세팅' + infinity glyph", "gap": null },
+      "field_committed": { "value": true, "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.jpg — full-bleed black hero band with acid-lime display type reversed out", "gap": null },
+      "field_sections": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" }
+    },
+    "temperature": { "value": "cool-ground-warm-accent", "provenance": "tile-vision", "confidence": 0.7, "evidence": "tile_00.jpg", "gap": null },
+    "ramp": [
+      { "name": "ground", "oklch": null, "hex_approx": { "value": "#0B0B0C", "provenance": "tile-vision", "confidence": 0.6, "evidence": "tile_00.jpg hero ground — eyeball approximation, NOT a measurement", "gap": "GAP-03" }, "role": "dominant_60" },
+      { "name": "acid-lime", "oklch": null, "hex_approx": { "value": "#C9FF3D", "provenance": "tile-vision", "confidence": 0.5, "evidence": "tile_00.jpg display type — JPEG chroma-subsampled + downscaled, so this reads LOW-biased (GAP-04)", "gap": "GAP-03" }, "role": "accent_10" }
+    ],
+    "chroma_max_measured": { "value": null, "provenance": "tile-px", "confidence": null, "evidence": null, "gap": "GAP-02" },
+    "chrome_excluded": { "value": false, "provenance": "hand", "confidence": 1, "evidence": "Wadiz nav + teal CTA + reward rail are inside every tile and are unmarked; see notes.", "gap": "GAP-07" }
+  },
+  "type": {
+    "display": {
+      "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+      "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+    },
+    "body": {
+      "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+      "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+    },
+    "mono": {
+      "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+    },
+    "scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "pairing_note": { "value": "Heavy geometric KR display sans (Black Han Sans class) against a light KR body; Latin numerals carry the authority row. Families NOT identified — no DOM, and a 0.5625 JPEG will not support an ID.", "provenance": "tile-vision", "confidence": 0.55, "evidence": "tile_00.jpg", "gap": "GAP-01" },
+    "weight_contrast_observed": { "value": "extreme", "provenance": "tile-vision", "confidence": 0.85, "evidence": "tile_00.jpg — display headline vs WAi summary body", "gap": null },
+    "kr_display_present": { "value": true, "provenance": "tile-vision", "confidence": 0.95, "evidence": "tile_00.jpg", "gap": null }
+  },
+  "layout": {
+    "archetype": { "value": "image-band-scroll", "provenance": "tile-vision", "confidence": 0.95, "evidence": "tile_00.jpg + pageHeight 117039 over 74 tiles", "gap": null },
+    "content_width_px": { "value": 860, "provenance": "tile-vision", "confidence": 0.6, "evidence": "story column measured against the Wadiz 860px platform default (korean-detailpage.md); not px-measured", "gap": "GAP-03" },
+    "column_system": { "value": "single-column story body + persistent right reward rail on desktop (rail = platform chrome)", "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.jpg", "gap": "GAP-07" },
+    "primitive_repeated": { "value": "full-bleed claim band → evidence object → interpretation line", "provenance": "tile-vision", "confidence": 0.7, "evidence": "tile_00.jpg; matches the page-rhythm grammar in wadiz-ai-digital-benchmark.md", "gap": null }
+  },
+  "rhythm": {
+    "band_count": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "median_band_height_px": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "viewports": { "value": 73.1, "provenance": "derived", "confidence": null, "evidence": "117039 / 1600", "gap": null },
+    "text_density": { "value": 80.6, "provenance": "derived", "confidence": null, "evidence": "5894 chars / 73.1 viewports", "gap": null },
+    "image_density": { "value": 0.53, "provenance": "derived", "confidence": null, "evidence": "39 images / 73.1 viewports", "gap": null },
+    "spacing_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "radius_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+  },
+  "signature": {
+    "name": { "value": "Acid-lime infinity loop on black — named banned default", "provenance": "tile-vision", "confidence": 0.85, "evidence": "tile_00.jpg", "gap": null },
+    "family": { "value": "none", "provenance": "tile-vision", "confidence": 0.8, "evidence": "tile_00.jpg", "gap": null },
+    "description": { "value": "A glowing acid-lime ∞ rendered as 3D tubing on a pure-black hero field below the display headline; it is the named acid-on-black banned default, not a signature technique to retrieve or imitate.", "provenance": "tile-vision", "confidence": 0.85, "evidence": "tile_00.jpg", "gap": null },
+    "evidence_tiles": { "value": ["tile_00.jpg"], "provenance": "tile-vision", "confidence": 0.85, "evidence": "hero tile only — recurrence across the other 73 tiles not swept", "gap": "GAP-09" },
+    "embodies_brief": { "value": "Automation = a loop that never stops. The glyph IS the promise, not decoration next to it.", "provenance": "hand", "confidence": 0.8, "evidence": "tile_00.jpg glyph + title 'AI 자동화 시스템'", "gap": null },
+    "tell_risk": { "value": ["palette-monotony"], "provenance": "hand", "confidence": 0.8, "evidence": "tile_00.jpg shows the acid-lime-on-black signature. anti-ai-eval.js emits 'palette-monotony' for this palette pattern, whose source tell is the acid-green flood + near-black display named in anti-ai-tells.md tell #2.", "gap": null },
+    "recurrence": { "value": "hero-anchored", "provenance": "tile-vision", "confidence": 0.5, "evidence": "tile_00.jpg", "gap": "GAP-09" }
+  },
+  "motion": {
+    "gif_asset_count": { "value": 2, "provenance": "derived", "confidence": null, "evidence": "bigImages[] entries ending .gif (indices 5, 15)", "gap": null },
+    "gif_evidence": { "value": ["https://cdn3.wadiz.kr/studio/images/2026/04/22/13431b67-e075-4d0b-af47-70b44bd15e4d.gif", "https://cdn3.wadiz.kr/studio/images/2026/04/16/1a0836cb-187e-4f02-a2fd-f375547b225c.gif"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages", "gap": "GAP-09" },
+    "dynamic_demo_present": { "value": true, "provenance": "derived", "confidence": null, "evidence": "gif_asset_count > 0", "gap": null },
+    "notes": { "value": "Two GIF assets in the story body — korean-detailpage.md's 'demonstrate dynamic features with GIF/video' rule is observed. Frame content unknown: GIFs are remote, not archived, not tiled.", "provenance": "hand", "confidence": 0.9, "evidence": "data.json#/bigImages", "gap": "GAP-08" },
+    "durations_ms": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "easings": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "reduced_motion_honored": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" }
+  },
+  "commerce": {
+    "awareness": { "value": "solution-aware", "provenance": "hand", "confidence": 0.65, "evidence": "Hero opens on mechanism + credential ('4년 노하우 압축', '30분이면 자동 수익 세팅') with no pain-agitation block; korean-detailpage.md maps that opening to solution-aware.", "gap": "GAP-06" },
+    "sophistication": { "value": 4, "provenance": "hand", "confidence": 0.6, "evidence": "Leads with proprietary mechanism + 4-year provenance rather than a bare superlative — korean-detailpage.md's stage-4 'claims exhausted' pivot.", "gap": "GAP-06" },
+    "arc": [
+      { "stage": "problem", "present": true, "evidence": "bodytext.txt — '혼자 하다가 막히면 어쩌죠?' (Maker Story opens on the reader's objection)" },
+      { "stage": "affinity", "present": true, "evidence": "bodytext.txt — '이 질문을 가장 많이 받습니다. 걱정하지 마세요.'" },
+      { "stage": "solution", "present": true, "evidence": "data.json#/headings 'H3: 프로젝트 스토리'; tile_00.jpg WAi summary '30일 완성 AI 자동화 — 4년 노하우를 30일로 압축한 체계적 오더 가이드'" },
+      { "stage": "offer", "present": true, "evidence": "tile_00.jpg reward rail — 63%/449,000원 · 70%/790,000원 · 66%/890,000원 · 54%/199,000원" },
+      { "stage": "narrow", "present": null, "evidence": null },
+      { "stage": "action", "present": true, "evidence": "bodytext.txt — '⏰오늘 23:59 완전 종료‼️잠시후 진짜 마지막입니다.'" }
+    ],
+    "arc_resolved": { "value": 5, "provenance": "derived", "confidence": null, "evidence": "count of arc[] stages with present !== null — 'narrow' is null (GAP-09)", "gap": "GAP-09" },
+    "arc_total": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "PASONA stage count", "gap": null },
+    "arc_coverage": { "value": 1.0, "provenance": "derived", "confidence": null, "evidence": "5 present ÷ 5 resolved; 'narrow' is null, not false (a full 74-tile sweep was not run — GAP-09) and per §7's null rule joins neither numerator nor denominator", "gap": "GAP-09" },
+    "authority_numbers": { "value": ["1,610명 참여", "182,492,000원 달성", "36,498% 달성", "2,500명이 팔로우"], "provenance": "bodytext", "confidence": null, "evidence": "bodytext.txt:L448-455,L465", "gap": null },
+    "reward_ladder": { "value": [{ "label": "울트라 얼리버드 70% 혜택", "discount_pct": 70, "price_krw": 790000 }, { "label": "얼리버드 66% 혜택", "discount_pct": 66, "price_krw": 890000 }, { "label": "추천 얼리버드 63% 혜택", "discount_pct": 63, "price_krw": 449000 }, { "label": "울트라 얼리버드 54% 혜택", "discount_pct": 54, "price_krw": 199000 }], "provenance": "tile-vision", "confidence": 0.8, "evidence": "tile_00.jpg reward rail; prices 790,000/890,000 corroborated in bodytext.txt", "gap": "GAP-07" },
+    "urgency_device": { "value": "⏰오늘 23:59 완전 종료‼️잠시후 진짜 마지막입니다.", "provenance": "bodytext", "confidence": null, "evidence": "bodytext.txt", "gap": null },
+    "urgency_repetition": { "value": 19, "provenance": "derived", "confidence": null, "evidence": "regex count of '얼리버드' over bodytext.txt", "gap": null },
+    "one_message": { "value": "4년치 AI 자동화 노하우를 30분 세팅으로 압축해 판다.", "provenance": "hand", "confidence": 0.8, "evidence": "title + tile_00.jpg hero claim", "gap": null }
+  }
+}

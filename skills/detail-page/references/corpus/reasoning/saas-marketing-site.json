@@ -1,0 +1,15 @@
+{
+  "category": "saas-marketing-site",
+  "recommended_pattern": "A product-in-context hero followed by workflow proof, credibility bands, and a focused product CTA.",
+  "decision_rules": {
+    "if_data_heavy": "Show a readable real product state and reserve blur or glass effects for nonessential framing.",
+    "if_enterprise_buyers": "Place security, compliance, and customer proof beside the product mechanism rather than in a distant footer.",
+    "if_new_category": "Explain the before-and-after workflow before naming abstract platform benefits."
+  },
+  "anti_patterns": [
+    "Opaque product screenshots that cannot teach the workflow.",
+    "A dark gradient or glossy blob used as a substitute for product evidence.",
+    "Feature grids whose cards do not add up to a product narrative."
+  ],
+  "severity": "HIGH"
+}

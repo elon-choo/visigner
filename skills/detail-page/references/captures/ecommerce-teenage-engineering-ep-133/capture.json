@@ -1,0 +1,17 @@
+{
+  "url": "https://teenage.engineering/store/ep-133",
+  "status": 200,
+  "title": "buy EP–133 K.O. II - teenage engineering",
+  "pageHeight": 2317,
+  "bodyTextLen": 2746,
+  "imageCount": 15,
+  "tiles": 2,
+  "coveredHeight": 3200,
+  "maxTiles": 32,
+  "outDir": "/Users/elon/visigner/skills/detail-page/references/captures/ecommerce-teenage-engineering-ep-133",
+  "requestedUrl": "https://teenage.engineering/store/ep-133",
+  "capturedAt": "2026-07-19T04:48:37.596Z",
+  "renderer": "patchright-chromium-headless",
+  "hydrated": true,
+  "expanded": null
+}

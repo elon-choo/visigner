@@ -1,0 +1,87 @@
+{
+  "category": "kr-detail-page",
+  "anti_patterns": [
+    {
+      "id": "kr-detail-page-ai-purple-pink-gradient-hero",
+      "title": "AI-purple/pink gradient substitutes for a product story",
+      "severity": "HIGH",
+      "do_not": "Use a familiar purple-to-pink hero gradient as a shortcut for a product-specific hook, mechanism, or proof object.",
+      "detect": {
+        "type": "css-gradient",
+        "hues": ["purple", "pink"],
+        "angle": 135,
+        "maxAngleTolerance": 20
+      }
+    },
+    {
+      "id": "kr-detail-page-system-font-only",
+      "title": "System-font-only typography erases the maker voice",
+      "severity": "HIGH",
+      "do_not": "Ship the authored story with only generic system or commodity sans-serif families instead of a deliberate Korean display and body pairing.",
+      "detect": {
+        "type": "css-pattern",
+        "regex": "\\bfont-family\\s*:\\s*(?:(?:-apple-system|BlinkMacSystemFont|system-ui|Inter|Roboto|Arial|Open Sans|Lato|sans-serif)\\s*,?\\s*)+(?:;|})",
+        "flags": "i"
+      }
+    },
+    {
+      "id": "kr-detail-page-emoji-as-icon",
+      "title": "Emoji substitutes for an authored icon system",
+      "severity": "HIGH",
+      "do_not": "Use emoji as feature, benefit, trust, or purchase icons in place of product-grounded visual evidence or one coherent icon language.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+(?:\\bdata-emoji-(?:icon|bullet)\\b|\\bclass\\s*=\\s*[\"'][^\"']*(?:emoji|icon|bullet)[^\"']*[\"'])[^>]*>[\\s\\S]{0,80}(?:🚀|✨|💡|🔥|✅|⭐|🎯|💜|📦|🛒|👉)",
+        "flags": "iu"
+      }
+    },
+    {
+      "id": "kr-detail-page-centered-everything",
+      "title": "Centered-everything section stack",
+      "severity": "HIGH",
+      "do_not": "Center every content band; preserve at least one asymmetric product, comparison, or evidence composition that creates hierarchy.",
+      "detect": {
+        "type": "css-pattern",
+        "regex": "\\btext-align\\s*:\\s*center\\b",
+        "flags": "i",
+        "minMatches": 4
+      }
+    },
+    {
+      "id": "kr-detail-page-mobile-sticky-cta-disabled",
+      "title": "Mobile sticky purchase CTA explicitly disabled",
+      "severity": "HIGH",
+      "do_not": "Hide the maker-owned sticky purchase action at the mobile breakpoint when the long image-band story pushes the decision controls far off-screen.",
+      "detect": {
+        "type": "css-pattern",
+        "regex": "@media[^\\{]{0,240}\\bmax-width\\s*:\\s*(?:680|640|600|480|390)px[\\s\\S]{0,2400}(?:sticky|fixed)[-_]?(?:cta|buy|purchase)[^\\{]{0,160}\\{[^}]{0,400}\\b(?:display\\s*:\\s*none|visibility\\s*:\\s*hidden)",
+        "flags": "i"
+      }
+    },
+    {
+      "id": "kr-detail-page-rasterized-purchase-terms",
+      "title": "Critical purchase terms trapped in raster images",
+      "severity": "HIGH",
+      "do_not": "Bake price, delivery, compatibility, and return conditions into images that cannot be searched, translated, or updated.",
+      "detect": { "type": "manual" },
+      "good_bad": {
+        "good": "The detail band is visual, while purchase terms remain semantic text near the decision.",
+        "bad": "Delivery and return terms exist only as pixels in a promotional image."
+      }
+    },
+    {
+      "id": "kr-detail-page-low-resolution-baked-copy",
+      "title": "Low-resolution text baked into long image bands",
+      "severity": "HIGH",
+      "do_not": "Use unreadable baked-in typography that fails on the narrow mobile authored column.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "kr-detail-page-repeated-offers-without-proof",
+      "title": "Repeated discount or delivery claims replace proof",
+      "severity": "MEDIUM",
+      "do_not": "Repeat offer language instead of adding mechanism, comparative, or product-use evidence.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

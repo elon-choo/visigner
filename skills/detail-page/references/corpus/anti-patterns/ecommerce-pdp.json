@@ -1,0 +1,75 @@
+{
+  "category": "ecommerce-pdp",
+  "anti_patterns": [
+    {
+      "id": "ecommerce-pdp-generic-ai-gradient-product-hero",
+      "title": "Generic AI gradient replaces product-specific art direction",
+      "severity": "HIGH",
+      "do_not": "Use a familiar blue-to-purple product hero gradient instead of letting the product's material, controls, or use context define the page.",
+      "detect": {
+        "type": "css-gradient",
+        "hues": ["blue", "purple"],
+        "angle": 135,
+        "maxAngleTolerance": 20
+      }
+    },
+    {
+      "id": "ecommerce-pdp-unconditioned-urgency-marker",
+      "title": "Urgency block marked as having no real condition",
+      "severity": "HIGH",
+      "do_not": "Render urgency that has no verifiable stock, delivery, or date condition attached to it.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-urgency-without-condition\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "ecommerce-pdp-detached-buy-control-marker",
+      "title": "Buy control marked as detached from decision context",
+      "severity": "HIGH",
+      "do_not": "Place a purchase control where the selected variant, price, availability, and fulfillment facts are not available with it.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-buy-control-detached\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "ecommerce-pdp-packshot-only-gallery-marker",
+      "title": "Gallery marked as packshot-only evidence",
+      "severity": "HIGH",
+      "do_not": "Limit the gallery to isolated pack shots when scale, material detail, or product-in-use evidence affects the purchase decision.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-packshot-only-gallery\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "ecommerce-pdp-invented-urgency",
+      "title": "Urgency color without a real condition",
+      "severity": "HIGH",
+      "do_not": "Use warning red or countdown urgency unless it is tied to a verifiable stock, delivery, or date condition.",
+      "detect": { "type": "manual" },
+      "good_bad": {
+        "good": "Only 3 left — inventory is updated today.",
+        "bad": "HURRY! red styling with no stock, date, or delivery fact."
+      }
+    },
+    {
+      "id": "ecommerce-pdp-detached-buy-control",
+      "title": "Buy control lacks decision context",
+      "severity": "HIGH",
+      "do_not": "Separate the purchase control from selected variant, price, availability, and fulfillment information.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "ecommerce-pdp-evidence-poor-gallery",
+      "title": "Gallery omits scale or material evidence",
+      "severity": "MEDIUM",
+      "do_not": "Treat isolated pack shots as sufficient when size, material, detail, or product-in-use proof changes the decision.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

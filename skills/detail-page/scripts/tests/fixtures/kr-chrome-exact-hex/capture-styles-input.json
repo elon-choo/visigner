@@ -1,0 +1,51 @@
+{
+  "makerRegion": {
+    "status": "resolved",
+    "selector": "main > article.FundingStory-module_story__fixture",
+    "sourceSelector": "[class*=FundingStory]",
+    "width": 720,
+    "height": 1800,
+    "descendantCount": 12,
+    "imageCount": 2,
+    "textLength": 240
+  },
+  "makerSamples": [
+    {
+      "selector": "article.FundingStory-module_story__fixture",
+      "semantic": "FundingStory-module_story__fixture",
+      "area": 180000,
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(8, 9, 10)"
+    },
+    {
+      "selector": "article.FundingStory-module_story__fixture > .maker-accent",
+      "semantic": "maker-accent campaign-highlight",
+      "area": 20000,
+      "color": "rgb(201, 255, 61)",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    },
+    {
+      "selector": "article.FundingStory-module_story__fixture > p",
+      "semantic": "maker-copy",
+      "area": 100000,
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgba(0, 0, 0, 0)"
+    }
+  ],
+  "chromeSamples": [
+    {
+      "selector": "body > header.wadiz-header",
+      "semantic": "wadiz-header",
+      "area": 500000,
+      "color": "rgb(25, 31, 40)",
+      "backgroundColor": "rgb(242, 245, 248)"
+    },
+    {
+      "selector": "aside > .wadiz-primary-cta",
+      "semantic": "wadiz-primary-cta",
+      "area": 50000,
+      "color": "rgb(255, 255, 255)",
+      "backgroundColor": "rgb(0, 196, 196)"
+    }
+  ]
+}

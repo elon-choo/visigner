@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0.0",
+  "id": "resend",
+  "capture_dir": "captures/stage2/resend",
+  "url": "https://resend.com",
+  "title": "Resend · Email for developers",
+  "status": 200,
+  "captured_at": "2026-07-17",
+  "family": "app-ui",
+  "mode": "landing",
+  "category": "saas-marketing-site",
+  "exemplar_role": "positive",
+  "sector": "dev-tools",
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "Tags from the captured authored surface: layout-archetype=band-stack; mood=nocturnal,premium,precise; palette-family=dark-neutral-ui; type-personality=didone-glamour display plus neo-grotesque-neutral body; signature-move=asymmetric-hero; platform-width=not-applicable; pasona-arc=landing-arc. Curation: exemplar_role=positive because tile_00.png and the supplied tile-grounded recipe show a coherent, authored developer-email landing page with a specific asymmetric hero and product-interface demonstrations, not a named cautionary default.",
+  "capture": {
+    "page_height_px": { "value": 12251, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/pageHeight", "gap": null },
+    "body_text_len": { "value": 17425, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bodyTextLen", "gap": null },
+    "image_count": { "value": 54, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/imageCount", "gap": null },
+    "big_images": { "value": ["https://resend.com/_next/image?url=%2Fstatic%2Flanding-page%2Fbg-hero-1.jpg&w=1920&q=100&dpl=dpl_DaexY1itgjXFfib7rYyaVDpHq8eo", "…38 more…"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages — …38 more…", "gap": "GAP-09" },
+    "tile_count": { "value": 8, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/tiles", "gap": null },
+    "tile_w_px": { "value": 1280, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR header, tile_00.png", "gap": null },
+    "tile_h_px": { "value": 1600, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR header, tile_00.png", "gap": null },
+    "tile_format": { "value": "png", "provenance": "derived", "confidence": null, "evidence": "PNG file header, tile_00.png", "gap": null },
+    "tile_scale": { "value": 1, "provenance": "derived", "confidence": null, "evidence": "1280/1280 = 1", "gap": null },
+    "covered_height_px": { "value": 12800, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/coveredHeight", "gap": null },
+    "coverage_ok": { "value": true, "provenance": "derived", "confidence": null, "evidence": "12800 >= 12251 = true", "gap": null },
+    "color_fidelity": { "value": "lossless", "provenance": "derived", "confidence": null, "evidence": "PNG + 1280/1280 scale = lossless", "gap": null },
+    "has_dom": { "value": false, "provenance": "derived", "confidence": null, "evidence": "capture directory contains styles.json but no captured DOM dump; has_dom = false", "gap": "GAP-01" }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": { "value": { "hue_family": "achromatic", "role_note": "Near-black is the hero and page ground." }, "provenance": "tile-vision", "confidence": 0.98, "evidence": "tile_00.png", "gap": null },
+      "secondary_30": { "value": { "hue_family": "achromatic", "role_note": "White and gray are reserved for display copy, navigation, and thin interface lines on the black ground." }, "provenance": "tile-vision", "confidence": 0.93, "evidence": "tile_00.png and tile_04.png", "gap": null },
+      "accent_10": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+      "field_committed": { "value": false, "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.png and tile_04.png show dark neutral bands and interface accents, not a saturated field owning a band", "gap": null },
+      "field_evidence": { "value": "tile_00.png shows a near-black hero field; tile_04.png continues the near-black product-interface bands.", "provenance": "tile-vision", "confidence": 0.92, "evidence": "tile_00.png and tile_04.png", "gap": null },
+      "field_sections": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" }
+    },
+    "temperature": { "value": "neutral", "provenance": "tile-vision", "confidence": 0.88, "evidence": "tile_00.png", "gap": null },
+    "computed_backgrounds": {
+      "value": [
+        { "value": "#000000", "cssRgb": "rgb(0, 0, 0)", "areaShare": 0.9844367987764071 },
+        { "value": "#ffffff", "cssRgb": "rgb(255, 255, 255)", "areaShare": 0.01153591008889628 },
+        { "value": "#d6ebfd30", "cssRgb": "rgba(214, 235, 253, 0.19)", "areaShare": 0.0030655287135816687 },
+        { "value": "#0b0e14", "cssRgb": "rgb(11, 14, 20)", "areaShare": 0.00018394803591333735 },
+        { "value": "#d9edfe25", "cssRgb": "rgba(217, 237, 254, 0.145)", "areaShare": 0.00016464877995073666 },
+        { "value": "#d8f4f609", "cssRgb": "rgba(216, 244, 246, 0.035)", "areaShare": 0.0001463656597493772 },
+        { "value": "#00a3ff", "cssRgb": "rgb(0, 163, 255)", "areaShare": 0.00013799714380996266 },
+        { "value": "#22ff991e", "cssRgb": "rgba(34, 255, 153, 0.118)", "areaShare": 0.00011867733341198891 }
+      ],
+      "provenance": "styles-json",
+      "confidence": null,
+      "evidence": "styles.json#/color/backgrounds",
+      "gap": null
+    },
+    "ramp": [],
+    "chroma_max_measured": { "value": null, "provenance": "tile-px", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "chrome_excluded": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No human chrome-region annotation is present.", "gap": "GAP-07" }
+  },
+  "type": {
+    "display": {
+      "family": { "value": "domaine", "provenance": "styles-json", "confidence": null, "evidence": "styles.json#/type/display/resolvedFamily", "gap": null },
+      "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+    },
+    "body": {
+      "family": { "value": "inter", "provenance": "styles-json", "confidence": null, "evidence": "styles.json#/type/body/resolvedFamily", "gap": null },
+      "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+    },
+    "mono": { "family": { "value": "commitMono", "provenance": "styles-json", "confidence": null, "evidence": "styles.json#/type/mono/resolvedFamily", "gap": null } },
+    "scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "pairing_note": { "value": "High-contrast serif display copy is paired with neutral sans UI copy and monospace code in product demonstrations.", "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png and tile_04.png", "gap": null },
+    "weight_contrast_observed": { "value": "extreme", "provenance": "tile-vision", "confidence": 0.82, "evidence": "tile_00.png", "gap": null },
+    "kr_display_present": { "value": false, "provenance": "tile-vision", "confidence": 1, "evidence": "tile_00.png and tile_04.png", "gap": null }
+  },
+  "layout": {
+    "archetype": { "value": "band-stack", "provenance": "tile-vision", "confidence": 0.91, "evidence": "tile_00.png and tile_04.png; the supplied recipe describes stacked product-feature sections", "gap": null },
+    "content_width_px": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "column_system": { "value": "Two-column hero, then stacked full-width product-feature bands.", "provenance": "tile-vision", "confidence": 0.91, "evidence": "tile_00.png and tile_04.png", "gap": null },
+    "primitive_repeated": { "value": "Rounded dark product-interface panels that pair code, event, or email views with explanatory copy.", "provenance": "tile-vision", "confidence": 0.88, "evidence": "tile_04.png", "gap": null }
+  },
+  "rhythm": {
+    "band_count": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "median_band_height_px": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "viewports": { "value": 7.7, "provenance": "derived", "confidence": null, "evidence": "data.json#/pageHeight ÷ capture.json#/coveredHeight/capture.json#/tiles; 12251 ÷ (12800 ÷ 8) = 7.7", "gap": null },
+    "text_density": { "value": 2263, "provenance": "derived", "confidence": null, "evidence": "data.json#/bodyTextLen ÷ derived viewports; 17425 ÷ 7.7 = 2263", "gap": null },
+    "image_density": { "value": 7.01, "provenance": "derived", "confidence": null, "evidence": "data.json#/imageCount ÷ derived viewports; 54 ÷ 7.7 = 7.01", "gap": null },
+    "spacing_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "radius_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+  },
+  "signature": {
+    "name": { "value": "Floating black tile sculpture", "provenance": "tile-vision", "confidence": 0.92, "evidence": "tile_00.png", "gap": null },
+    "family": { "value": "layout-editorial", "provenance": "tile-vision", "confidence": 0.74, "evidence": "tile_00.png; the sculptural right-side hero object structures the asymmetric editorial composition", "gap": null },
+    "description": { "value": "A rotated, glossy near-black tiled form counterbalances the large left-aligned serif hero on the same near-black field.", "provenance": "tile-vision", "confidence": 0.93, "evidence": "tile_00.png", "gap": null },
+    "evidence_tiles": { "value": ["tile_00.png"], "provenance": "tile-vision", "confidence": 0.93, "evidence": "tile_00.png", "gap": "GAP-09" },
+    "embodies_brief": { "value": "The hero turns a developer-email platform into a composed, engineered object before the product-interface sections supply proof.", "provenance": "hand", "confidence": 0.79, "evidence": "tile_00.png, tile_04.png, and bodytext.txt:L11-L14", "gap": null },
+    "tell_risk": { "value": [], "provenance": "hand", "confidence": 0.82, "evidence": "tile_00.png and tile_04.png show an authored asymmetric composition and concrete product demonstrations; no named anti-pattern is identified in the capture.", "gap": null },
+    "recurrence": { "value": "hero-anchored", "provenance": "tile-vision", "confidence": 0.9, "evidence": "tile_00.png", "gap": "GAP-09" }
+  },
+  "motion": {
+    "gif_asset_count": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "count of .gif URLs in data.json#/bigImages = 0", "gap": null },
+    "gif_evidence": { "value": null, "provenance": "capture-json", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "dynamic_demo_present": { "value": false, "provenance": "derived", "confidence": null, "evidence": "gif_asset_count > 0 = false", "gap": null },
+    "notes": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No hand-authored motion annotation is present; still capture data does not establish motion behavior.", "gap": "GAP-08" },
+    "durations_ms": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "easings": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" },
+    "reduced_motion_honored": { "value": null, "provenance": "dom", "confidence": null, "evidence": "styles.json#/authoredRegion/verdict = \"dom-authored\"; collector values are emitted only through their resolving styles.json pointers.", "gap": "GAP-01" }
+  },
+  "commerce": {
+    "awareness": { "value": "solution-aware", "provenance": "hand", "confidence": 0.82, "evidence": "bodytext.txt:L11-L23 opens with the email-delivery outcome and developer integration mechanism before enumerating product features.", "gap": "GAP-06" },
+    "sophistication": { "value": 3, "provenance": "hand", "confidence": 0.68, "evidence": "bodytext.txt:L14,L23,L74-L75 combines the email-delivery claim with a developer-experience mechanism and specific feature demonstrations rather than a bare superlative.", "gap": "GAP-06" },
+    "arc": [
+      { "stage": "problem", "present": true, "evidence": "bodytext.txt:L11-L14 — the opening frames spam folders as the delivery problem: 'The best way to reach humans instead of spam folders.'" },
+      { "stage": "affinity", "present": true, "evidence": "bodytext.txt:L74-L75 — 'We are a team of engineers who love building tools for other engineers.'" },
+      { "stage": "solution", "present": true, "evidence": "bodytext.txt:L21-L23 — the integration interface and SDK mechanism are named directly." },
+      { "stage": "offer", "present": true, "evidence": "bodytext.txt:L16-L18 — the page offers 'Get Started' and 'Documentation' routes." },
+      { "stage": "narrow", "present": false, "evidence": "bodytext.txt full transcript contains no time, capacity, price, or availability narrowing device; the retrieval record preserves this as false rather than fabricating scarcity." },
+      { "stage": "action", "present": true, "evidence": "bodytext.txt:L16-L18 — 'Get Started' is the opening action CTA." }
+    ],
+    "arc_resolved": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "count of commerce.arc[] stages with present !== null = 6", "gap": null },
+    "arc_total": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "PASONA stage count = 6", "gap": null },
+    "arc_coverage": { "value": 0.83, "provenance": "derived", "confidence": null, "evidence": "5 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.83", "gap": null },
+    "authority_numbers": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "reward_ladder": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "urgency_device": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "urgency_repetition": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 0", "gap": null },
+    "one_message": { "value": "A developer-focused email platform promises reliable transactional and marketing delivery with product interfaces that demonstrate the workflow.", "provenance": "hand", "confidence": 0.86, "evidence": "bodytext.txt:L11-L14,L21-L23 and tile_04.png", "gap": null }
+  }
+}

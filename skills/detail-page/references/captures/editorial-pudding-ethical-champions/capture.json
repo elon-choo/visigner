@@ -1,0 +1,17 @@
+{
+  "url": "https://pudding.cool/2026/06/ethical-champions/",
+  "status": 200,
+  "title": "Ethical NBA Championships, Ranked",
+  "pageHeight": 18776,
+  "bodyTextLen": 11792,
+  "imageCount": 10,
+  "tiles": 12,
+  "coveredHeight": 19200,
+  "maxTiles": 36,
+  "outDir": "/Users/elon/visigner/skills/detail-page/references/captures/editorial-pudding-ethical-champions",
+  "requestedUrl": "https://pudding.cool/2026/06/ethical-champions",
+  "capturedAt": "2026-07-19T04:49:00.425Z",
+  "renderer": "patchright-chromium-headless",
+  "hydrated": true,
+  "expanded": null
+}

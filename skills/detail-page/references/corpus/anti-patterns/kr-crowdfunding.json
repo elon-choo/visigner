@@ -1,0 +1,35 @@
+{
+  "category": "kr-crowdfunding",
+  "anti_patterns": [
+    {
+      "id": "kr-crowdfunding-platform-chrome-as-proof",
+      "title": "Platform chrome presented as maker evidence",
+      "severity": "HIGH",
+      "do_not": "Claim platform funding rails, headers, or badges as visual proof authored by the maker.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-platform-chrome\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "kr-crowdfunding-acid-lime-without-proof",
+      "title": "Acid-lime-on-black used as the whole story",
+      "severity": "MEDIUM",
+      "do_not": "Use a loud acid-lime palette as a substitute for product mechanism, testing, and maker readiness.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "kr-crowdfunding-ai-gradient-story-substitute",
+      "title": "AI-purple gradient replaces a product story",
+      "severity": "HIGH",
+      "do_not": "Use a familiar purple or pink gradient as a shortcut for a distinctive product narrative.",
+      "detect": {
+        "type": "css-gradient",
+        "hues": ["purple", "pink"],
+        "angle": 135,
+        "maxAngleTolerance": 20
+      }
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "category": "pricing-page",
+  "anti_patterns": [
+    {
+      "id": "pricing-page-feature-without-limit-marker",
+      "title": "Tier feature marked as missing its decision limit",
+      "severity": "HIGH",
+      "do_not": "Present a tier feature without the quantity, usage boundary, or support limit needed to compare it.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-feature-without-limit\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "pricing-page-cheaper-tier-obscured-marker",
+      "title": "Pricing state marked as obscuring a suitable cheaper tier",
+      "severity": "HIGH",
+      "do_not": "Use preselection, ordering, or visual pressure to conceal a cheaper tier that satisfies the buyer's stated needs.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-obscures-cheaper-tier\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "pricing-page-renewal-terms-hidden-marker",
+      "title": "Renewal terms marked as hidden at conversion",
+      "severity": "HIGH",
+      "do_not": "Hide billing cadence, renewal behavior, or material support boundaries from the tier's purchase decision.",
+      "detect": {
+        "type": "dom-pattern",
+        "regex": "<[^>]+\\bdata-renewal-terms-hidden\\b",
+        "minMatches": 1
+      }
+    },
+    {
+      "id": "pricing-page-features-without-limits",
+      "title": "Feature names without decision-making limits",
+      "severity": "HIGH",
+      "do_not": "List features without quantities, usage boundaries, or other limits that make tiers comparable.",
+      "detect": { "type": "manual" },
+      "good_bad": {
+        "good": "Includes 10 seats and 50,000 events/month.",
+        "bad": "Advanced analytics, with no scale or limit."
+      }
+    },
+    {
+      "id": "pricing-page-obscured-cheaper-tier",
+      "title": "Preselection hides a suitable cheaper tier",
+      "severity": "HIGH",
+      "do_not": "Use default selection or visual pressure to obscure an option that fits the buyer's stated needs.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "pricing-page-hidden-renewal-terms",
+      "title": "Billing cadence and renewal terms hidden below conversion",
+      "severity": "HIGH",
+      "do_not": "Place renewal, billing cadence, or material support limits where they are invisible at the purchase decision.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

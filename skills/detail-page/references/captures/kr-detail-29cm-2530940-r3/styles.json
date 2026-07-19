@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "url": "https://www.29cm.co.kr/products/2530940",
+    "status": null,
+    "title": null,
+    "viewport": null,
+    "capturedAt": "2026-07-19T04:59:53.923Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": null,
+    "body": null,
+    "mono": null,
+    "documentFonts": null
+  },
+  "color": {
+    "backgrounds": null,
+    "text": null
+  },
+  "cssVariables": null,
+  "spacing": null,
+  "radius": null,
+  "elevation": null,
+  "motion": {
+    "transitions": null,
+    "animations": null,
+    "prefersReducedMotion": null
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": null,
+      "pageHeightPx": null,
+      "bodyTextLen": null,
+      "bigImageCount": null,
+      "textToHeightRatio": null,
+      "largestHeadingPx": null
+    },
+    "note": null
+  },
+  "gaps": [
+    {
+      "field": "capture",
+      "reason": "unreadable: browserType.launchPersistentContext: Timeout 180000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-breakpad --no-default-browser-check --disable-dev-shm-usage --disable-edgeupdater --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,BoundaryEventDispatchTracksNodeRemoval,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,Translate,AutoDeElevate,RenderDocument,OptimizationHints,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --disable-hang-monitor --disable-prompt-on-repost --disable-renderer-backgrounding --force-color-profile=srgb --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --disable-blink-features=AutomationControlled --no-sandbox --user-data-dir=/Users/elon/visigner/skills/detail-page/references/captures/kr-detail-29cm-2530940-r3/.profile_1784437193922 --remote-debugging-pipe about:blank\u001b[22m\n\u001b[2m  - <launched> pid=8153\u001b[22m\n"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unreadable: live page evaluation did not complete"
+    }
+  ]
+}

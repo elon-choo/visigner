@@ -1,0 +1,35 @@
+{
+  "category": "portfolio-site",
+  "anti_patterns": [
+    {
+      "id": "portfolio-site-ai-indigo-gradient-hero",
+      "title": "AI-indigo/purple 135deg gradient hero",
+      "severity": "HIGH",
+      "do_not": "Use the familiar blue-to-purple or purple-to-pink 135-degree gradient as a substitute for a portfolio's visual point of view.",
+      "detect": {
+        "type": "css-gradient",
+        "hues": ["blue", "purple"],
+        "angle": 135,
+        "maxAngleTolerance": 15
+      },
+      "good_bad": {
+        "good": "A project preview uses work-specific imagery, typography, or material treatment.",
+        "bad": "A 135deg blue/purple hero gradient supplies the whole identity."
+      }
+    },
+    {
+      "id": "portfolio-site-template-cards-hide-role",
+      "title": "Template cards hide the creator's role",
+      "severity": "MEDIUM",
+      "do_not": "Show projects as interchangeable cards without clarifying contribution, constraint, or outcome.",
+      "detect": { "type": "manual" }
+    },
+    {
+      "id": "portfolio-site-motion-before-work",
+      "title": "Motion delays access to the work",
+      "severity": "MEDIUM",
+      "do_not": "Make visitors wait through decorative motion before they can inspect the actual projects.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

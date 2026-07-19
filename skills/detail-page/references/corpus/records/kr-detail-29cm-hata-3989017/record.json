@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "id": "kr-detail-29cm-hata-3989017",
+  "capture_dir": "captures/kr-detail-29cm-3989017",
+  "url": "https://www.29cm.co.kr/products/3989017",
+  "title": "HaTA Signature String Bikini Set_Error Graphic Turquoise Blue - 감도 깊은 취향 셀렉트샵 29CM",
+  "status": 200,
+  "captured_at": "2026-07-19",
+  "family": "29cm",
+  "mode": "detail",
+  "category": "kr-detail-page",
+  "exemplar_role": "neutral",
+  "sector": "fashion-swimwear",
+  "locale": "ko-KR",
+  "expanded": "더보기",
+  "notes": "Neutral KR detail-page control: the maker supplies disciplined editorial photography and a specific turquoise product colour, but no single reusable maker move is confirmed. 29CM navigation, price, and purchase UI remain platform chrome (GAP-07).",
+  "capture": {
+    "page_height_px": { "value": 19751, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/pageHeight", "gap": null },
+    "body_text_len": { "value": 5978, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bodyTextLen", "gap": null },
+    "image_count": { "value": 33, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/imageCount", "gap": null },
+    "big_images": { "value": ["https://img.29cm.co.kr/item/202605/11f155e0fb7749a5a7099f23151b8880.jpg?width=720&format=webp", "…5 more…"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages", "gap": "GAP-09" },
+    "tile_count": { "value": 13, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/tiles", "gap": null },
+    "tile_w_px": { "value": 1280, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_h_px": { "value": 1600, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_format": { "value": "png", "provenance": "derived", "confidence": null, "evidence": "tile_00.png filename + PNG IHDR header", "gap": null },
+    "tile_scale": { "value": 1, "provenance": "derived", "confidence": null, "evidence": "1280/1280 = 1600/1600 = 1", "gap": null },
+    "covered_height_px": { "value": 20800, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/coveredHeight", "gap": null },
+    "coverage_ok": { "value": true, "provenance": "derived", "confidence": null, "evidence": "20800 >= 19751", "gap": null },
+    "color_fidelity": { "value": "lossless", "provenance": "derived", "confidence": null, "evidence": "PNG tile format + tile_scale = 1", "gap": null },
+    "has_dom": { "value": false, "provenance": "derived", "confidence": null, "evidence": "capture stores tiles + JSON/text artefacts, not a DOM dump; has_dom = false", "gap": "GAP-01" }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": { "value": { "hue_family": "achromatic", "role_note": "white studio ground leaves the photographed product as the colour signal" }, "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png; tile_02.png", "gap": "GAP-07" },
+      "secondary_30": { "value": { "hue_family": "skin-tone", "role_note": "warm skin and neutral studio photography fill the secondary visual area" }, "provenance": "tile-vision", "confidence": 0.76, "evidence": "tile_00.png; tile_02.png", "gap": null },
+      "accent_10": { "value": { "hue_family": "cyan", "role_note": "turquoise-blue swimwear is the restrained focal colour" }, "provenance": "tile-vision", "confidence": 0.97, "evidence": "tile_00.png; tile_02.png", "gap": null },
+      "field_committed": { "value": false, "provenance": "tile-vision", "confidence": 0.95, "evidence": "tile_00.png and tile_02.png use a white photo field rather than a saturated section field", "gap": null },
+      "field_evidence": { "value": "tile_02.png — turquoise belongs to the product within a neutral photographic field", "provenance": "tile-vision", "confidence": 0.95, "evidence": "tile_02.png", "gap": null },
+      "field_sections": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" }
+    },
+    "temperature": { "value": "cool-accent-neutral-ground", "provenance": "tile-vision", "confidence": 0.83, "evidence": "tile_00.png", "gap": null },
+    "computed_backgrounds": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "chroma_max_measured": { "value": null, "provenance": "tile-px", "confidence": null, "evidence": null, "gap": "GAP-02" },
+    "chrome_excluded": { "value": false, "provenance": "hand", "confidence": 0.95, "evidence": "tile_00.png mixes HaTA imagery with 29CM header, price, quantity, and purchase controls; no stored maker-region CSS separates them.", "gap": "GAP-07" }
+  },
+  "type": {
+    "display": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "body": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "mono": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "pairing_note": { "value": "A compact bold product title sits beside intentionally sparse studio imagery; exact families are not identified.", "provenance": "tile-vision", "confidence": 0.71, "evidence": "tile_00.png", "gap": "GAP-01" },
+    "weight_contrast_observed": { "value": "high", "provenance": "tile-vision", "confidence": 0.7, "evidence": "tile_00.png", "gap": null },
+    "kr_display_present": { "value": false, "provenance": "tile-vision", "confidence": 0.8, "evidence": "tile_02.png maker imagery carries no Korean display treatment; Korean UI labels are platform chrome", "gap": "GAP-07" }
+  },
+  "layout": {
+    "archetype": { "value": "band-stack", "provenance": "tile-vision", "confidence": 0.75, "evidence": "tile_00.png product/gallery region followed by maker photography bands in tile_02.png", "gap": "GAP-07" },
+    "content_width_px": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "column_system": { "value": "29CM gallery/buy box above a single centred maker-photo story.", "provenance": "tile-vision", "confidence": 0.83, "evidence": "tile_00.png; tile_02.png", "gap": "GAP-07" },
+    "primitive_repeated": { "value": "cropped editorial portrait → large white pause → differently framed product/lifestyle crop", "provenance": "tile-vision", "confidence": 0.76, "evidence": "tile_02.png", "gap": null }
+  },
+  "rhythm": {
+    "band_count": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "median_band_height_px": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "viewports": { "value": 12.34, "provenance": "derived", "confidence": null, "evidence": "19751 / 1600 = 12.34", "gap": null },
+    "text_density": { "value": 484.4, "provenance": "derived", "confidence": null, "evidence": "5978 / 12.34 = 484.4 chars per viewport", "gap": null },
+    "image_density": { "value": 2.67, "provenance": "derived", "confidence": null, "evidence": "33 / 12.34 = 2.67 images per viewport", "gap": null },
+    "spacing_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "radius_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+  },
+  "signature": {
+    "name": { "value": "No single maker move confirmed", "provenance": "tile-vision", "confidence": 0.79, "evidence": "tile_00.png; tile_02.png", "gap": null },
+    "family": { "value": "none", "provenance": "tile-vision", "confidence": 0.79, "evidence": "tile_00.png; tile_02.png — colour and photography are controlled, but no one device carries three roles", "gap": null },
+    "description": { "value": "The turquoise product and clean studio crops are coherent, but this capture does not establish a distinct reusable signature beyond the product itself.", "provenance": "tile-vision", "confidence": 0.79, "evidence": "tile_00.png; tile_02.png", "gap": null },
+    "evidence_tiles": { "value": ["tile_00.png", "tile_02.png"], "provenance": "tile-vision", "confidence": 0.79, "evidence": "tile_00.png; tile_02.png; no full tile-offset map", "gap": "GAP-09" },
+    "embodies_brief": { "value": "This is a structural comparison record, not a positive signature-move reference.", "provenance": "hand", "confidence": 0.9, "evidence": "notes plus tile_00.png and tile_02.png", "gap": null },
+    "tell_risk": { "value": [], "provenance": "hand", "confidence": 0.91, "evidence": "No named anti-ai-eval signature tell is being proposed for imitation.", "gap": null },
+    "recurrence": { "value": "not-established", "provenance": "tile-vision", "confidence": 0.79, "evidence": "tile_00.png; tile_02.png", "gap": "GAP-09" }
+  },
+  "motion": {
+    "gif_asset_count": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "bigImages[] entries ending .gif = 0", "gap": null },
+    "gif_evidence": { "value": null, "provenance": "capture-json", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "dynamic_demo_present": { "value": false, "provenance": "derived", "confidence": null, "evidence": "gif_asset_count > 0 = false", "gap": null },
+    "notes": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No archived motion inspection was performed.", "gap": "GAP-08" },
+    "durations_ms": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "easings": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "reduced_motion_honored": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" }
+  },
+  "commerce": {
+    "awareness": { "value": "product-aware", "provenance": "hand", "confidence": 0.92, "evidence": "tile_00.png opens with product title, price, selected colour, quantity, and purchase controls.", "gap": "GAP-06" },
+    "sophistication": { "value": 3, "provenance": "hand", "confidence": 0.59, "evidence": "tile_00.png presents concrete product and purchase proof rather than a plain broad superlative.", "gap": "GAP-06" },
+    "arc": [],
+    "arc_resolved": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "arc_total": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "PASONA stage count = 6", "gap": null },
+    "arc_coverage": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "authority_numbers": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "reward_ladder": { "value": [], "provenance": "tile-vision", "confidence": 0.97, "evidence": "tile_00.png shows a single product purchase flow, not a reward-tier ladder", "gap": null },
+    "urgency_device": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "urgency_repetition": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "regex count of captured urgency lexicon = 0", "gap": null },
+    "one_message": { "value": "A turquoise string bikini is made legible through direct product photography and a simple purchase flow.", "provenance": "hand", "confidence": 0.84, "evidence": "tile_00.png; tile_02.png", "gap": null }
+  }
+}

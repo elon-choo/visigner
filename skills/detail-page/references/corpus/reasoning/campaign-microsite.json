@@ -1,0 +1,15 @@
+{
+  "category": "campaign-microsite",
+  "recommended_pattern": "A time-bounded launch arc: concept, event or drop date, participation details, proof of energy, and one decisive action.",
+  "decision_rules": {
+    "if_event_date": "Keep date, timezone, venue or access method visible through the participation decision.",
+    "if_limited_drop": "Frontload the release condition and inventory rule without manufacturing scarcity.",
+    "if_shareable": "Compose a compact visual moment that carries the campaign identity when captured or reposted."
+  },
+  "anti_patterns": [
+    "Persistent product navigation that dilutes a single event or drop.",
+    "A countdown without a clear action or real deadline.",
+    "Campaign visuals that do not identify what is launching."
+  ],
+  "severity": "HIGH"
+}

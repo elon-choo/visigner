@@ -1,0 +1,2677 @@
+{
+  "index_version": "1.0.0",
+  "schema_version": "1.0.0",
+  "generated_at": "2026-07-19T05:04:15.685Z",
+  "source": "references/corpus/records",
+  "record_count": 12,
+  "records": [
+    {
+      "id": "400620",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/400620",
+      "url": "https://www.wadiz.kr/web/campaign/detail/400620",
+      "title": "[3.7억] 4년 갈고 닦은 AI 자동화 시스템 - 블로그·스레드·전자책 by 블로리즘",
+      "family": "wadiz",
+      "mode": "detail",
+      "category": "kr-crowdfunding",
+      "exemplar_role": "negative",
+      "sector": "ai-digital",
+      "locale": "ko-KR",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "118400 >= 117039",
+          "gap": "GAP-05"
+        },
+        "color_fidelity": {
+          "value": "degraded",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "baseline JPEG (chroma-subsampled) + 0.5625 downscale",
+          "gap": "GAP-04"
+        },
+        "page_height_px": {
+          "value": 117039,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 74,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "count of tile_*.jpg on disk (tile_00..tile_73); Wadiz has no capture.json",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "solution-aware",
+            "provenance": "hand",
+            "confidence": 0.65,
+            "evidence": "Hero opens on mechanism + credential ('4년 노하우 압축', '30분이면 자동 수익 세팅') with no pain-agitation block; korean-detailpage.md maps that opening to solution-aware.",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": 4,
+            "provenance": "hand",
+            "confidence": 0.6,
+            "evidence": "Leads with proprietary mechanism + 4-year provenance rather than a bare superlative — korean-detailpage.md's stage-4 'claims exhausted' pivot.",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": "image-band-scroll",
+            "provenance": "tile-vision",
+            "confidence": 0.95,
+            "evidence": "tile_00.jpg + pageHeight 117039 over 74 tiles",
+            "gap": null
+          },
+          "arc_coverage": {
+            "value": 1,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "5 present ÷ 5 resolved; 'narrow' is null, not false (a full 74-tile sweep was not run — GAP-09) and per §7's null rule joins neither numerator nor denominator",
+            "gap": "GAP-09"
+          },
+          "text_density": {
+            "value": 80.6,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "5894 chars / 73.1 viewports",
+            "gap": null
+          },
+          "image_density": {
+            "value": 0.53,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "39 images / 73.1 viewports",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": "⏰오늘 23:59 완전 종료‼️잠시후 진짜 마지막입니다.",
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": "bodytext.txt",
+            "gap": null
+          },
+          "urgency_repetition": {
+            "value": 19,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of '얼리버드' over bodytext.txt",
+            "gap": null
+          },
+          "signature_family": {
+            "value": "none",
+            "provenance": "tile-vision",
+            "confidence": 0.8,
+            "evidence": "tile_00.jpg",
+            "gap": null
+          },
+          "field_committed": {
+            "value": true,
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.jpg — full-bleed black hero band with acid-lime display type reversed out",
+            "gap": null
+          }
+        },
+        "signature": {
+          "name": {
+            "value": "Acid-lime infinity loop on black — named banned default",
+            "provenance": "tile-vision",
+            "confidence": 0.85,
+            "evidence": "tile_00.jpg",
+            "gap": null
+          },
+          "family": {
+            "value": "none",
+            "provenance": "tile-vision",
+            "confidence": 0.8,
+            "evidence": "tile_00.jpg",
+            "gap": null
+          },
+          "description": {
+            "value": "A glowing acid-lime ∞ rendered as 3D tubing on a pure-black hero field below the display headline; it is the named acid-on-black banned default, not a signature technique to retrieve or imitate.",
+            "provenance": "tile-vision",
+            "confidence": 0.85,
+            "evidence": "tile_00.jpg",
+            "gap": null
+          },
+          "evidence_tiles": {
+            "value": [
+              "tile_00.jpg"
+            ],
+            "provenance": "tile-vision",
+            "confidence": 0.85,
+            "evidence": "hero tile only — recurrence across the other 73 tiles not swept",
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": [
+              "palette-monotony"
+            ],
+            "provenance": "hand",
+            "confidence": 0.8,
+            "evidence": "tile_00.jpg shows the acid-lime-on-black signature. anti-ai-eval.js emits 'palette-monotony' for this palette pattern, whose source tell is the acid-green flood + near-black display named in anti-ai-tells.md tell #2.",
+            "gap": null
+          },
+          "recurrence": {
+            "value": "hero-anchored",
+            "provenance": "tile-vision",
+            "confidence": 0.5,
+            "evidence": "tile_00.jpg",
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "black/charcoal ground floods the campaign image bands"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.jpg hero band; tile_13.jpg story band",
+            "gap": null
+          },
+          "secondary_30": {
+            "value": {
+              "hue_family": "yellow",
+              "role_note": "warm yellow in claim strips and highlight boxes"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.75,
+            "evidence": "tile_00.jpg '4년 노하우 압축!' strip",
+            "gap": null
+          },
+          "accent_10": {
+            "value": {
+              "hue_family": "lime-green",
+              "role_note": "acid-lime reserved for the focal claim and the ∞ glyph"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.jpg '30분이면 자동 수익 세팅' + infinity glyph",
+            "gap": null
+          },
+          "field_committed": {
+            "value": true,
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.jpg — full-bleed black hero band with acid-lime display type reversed out",
+            "gap": null
+          }
+        },
+        "layout_archetype": {
+          "value": "image-band-scroll",
+          "provenance": "tile-vision",
+          "confidence": 0.95,
+          "evidence": "tile_00.jpg + pageHeight 117039 over 74 tiles",
+          "gap": null
+        },
+        "commerce_arc": [
+          {
+            "stage": "problem",
+            "present": true,
+            "evidence": "bodytext.txt — '혼자 하다가 막히면 어쩌죠?' (Maker Story opens on the reader's objection)"
+          },
+          {
+            "stage": "affinity",
+            "present": true,
+            "evidence": "bodytext.txt — '이 질문을 가장 많이 받습니다. 걱정하지 마세요.'"
+          },
+          {
+            "stage": "solution",
+            "present": true,
+            "evidence": "data.json#/headings 'H3: 프로젝트 스토리'; tile_00.jpg WAi summary '30일 완성 AI 자동화 — 4년 노하우를 30일로 압축한 체계적 오더 가이드'"
+          },
+          {
+            "stage": "offer",
+            "present": true,
+            "evidence": "tile_00.jpg reward rail — 63%/449,000원 · 70%/790,000원 · 66%/890,000원 · 54%/199,000원"
+          },
+          {
+            "stage": "narrow",
+            "present": null,
+            "evidence": null
+          },
+          {
+            "stage": "action",
+            "present": true,
+            "evidence": "bodytext.txt — '⏰오늘 23:59 완전 종료‼️잠시후 진짜 마지막입니다.'"
+          }
+        ]
+      },
+      "evidence": {
+        "gate_grade_field_count": 25,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-02",
+          "GAP-03",
+          "GAP-04",
+          "GAP-05",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "403454",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/403454",
+      "url": "https://www.wadiz.kr/web/campaign/detail/403454",
+      "title": "[누적2.9억] AI로 외주비 0원 상세페이지 템플릿 I 와디즈 1위 by HAXAI INC",
+      "family": "wadiz",
+      "mode": "detail",
+      "category": "kr-crowdfunding",
+      "exemplar_role": "negative",
+      "sector": null,
+      "locale": "ko-KR",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "136000 >= 135965 = true",
+          "gap": "GAP-05"
+        },
+        "color_fidelity": {
+          "value": "degraded",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "baseline JPEG + 0.5625 downscale = degraded",
+          "gap": "GAP-04"
+        },
+        "page_height_px": {
+          "value": 135965,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 85,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "count of tile_*.jpg on disk (85 files)",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "product-aware",
+            "provenance": "hand",
+            "confidence": 0.95,
+            "evidence": "TAXONOMY.md §8",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "TAXONOMY.md §8 — tag is a string; schema field requires integer 1–5",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "text_density": {
+            "value": 55.6,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "4730 chars / 85 viewports = 55.6",
+            "gap": null
+          },
+          "image_density": {
+            "value": 0.74,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "63 images / 85 viewports = 0.74",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": "수량마감",
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": "bodytext.txt:L344-L345",
+            "gap": null
+          },
+          "urgency_repetition": {
+            "value": 20,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of '얼리버드' over bodytext.txt = 20",
+            "gap": null
+          },
+          "signature_family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "signature": {
+          "name": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "description": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "evidence_tiles": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "SCHEMA.md §9 GAP-06 — tell-risk judgement is not populated",
+            "gap": "GAP-06"
+          },
+          "recurrence": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "secondary_30": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "accent_10": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "layout_archetype": {
+          "value": null,
+          "provenance": "tile-vision",
+          "confidence": null,
+          "evidence": null,
+          "gap": "GAP-06"
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 22,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-03",
+          "GAP-04",
+          "GAP-05",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "ecommerce-teenage-engineering-ep-133",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/ecommerce-teenage-engineering-ep-133",
+      "url": "https://teenage.engineering/store/ep-133",
+      "title": "buy EP–133 K.O. II - teenage engineering",
+      "family": "teenage-engineering",
+      "mode": "detail",
+      "category": "ecommerce-pdp",
+      "exemplar_role": "neutral",
+      "sector": "consumer-electronics",
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "3200 >= 2317",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG tile format + tile_scale = 1",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 2317,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 2,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "product-aware",
+            "provenance": "hand",
+            "confidence": 0.95,
+            "evidence": "tile_00.png opens with model name, price, ready-to-ship state, specifications, and add-to-cart control.",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": 3,
+            "provenance": "hand",
+            "confidence": 0.66,
+            "evidence": "tile_00.png differentiates with concrete sampler capabilities and dimensions rather than a broad superlative.",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": "band-stack",
+            "provenance": "tile-vision",
+            "confidence": 0.82,
+            "evidence": "tile_00.png has a branded header, product-detail split, then an accessory shelf; no maker-independent sticky rail is observed",
+            "gap": null
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "text_density": {
+            "value": 1896.4,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "2746 / 1.45 = 1896.4 chars per viewport",
+            "gap": null
+          },
+          "image_density": {
+            "value": 10.36,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "15 / 1.45 = 10.36 images per viewport",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of captured urgency lexicon = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": "brand-commerce",
+            "provenance": "tile-vision",
+            "confidence": 0.84,
+            "evidence": "tile_00.png — the black icon header and rationed orange hardware accents turn product UI into a branded commerce language",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.png uses white product ground and a black utility header, not a saturated narrative band",
+            "gap": null
+          }
+        },
+        "signature": {
+          "name": {
+            "value": "Instrument-control product plate",
+            "provenance": "tile-vision",
+            "confidence": 0.87,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "family": {
+            "value": "brand-commerce",
+            "provenance": "tile-vision",
+            "confidence": 0.84,
+            "evidence": "tile_00.png — the black icon header and rationed orange hardware accents turn product UI into a branded commerce language",
+            "gap": null
+          },
+          "description": {
+            "value": "The sampler is shown as a precise object plate while its own black-and-orange control language governs the surrounding navigation, cart control, and accessory shelf.",
+            "provenance": "tile-vision",
+            "confidence": 0.87,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "evidence_tiles": {
+            "value": [
+              "tile_00.png"
+            ],
+            "provenance": "tile-vision",
+            "confidence": 0.87,
+            "evidence": "tile_00.png; the two-tile capture cannot prove longer recurrence",
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": [],
+            "provenance": "hand",
+            "confidence": 0.91,
+            "evidence": "The visual system is product-specific and does not rely on a banned mock browser, generic gradient, or uniform card loop.",
+            "gap": null
+          },
+          "recurrence": {
+            "value": "page-spine",
+            "provenance": "tile-vision",
+            "confidence": 0.75,
+            "evidence": "tile_00.png",
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "white product field and black branded utility header dominate the composition"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "secondary_30": {
+            "value": {
+              "hue_family": "grey",
+              "role_note": "the product's silvery hardware and pale accessory plates carry the secondary material tone"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.78,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "accent_10": {
+            "value": {
+              "hue_family": "orange",
+              "role_note": "small orange controls on the sampler provide the only high-salience accent"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.92,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.png uses white product ground and a black utility header, not a saturated narrative band",
+            "gap": null
+          }
+        },
+        "layout_archetype": {
+          "value": "band-stack",
+          "provenance": "tile-vision",
+          "confidence": 0.82,
+          "evidence": "tile_00.png has a branded header, product-detail split, then an accessory shelf; no maker-independent sticky rail is observed",
+          "gap": null
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 20,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-02",
+          "GAP-03",
+          "GAP-06",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "editorial-pudding-ethical-champions",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/editorial-pudding-ethical-champions",
+      "url": "https://pudding.cool/2026/06/ethical-champions/",
+      "title": "Ethical NBA Championships, Ranked",
+      "family": "the-pudding",
+      "mode": "editorial",
+      "category": "editorial-publication",
+      "exemplar_role": "positive",
+      "sector": "data-journalism",
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "19200 >= 18776",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG tile format + tile_scale = 1",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 18776,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 12,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": null,
+          "sophistication": null,
+          "layout_archetype": {
+            "value": "timeline-scroll",
+            "provenance": "tile-vision",
+            "confidence": 0.88,
+            "evidence": "tile_00.png introduces a 2001–2026 ranking and tile_06.png continues it as sequential dated piles",
+            "gap": null
+          },
+          "arc_coverage": null,
+          "text_density": {
+            "value": 1004.4,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "11792 / 11.74 = 1004.4 chars per viewport",
+            "gap": null
+          },
+          "image_density": {
+            "value": 0.85,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "10 / 11.74 = 0.85 images per viewport",
+            "gap": null
+          },
+          "urgency_device": null,
+          "urgency_repetition": null,
+          "signature_family": {
+            "value": "brand-commerce",
+            "provenance": "tile-vision",
+            "confidence": 0.88,
+            "evidence": "tile_00.png; tile_06.png — an owned illustration language carries the data explanation",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png and tile_06.png preserve a white reading field instead of a saturated section band",
+            "gap": null
+          }
+        },
+        "signature": {
+          "name": {
+            "value": "Hand-drawn champion-head ranking",
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png; tile_06.png",
+            "gap": null
+          },
+          "family": {
+            "value": "brand-commerce",
+            "provenance": "tile-vision",
+            "confidence": 0.88,
+            "evidence": "tile_00.png; tile_06.png — an owned illustration language carries the data explanation",
+            "gap": null
+          },
+          "description": {
+            "value": "Each season is rendered as a pile of hand-drawn opposing-player heads plus a team mark and metric, making a complex ethical-ranking argument readable and memorable without a generic dashboard chart.",
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png; tile_06.png",
+            "gap": null
+          },
+          "evidence_tiles": {
+            "value": [
+              "tile_00.png",
+              "tile_06.png"
+            ],
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png; tile_06.png; no captured offset map proves every section",
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": [],
+            "provenance": "hand",
+            "confidence": 0.92,
+            "evidence": "The hand-drawn data device is specific to the article's research question and does not match a listed generic UI tell.",
+            "gap": null
+          },
+          "recurrence": {
+            "value": "page-spine",
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.png; tile_06.png",
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "white reading field and black text establish a newspaper-like ground"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.95,
+            "evidence": "tile_00.png; tile_06.png",
+            "gap": null
+          },
+          "secondary_30": {
+            "value": {
+              "hue_family": "multi-hue",
+              "role_note": "official team colours provide distributed data marks without overtaking the text"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.88,
+            "evidence": "tile_00.png; tile_06.png",
+            "gap": null
+          },
+          "accent_10": {
+            "value": {
+              "hue_family": "yellow",
+              "role_note": "the illustrated taxi and selected team marks use warm yellow as a narrative punctuation"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.7,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png and tile_06.png preserve a white reading field instead of a saturated section band",
+            "gap": null
+          }
+        },
+        "layout_archetype": {
+          "value": "timeline-scroll",
+          "provenance": "tile-vision",
+          "confidence": 0.88,
+          "evidence": "tile_00.png introduces a 2001–2026 ranking and tile_06.png continues it as sequential dated piles",
+          "gap": null
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 18,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-02",
+          "GAP-03",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "kr-detail-29cm-hata-3989017",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/kr-detail-29cm-3989017",
+      "url": "https://www.29cm.co.kr/products/3989017",
+      "title": "HaTA Signature String Bikini Set_Error Graphic Turquoise Blue - 감도 깊은 취향 셀렉트샵 29CM",
+      "family": "29cm",
+      "mode": "detail",
+      "category": "kr-detail-page",
+      "exemplar_role": "neutral",
+      "sector": "fashion-swimwear",
+      "locale": "ko-KR",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "20800 >= 19751",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG tile format + tile_scale = 1",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 19751,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 13,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "product-aware",
+            "provenance": "hand",
+            "confidence": 0.92,
+            "evidence": "tile_00.png opens with product title, price, selected colour, quantity, and purchase controls.",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": 3,
+            "provenance": "hand",
+            "confidence": 0.59,
+            "evidence": "tile_00.png presents concrete product and purchase proof rather than a plain broad superlative.",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": "band-stack",
+            "provenance": "tile-vision",
+            "confidence": 0.75,
+            "evidence": "tile_00.png product/gallery region followed by maker photography bands in tile_02.png",
+            "gap": "GAP-07"
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "text_density": {
+            "value": 484.4,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "5978 / 12.34 = 484.4 chars per viewport",
+            "gap": null
+          },
+          "image_density": {
+            "value": 2.67,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "33 / 12.34 = 2.67 images per viewport",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of captured urgency lexicon = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": "none",
+            "provenance": "tile-vision",
+            "confidence": 0.79,
+            "evidence": "tile_00.png; tile_02.png — colour and photography are controlled, but no one device carries three roles",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.95,
+            "evidence": "tile_00.png and tile_02.png use a white photo field rather than a saturated section field",
+            "gap": null
+          }
+        },
+        "signature": {
+          "name": {
+            "value": "No single maker move confirmed",
+            "provenance": "tile-vision",
+            "confidence": 0.79,
+            "evidence": "tile_00.png; tile_02.png",
+            "gap": null
+          },
+          "family": {
+            "value": "none",
+            "provenance": "tile-vision",
+            "confidence": 0.79,
+            "evidence": "tile_00.png; tile_02.png — colour and photography are controlled, but no one device carries three roles",
+            "gap": null
+          },
+          "description": {
+            "value": "The turquoise product and clean studio crops are coherent, but this capture does not establish a distinct reusable signature beyond the product itself.",
+            "provenance": "tile-vision",
+            "confidence": 0.79,
+            "evidence": "tile_00.png; tile_02.png",
+            "gap": null
+          },
+          "evidence_tiles": {
+            "value": [
+              "tile_00.png",
+              "tile_02.png"
+            ],
+            "provenance": "tile-vision",
+            "confidence": 0.79,
+            "evidence": "tile_00.png; tile_02.png; no full tile-offset map",
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": [],
+            "provenance": "hand",
+            "confidence": 0.91,
+            "evidence": "No named anti-ai-eval signature tell is being proposed for imitation.",
+            "gap": null
+          },
+          "recurrence": {
+            "value": "not-established",
+            "provenance": "tile-vision",
+            "confidence": 0.79,
+            "evidence": "tile_00.png; tile_02.png",
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "white studio ground leaves the photographed product as the colour signal"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png; tile_02.png",
+            "gap": "GAP-07"
+          },
+          "secondary_30": {
+            "value": {
+              "hue_family": "skin-tone",
+              "role_note": "warm skin and neutral studio photography fill the secondary visual area"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.76,
+            "evidence": "tile_00.png; tile_02.png",
+            "gap": null
+          },
+          "accent_10": {
+            "value": {
+              "hue_family": "cyan",
+              "role_note": "turquoise-blue swimwear is the restrained focal colour"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.97,
+            "evidence": "tile_00.png; tile_02.png",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.95,
+            "evidence": "tile_00.png and tile_02.png use a white photo field rather than a saturated section field",
+            "gap": null
+          }
+        },
+        "layout_archetype": {
+          "value": "band-stack",
+          "provenance": "tile-vision",
+          "confidence": 0.75,
+          "evidence": "tile_00.png product/gallery region followed by maker photography bands in tile_02.png",
+          "gap": "GAP-07"
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 20,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-02",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "kr-detail-29cm-mongdol-2530940",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/kr-detail-29cm-2530940-r3",
+      "url": "https://www.29cm.co.kr/products/2530940",
+      "title": "[알로하 PICK] 시그니처 코튼 숏 팬츠 MDPT052_6 Colors - 감도 깊은 취향 셀렉트샵 29CM",
+      "family": "29cm",
+      "mode": "detail",
+      "category": "kr-detail-page",
+      "exemplar_role": "positive",
+      "sector": "fashion-apparel",
+      "locale": "ko-KR",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "62400 >= 62171",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG tile format + tile_scale = 1",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 62171,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 39,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "product-aware",
+            "provenance": "hand",
+            "confidence": 0.91,
+            "evidence": "tile_00.png opens on named product, review count, price, and purchase control rather than problem agitation.",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": 3,
+            "provenance": "hand",
+            "confidence": 0.61,
+            "evidence": "tile_00.png leads with concrete product, colour/size choice, price, and reviews instead of an unqualified superlative.",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": "band-stack",
+            "provenance": "tile-vision",
+            "confidence": 0.77,
+            "evidence": "tile_00.png buy/gallery region followed by live-DOM product-story bands in tile_02.png",
+            "gap": "GAP-07"
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "text_density": {
+            "value": 288.4,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "11207 / 38.86 = 288.4 chars per viewport",
+            "gap": null
+          },
+          "image_density": {
+            "value": 1.11,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "43 / 38.86 = 1.11 images per viewport",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of captured urgency lexicon except incidental support text = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": "layout-editorial",
+            "provenance": "tile-vision",
+            "confidence": 0.82,
+            "evidence": "tile_02.png — product images arranged as a deliberately titled catalogue plate",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.91,
+            "evidence": "tile_00.png and tile_02.png use neutral space and product photography rather than a saturated owned band",
+            "gap": null
+          }
+        },
+        "signature": {
+          "name": {
+            "value": "Six-colour serif catalogue plate",
+            "provenance": "tile-vision",
+            "confidence": 0.89,
+            "evidence": "tile_02.png",
+            "gap": null
+          },
+          "family": {
+            "value": "layout-editorial",
+            "provenance": "tile-vision",
+            "confidence": 0.82,
+            "evidence": "tile_02.png — product images arranged as a deliberately titled catalogue plate",
+            "gap": null
+          },
+          "description": {
+            "value": "A low-noise six-colour grid gives each short a matched image and a large serif label; the product range is explained through the layout rather than through a dense feature list.",
+            "provenance": "tile-vision",
+            "confidence": 0.89,
+            "evidence": "tile_02.png",
+            "gap": null
+          },
+          "evidence_tiles": {
+            "value": [
+              "tile_02.png"
+            ],
+            "provenance": "tile-vision",
+            "confidence": 0.89,
+            "evidence": "tile_02.png; no heading-to-tile offset map proves full-page recurrence",
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": [],
+            "provenance": "hand",
+            "confidence": 0.9,
+            "evidence": "Reviewed the visible maker-story move against the corpus tell ids; it is a product-specific catalogue composition, not a repeated generic card loop.",
+            "gap": null
+          },
+          "recurrence": {
+            "value": "section-anchored",
+            "provenance": "tile-vision",
+            "confidence": 0.7,
+            "evidence": "tile_02.png",
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "white and warm-grey page ground frames the product photography"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png; tile_02.png",
+            "gap": "GAP-07"
+          },
+          "secondary_30": {
+            "value": {
+              "hue_family": "yellow",
+              "role_note": "sand, beige, and warm neutral product variants occupy the secondary product field"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.66,
+            "evidence": "tile_02.png",
+            "gap": null
+          },
+          "accent_10": {
+            "value": {
+              "hue_family": "blue",
+              "role_note": "deep navy is rationed to one colourway rather than becoming platform chrome"
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.61,
+            "evidence": "tile_02.png",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.91,
+            "evidence": "tile_00.png and tile_02.png use neutral space and product photography rather than a saturated owned band",
+            "gap": null
+          }
+        },
+        "layout_archetype": {
+          "value": "band-stack",
+          "provenance": "tile-vision",
+          "confidence": 0.77,
+          "evidence": "tile_00.png buy/gallery region followed by live-DOM product-story bands in tile_02.png",
+          "gap": "GAP-07"
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 20,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-02",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "linear",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/app-ui/linear",
+      "url": "https://linear.app",
+      "title": "Linear – The system for product development",
+      "family": "app-ui",
+      "mode": "landing",
+      "category": "saas-marketing-site",
+      "exemplar_role": "positive",
+      "sector": null,
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "11200 >= 10526 = true",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG + 1280/1280 scale = lossless",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 10526,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 7,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "solution-aware",
+            "provenance": "hand",
+            "confidence": 0.95,
+            "evidence": "TAXONOMY.md §8",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "TAXONOMY.md §8 — tag is a string; schema field requires integer 1–5",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "text_density": {
+            "value": 1249.1,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "8244 chars / 6.6 viewports = 1249.1",
+            "gap": null
+          },
+          "image_density": {
+            "value": 0.76,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "5 images / 6.6 viewports = 0.76",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of '얼리버드' over bodytext.txt = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "signature": {
+          "name": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "description": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "evidence_tiles": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "SCHEMA.md §9 GAP-06 — tell-risk judgement is not populated",
+            "gap": "GAP-06"
+          },
+          "recurrence": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "secondary_30": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "accent_10": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "layout_archetype": {
+          "value": null,
+          "provenance": "tile-vision",
+          "confidence": null,
+          "evidence": null,
+          "gap": "GAP-06"
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 21,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "raycast",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/app-ui/raycast",
+      "url": "https://raycast.com",
+      "title": "Raycast - Your shortcut to everything",
+      "family": "app-ui",
+      "mode": "landing",
+      "category": "saas-marketing-site",
+      "exemplar_role": "positive",
+      "sector": null,
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "16000 >= 15626 = true",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG + 1280/1280 scale = lossless",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 15626,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 10,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "solution-aware",
+            "provenance": "hand",
+            "confidence": 0.95,
+            "evidence": "TAXONOMY.md §8",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "TAXONOMY.md §8 — tag is a string; schema field requires integer 1–5",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "text_density": {
+            "value": 991.7,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "9719 chars / 9.8 viewports = 991.7",
+            "gap": null
+          },
+          "image_density": {
+            "value": 5.61,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "55 images / 9.8 viewports = 5.61",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of '얼리버드' over bodytext.txt = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "signature": {
+          "name": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "description": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "evidence_tiles": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "SCHEMA.md §9 GAP-06 — tell-risk judgement is not populated",
+            "gap": "GAP-06"
+          },
+          "recurrence": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "secondary_30": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "accent_10": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "layout_archetype": {
+          "value": null,
+          "provenance": "tile-vision",
+          "confidence": null,
+          "evidence": null,
+          "gap": "GAP-06"
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 21,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "resend",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/stage2/resend",
+      "url": "https://resend.com",
+      "title": "Resend · Email for developers",
+      "family": "app-ui",
+      "mode": "landing",
+      "category": "saas-marketing-site",
+      "exemplar_role": "positive",
+      "sector": "dev-tools",
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "12800 >= 12251 = true",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG + 1280/1280 scale = lossless",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 12251,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 8,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "solution-aware",
+            "provenance": "hand",
+            "confidence": 0.82,
+            "evidence": "bodytext.txt:L11-L23 opens with the email-delivery outcome and developer integration mechanism before enumerating product features.",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": 3,
+            "provenance": "hand",
+            "confidence": 0.68,
+            "evidence": "bodytext.txt:L14,L23,L74-L75 combines the email-delivery claim with a developer-experience mechanism and specific feature demonstrations rather than a bare superlative.",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": "band-stack",
+            "provenance": "tile-vision",
+            "confidence": 0.91,
+            "evidence": "tile_00.png and tile_04.png; the supplied recipe describes stacked product-feature sections",
+            "gap": null
+          },
+          "arc_coverage": {
+            "value": 0.83,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "5 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.83",
+            "gap": null
+          },
+          "text_density": {
+            "value": 2263,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "data.json#/bodyTextLen ÷ derived viewports; 17425 ÷ 7.7 = 2263",
+            "gap": null
+          },
+          "image_density": {
+            "value": 7.01,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "data.json#/imageCount ÷ derived viewports; 54 ÷ 7.7 = 7.01",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": "layout-editorial",
+            "provenance": "tile-vision",
+            "confidence": 0.74,
+            "evidence": "tile_00.png; the sculptural right-side hero object structures the asymmetric editorial composition",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.png and tile_04.png show dark neutral bands and interface accents, not a saturated field owning a band",
+            "gap": null
+          }
+        },
+        "signature": {
+          "name": {
+            "value": "Floating black tile sculpture",
+            "provenance": "tile-vision",
+            "confidence": 0.92,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "family": {
+            "value": "layout-editorial",
+            "provenance": "tile-vision",
+            "confidence": 0.74,
+            "evidence": "tile_00.png; the sculptural right-side hero object structures the asymmetric editorial composition",
+            "gap": null
+          },
+          "description": {
+            "value": "A rotated, glossy near-black tiled form counterbalances the large left-aligned serif hero on the same near-black field.",
+            "provenance": "tile-vision",
+            "confidence": 0.93,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "evidence_tiles": {
+            "value": [
+              "tile_00.png"
+            ],
+            "provenance": "tile-vision",
+            "confidence": 0.93,
+            "evidence": "tile_00.png",
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": [],
+            "provenance": "hand",
+            "confidence": 0.82,
+            "evidence": "tile_00.png and tile_04.png show an authored asymmetric composition and concrete product demonstrations; no named anti-pattern is identified in the capture.",
+            "gap": null
+          },
+          "recurrence": {
+            "value": "hero-anchored",
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.png",
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "Near-black is the hero and page ground."
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.98,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "secondary_30": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "White and gray are reserved for display copy, navigation, and thin interface lines on the black ground."
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.93,
+            "evidence": "tile_00.png and tile_04.png",
+            "gap": null
+          },
+          "accent_10": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.9,
+            "evidence": "tile_00.png and tile_04.png show dark neutral bands and interface accents, not a saturated field owning a band",
+            "gap": null
+          }
+        },
+        "layout_archetype": {
+          "value": "band-stack",
+          "provenance": "tile-vision",
+          "confidence": 0.91,
+          "evidence": "tile_00.png and tile_04.png; the supplied recipe describes stacked product-feature sections",
+          "gap": null
+        },
+        "commerce_arc": [
+          {
+            "stage": "problem",
+            "present": true,
+            "evidence": "bodytext.txt:L11-L14 — the opening frames spam folders as the delivery problem: 'The best way to reach humans instead of spam folders.'"
+          },
+          {
+            "stage": "affinity",
+            "present": true,
+            "evidence": "bodytext.txt:L74-L75 — 'We are a team of engineers who love building tools for other engineers.'"
+          },
+          {
+            "stage": "solution",
+            "present": true,
+            "evidence": "bodytext.txt:L21-L23 — the integration interface and SDK mechanism are named directly."
+          },
+          {
+            "stage": "offer",
+            "present": true,
+            "evidence": "bodytext.txt:L16-L18 — the page offers 'Get Started' and 'Documentation' routes."
+          },
+          {
+            "stage": "narrow",
+            "present": false,
+            "evidence": "bodytext.txt full transcript contains no time, capacity, price, or availability narrowing device; the retrieval record preserves this as false rather than fabricating scarcity."
+          },
+          {
+            "stage": "action",
+            "present": true,
+            "evidence": "bodytext.txt:L16-L18 — 'Get Started' is the opening action CTA."
+          }
+        ]
+      },
+      "evidence": {
+        "gate_grade_field_count": 22,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "stripe",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/app-ui/stripe",
+      "url": "https://stripe.com",
+      "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+      "family": "app-ui",
+      "mode": "landing",
+      "category": "saas-marketing-site",
+      "exemplar_role": "positive",
+      "sector": null,
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "16000 >= 14715 = true",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG + 1280/1280 scale = lossless",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 14715,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 10,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "product-aware",
+            "provenance": "hand",
+            "confidence": 0.95,
+            "evidence": "TAXONOMY.md §8",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "TAXONOMY.md §8 — tag is a string; schema field requires integer 1–5",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "text_density": {
+            "value": 1751.8,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "16117 chars / 9.2 viewports = 1751.8",
+            "gap": null
+          },
+          "image_density": {
+            "value": 1.63,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "15 images / 9.2 viewports = 1.63",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of '얼리버드' over bodytext.txt = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "signature": {
+          "name": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "description": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "evidence_tiles": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "SCHEMA.md §9 GAP-06 — tell-risk judgement is not populated",
+            "gap": "GAP-06"
+          },
+          "recurrence": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "secondary_30": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "accent_10": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "layout_archetype": {
+          "value": null,
+          "provenance": "tile-vision",
+          "confidence": null,
+          "evidence": null,
+          "gap": "GAP-06"
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 21,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "supabase",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/stage2/supabase",
+      "url": "https://supabase.com",
+      "title": "Supabase | The Postgres Development Platform",
+      "family": "app-ui",
+      "mode": "landing",
+      "category": "saas-marketing-site",
+      "exemplar_role": "positive",
+      "sector": "dev-tools",
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "8000 >= 7683 = true",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG + 1280/1280 scale = lossless",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 7683,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "data.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 5,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "solution-aware",
+            "provenance": "hand",
+            "confidence": 0.84,
+            "evidence": "bodytext.txt:L14-L19 opens with the scaling outcome and the concrete Postgres/Auth/API/Functions/Realtime/Storage/Vector platform mechanism.",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": 3,
+            "provenance": "hand",
+            "confidence": 0.72,
+            "evidence": "bodytext.txt:L14-L17,L21-L60 states a platform mechanism and immediately shows its component products rather than relying on a bare infrastructure claim.",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": "bento-grid",
+            "provenance": "tile-vision",
+            "confidence": 0.82,
+            "evidence": "tile_00.png; the product system is organized as unequal card cells beneath the hero",
+            "gap": null
+          },
+          "arc_coverage": {
+            "value": 0.5,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "3 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.5",
+            "gap": null
+          },
+          "text_density": {
+            "value": 1667.3,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "data.json#/bodyTextLen ÷ derived viewports; 8003 ÷ 4.8 = 1667.3",
+            "gap": null
+          },
+          "image_density": {
+            "value": 4.79,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "data.json#/imageCount ÷ derived viewports; 23 ÷ 4.8 = 4.79",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": "layout-editorial",
+            "provenance": "tile-vision",
+            "confidence": 0.75,
+            "evidence": "tile_00.png; the unequal product-card grid is the page's dominant authored composition",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.91,
+            "evidence": "tile_00.png and tile_03.png show restrained green accents on a white surface, not a saturated field owning a band",
+            "gap": null
+          }
+        },
+        "signature": {
+          "name": {
+            "value": "Product-system card grid",
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "family": {
+            "value": "layout-editorial",
+            "provenance": "tile-vision",
+            "confidence": 0.75,
+            "evidence": "tile_00.png; the unequal product-card grid is the page's dominant authored composition",
+            "gap": null
+          },
+          "description": {
+            "value": "A concise hero feeds an unequal grid of white product cards, each combining a developer product, a short promise, and a precise line-art or interface demonstration.",
+            "provenance": "tile-vision",
+            "confidence": 0.95,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "evidence_tiles": {
+            "value": [
+              "tile_00.png",
+              "tile_03.png"
+            ],
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png and tile_03.png",
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": [],
+            "provenance": "hand",
+            "confidence": 0.84,
+            "evidence": "tile_00.png and tile_03.png show an authored product system with technical evidence; no named anti-pattern is identified in the capture.",
+            "gap": null
+          },
+          "recurrence": {
+            "value": "section-system",
+            "provenance": "tile-vision",
+            "confidence": 0.78,
+            "evidence": "tile_00.png and tile_03.png",
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "Warm-white page ground and panels dominate the product grid."
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.97,
+            "evidence": "tile_00.png",
+            "gap": null
+          },
+          "secondary_30": {
+            "value": {
+              "hue_family": "achromatic",
+              "role_note": "Black type, fine gray dividers, and interface outlines organize the white surface."
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.92,
+            "evidence": "tile_00.png and tile_03.png",
+            "gap": null
+          },
+          "accent_10": {
+            "value": {
+              "hue_family": "green",
+              "role_note": "Supabase green is reserved for the hero second line, CTA, brand mark, and dot-matrix proof graphic."
+            },
+            "provenance": "tile-vision",
+            "confidence": 0.94,
+            "evidence": "tile_00.png and tile_03.png",
+            "gap": null
+          },
+          "field_committed": {
+            "value": false,
+            "provenance": "tile-vision",
+            "confidence": 0.91,
+            "evidence": "tile_00.png and tile_03.png show restrained green accents on a white surface, not a saturated field owning a band",
+            "gap": null
+          }
+        },
+        "layout_archetype": {
+          "value": "bento-grid",
+          "provenance": "tile-vision",
+          "confidence": 0.82,
+          "evidence": "tile_00.png; the product system is organized as unequal card cells beneath the hero",
+          "gap": null
+        },
+        "commerce_arc": [
+          {
+            "stage": "problem",
+            "present": false,
+            "evidence": "bodytext.txt full transcript opens with the platform outcome and capability list, not an explicit pain/agitation block."
+          },
+          {
+            "stage": "affinity",
+            "present": false,
+            "evidence": "bodytext.txt full transcript contains customer/community proof but no explicit reader-empathy beat before the platform solution."
+          },
+          {
+            "stage": "solution",
+            "present": true,
+            "evidence": "bodytext.txt:L14-L17 — the opening names the Postgres platform and its integrated product capabilities."
+          },
+          {
+            "stage": "offer",
+            "present": true,
+            "evidence": "bodytext.txt:L19-L20 — 'Start your project' and 'Request a demo' are explicit routes into the product."
+          },
+          {
+            "stage": "narrow",
+            "present": false,
+            "evidence": "bodytext.txt full transcript contains no time, capacity, price, or availability narrowing device; the retrieval record preserves this as false rather than fabricating scarcity."
+          },
+          {
+            "stage": "action",
+            "present": true,
+            "evidence": "bodytext.txt:L19 — 'Start your project' is the primary action CTA."
+          }
+        ]
+      },
+      "evidence": {
+        "gate_grade_field_count": 23,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    },
+    {
+      "id": "vercel",
+      "schema_version": "1.0.0",
+      "capture_dir": "captures/app-ui/vercel",
+      "url": "https://vercel.com",
+      "title": "Agentic Infrastructure",
+      "family": "app-ui",
+      "mode": "landing",
+      "category": "saas-marketing-site",
+      "exemplar_role": "positive",
+      "sector": null,
+      "locale": "en-US",
+      "capture": {
+        "coverage_ok": {
+          "value": true,
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "6400 >= 6019 = true",
+          "gap": null
+        },
+        "color_fidelity": {
+          "value": "lossless",
+          "provenance": "derived",
+          "confidence": null,
+          "evidence": "PNG + 1280/1280 scale = lossless",
+          "gap": null
+        },
+        "page_height_px": {
+          "value": 6019,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/pageHeight",
+          "gap": null
+        },
+        "tile_count": {
+          "value": 4,
+          "provenance": "capture-json",
+          "confidence": null,
+          "evidence": "capture.json#/tiles",
+          "gap": null
+        }
+      },
+      "retrieval": {
+        "signals": {
+          "awareness": {
+            "value": "product-aware",
+            "provenance": "hand",
+            "confidence": 0.95,
+            "evidence": "TAXONOMY.md §8",
+            "gap": "GAP-06"
+          },
+          "sophistication": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "TAXONOMY.md §8 — tag is a string; schema field requires integer 1–5",
+            "gap": "GAP-06"
+          },
+          "layout_archetype": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "arc_coverage": {
+            "value": null,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "text_density": {
+            "value": 331.6,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "1260 chars / 3.8 viewports = 331.6",
+            "gap": null
+          },
+          "image_density": {
+            "value": 1.58,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "6 images / 3.8 viewports = 1.58",
+            "gap": null
+          },
+          "urgency_device": {
+            "value": null,
+            "provenance": "bodytext",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "urgency_repetition": {
+            "value": 0,
+            "provenance": "derived",
+            "confidence": null,
+            "evidence": "regex count of '얼리버드' over bodytext.txt = 0",
+            "gap": null
+          },
+          "signature_family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "signature": {
+          "name": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "family": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "description": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "evidence_tiles": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          },
+          "tell_risk": {
+            "value": null,
+            "provenance": "hand",
+            "confidence": null,
+            "evidence": "SCHEMA.md §9 GAP-06 — tell-risk judgement is not populated",
+            "gap": "GAP-06"
+          },
+          "recurrence": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-09"
+          }
+        },
+        "palette_roles": {
+          "dominant_60": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "secondary_30": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "accent_10": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          },
+          "field_committed": {
+            "value": null,
+            "provenance": "tile-vision",
+            "confidence": null,
+            "evidence": null,
+            "gap": "GAP-06"
+          }
+        },
+        "layout_archetype": {
+          "value": null,
+          "provenance": "tile-vision",
+          "confidence": null,
+          "evidence": null,
+          "gap": "GAP-06"
+        },
+        "commerce_arc": []
+      },
+      "evidence": {
+        "gate_grade_field_count": 21,
+        "gap_ids": [
+          "GAP-01",
+          "GAP-03",
+          "GAP-06",
+          "GAP-07",
+          "GAP-08",
+          "GAP-09"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "viewport": { "width": 1280, "height": 1600 }
+  },
+  "color": {
+    "backgrounds": [
+      { "value": "#f2f5f8", "areaShare": 0.71 }
+    ]
+  },
+  "type": {
+    "display": { "resolvedFamily": "Pretendard", "fontWeight": "700", "fontSize": "24px" },
+    "body": { "resolvedFamily": "Pretendard", "fontWeight": "400", "fontSize": "18px" }
+  },
+  "authoredRegion": {
+    "verdict": "likely-platform-chrome",
+    "signals": { "textToHeightRatio": 0.045 }
+  }
+}

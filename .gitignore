@@ -23,3 +23,15 @@ docs/LEDGER-autopilot-*.md
 docs/ROADMAP-autopilot-*.md
 docs/goals/
 anti-ai-report.json
+
+# v2 session artifacts (local only — never part of the published plugin).
+# Tracked docs/LEDGER.md and docs/CHANGELOG.md are unaffected (patterns require the hyphen);
+# docs/goals/ above already covers docs/goals/evidence/.
+out/
+docs/LEDGER-*.md
+docs/ROADMAP-*.md
+docs/ANALYSIS-*.md
+# Chromium/Chrome profile residue inside capture dirs (cookie DBs, telemetry,
+# hostname-leaking singleton symlinks) — regenerated on every headed capture run;
+# never publishable (red-team H-02, 2026-07-19).
+**/.profile_*/

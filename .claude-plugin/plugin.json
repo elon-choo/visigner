@@ -1,7 +1,7 @@
 {
   "name": "visigner",
   "displayName": "Visigner",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Everything design in one install, on one core: anti-AI-slop landing & Korean 상세페이지/Wadiz pages, app/web UI design, design tokens & systems, brand identity, UX flows & wireframes, design-to-code (React/Tailwind/shadcn), and conversion/marketing — plus a global image service (generate real assets via the latest OpenAI/Gemini models, free ChatGPT/codex OAuth or an API key) and one-command publishing to Claude Design (claude.ai/design). Independent design-critic & accessibility-audit agents and friendly slash commands. Built on Anthropic's frontend-design aesthetic discipline + a screenshot self-critique loop.",
   "author": {
     "name": "elon-choo",

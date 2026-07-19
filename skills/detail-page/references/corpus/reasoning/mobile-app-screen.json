@@ -1,0 +1,15 @@
+{
+  "category": "mobile-app-screen",
+  "recommended_pattern": "A single-task native screen with one clear primary action, reachable controls, and visible system or task status.",
+  "decision_rules": {
+    "if_frequent_task": "Make the primary action thumb-reachable and preserve it as content changes.",
+    "if_error_prone": "Validate inline and explain recovery before the user commits an irreversible step.",
+    "if_dynamic_status": "Pair status color with text, icon, or state label that remains readable at a glance."
+  },
+  "anti_patterns": [
+    "Web-card density squeezed into a phone viewport.",
+    "Touch targets that depend on precise taps or hidden gestures without cues.",
+    "Critical status communicated by color alone."
+  ],
+  "severity": "HIGH"
+}

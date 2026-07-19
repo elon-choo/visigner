@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0.0",
+  "id": "kr-detail-29cm-mongdol-2530940",
+  "capture_dir": "captures/kr-detail-29cm-2530940-r3",
+  "url": "https://www.29cm.co.kr/products/2530940",
+  "title": "[알로하 PICK] 시그니처 코튼 숏 팬츠 MDPT052_6 Colors - 감도 깊은 취향 셀렉트샵 29CM",
+  "status": 200,
+  "captured_at": "2026-07-19",
+  "family": "29cm",
+  "mode": "detail",
+  "category": "kr-detail-page",
+  "exemplar_role": "positive",
+  "sector": "fashion-apparel",
+  "locale": "ko-KR",
+  "expanded": "더보기",
+  "notes": "Positive KR 상세페이지: the maker-owned story turns the six-colour range into a quiet serif catalogue plate with generous whitespace (tile_02.png). tile_00.png navigation, buy box, and global chrome are 29CM platform UI; no class-C CSS/hex is carried until the maker-region style collector can complete (GAP-01/GAP-07).",
+  "capture": {
+    "page_height_px": { "value": 62171, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/pageHeight", "gap": null },
+    "body_text_len": { "value": 11207, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bodyTextLen", "gap": null },
+    "image_count": { "value": 43, "provenance": "capture-json", "confidence": null, "evidence": "data.json#/imageCount", "gap": null },
+    "big_images": { "value": ["https://img.29cm.co.kr/item/202606/11f16e9bbc20d2e5b35737e2ff3ffcd0.jpg?width=720&format=webp", "…15 more…"], "provenance": "capture-json", "confidence": null, "evidence": "data.json#/bigImages", "gap": "GAP-09" },
+    "tile_count": { "value": 39, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/tiles", "gap": null },
+    "tile_w_px": { "value": 1280, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_h_px": { "value": 1600, "provenance": "derived", "confidence": null, "evidence": "PNG IHDR tile_00.png = 1280×1600", "gap": null },
+    "tile_format": { "value": "png", "provenance": "derived", "confidence": null, "evidence": "tile_00.png filename + PNG IHDR header", "gap": null },
+    "tile_scale": { "value": 1, "provenance": "derived", "confidence": null, "evidence": "1280/1280 = 1600/1600 = 1", "gap": null },
+    "covered_height_px": { "value": 62400, "provenance": "capture-json", "confidence": null, "evidence": "capture.json#/coveredHeight", "gap": null },
+    "coverage_ok": { "value": true, "provenance": "derived", "confidence": null, "evidence": "62400 >= 62171", "gap": null },
+    "color_fidelity": { "value": "lossless", "provenance": "derived", "confidence": null, "evidence": "PNG tile format + tile_scale = 1", "gap": null },
+    "has_dom": { "value": false, "provenance": "derived", "confidence": null, "evidence": "capture stores tiles + JSON/text artefacts, not a DOM dump; has_dom = false", "gap": "GAP-01" }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": { "value": { "hue_family": "achromatic", "role_note": "white and warm-grey page ground frames the product photography" }, "provenance": "tile-vision", "confidence": 0.94, "evidence": "tile_00.png; tile_02.png", "gap": "GAP-07" },
+      "secondary_30": { "value": { "hue_family": "yellow", "role_note": "sand, beige, and warm neutral product variants occupy the secondary product field" }, "provenance": "tile-vision", "confidence": 0.66, "evidence": "tile_02.png", "gap": null },
+      "accent_10": { "value": { "hue_family": "blue", "role_note": "deep navy is rationed to one colourway rather than becoming platform chrome" }, "provenance": "tile-vision", "confidence": 0.61, "evidence": "tile_02.png", "gap": null },
+      "field_committed": { "value": false, "provenance": "tile-vision", "confidence": 0.91, "evidence": "tile_00.png and tile_02.png use neutral space and product photography rather than a saturated owned band", "gap": null },
+      "field_evidence": { "value": "tile_02.png — the maker story is a white catalogue plate, not a saturated field", "provenance": "tile-vision", "confidence": 0.91, "evidence": "tile_02.png", "gap": null },
+      "field_sections": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" }
+    },
+    "temperature": { "value": "warm-neutral", "provenance": "tile-vision", "confidence": 0.72, "evidence": "tile_02.png", "gap": null },
+    "computed_backgrounds": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "chroma_max_measured": { "value": null, "provenance": "tile-px", "confidence": null, "evidence": null, "gap": "GAP-02" },
+    "chrome_excluded": { "value": false, "provenance": "hand", "confidence": 0.95, "evidence": "tile_00.png includes the 29CM navigation and buy box; no stored maker-region style evidence separates their pixels from the product page.", "gap": "GAP-07" }
+  },
+  "type": {
+    "display": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "body": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }, "weights": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "mono": { "family": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" } },
+    "scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "pairing_note": { "value": "Maker story uses a large high-contrast serif English product title against sparse sans labels; exact families are not identified.", "provenance": "tile-vision", "confidence": 0.81, "evidence": "tile_02.png", "gap": "GAP-01" },
+    "weight_contrast_observed": { "value": "high", "provenance": "tile-vision", "confidence": 0.78, "evidence": "tile_02.png", "gap": null },
+    "kr_display_present": { "value": false, "provenance": "tile-vision", "confidence": 0.76, "evidence": "tile_02.png maker story uses English display labels; Korean UI in tile_00.png is platform chrome", "gap": "GAP-07" }
+  },
+  "layout": {
+    "archetype": { "value": "band-stack", "provenance": "tile-vision", "confidence": 0.77, "evidence": "tile_00.png buy/gallery region followed by live-DOM product-story bands in tile_02.png", "gap": "GAP-07" },
+    "content_width_px": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-03" },
+    "column_system": { "value": "29CM product gallery and buy box precede a single centred maker-story column.", "provenance": "tile-vision", "confidence": 0.86, "evidence": "tile_00.png; tile_02.png", "gap": "GAP-07" },
+    "primitive_repeated": { "value": "cropped product photograph → oversized serif product/colour label → orderly colourway grid", "provenance": "tile-vision", "confidence": 0.84, "evidence": "tile_02.png", "gap": null }
+  },
+  "rhythm": {
+    "band_count": { "value": null, "provenance": "tile-vision", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "median_band_height_px": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "viewports": { "value": 38.86, "provenance": "derived", "confidence": null, "evidence": "62171 / 1600 = 38.86", "gap": null },
+    "text_density": { "value": 288.4, "provenance": "derived", "confidence": null, "evidence": "11207 / 38.86 = 288.4 chars per viewport", "gap": null },
+    "image_density": { "value": 1.11, "provenance": "derived", "confidence": null, "evidence": "43 / 38.86 = 1.11 images per viewport", "gap": null },
+    "spacing_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" },
+    "radius_scale_px": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-01" }
+  },
+  "signature": {
+    "name": { "value": "Six-colour serif catalogue plate", "provenance": "tile-vision", "confidence": 0.89, "evidence": "tile_02.png", "gap": null },
+    "family": { "value": "layout-editorial", "provenance": "tile-vision", "confidence": 0.82, "evidence": "tile_02.png — product images arranged as a deliberately titled catalogue plate", "gap": null },
+    "description": { "value": "A low-noise six-colour grid gives each short a matched image and a large serif label; the product range is explained through the layout rather than through a dense feature list.", "provenance": "tile-vision", "confidence": 0.89, "evidence": "tile_02.png", "gap": null },
+    "evidence_tiles": { "value": ["tile_02.png"], "provenance": "tile-vision", "confidence": 0.89, "evidence": "tile_02.png; no heading-to-tile offset map proves full-page recurrence", "gap": "GAP-09" },
+    "embodies_brief": { "value": "The repeated plate makes colour choice legible at one glance while keeping the page calm and product-led.", "provenance": "hand", "confidence": 0.86, "evidence": "tile_02.png", "gap": null },
+    "tell_risk": { "value": [], "provenance": "hand", "confidence": 0.9, "evidence": "Reviewed the visible maker-story move against the corpus tell ids; it is a product-specific catalogue composition, not a repeated generic card loop.", "gap": null },
+    "recurrence": { "value": "section-anchored", "provenance": "tile-vision", "confidence": 0.7, "evidence": "tile_02.png", "gap": "GAP-09" }
+  },
+  "motion": {
+    "gif_asset_count": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "bigImages[] entries ending .gif = 0", "gap": null },
+    "gif_evidence": { "value": null, "provenance": "capture-json", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "dynamic_demo_present": { "value": false, "provenance": "derived", "confidence": null, "evidence": "gif_asset_count > 0 = false", "gap": null },
+    "notes": { "value": null, "provenance": "hand", "confidence": null, "evidence": "No archived motion inspection was performed.", "gap": "GAP-08" },
+    "durations_ms": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "easings": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" },
+    "reduced_motion_honored": { "value": null, "provenance": "dom", "confidence": null, "evidence": null, "gap": "GAP-08" }
+  },
+  "commerce": {
+    "awareness": { "value": "product-aware", "provenance": "hand", "confidence": 0.91, "evidence": "tile_00.png opens on named product, review count, price, and purchase control rather than problem agitation.", "gap": "GAP-06" },
+    "sophistication": { "value": 3, "provenance": "hand", "confidence": 0.61, "evidence": "tile_00.png leads with concrete product, colour/size choice, price, and reviews instead of an unqualified superlative.", "gap": "GAP-06" },
+    "arc": [],
+    "arc_resolved": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "arc_total": { "value": 6, "provenance": "derived", "confidence": null, "evidence": "PASONA stage count = 6", "gap": null },
+    "arc_coverage": { "value": null, "provenance": "derived", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "authority_numbers": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "reward_ladder": { "value": [], "provenance": "tile-vision", "confidence": 0.97, "evidence": "tile_00.png shows one product purchase flow, not a reward-tier ladder", "gap": null },
+    "urgency_device": { "value": null, "provenance": "bodytext", "confidence": null, "evidence": null, "gap": "GAP-09" },
+    "urgency_repetition": { "value": 0, "provenance": "derived", "confidence": null, "evidence": "regex count of captured urgency lexicon except incidental support text = 0", "gap": null },
+    "one_message": { "value": "Choose a calm, well-photographed cotton short from six clearly shown colourways.", "provenance": "hand", "confidence": 0.85, "evidence": "tile_00.png price/product context plus tile_02.png six-colour plate", "gap": null }
+  }
+}

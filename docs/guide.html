@@ -44,7 +44,7 @@
     --ink: oklch(0.215 0.016 60);
     --muted: oklch(0.50 0.018 60);
     --line: oklch(0.215 0.016 60 / 0.14);
-    --accent: oklch(0.620 0.200 32);
+    --accent: oklch(0.565 0.183 32); /* AA: 4.71:1 vs on-accent */
     --accent-700: oklch(0.520 0.175 30);
     --amber: oklch(0.760 0.150 66);
     --on-accent: oklch(0.980 0.012 85);
@@ -246,6 +246,9 @@
   .closing-band { padding-bottom:76px; }
 
   .chapter .term { max-width:820px; }
+  /* these two sections restyle the terminal card onto light backgrounds — the global --term-dim
+     (tuned for the dark slab) is only 2.26:1 there, so re-step the token locally to AA (4.74:1) */
+  #first-run, #uninstall { --term-dim: oklch(0.515 0.02 200); }
   #first-run .term { background:transparent; color:var(--ink); border-top:2px solid var(--ink); border-bottom:1px solid var(--line); }
   #first-run .term-bar { border-bottom:1px solid var(--line); }
   #first-run .term pre { color:var(--ink); }
@@ -482,6 +485,7 @@
 <span class="p">/</span>design a launch landing page for my AI writing tool</pre>
     </div>
     <h3 style="font-family:var(--font-display);font-size:19px;margin-top:20px"><span lang="ko">당신이 누구냐로 시작하기</span><span lang="en">Start here by who you are</span></h3>
+    <div style="overflow-x:auto">
     <table>
       <thead><tr>
         <th><span lang="ko">당신은…</span><span lang="en">You are a…</span></th>
@@ -498,6 +502,7 @@
         <tr><td><span lang="ko">배포 직전 누구나</span><span lang="en">Anyone shipping</span></td><td><code>/design-review &lt;page&gt;</code></td><td><span lang="ko">독립 SHIP / NO-SHIP 판정</span><span lang="en">An independent SHIP / NO-SHIP verdict</span></td></tr>
       </tbody>
     </table>
+    </div>
   </div>
 </section>
 

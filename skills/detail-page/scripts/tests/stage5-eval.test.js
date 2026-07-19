@@ -10,6 +10,8 @@ const test = require('node:test');
 const ROOT = path.resolve(__dirname, '..', '..', '..', '..');
 const { run } = require(path.join(ROOT, 'skills', 'detail-page', 'scripts', 'eval-spine.js'));
 const REPORT = path.join(ROOT, 'docs', 'autopilot', 'evidence', 'stage5-delta.md');
+// docs/autopilot/ is a local-only (gitignored) artifact — absent in the published tree.
+const REPORT_SKIP = fs.existsSync(REPORT) ? false : 'local autopilot evidence absent — skipped in published tree';
 
 test('pre-registered thresholds: in-scope recall >= 0.90 AND clean precision = 1.00', () => {
   const r = run();
@@ -44,7 +46,7 @@ test('determinism: two runs on the same corpus yield identical metrics', () => {
   assert.deepStrictEqual(a.perClass, b.perClass);
 });
 
-test('honesty guard: the delta report states the machine-score blind spot + the brand-lint spine status', () => {
+test('honesty guard: the delta report states the machine-score blind spot + the brand-lint spine status', { skip: REPORT_SKIP }, () => {
   const md = fs.readFileSync(REPORT, 'utf8');
   assert.match(md, /100\/A is NOT taste approval|machine score != taste|Machine mechanicalScore 100\/A is NOT taste/i);
   assert.match(md, /brand-lint.*FOLDED INTO the auto-grade|--brand-lint/); // brand-lint now folded in (G6.5)

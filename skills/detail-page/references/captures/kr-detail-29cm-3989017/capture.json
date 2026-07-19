@@ -1,0 +1,17 @@
+{
+  "url": "https://www.29cm.co.kr/products/3989017",
+  "status": 200,
+  "title": "HaTA Signature String Bikini Set_Error Graphic Turquoise Blue - 감도 깊은 취향 셀렉트샵 29CM",
+  "pageHeight": 19751,
+  "bodyTextLen": 5978,
+  "imageCount": 33,
+  "tiles": 13,
+  "coveredHeight": 20800,
+  "maxTiles": 48,
+  "outDir": "/Users/elon/visigner/skills/detail-page/references/captures/kr-detail-29cm-3989017",
+  "requestedUrl": "https://www.29cm.co.kr/product/catalog/3989017",
+  "capturedAt": "2026-07-19T04:49:54.931Z",
+  "renderer": "patchright-chromium-headless",
+  "hydrated": true,
+  "expanded": "더보기"
+}

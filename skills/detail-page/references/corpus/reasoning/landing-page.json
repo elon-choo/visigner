@@ -1,0 +1,15 @@
+{
+  "category": "landing-page",
+  "recommended_pattern": "A single-offer proof ladder: outcome-led hero, visual proof, objection handling, and repeated primary CTA.",
+  "decision_rules": {
+    "if_high_intent": "Place the offer terms and primary CTA above the fold without making the reader hunt for them.",
+    "if_complex_offer": "Demonstrate the mechanism before expanding the benefit claims.",
+    "if_social_risk": "Put a specific customer result or credible proof immediately after the promise."
+  },
+  "anti_patterns": [
+    "A multi-destination navigation that turns one conversion into a browsing task.",
+    "Several competing CTA labels for the same offer.",
+    "Benefit claims that arrive without a concrete demonstration or proof."
+  ],
+  "severity": "HIGH"
+}

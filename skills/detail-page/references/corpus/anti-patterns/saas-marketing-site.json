@@ -1,0 +1,34 @@
+{
+  "category": "saas-marketing-site",
+  "anti_patterns": [
+    {
+      "id": "saas-marketing-site-opaque-product-proof",
+      "title": "Product visual cannot teach the workflow",
+      "severity": "HIGH",
+      "do_not": "Use an opaque, tiny, or obscured product screenshot where the buyer needs to understand the workflow.",
+      "detect": { "type": "manual" },
+      "good_bad": {
+        "good": "A readable product state shows the before-and-after workflow in context.",
+        "bad": "A blurred dashboard floating behind marketing copy."
+      }
+    },
+    {
+      "id": "saas-marketing-site-glossy-blob-evidence-substitute",
+      "title": "Glossy blob substitutes for product evidence",
+      "severity": "HIGH",
+      "do_not": "Use blurred glossy decoration in place of a real product state or workflow demonstration.",
+      "detect": {
+        "type": "css-pattern",
+        "regex": "\\b(?:backdrop-filter|filter)\\s*:\\s*blur\\s*\\(",
+        "flags": "i"
+      }
+    },
+    {
+      "id": "saas-marketing-site-feature-grid-without-narrative",
+      "title": "Feature grid does not form a product narrative",
+      "severity": "MEDIUM",
+      "do_not": "Present disconnected feature cards when they do not explain a coherent product workflow.",
+      "detect": { "type": "manual" }
+    }
+  ]
+}

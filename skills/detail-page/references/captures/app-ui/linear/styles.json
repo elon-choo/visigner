@@ -1,0 +1,1606 @@
+{
+  "meta": {
+    "url": "https://linear.app/",
+    "status": 200,
+    "title": "Linear – The system for product development",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-17T09:28:20.361Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Inter Variable",
+      "rawStack": "\"Inter Variable\", \"SF Pro Display\", -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+      "fontWeight": "510",
+      "fontSize": "64px",
+      "lineHeight": "64px",
+      "letterSpacing": "-1.408px",
+      "element": "h1",
+      "selector": "div > div > div.QI8oKG_container > h1.sc-KOGVz"
+    },
+    "body": {
+      "resolvedFamily": "Inter Variable",
+      "rawStack": "\"Inter Variable\", \"SF Pro Display\", -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif",
+      "fontWeight": "400",
+      "fontSize": "15px",
+      "lineHeight": "24px",
+      "letterSpacing": "-0.165px",
+      "element": "span",
+      "selector": "div.fjOtda_changelogItem > a.fjOtda_link > div.ImRUSq_root > span.sc-KOGVz"
+    },
+    "mono": {
+      "resolvedFamily": "Berkeley Mono",
+      "rawStack": "\"Berkeley Mono\", ui-monospace, \"SF Mono\", Menlo, monospace",
+      "fontWeight": "400",
+      "fontSize": "14px",
+      "lineHeight": "21px",
+      "letterSpacing": "-0.182px",
+      "element": "code",
+      "selector": "div > div.w9ZFkq_body > p.sc-KOGVz > code.w9ZFkq_code"
+    },
+    "documentFonts": [
+      {
+        "family": "Inter Variable",
+        "weight": "100 900"
+      },
+      {
+        "family": "Berkeley Mono",
+        "weight": "100 900"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#08090a",
+        "cssRgb": "rgb(8, 9, 10)",
+        "areaShare": 0.842027586412502
+      },
+      {
+        "value": "#0f1011",
+        "cssRgb": "rgb(15, 16, 17)",
+        "areaShare": 0.0782352508711809
+      },
+      {
+        "value": "#090a0b",
+        "cssRgb": "rgb(9, 10, 11)",
+        "areaShare": 0.017930085466380797
+      },
+      {
+        "value": "#101112",
+        "cssRgb": "rgb(16, 17, 18)",
+        "areaShare": 0.017930085466380797
+      },
+      {
+        "value": "#121314",
+        "cssRgb": "rgb(18, 19, 20)",
+        "areaShare": 0.013908433703995535
+      },
+      {
+        "value": "#ffffff05",
+        "cssRgb": "rgba(255, 255, 255, 0.02)",
+        "areaShare": 0.012884801441166417
+      },
+      {
+        "value": "#e4f222",
+        "cssRgb": "rgb(228, 242, 34)",
+        "areaShare": 0.004303220511931391
+      },
+      {
+        "value": "#161718",
+        "cssRgb": "rgb(22, 23, 24)",
+        "areaShare": 0.004050871160923069
+      }
+    ],
+    "text": [
+      {
+        "value": "#f7f8f8",
+        "cssRgb": "rgb(247, 248, 248)",
+        "areaShare": 0.973939817238447
+      },
+      {
+        "value": "#d0d6e0",
+        "cssRgb": "rgb(208, 214, 224)",
+        "areaShare": 0.018337647117014556
+      },
+      {
+        "value": "#8a8f98",
+        "cssRgb": "rgb(138, 143, 152)",
+        "areaShare": 0.0032445759571784628
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.0017161888007390172
+      },
+      {
+        "value": "#62666d",
+        "cssRgb": "rgb(98, 102, 109)",
+        "areaShare": 0.0012367132802277685
+      },
+      {
+        "value": "#08090a",
+        "cssRgb": "rgb(8, 9, 10)",
+        "areaShare": 0.0007545195838457529
+      }
+    ]
+  },
+  "cssVariables": {
+    "--100dvh": "calc(100 * 1dvh)",
+    "--100svh": "calc(100 * 1svh)",
+    "--1fr": "minmax(0, 1fr)",
+    "--border-hairline": "1px",
+    "--btn-highlight-bg": "transparent",
+    "--btn-overlay-shadow": "none",
+    "--btn-overlay-shadow-hover": "none",
+    "--color-accent": "#7170ff",
+    "--color-accent-hover": "#828fff",
+    "--color-accent-tint": "#18182f",
+    "--color-alpha": "255",
+    "--color-bg-level-0": "#08090a",
+    "--color-bg-level-1": "#0f1011",
+    "--color-bg-level-2": "#141516",
+    "--color-bg-level-3": "#191a1b",
+    "--color-bg-marketing": "#010102",
+    "--color-bg-panel": "#0f1011",
+    "--color-bg-primary": "#08090a",
+    "--color-bg-quaternary": "#28282c",
+    "--color-bg-quinary": "#282828",
+    "--color-bg-secondary": "#1c1c1f",
+    "--color-bg-tertiary": "#232326",
+    "--color-bg-tint": "#141516",
+    "--color-bg-translucent": "#ffffff0d",
+    "--color-black": "#000",
+    "--color-blue": "#4ea7fc",
+    "--color-border-primary": "#23252a",
+    "--color-border-secondary": "#34343a",
+    "--color-border-tertiary": "#3e3e44",
+    "--color-border-translucent": "#ffffff0d",
+    "--color-border-translucent-strong": "#ffffff14",
+    "--color-brand-bg": "#5e6ad2",
+    "--color-brand-text": "#fff",
+    "--color-button-invert-bg": "#e5e5e6",
+    "--color-button-invert-bg-hover": "#fff",
+    "--color-fg-primary": "#f7f8f8",
+    "--color-fg-quaternary": "#62666d",
+    "--color-fg-secondary": "#d0d6e0",
+    "--color-fg-tertiary": "#8a8f98",
+    "--color-green": "#27a644",
+    "--color-indigo": "#5e6ad2",
+    "--color-line-primary": "#37393a",
+    "--color-line-quaternary": "#141515",
+    "--color-line-secondary": "#202122",
+    "--color-line-tertiary": "#18191a",
+    "--color-line-tint": "#141516",
+    "--color-linear-build": "#d4b144",
+    "--color-linear-plan": "#68cc58",
+    "--color-linear-security": "#7a7fad",
+    "--color-link-hover": "#fff",
+    "--color-link-primary": "#828fff",
+    "--color-orange": "#fc7840",
+    "--color-overlay-dim-rgb": "255, 255, 255",
+    "--color-overlay-primary": "#000000d9",
+    "--color-red": "#eb5757",
+    "--color-selection-bg": "color-mix(in lch, #5e6ad2, black 10%)",
+    "--color-selection-dim": "color-mix(in lch, #5e6ad2, transparent 80%)",
+    "--color-selection-text": "#fff",
+    "--color-teal": "#00b8cc",
+    "--color-text-primary": "#f7f8f8",
+    "--color-text-quaternary": "#62666d",
+    "--color-text-secondary": "#d0d6e0",
+    "--color-text-tertiary": "#8a8f98",
+    "--color-white": "#fff",
+    "--color-yellow": "#f0bf00",
+    "--cursor-disabled": "not-allowed",
+    "--cursor-none": "none",
+    "--cursor-pointer": "pointer",
+    "--cursor-tooltip": "help",
+    "--dvh": "1dvh",
+    "--ease-in-circ": "cubic-bezier(.6, .04, .98, .335)",
+    "--ease-in-cubic": "cubic-bezier(.55, .055, .675, .19)",
+    "--ease-in-expo": "cubic-bezier(.95, .05, .795, .035)",
+    "--ease-in-out-circ": "cubic-bezier(.785, .135, .15, .86)",
+    "--ease-in-out-cubic": "cubic-bezier(.645, .045, .355, 1)",
+    "--ease-in-out-expo": "cubic-bezier(1, 0, 0, 1)",
+    "--ease-in-out-quad": "cubic-bezier(.455, .03, .515, .955)",
+    "--ease-in-out-quart": "cubic-bezier(.77, 0, .175, 1)",
+    "--ease-in-out-quint": "cubic-bezier(.86, 0, .07, 1)",
+    "--ease-in-quad": "cubic-bezier(.55, .085, .68, .53)",
+    "--ease-in-quart": "cubic-bezier(.895, .03, .685, .22)",
+    "--ease-in-quint": "cubic-bezier(.755, .05, .855, .06)",
+    "--ease-out-circ": "cubic-bezier(.075, .82, .165, 1)",
+    "--ease-out-cubic": "cubic-bezier(.215, .61, .355, 1)",
+    "--ease-out-expo": "cubic-bezier(.19, 1, .22, 1)",
+    "--ease-out-quad": "cubic-bezier(.25, .46, .45, .94)",
+    "--ease-out-quart": "cubic-bezier(.165, .84, .44, 1)",
+    "--ease-out-quint": "cubic-bezier(.23, 1, .32, 1)",
+    "--editor-block-menu-offset": "28px",
+    "--editor-block-menu-size": "20px",
+    "--editor-block-radius": "6px",
+    "--editor-block-spacing": "1rem",
+    "--editor-block-spacing-large": "calc(1.375 * 1rem)",
+    "--editor-block-spacing-small": "calc(.375 * 1rem)",
+    "--editor-bullet-disc-offset": ".5em",
+    "--editor-bullet-disc-width": ".5em",
+    "--editor-font-size": ".9375rem",
+    "--editor-font-weight": "400",
+    "--editor-last-invisible-paragraph-spacing": "10px",
+    "--editor-letter-spacing": "-.00666667em",
+    "--editor-line-height": "1.6",
+    "--editor-list-inset": "1.5rem",
+    "--editor-safe-area": "16px",
+    "--editor-text-color": "#e4e5e9",
+    "--editor-todolist-checkbox-width": "14px",
+    "--focus-ring-color": "#5e69d1",
+    "--focus-ring-offset": "2px",
+    "--focus-ring-outline": "1px solid #5e69d1",
+    "--focus-ring-width": "1px",
+    "--font-emoji": "\"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Segoe UI\", \"Twemoji Mozilla\", \"Noto Color Emoji\", \"Android Emoji\"",
+    "--font-monospace": "\"Berkeley Mono\", ui-monospace, \"SF Mono\", \"Menlo\", monospace",
+    "--font-regular": "\"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--font-serif-display": "\"Tiempos Headline\", ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif",
+    "--font-settings": "\"cv01\", \"ss03\"",
+    "--font-size-large": "1.125rem",
+    "--font-size-largePlus": "1.125rem",
+    "--font-size-micro": ".6875rem",
+    "--font-size-microPlus": ".6875rem",
+    "--font-size-mini": ".75rem",
+    "--font-size-miniPlus": ".75rem",
+    "--font-size-regular": ".9375rem",
+    "--font-size-regularPlus": ".9375rem",
+    "--font-size-small": ".8125rem",
+    "--font-size-smallPlus": ".8125rem",
+    "--font-size-title1": "2.25rem",
+    "--font-size-title2": "1.5rem",
+    "--font-size-title3": "1.25rem",
+    "--font-variations": "\"opsz\" auto",
+    "--font-weight-bold": "680",
+    "--font-weight-light": "300",
+    "--font-weight-medium": "510",
+    "--font-weight-normal": "400",
+    "--font-weight-semibold": "590",
+    "--grid-columns": "12",
+    "--header-bg": "#0b0b0bcc",
+    "--header-blur": "20px",
+    "--header-border": "#ffffff14",
+    "--header-height": "72px",
+    "--homepage-max-width": "calc(1344px + 10px * 2)",
+    "--homepage-outer-padding": "10px",
+    "--homepage-padding-inset": "32px",
+    "--icon-grayscale-image-filter": "grayscale(100%) brightness(400%)",
+    "--layer-1": "1",
+    "--layer-2": "2",
+    "--layer-3": "3",
+    "--layer-command-menu": "650",
+    "--layer-context-menu": "1200",
+    "--layer-debug": "5100",
+    "--layer-dialog": "700",
+    "--layer-dialog-overlay": "699",
+    "--layer-footer": "50",
+    "--layer-header": "100",
+    "--layer-max": "10000",
+    "--layer-overlay": "500",
+    "--layer-popover": "600",
+    "--layer-scrollbar": "75",
+    "--layer-skip-nav": "5000",
+    "--layer-toasts": "800",
+    "--layer-tooltip": "1100",
+    "--link-text-decoration": "none",
+    "--mask-ease": "#0003",
+    "--mask-invisible": "transparent",
+    "--mask-off": "transparent",
+    "--mask-on": "black",
+    "--mask-visible": "black",
+    "--min-tap-size": "44px",
+    "--page-inset": "32px",
+    "--page-max-width": "1024px",
+    "--page-padding-block": "64px",
+    "--page-padding-inline": "24px",
+    "--page-padding-left": "max(0px, 24px)",
+    "--page-padding-right": "max(0px, 24px)",
+    "--pointer": "default",
+    "--prose-max-width": "624px",
+    "--radius-12": "12px",
+    "--radius-16": "16px",
+    "--radius-24": "24px",
+    "--radius-32": "32px",
+    "--radius-4": "4px",
+    "--radius-6": "6px",
+    "--radius-8": "8px",
+    "--radius-circle": "50%",
+    "--radius-rounded": "9999px",
+    "--rounded-full": "9999px",
+    "--scrollbar-color": "#ffffff1a",
+    "--scrollbar-color-active": "#fff6",
+    "--scrollbar-color-hover": "#fff3",
+    "--scrollbar-gap": "4px",
+    "--scrollbar-size": "6px",
+    "--scrollbar-size-active": "10px",
+    "--scrollbar-width": "12px",
+    "--shadow-high": "0px 7px 32px #00000059",
+    "--shadow-low": "0px 2px 4px #0000001a",
+    "--shadow-medium": "0px 4px 24px #0003",
+    "--shadow-none": "0px 0px 0px transparent",
+    "--shadow-stack-low": "0px 8px 2px 0px #0000, 0px 5px 2px 0px #00000003, 0px 3px 2px 0px #0000000a, 0px 1px 1px 0px #00000012, 0px 0px 1px 0px #00000014",
+    "--shadow-tiny": "0px 0px 0px transparent",
+    "--speed-highlightFadeIn": "0s",
+    "--speed-highlightFadeOut": ".15s",
+    "--speed-quickTransition": ".1s",
+    "--speed-regularTransition": ".25s",
+    "--svh": "1svh",
+    "--sx-105wzx7": "#edbf0a",
+    "--sx-10845vo": "#c9ffff",
+    "--sx-10lzhmx": "0px 4px 4px -1px #0000000a, 0px 1px 1px 0px #00000014",
+    "--sx-10o0rs5": "#e4e5e9",
+    "--sx-11lpf43": "0.8125rem",
+    "--sx-11vg3qk": "#ff7235",
+    "--sx-129bhjt": "#967000",
+    "--sx-138kmyo": "#424449",
+    "--sx-138rywl": "13vh",
+    "--sx-13kjjc4": "#38393d",
+    "--sx-13m9wh7": "#007def",
+    "--sx-13sdql6": "\"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Segoe UI\", \"Twemoji Mozilla\", \"Noto Color Emoji\", \"Android Emoji\"",
+    "--sx-142jeir": "#323439",
+    "--sx-14ggo8w": "#1e2823",
+    "--sx-15wwovl": "#28292e",
+    "--sx-16hn3q3": "#292a2e",
+    "--sx-17ckey5": "#ff5d5e",
+    "--sx-180qi0f": "#d5ffd6",
+    "--sx-183dfpr": "#ff9958",
+    "--sx-18pfyxa": "6px 12px",
+    "--sx-18uyzu6": "#008a2a",
+    "--sx-193njt9": "#ffffff22",
+    "--sx-19hxmp1": "#adbaff",
+    "--sx-1a798ef": "6px",
+    "--sx-1bu05id": "#ff8583",
+    "--sx-1ccqs4f": "#3f4145",
+    "--sx-1cxqmhc": "#00e8ff",
+    "--sx-1dcvabv": "#332024",
+    "--sx-1dd5bcf": "#9c9da1",
+    "--sx-1dhg814": "0 3px 8px #0000001f, 0 2px 5px #0000001f, 0 1px 1px #0000001f",
+    "--sx-1eapsa9": "#626366",
+    "--sx-1edn6di": "#33353a",
+    "--sx-1ele6il": "1px",
+    "--sx-1em7oyp": "#1b263a",
+    "--sx-1fh23cp": "#9c9da1",
+    "--sx-1fphd1n": "#232427",
+    "--sx-1gakdvt": "#25283f",
+    "--sx-1gcjx5j": "#2d2f37",
+    "--sx-1glqxor": "#232535",
+    "--sx-1gm0lru": "#282a30",
+    "--sx-1gxylln": "#242629",
+    "--sx-1h56kua": "#f0bf00",
+    "--sx-1hz3utq": "#ff8042",
+    "--sx-1ijrdvx": "#ff8849",
+    "--sx-1ikf7kw": "#ffffff22",
+    "--sx-1ipkkxf": "\"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", \"Linear Thai\", sans-serif",
+    "--sx-1jffjrl": "#6a76e3",
+    "--sx-1jmjcvw": "#ffffff1b",
+    "--sx-1k7nh0l": "#fffaa6",
+    "--sx-1k7v50d": "0 4px 40px #00000019, 0 3px 20px #0000001f,0 3px 12px #0000001f, 0 2px 8px #0000001f, 0 1px 1px #0000001f",
+    "--sx-1ltkoa": "#626467",
+    "--sx-1m4y240": "#19191b",
+    "--sx-1mc3c6y": "#1e2022",
+    "--sx-1n1r1h9": "#ffffff0d",
+    "--sx-1o1lnwn": "#323439",
+    "--sx-1ospiv4": "#ffffff22",
+    "--sx-1ps2i54": "#1b282d",
+    "--sx-1q6smeb": "#ff6565",
+    "--sx-1qdowq0": "#00000066",
+    "--sx-1qlh175": "#00889c",
+    "--sx-1rsaf4u": "#2a2d48",
+    "--sx-1rzu7x2": "#626366",
+    "--sx-1stx5uy": "#74e3ff",
+    "--sx-1ubxoo9": "#1e2022",
+    "--sx-1umwnkk": "\"Berkeley Mono\", \"SFMono Regular\", Consolas, \"Liberation Mono\", Menlo, Courier, monospace",
+    "--sx-1uoekal": "#00b8cb",
+    "--sx-1urpf9d": "#ffffff0d",
+    "--sx-1uu732i": "12px",
+    "--sx-1uv3w6h": "#2c2d32",
+    "--sx-1uztw8p": "#ffffff30",
+    "--sx-1vqca58": "#69daff",
+    "--sx-1vyp3gc": "#ffeac6",
+    "--sx-1xaoi8i": "#7a88ff",
+    "--sx-1yxqotz": "#5e6ad2",
+    "--sx-2icmlu": "#08080826",
+    "--sx-34xdpc": "#d9343f",
+    "--sx-35jz1e": "#3c3f5c",
+    "--sx-3zwjav": "#e4e5e9",
+    "--sx-5igtf4": "#ffffff1b",
+    "--sx-5t1vcl": "#00ceff",
+    "--sx-629164": "#2c2d30",
+    "--sx-6ayg1n": "#2c2e34",
+    "--sx-6od1kq": "#dbffff",
+    "--sx-6zt3z6": "1px solid #323439",
+    "--sx-74qs5": "#00000001",
+    "--sx-7ide1": "#747ee9",
+    "--sx-7jk47a": "#2c2d32",
+    "--sx-8gevfv": "#43bc58",
+    "--sx-91u3ar": "#ffcc00",
+    "--sx-9o00jb": "#00c6d9",
+    "--sx-as9fd0": "#282a30",
+    "--sx-axo4ug": "0 0 0 0.5px #323439",
+    "--sx-ay0skx": "#fefeff",
+    "--sx-bpgheo": "#636fd7",
+    "--sx-c3gk8m": "0 0 0 1px #5e69d1",
+    "--sx-cb0zzs": "#33353b",
+    "--sx-ch85qk": "#5e69d1",
+    "--sx-ciqj87": "#3de261",
+    "--sx-cx2ark": "#37393e",
+    "--sx-d1bcc1": "#08080826",
+    "--sx-d29rh7": "#28292e",
+    "--sx-ds2y8i": "5px",
+    "--sx-feitbp": "#ffffff",
+    "--sx-fwc8so": "#cf4608",
+    "--sx-g52i5g": "#1c1f24",
+    "--sx-hfmm6c": "#2d2e31",
+    "--sx-i20l48": "#f34e52",
+    "--sx-ickszr": "#fefeff",
+    "--sx-ikq9iy": "#322122",
+    "--sx-irmyh9": "#ffffff13",
+    "--sx-j1ai0m": "#e4e5e9",
+    "--sx-jw5zf4": "#39b350",
+    "--sx-k68kma": "#37393e",
+    "--sx-kthb5v": "#6c76e0",
+    "--sx-ljw4h1": "#303236",
+    "--sx-msgncm": "#292521",
+    "--sx-n8xqcl": "#5e69d1",
+    "--sx-or1tl7": "#55ccff",
+    "--sx-ot17o6": "#00cee2",
+    "--sx-pqiwo2": "#373a56",
+    "--sx-sfnrch": "#f0bf00",
+    "--sx-tw6awd": "#ffe7de",
+    "--sx-ugsh4": "#ffd500",
+    "--sx-umgfby": "0 1px 1px inset #00000011, 0 1px 3px inset #00000011, 0 2px 5px inset #00000019",
+    "--sx-v3o8qy": "#636467",
+    "--sx-vatjr0": "#34353a",
+    "--sx-w1p5jj": "#37393e",
+    "--sx-ws85c5": "#fcfaff",
+    "--sx-wsz0k3": "#26a544",
+    "--sx-x8afrf": "6px",
+    "--sx-ykavoc": "8px",
+    "--sx-ys2i3t": "#ffffff",
+    "--text-large": "1.0625rem / 1.6 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--text-large-letter-spacing": "0",
+    "--text-large-line-height": "1.6",
+    "--text-large-size": "1.0625rem",
+    "--text-micro": ".75rem / 1.4 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--text-micro-letter-spacing": "0",
+    "--text-micro-line-height": "1.4",
+    "--text-micro-size": ".75rem",
+    "--text-mini": ".8125rem / 1.5 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--text-mini-letter-spacing": "-.01em",
+    "--text-mini-line-height": "1.5",
+    "--text-mini-size": ".8125rem",
+    "--text-regular": ".9375rem / 1.6 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--text-regular-letter-spacing": "-.011em",
+    "--text-regular-line-height": "1.6",
+    "--text-regular-size": ".9375rem",
+    "--text-small": ".875rem / calc(21 / 14) \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--text-small-letter-spacing": "-.013em",
+    "--text-small-line-height": "calc(21 / 14)",
+    "--text-small-size": ".875rem",
+    "--text-tiny": ".625rem / 1.5 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--text-tiny-letter-spacing": "-.015em",
+    "--text-tiny-line-height": "1.5",
+    "--text-tiny-size": ".625rem",
+    "--title-1": "590 1.0625rem / 1.4 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-1-letter-spacing": "-.012em",
+    "--title-1-line-height": "1.4",
+    "--title-1-size": "1.0625rem",
+    "--title-2": "590 1.25rem / 1.33 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-2-letter-spacing": "-.012em",
+    "--title-2-line-height": "1.33",
+    "--title-2-size": "1.25rem",
+    "--title-3": "590 1.5rem / 1.33 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-3-letter-spacing": "-.012em",
+    "--title-3-line-height": "1.33",
+    "--title-3-size": "1.5rem",
+    "--title-4": "590 2rem / 1.125 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-4-letter-spacing": "-.022em",
+    "--title-4-line-height": "1.125",
+    "--title-4-size": "2rem",
+    "--title-5": "590 2.5rem / 1.1 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-5-letter-spacing": "-.022em",
+    "--title-5-line-height": "1.1",
+    "--title-5-size": "2.5rem",
+    "--title-6": "590 3rem / 1 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-6-letter-spacing": "-.022em",
+    "--title-6-line-height": "1",
+    "--title-6-size": "3rem",
+    "--title-7": "590 3.5rem / 1.1 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-7-letter-spacing": "-.022em",
+    "--title-7-line-height": "1.1",
+    "--title-7-size": "3.5rem",
+    "--title-8": "590 4rem / 1.06 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-8-letter-spacing": "-.022em",
+    "--title-8-line-height": "1.06",
+    "--title-8-size": "4rem",
+    "--title-9": "590 4.5rem / 1 \"Inter Variable\", \"SF Pro Display\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Open Sans\", \"Helvetica Neue\", sans-serif",
+    "--title-9-letter-spacing": "-.022em",
+    "--title-9-line-height": "1",
+    "--title-9-size": "4.5rem",
+    "--transparent": "#fff0",
+    "--underline-offset": "clamp(2px, .225em, 6px)",
+    "--underline-thickness": "from-font",
+    "--zoom-in": "default"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 3426
+    },
+    {
+      "value": "8px",
+      "count": 257
+    },
+    {
+      "value": "32px",
+      "count": 81
+    },
+    {
+      "value": "12px",
+      "count": 69
+    },
+    {
+      "value": "4px",
+      "count": 61
+    },
+    {
+      "value": "3px",
+      "count": 32
+    },
+    {
+      "value": "22px",
+      "count": 25
+    },
+    {
+      "value": "24px",
+      "count": 22
+    },
+    {
+      "value": "16px",
+      "count": 19
+    },
+    {
+      "value": "19.2031px",
+      "count": 16
+    },
+    {
+      "value": "-640px",
+      "count": 14
+    },
+    {
+      "value": "2px",
+      "count": 12
+    },
+    {
+      "value": "15px",
+      "count": 11
+    },
+    {
+      "value": "128px",
+      "count": 10
+    },
+    {
+      "value": "10px",
+      "count": 9
+    },
+    {
+      "value": "20px",
+      "count": 9
+    },
+    {
+      "value": "26px",
+      "count": 8
+    },
+    {
+      "value": "-2px",
+      "count": 7
+    },
+    {
+      "value": "48px",
+      "count": 7
+    },
+    {
+      "value": "6px",
+      "count": 7
+    },
+    {
+      "value": "5px",
+      "count": 6
+    },
+    {
+      "value": "28px",
+      "count": 5
+    },
+    {
+      "value": "56px",
+      "count": 5
+    },
+    {
+      "value": "96px",
+      "count": 5
+    },
+    {
+      "value": "-16px",
+      "count": 4
+    },
+    {
+      "value": "-4px",
+      "count": 4
+    },
+    {
+      "value": "18px",
+      "count": 4
+    },
+    {
+      "value": "-6px",
+      "count": 3
+    },
+    {
+      "value": "30px",
+      "count": 3
+    },
+    {
+      "value": "40px",
+      "count": 3
+    },
+    {
+      "value": "64px",
+      "count": 3
+    },
+    {
+      "value": "-57px",
+      "count": 2
+    },
+    {
+      "value": "-8px",
+      "count": 2
+    },
+    {
+      "value": "14px",
+      "count": 2
+    },
+    {
+      "value": "156px",
+      "count": 2
+    },
+    {
+      "value": "224px",
+      "count": 2
+    },
+    {
+      "value": "282px",
+      "count": 2
+    },
+    {
+      "value": "36px",
+      "count": 2
+    },
+    {
+      "value": "41px",
+      "count": 2
+    },
+    {
+      "value": "58.25px",
+      "count": 2
+    },
+    {
+      "value": "58px",
+      "count": 2
+    },
+    {
+      "value": "131.641px",
+      "count": 1
+    },
+    {
+      "value": "152.469px",
+      "count": 1
+    },
+    {
+      "value": "161.266px",
+      "count": 1
+    },
+    {
+      "value": "165.578px",
+      "count": 1
+    },
+    {
+      "value": "212px",
+      "count": 1
+    },
+    {
+      "value": "31px",
+      "count": 1
+    },
+    {
+      "value": "375px",
+      "count": 1
+    },
+    {
+      "value": "385px",
+      "count": 1
+    },
+    {
+      "value": "39px",
+      "count": 1
+    },
+    {
+      "value": "43px",
+      "count": 1
+    },
+    {
+      "value": "450px",
+      "count": 1
+    },
+    {
+      "value": "578px",
+      "count": 1
+    },
+    {
+      "value": "80px",
+      "count": 1
+    },
+    {
+      "value": "828px",
+      "count": 1
+    },
+    {
+      "value": "99px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 2183
+    },
+    {
+      "value": "2px",
+      "count": 42
+    },
+    {
+      "value": "50%",
+      "count": 38
+    },
+    {
+      "value": "6px",
+      "count": 38
+    },
+    {
+      "value": "4px",
+      "count": 27
+    },
+    {
+      "value": "9999px",
+      "count": 19
+    },
+    {
+      "value": "12px",
+      "count": 12
+    },
+    {
+      "value": "8px",
+      "count": 12
+    },
+    {
+      "value": "12px 12px 0px 0px",
+      "count": 11
+    },
+    {
+      "value": "22px",
+      "count": 5
+    },
+    {
+      "value": "0px 2px 2px 0px",
+      "count": 4
+    },
+    {
+      "value": "2px 0px 0px 2px",
+      "count": 4
+    },
+    {
+      "value": "3.6px",
+      "count": 4
+    },
+    {
+      "value": "16px",
+      "count": 3
+    },
+    {
+      "value": "4px 0px 0px 4px",
+      "count": 3
+    },
+    {
+      "value": "0px 4px 4px 0px",
+      "count": 2
+    },
+    {
+      "value": "20px",
+      "count": 2
+    },
+    {
+      "value": "7px",
+      "count": 2
+    },
+    {
+      "value": "1px",
+      "count": 1
+    },
+    {
+      "value": "400px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 2342
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.03) 0px 1.2px 0px 0px",
+      "count": 31
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.4) 0px 2px 4px 0px",
+      "count": 16
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 0px 12px 0px inset",
+      "count": 6
+    },
+    {
+      "value": "rgb(35, 37, 42) 0px 0px 0px 1px inset",
+      "count": 5
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 0px 0px 1px",
+      "count": 3
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 8px 2px 0px, rgba(0, 0, 0, 0.01) 0px 5px 2px 0px, rgba(0, 0, 0, 0.04) 0px 3px 2px 0px, rgba(0, 0, 0, 0.07) 0px 1px 1px 0px, rgba(0, 0, 0, 0.08) 0px 0px 1px 0px",
+      "count": 2
+    },
+    {
+      "value": "rgba(255, 255, 255, 0.03) 0px 0px 0px 1px inset, rgba(255, 255, 255, 0.04) 0px 1px 0px 0px inset, rgba(0, 0, 0, 0.6) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 4px 4px 0px",
+      "count": 2
+    },
+    {
+      "value": "rgba(8, 9, 10, 0.6) 0px 4px 32px 0px",
+      "count": 2
+    },
+    {
+      "value": "rgb(35, 37, 42) 1px 0px 0px 0px inset",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.1) 0px 0px 0px 2px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.4) 0px 1px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(8, 9, 10, 0.1) 0px 0px 0px 1px, rgba(8, 9, 10, 0.4) 0px 0px 64px 0px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 2207
+      },
+      {
+        "value": "fill",
+        "count": 89
+      },
+      {
+        "value": "color 0.1s",
+        "count": 35
+      },
+      {
+        "value": "filter 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 24
+      },
+      {
+        "value": "background 0.4s ease-out",
+        "count": 19
+      },
+      {
+        "value": "filter 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 8
+      },
+      {
+        "value": "border 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 7
+      },
+      {
+        "value": "color 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 7
+      },
+      {
+        "value": "transform 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 7
+      },
+      {
+        "value": "color 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 3
+      },
+      {
+        "value": "filter 0.1s",
+        "count": 3
+      },
+      {
+        "value": "background 0.16s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 1
+      },
+      {
+        "value": "border-color 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94), background 0.1s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 1
+      },
+      {
+        "value": "color",
+        "count": 1
+      },
+      {
+        "value": "filter 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 2306
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-0-0-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-0-1-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-0-2-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-0-3-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-0-4-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-1-0-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-1-1-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-1-2-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-1-3-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-1-4-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-2-0-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-2-1-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-2-2-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-2-3-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-2-4-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-3-0-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-3-1-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-3-2-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-3-3-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-3-4-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-4-0-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-4-1-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-4-2-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-4-3-agent",
+        "count": 2
+      },
+      {
+        "value": "3.2s steps(1) infinite grid-dot-4-4-agent",
+        "count": 2
+      },
+      {
+        "value": "0.4s cubic-bezier(0.165, 0.84, 0.44, 1) 0.1s backwards w9ZFkq_staggerIn",
+        "count": 1
+      },
+      {
+        "value": "0.4s cubic-bezier(0.165, 0.84, 0.44, 1) 0.2s backwards w9ZFkq_staggerIn",
+        "count": 1
+      },
+      {
+        "value": "0.4s cubic-bezier(0.165, 0.84, 0.44, 1) 0.3s backwards w9ZFkq_staggerIn",
+        "count": 1
+      },
+      {
+        "value": "0.4s cubic-bezier(0.165, 0.84, 0.44, 1) 0.4s backwards w9ZFkq_staggerIn",
+        "count": 1
+      },
+      {
+        "value": "0.4s cubic-bezier(0.165, 0.84, 0.44, 1) backwards w9ZFkq_staggerIn",
+        "count": 1
+      },
+      {
+        "value": "1.25s infinite qM9FAa_cursorBlink",
+        "count": 1
+      },
+      {
+        "value": "1.2s steps(1) infinite PPSGPG_blink",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-0-0-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-0-1-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-0-2-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-0-3-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-0-4-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-1-0-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-1-1-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-1-2-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-1-3-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-1-4-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-2-0-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-2-1-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-2-2-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-2-3-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-2-4-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-3-0-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-3-1-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-3-2-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-3-3-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-3-4-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-4-0-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-4-1-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-4-2-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-4-3-pong",
+        "count": 1
+      },
+      {
+        "value": "1.6s steps(1) infinite grid-dot-4-4-pong",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-0-0-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-0-1-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-0-2-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-0-3-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-0-4-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-1-0-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-1-1-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-1-2-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-1-3-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-1-4-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-2-0-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-2-1-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-2-2-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-2-3-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-2-4-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-3-0-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-3-1-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-3-2-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-3-3-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-3-4-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-4-0-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-4-1-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-4-2-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-4-3-upDown",
+        "count": 1
+      },
+      {
+        "value": "2.8s steps(1) infinite grid-dot-4-4-upDown",
+        "count": 1
+      }
+    ],
+    "prefersReducedMotion": true
+  },
+  "authoredRegion": {
+    "verdict": "dom-authored",
+    "signals": {
+      "cssVarCount": 398,
+      "pageHeightPx": 10526,
+      "bodyTextLen": 8185,
+      "bigImageCount": 3,
+      "textToHeightRatio": 0.7775983279498385,
+      "largestHeadingPx": 64
+    },
+    "note": "A large rendered heading and plentiful resolved CSS variables indicate a DOM-authored design surface."
+  },
+  "gaps": [
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Providers.qSrgnk7B.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Toast.pcGZUK31.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Grid.Cds8fjKR.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/StatusPage.BYDaMjMd.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Link.Tpxbzi3N.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/utils.5l1Pf81z.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Button.dcAi4KbO.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Header.DrX8EJz9.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Flex.BEZjGLsi.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/ThemeToggle._YM9yPbG.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/IconButton.3p32EmO1.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/KBD.ByHmXOx_.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Tooltip.mgHd0F-S.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Icon.Bl8l9ltc.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/color.C-dCEHFh.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Spacer.mYgpGelO.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/CommandMenu.DVY7V9_S.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Image.D-bf8CPN.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Zoom.krMPHN5w.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/SidePanel.CXpCHa9Z.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/SidePanelRenderer.DoWKbQcF.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/DefaultRenderer.DJc-J-pv.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/tweet-info-created-at.C873vD7S.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Tabs.UwA_7SNX.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/tweet-media-video.Do8maEW8.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/quoted-tweet-container.g1D8GTJu.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/VideoPlayer.DNAZEJf0.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Badge.CNOVCKsB.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/CopyButton.BluMS353.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Collapsibles.CKjyh1cv.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Note.BbkP0Nnd.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/LinkAnchor.DtA2msdz.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Separator.RnTSqYU1.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Stats.B54k2VBO.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Dialog.CwVvSJva.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Hero.D42gc8OB.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/NewHeroIllustration.WjPxlfcr.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/PreviewLinkIcon.Q6nTXUvX.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Logos.CSMdNI7r.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Marquee.Dz6fDVMv.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Benefits.B1OkJ3i9.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Carousel.CC7yImfT.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/SlackIssue.BAA9afaF.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Pillar.DaIvMtkE.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/PageSection.BVMTzmaW.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/page.IOeHSWow.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Plan.D-pKir0o.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Build.BXToiIO2.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Blink.BnZAjcL1.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/ReviewsFrame.B31PMGDT.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Select.B5TJQPAh.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/DiffsIllustration.C6GP4Fws.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/code-diff.NhuKB87D.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Monitor.DP9NgX7j.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/CustomerQuotes.DqOx2PkG.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/index.BGg4XGWg.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Changelog.C40xlRzV.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/HomepageLink.IOeHSWow.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Flex.mYgpGelO.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/HomepageSeparator.DAb6YYB9.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Bleed.CbcodEv9.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/GlobalSidePanel.C6GP4Fws.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Grain.D_EBlr94.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/CTA.CDNJI-Em.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Header.BReZm_YW.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Icon.B18TDZc7.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/LayoutContent.D8YYVbao.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.linear.app/web/_next/static/css/Layout.tvkMFESE.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --btn-highlight-color has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --icon-color has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --icon-default-color has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --icon-replacement-color has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --lightningcss-dark has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --lightningcss-light has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --sx-1fj52yw has no resolved computed value on :root"
+    }
+  ]
+}
