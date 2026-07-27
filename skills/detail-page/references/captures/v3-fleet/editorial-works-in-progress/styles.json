@@ -1,0 +1,316 @@
+{
+  "meta": {
+    "url": "https://worksinprogress.co/",
+    "status": 200,
+    "title": "Works in Progress Magazine",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:35:31.603Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "GT America Mono Light",
+      "rawStack": "\"GT America Mono Light\", serif",
+      "fontWeight": "400",
+      "fontSize": "48px",
+      "lineHeight": "62.4px",
+      "letterSpacing": "normal",
+      "element": "h1",
+      "selector": "div.global-wrapper > main.site-main > div.issue-grid > h1.issue-grid__title-hidden"
+    },
+    "body": {
+      "resolvedFamily": "GT America Mono Light",
+      "rawStack": "\"GT America Mono Light\", serif",
+      "fontWeight": "400",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "letterSpacing": "normal",
+      "element": "article",
+      "selector": "div.issue-section > section.standard-issue-grid > aside.standard-issue-grid__spotlight > article.spotlight-card"
+    },
+    "mono": {
+      "resolvedFamily": "GT America Mono Light",
+      "rawStack": "\"GT America Mono Light\", serif",
+      "fontWeight": "400",
+      "fontSize": "16px",
+      "lineHeight": "normal",
+      "letterSpacing": "normal",
+      "element": "body",
+      "selector": "body"
+    },
+    "documentFonts": [
+      {
+        "family": "Editor-Bold",
+        "weight": "normal"
+      },
+      {
+        "family": "Editor-Regular",
+        "weight": "normal"
+      },
+      {
+        "family": "GT America Mono Bold",
+        "weight": "normal"
+      },
+      {
+        "family": "GT America Mono Light",
+        "weight": "normal"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#fff7f4",
+        "cssRgb": "rgb(255, 247, 244)",
+        "areaShare": 0.7764130808318845
+      },
+      {
+        "value": "#363b8f",
+        "cssRgb": "rgb(54, 59, 143)",
+        "areaShare": 0.09360172245886188
+      },
+      {
+        "value": "#f4d06f",
+        "cssRgb": "rgb(244, 208, 111)",
+        "areaShare": 0.05044060509565534
+      },
+      {
+        "value": "#cee0dc",
+        "cssRgb": "rgb(206, 224, 220)",
+        "areaShare": 0.04034632723795753
+      },
+      {
+        "value": "#e20a39",
+        "cssRgb": "rgb(226, 10, 57)",
+        "areaShare": 0.03663796828370943
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.001391758650926152
+      },
+      {
+        "value": "#f2f2f2",
+        "cssRgb": "rgb(242, 242, 242)",
+        "areaShare": 0.0006078741802444727
+      },
+      {
+        "value": "#d8d9f1",
+        "cssRgb": "rgb(216, 217, 241)",
+        "areaShare": 0.00030908512039609605
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.8740649157012511
+      },
+      {
+        "value": "#121212",
+        "cssRgb": "rgb(18, 18, 18)",
+        "areaShare": 0.0892841098888706
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.0351693661996746
+      },
+      {
+        "value": "#141414",
+        "cssRgb": "rgb(20, 20, 20)",
+        "areaShare": 0.0012689729114213023
+      },
+      {
+        "value": "#d8d9f1",
+        "cssRgb": "rgb(216, 217, 241)",
+        "areaShare": 0.000051388016115560915
+      },
+      {
+        "value": "#cee0dc",
+        "cssRgb": "rgb(206, 224, 220)",
+        "areaShare": 0.00004914105244793794
+      }
+    ]
+  },
+  "cssVariables": {
+    "--color--culture": "#cee0dc",
+    "--color--culture-alt": "#073429",
+    "--color--economics": "#e20a39",
+    "--color--economics-alt": "#f8e6ea",
+    "--color--politics": "#f4d06f",
+    "--color--politics-alt": "#4c3906",
+    "--color--science": "#363b8f",
+    "--color--science-alt": "#d8d9f1",
+    "--header-height": "115px",
+    "--main-padding": "40px",
+    "--padding--large": "50px",
+    "--padding--medium": "30px",
+    "--padding--mini": "10px",
+    "--padding--ml": "40px",
+    "--padding--small": "25px",
+    "--padding--xlarge": "60px",
+    "--padding--xsmall": "20px",
+    "--padding--xxsmall": "15px"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 6116
+    },
+    {
+      "value": "15px",
+      "count": 826
+    },
+    {
+      "value": "30px",
+      "count": 121
+    },
+    {
+      "value": "20px",
+      "count": 120
+    },
+    {
+      "value": "50px",
+      "count": 60
+    },
+    {
+      "value": "5px",
+      "count": 53
+    },
+    {
+      "value": "-20px",
+      "count": 26
+    },
+    {
+      "value": "12.2px",
+      "count": 26
+    },
+    {
+      "value": "3px",
+      "count": 26
+    },
+    {
+      "value": "40px",
+      "count": 22
+    },
+    {
+      "value": "25px",
+      "count": 19
+    },
+    {
+      "value": "10px",
+      "count": 16
+    },
+    {
+      "value": "100px",
+      "count": 3
+    },
+    {
+      "value": "13.5px",
+      "count": 1
+    },
+    {
+      "value": "60px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 3313
+    },
+    {
+      "value": "8px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 3314
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 2255
+      },
+      {
+        "value": "0.15s ease-in-out",
+        "count": 790
+      },
+      {
+        "value": "transform 0.5s",
+        "count": 216
+      },
+      {
+        "value": "opacity 0.2s ease-in-out",
+        "count": 41
+      },
+      {
+        "value": "0.25s ease-in-out",
+        "count": 4
+      },
+      {
+        "value": "background 0.15s, color 0.15s, border-color 0.15s",
+        "count": 3
+      },
+      {
+        "value": "0.5s",
+        "count": 1
+      },
+      {
+        "value": "none",
+        "count": 1
+      },
+      {
+        "value": "transform 0.25s",
+        "count": 1
+      },
+      {
+        "value": "transform 0.3s 0.1s",
+        "count": 1
+      },
+      {
+        "value": "transform 0.5s, opacity 0.5s, top 0.5s",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 3310
+      },
+      {
+        "value": "5s linear infinite forwards shimmer",
+        "count": 4
+      }
+    ],
+    "prefersReducedMotion": true
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 18,
+      "pageHeightPx": 36302,
+      "bodyTextLen": 51499,
+      "bigImageCount": 30,
+      "textToHeightRatio": 1.4186270728885462,
+      "largestHeadingPx": 48
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

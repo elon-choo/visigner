@@ -1,0 +1,354 @@
+{
+  "meta": {
+    "url": "https://www.mozilla.org/en-US/",
+    "status": 200,
+    "title": "Mozilla - Internet for people, not profit (US)",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:38:59.838Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Mozilla Headline",
+      "rawStack": "\"Mozilla Headline\", \"Helvetica Neue\", Arial, X-LocaleSpecific, sans-serif",
+      "fontWeight": "600",
+      "fontSize": "80px",
+      "lineHeight": "80px",
+      "letterSpacing": "-0.8px",
+      "element": "h1",
+      "selector": "div.m24-t-dark > section.m24-c-flag > div.m24-c-flag-text > h1.m24-c-flag-title"
+    },
+    "body": {
+      "resolvedFamily": "Mozilla Text",
+      "rawStack": "\"Mozilla Text\", \"Helvetica Neue\", Arial, X-LocaleSpecific, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18px",
+      "lineHeight": "22.5px",
+      "letterSpacing": "normal",
+      "element": "p",
+      "selector": "div#donate > div.m24-c-donate > div.m24-c-donate-body > p"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "Mozilla Headline",
+        "weight": "600"
+      },
+      {
+        "family": "Mozilla Text",
+        "weight": "400"
+      },
+      {
+        "family": "Mozilla Text",
+        "weight": "600"
+      },
+      {
+        "family": "Mozilla Text",
+        "weight": "700"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.773885313724543
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.1312793876589485
+      },
+      {
+        "value": "#161616",
+        "cssRgb": "rgb(22, 22, 22)",
+        "areaShare": 0.07288536107196192
+      },
+      {
+        "value": "#fff1f8",
+        "cssRgb": "rgb(255, 241, 248)",
+        "areaShare": 0.02062854188252223
+      },
+      {
+        "value": "#414141",
+        "cssRgb": "rgb(65, 65, 65)",
+        "areaShare": 0.0009005099947627088
+      },
+      {
+        "value": "#00d230",
+        "cssRgb": "rgb(0, 210, 48)",
+        "areaShare": 0.0003060986670994237
+      },
+      {
+        "value": "#ff97e2",
+        "cssRgb": "rgb(255, 151, 226)",
+        "areaShare": 0.00011478700016228388
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.6821985679800424
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.3155580905162487
+      },
+      {
+        "value": "#414141",
+        "cssRgb": "rgb(65, 65, 65)",
+        "areaShare": 0.0019661211183301455
+      },
+      {
+        "value": "#b3b3b3",
+        "cssRgb": "rgb(179, 179, 179)",
+        "areaShare": 0.0001466631819866931
+      },
+      {
+        "value": "#fafafa",
+        "cssRgb": "rgb(250, 250, 250)",
+        "areaShare": 0.0001305317089173341
+      },
+      {
+        "value": "#808080",
+        "cssRgb": "rgb(128, 128, 128)",
+        "areaShare": 2.5494474397916814e-8
+      }
+    ]
+  },
+  "cssVariables": {
+    "--background-color": "#fff",
+    "--background-color-inverse": "#000",
+    "--background-color-secondary": "#fafafa",
+    "--background-color-secondary-inverse": "#414141",
+    "--background-color-tertiary": "#fafafa",
+    "--background-color-tertiary-inverse": "#414141",
+    "--body-font-family": "Mozilla Text,Helvetica Neue,Arial,X-LocaleSpecific,sans-serif",
+    "--body-font-ligatures": "none",
+    "--body-lg-size": "1.125rem",
+    "--body-line-height": "1.25",
+    "--body-md-size": "1rem",
+    "--body-sm-size": "0.875rem",
+    "--body-text-color": "#000",
+    "--body-text-color-inverse": "#fff",
+    "--body-text-color-secondary": "#414141",
+    "--body-text-color-secondary-inverse": "#fafafa",
+    "--body-xl-size": "1.313rem",
+    "--body-xs-size": "0.75rem",
+    "--button-font-family": "Mozilla Text,Helvetica Neue,Arial,X-LocaleSpecific,sans-serif",
+    "--container-padding": "24px",
+    "--grid-gutter": "12px",
+    "--grid-margin": "24px",
+    "--h-grid-lg": "64px",
+    "--h-grid-md": "64px",
+    "--h-grid-sm": "24px",
+    "--h-grid-xl": "80px",
+    "--h-grid-xs": "24px",
+    "--link-color": "#000",
+    "--link-color-hover": "#022611",
+    "--link-color-hover-inverse": "#d6ffcd",
+    "--link-color-inverse": "#fff",
+    "--link-color-visited": "#414141",
+    "--link-color-visited-hover": "#022611",
+    "--link-color-visited-hover-inverse": "#fff",
+    "--link-color-visited-inverse": "#fafafa",
+    "--m24-black": "#000",
+    "--m24-dark-gray": "#414141",
+    "--m24-dark-green": "#022611",
+    "--m24-dark-mid-gray": "#6d6d6d",
+    "--m24-dark-orange": "#330505",
+    "--m24-dark-pink": "#210340",
+    "--m24-green": "#00d230",
+    "--m24-light-gray": "#fafafa",
+    "--m24-light-green": "#d6ffcd",
+    "--m24-light-mid-gray": "#e8e8e8",
+    "--m24-light-orange": "linen",
+    "--m24-light-pink": "#fff1f8",
+    "--m24-mid-gray": "#b3b3b3",
+    "--m24-off-black": "#161616",
+    "--m24-off-white": "#fafafa",
+    "--m24-orange": "#ff9456",
+    "--m24-pink": "#ff97e2",
+    "--m24-white": "#fff",
+    "--spacer-2xl": "80px",
+    "--spacer-2xs": "4px",
+    "--spacer-3xl": "128px",
+    "--spacer-lg": "32px",
+    "--spacer-md": "24px",
+    "--spacer-sm": "16px",
+    "--spacer-xl": "64px",
+    "--spacer-xs": "8px",
+    "--text-body-lg": "24px",
+    "--text-body-line-height": "1.5",
+    "--text-body-md": "18px",
+    "--text-body-sm": "16px",
+    "--text-body-xl": "32px",
+    "--text-button-lg": "24px",
+    "--text-button-md": "18px",
+    "--text-button-sm": "16px",
+    "--text-button-xl": "32px",
+    "--text-label": "14px",
+    "--text-title-2xl": "80px",
+    "--text-title-2xl-line-height": "1.166",
+    "--text-title-lg": "48px",
+    "--text-title-lg-line-height": "1.166",
+    "--text-title-md": "32px",
+    "--text-title-md-line-height": "1.25",
+    "--text-title-sm": "24px",
+    "--text-title-sm-line-height": "1.25",
+    "--text-title-xl": "64px",
+    "--text-title-xl-line-height": "1.125",
+    "--text-title-xs": "18px",
+    "--text-title-xs-line-height": "1.25",
+    "--title-2xl-line-height": "0.9",
+    "--title-2xl-size": "4.75rem",
+    "--title-2xs-line-height": "1.25",
+    "--title-2xs-size": "1.5rem",
+    "--title-3xs-line-height": "1.25",
+    "--title-3xs-size": "1.125rem",
+    "--title-font-family": "Mozilla Headline,Helvetica Neue,Arial,X-LocaleSpecific,sans-serif",
+    "--title-font-ligatures": "none",
+    "--title-font-weight": "600",
+    "--title-letter-spacing": "-0.01em",
+    "--title-lg-line-height": "1.1",
+    "--title-lg-size": "3.5rem",
+    "--title-md-line-height": "1.1",
+    "--title-md-size": "3rem",
+    "--title-sm-line-height": "1.1",
+    "--title-sm-size": "2.375rem",
+    "--title-text-color": "#000",
+    "--title-text-color-inverse": "#fff",
+    "--title-xl-line-height": "0.9",
+    "--title-xl-size": "4.125rem",
+    "--title-xs-line-height": "1.1",
+    "--title-xs-size": "1.75rem",
+    "--v-grid-lg": "48px",
+    "--v-grid-md": "48px",
+    "--v-grid-sm": "48px",
+    "--v-grid-xl": "96px",
+    "--v-grid-xs": "48px"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 630
+    },
+    {
+      "value": "24px",
+      "count": 24
+    },
+    {
+      "value": "64px",
+      "count": 20
+    },
+    {
+      "value": "12px",
+      "count": 13
+    },
+    {
+      "value": "32px",
+      "count": 12
+    },
+    {
+      "value": "16px",
+      "count": 9
+    },
+    {
+      "value": "-24px",
+      "count": 2
+    },
+    {
+      "value": "8px",
+      "count": 2
+    },
+    {
+      "value": "-2px",
+      "count": 1
+    },
+    {
+      "value": "80px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 475
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 475
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 444
+      },
+      {
+        "value": "background-color 0.3s cubic-bezier(0.5, 0, 0, 1)",
+        "count": 20
+      },
+      {
+        "value": "text-decoration-color 0.3s cubic-bezier(0.5, 0, 0, 1), color 0.3s cubic-bezier(0.5, 0, 0, 1)",
+        "count": 8
+      },
+      {
+        "value": "background-color 0.1s, border-color 0.1s, color 0.1s",
+        "count": 1
+      },
+      {
+        "value": "background-color 0.3s, border-color 0.3s",
+        "count": 1
+      },
+      {
+        "value": "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 474
+      },
+      {
+        "value": "1.2s linear 0.9s infinite wave",
+        "count": 1
+      }
+    ],
+    "prefersReducedMotion": true
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 110,
+      "pageHeightPx": 7612,
+      "bodyTextLen": 5808,
+      "bigImageCount": 1,
+      "textToHeightRatio": 0.7630057803468208,
+      "largestHeadingPx": 80
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

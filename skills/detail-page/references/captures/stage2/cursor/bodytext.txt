@@ -1,0 +1,429 @@
+콘텐츠로 건너뛰기
+Cursor
+제품
+↓
+기업
+요금제
+리소스
+↓
+로그인
+영업팀에 문의하기
+다운로드
+Cursor는 대담한 소프트웨어를 만드는 당신의 코딩 에이전트입니다.
+macOS용 다운로드
+⤓
+데모 요청
+→
+This element contains an interactive demo for sighted users showing multiple Cursor interfaces: Cursor Desktop interface, Cursor CLI interface. The interface is displayed over a subtle, solid brand background.
+Cursor Desktop
+Cursor 시작하기
+리뷰 준비 완료 6
+랜딩 페이지 만들기
+now
+완료했습니다. 폰트는 head에서 미리 로드되고, 핵심 CSS는 인라인 처리되며, 다크 모드가 깜빡임 없이 즉시 렌더링되도록 color-scheme meta 태그를 추가했습니다. 첫 페인트는 280ms입니다.
+Tab과 Agent 사용량 패턴 분석
+now
+모두 완료되었습니다! 이제 PM이 몇 초 만에 Tab 중심 워크플로우와 에이전트 중심 워크플로우를 비교할 수 있도록 집중 점유율, 전환율, 롤링 참여도를 추적합니다.
+Mission Control 계획
+now
++20
+-3
+·
+`feature-prd.md`에 구현 단계를 초안으로 작성했습니다. 개발을 시작하기 전에 몇 가지 간단한 질문이 있습니다:
+PyTorch MNIST 실험
+10m
+PyTorch MNIST 실험
+대시보드용 Cursor Rules 설정
+30m
+대시보드용 Cursor Rules 설정
+생물정보학 도구
+45m
++135
+-21
+·
+생물정보학 도구
+http://localhost:3000
+Acme Labs
+
+Software creation is changing. We are a group of researchers, engineers, and technologists inventing at the edge of what's useful and possible.
+
+We have much to learn, try, and build.
+
+See projects
+Join our team →
+2026	Secure codebase indexing	Published
+2026	Semantic search	Published
+2025	Reinforcement learning	Published
+2024	Shadow workspaces	Published
+2024	Multi-agent collaboration	Published
+2023	Context-aware completions	Published
+2023	Intelligent code navigation	Published
+2022	Fast inference optimization	Published
+2022	Language model fine-tuning	Published
+ResearchTable · table
+랜딩 페이지 만들기
+첨부된 Docs를 바탕으로 우리가 하는 일을 설명하는 랜딩 페이지를 만들어 주세요
+about-acme.md
+읽기
+brand-guidelines.pdf
+읽기
+6초간
+생각함
+브랜드 보이스에 맞는 미니멀한 세리프 기반 랜딩 페이지를 만들겠습니다.
+app/page.tsx+52-0
+app/globals.css+18-0
+완료했습니다. 폰트는 head에서 미리 로드되고, 핵심 CSS는 인라인 처리되며, 다크 모드가 깜빡임 없이 즉시 렌더링되도록 color-scheme meta 태그를 추가했습니다. 첫 페인트는 280ms입니다.
+Agent
+Composer 2.5
+Cursor CLI
+CLI 시작하기
+Cursor Agent
+~/cursor/cursor-web
+Tab과 Agent 사용량 패턴 분석
+워크스페이스 전반에서 팀이 Tab 보기와 에이전트 패널에 얼마나 집중하는지 파악할 수 있도록 도와주세요.
+⬢
+7초간 생각함
+⬢
+워크스페이스 사용량 내보내기 데이터와 과거 참여도 메모를 검토했습니다
+탭 대비 에이전트 도입과 전환 행동을 강조하는 애널리틱스 툴킷을 만들겠습니다:
+summary.py+150-0
+다음으로 제품팀이 특정 코호트를 필터링할 수 있도록 상호작용 라벨을 정규화하고 세션 태깅을 추가하겠습니다:
+segmentation.py+94-0
+이제 핵심 지표를 결합하는 보고서 도우미로 모든 것을 하나로 묶겠습니다:
+report.py+40-0
+지난주 내보내기 데이터의 대표 샘플을 사용해 동작을 고정할 테스트를 추가하겠습니다:
+test_usage.py+90
+모두 완료되었습니다! 이제 PM이 몇 초 만에 Tab 중심 워크플로우와 에이전트 중심 워크플로우를 비교할 수 있도록 집중 점유율, 전환율, 롤링 참여도를 추적합니다.
+→
+Composer 2.5
+명령어는 / · 파일은 @를 사용하세요
+세계적 수준의 소프트웨어를 만드는 팀들이 매일 Cursor를 신뢰합니다
+에이전트가 아이디어를 코드로 구현합니다
+의사결정에 집중하는 동안 작업은 Cursor에 맡기고 개발 속도를 높이세요.
+에이전트 기반 개발 살펴보기 →
+This element contains an interactive demo for sighted users. It's a demonstration of Cursor's IDE showing AI-powered coding assistance features. The interface is displayed over a subtle, solid brand background.
+Cursor
+Cursor 시작하기
+feature-prd.md
+presence.ts
+Plans
+feature-prd.md
+Composer 2.5
+Build
+Mission Control Interface
+
+A grid view of all open windows as scaled previews, allowing quick selection to bring any window to front.
+
+Trigger
+
+Menu item in MenuBar.tsx (View > Mission Control), hotkey F3, or double-tap desktop.
+
+View Behavior
+
+Overlay existing windows into a grid of live previews with spring-based layout animations and shared element transitions.
+
+3 Tasks
+Add multiplayer mode to useAppStore.ts
+Create a new MissionControlView.tsx component
+Update AppManager.tsx to apply expose modes.
+Add a task, ⌘K to generate...
+Mission Control 계획
+macOS의 Exposé 스타일 윈도우 관리자와 유사한 Mission Control 인터페이스를 만들어 봅시다
+생각
+중 4초
+AppManager.tsx
+읽기
+expose
+패턴을 검색했습니다
+feature-prd.md+68
+feature-prd.md에 구현 단계를 초안으로 작성했습니다. 개발을 시작하기 전에 몇 가지 간단한 질문이 있습니다:
+질문
+How should Mission Control be triggered?
+1
+Gesture (swipe up with 3 fingers)
+2
+Keyboard shortcut (e.g., F3 or Cmd+F3)
+3
+Both keyboard and button
+건너뛰기
+계속
+Plan
+Composer 2.5
+자율적으로 동작하고 병렬로 실행됩니다
+에이전트는 자체 컴퓨터를 사용해 기능을 처음부터 끝까지 만들고, 테스트하고, 데모를 진행해 리뷰할 수 있도록 합니다.
+클라우드 Agent 살펴보기 →
+
+cursor.com/agent
+
+This Week
+Acme Research Dashboard
+
+Live Telemetry Pipeline
+
+Zero-Downtime Deploys
+This Month
+
+Binary Protocol Parser
+Edge Cache Invalidation
+
+Auth Token Rotation
+Acme Research Dashboard
+let's build a dashboard to make our research findings interactive
+Explored 12 files, 4 searches
+On it. I'll build the dashboard using your theme config, wire up the research data, and add interactive charts with public access controls.
+Worked for 14m 22s
+Processed screen recording
+Done! Here's a walkthrough of the dashboard.
+Acme Labs
+Summary
+Built the interactive dashboard with realtime charts, data from Snowflake, and shadcn components. Deployed to staging via Vercel.
+Add a follow up...
+Agent
+Opus 4.8
+모든 도구에서, 모든 단계에 걸쳐
+Cursor는 터미널에서 실행되고, Slack에서 협업하며, GitHub에서 PR을 검토합니다.
+curl https://cursor.com/install -fsS | bash
+This element contains an interactive demo for sighted users showing multiple Cursor interfaces: the CLI with command-line assistance, Slack integration for team communication. The interface is displayed over a scenic painted landscape wallpaper, giving the demo an artistic backdrop.
+Slack
+Slack용 Cursor 시작하기
+#feature-realtime-sync
+멤버 8명
+swhitmore
+5m
+1.0 changelog를 볼 수 있게 cursor.com/changelog#1.0으로 바로 갈 수 있으면 좋겠어요
+eric
+4m
+문제없어 보여요
+@cursor can you take a stab?
+Cursor
+APP
+2m
+Changelog 항목에 대한 직접 링크를 추가하고, 유지보수성을 높이기 위해 프로젝트 전반의 Node.js 버전 제약 조건을 업데이트했습니다.
+PR 보기
+Cursor에서 열기
+Web에서 열기
+cursor-agent
+CLI 시작하기
+> agent
+Cursor Agent
+~/anysphere/research · main
+plan mission control interface
+⬢
+Thought
+3s
+⬢
+Read 3 files, 1 search
+1s
+⬢
+Planned
+2s
+⬢
+Read 2 files, 1 directory
+1s
+Question
+What data should the mission control display?
+[x] Real-time metrics
+[ ] System status
+→
+Add a follow-up
+esc to stop
+◉
+Plan (shift+tab to cycle)
+GPT-5.6 Sol Extra High Fast
+·
+6%
+/ commands · @ files · ! shell
+반복 작업 자동화
+일정이나 트리거에 따라 실행되는 상시 에이전트를 설정해 소프트웨어를 개발하고, 유지 관리하고, 문제를 해결하세요.
+자동화 살펴보기 →
+This element contains an interactive demo for sighted users. It's a demonstration of Cursor's IDE showing AI-powered coding assistance features. The interface is displayed over a scenic painted landscape wallpaper, giving the demo an artistic backdrop.
+Cursor
+자동화 만들기
+
+Fix CI failures on main
+
+Inactive
+site
+main
+
+Triggers
+
+Every hour
+
+New message in
+#bug-reports
+in
+cursor-website
+on
+main
+
+
+Add trigger
+
+Agent Instructions
+
+Your task is to fix CI failures on main. Avoid racing other agents. Root cause by checking logs. Report with /apply-report-format
+Your task is to fix CI failures on main. Avoid racing other agents. Root cause by checking logs. Report with /apply-report-format
+Composer 2.5
+
+Tools
+
+Send to Slack
+
+
+Add Tool or MCP
+소프트웨어를 만드는 새로운 방식.
+
+“어느 순간 완전히 판이 바뀌었어요. 도입률이 한 자릿수에서 80%를 넘겼죠. 순식간에 들불처럼 퍼졌고, 최고의 빌더들은 모두 Cursor를 쓰고 있었습니다.”
+
+Diana Hu
+General Partner, Y Combinator
+
+“제가 가장 선호하는 기업용 AI 서비스는 Cursor입니다. 현재 약 4만 명에 달하는 저희 엔지니어 모두가 AI의 도움을 받고 있으며, 생산성도 놀라울 만큼 향상되었습니다.”
+
+Jensen Huang
+President & CEO, NVIDIA
+
+“최고의 LLM 애플리케이션에는 자율성 슬라이더가 있습니다. AI에 얼마나 많은 자율성을 줄지 직접 제어할 수 있다는 뜻이죠. Cursor에서는 Tab 자동 완성을 쓰거나, Cmd+K로 특정 편집을 하거나, 완전 자율적인 agentic 모드로 맡길 수도 있습니다.”
+
+Andrej Karpathy
+CEO, Eureka Labs
+
+“Cursor는 수백 명의 열성적인 Stripe 직원들 사이에서 빠르게 수천 명 규모로 확산되었습니다. 우리는 다른 어떤 분야보다도 R&D와 소프트웨어 개발에 더 많이 투자하고 있으며, 그 과정을 더 효율적으로 만들면 경제적 효과도 상당합니다.”
+
+Patrick Collison
+Co‑Founder & CEO, Stripe
+
+“제가 지금 돈을 내고 쓰는 AI 도구 가운데 단연 가장 유용한 건 Cursor입니다. 빠르고, 필요할 때 필요한 곳에서 자동 완성을 해주고, 괄호도 제대로 처리하고, 키보드 단축키도 합리적이고, 자체 모델도 사용할 수 있고... 모든 게 정말 잘 갖춰져 있습니다.”
+
+shadcn
+Creator of shadcn/ui
+
+“프로그래머라는 일은 분명 더 재미있어지고 있습니다. 우리는 아직 가능한 것의 1% 지점에 있고, GPT-5 같은 모델은 Cursor 같은 대화형 경험에서 가장 빛을 발합니다.”
+
+Greg Brockman
+President, OpenAI
+최첨단을 유지하세요
+모든 작업에 가장 적합한 모델을 사용하세요
+OpenAI, Anthropic, Gemini, SpaceXAI, Cursor의 모든 최첨단 모델 중에서 선택하세요.
+모델 살펴보기 ↗
+Cursor에게 무엇이든 계획하거나 만들도록 요청하세요
+Agent
+Auto
+Auto
+추천
+✓
+Composer 2.5
+GPT-5.6 Sol
+Opus 4.8
+Gemini 3.1 Pro
+Grok 4.5
+완전한 코드베이스 이해
+Cursor는 규모나 복잡성과 관계없이 코드베이스가 어떻게 동작하는지 학습합니다.
+코드베이스 인덱싱 살펴보기 ↗
+이 메뉴 라벨 색상은 어디에서 정의되어 있나요?
+grep하는 중
+지속 가능한 소프트웨어 개발
+Fortune 500 기업의 절반 이상이 안전하게 대규모 개발을 가속화하기 위해 신뢰하는 솔루션입니다.
+기업 플랜 살펴보기 →
+Changelog
+2026년 7월 17일
+
+Slack의 Cursor 개선 사항
+
+3.11
+2026년 7월 10일
+
+사이드 채팅과 대화 검색
+
+3.10
+2026년 6월 30일
+
+팀 마켓플레이스의 MCP 및 조직 그룹
+
+3.9
+2026년 6월 29일
+
+iOS용 Cursor 모바일 앱
+
+Cursor의 새로운 기능 확인하기 →
+Cursor는 소프트웨어 개발의 미래를 만드는 데 집중하는 응용 연구 팀입니다.
+함께하세요
+→
+최신 주요 업데이트
+2026년 3월 27일
+·
+리서치
+
+Composer 2 기술 보고서
+
+Sasha Rush · 읽는 데 3분
+2026년 7월 8일
+·
+연구
+
+Grok 4.5 소개
+
+Cursor Team · 읽는 데 3분
+2026년 6월 29일
+·
+제품
+
+Cursor for iOS로 어디서나 개발하세요
+
+Chris, Rikki & Kevin · 읽는 데 6분
+2026년 6월 5일
+·
+제품
+
+Design Mode에서 시각적 프롬프트로 에이전트 지시하기
+
+Erik, Ian & Ryo · 읽는 데 5분
+모든 Blog 게시물 보기 →
+지금 Cursor를 시작해 보세요.
+macOS용 다운로드
+⤓
+제품
+에이전트
+Teams
+기업
+요금제
+코드 리뷰
+CLI
+클라우드 Agent
+Composer
+마켓플레이스 ↗
+리소스
+다운로드
+Changelog
+문서
+알아보기 ↗
+포럼 ↗
+도움말 ↗
+워크숍
+상태 ↗
+기업
+채용
+Blog
+커뮤니티
+학생
+브랜드
+미래
+Anysphere ↗
+법률
+서비스 약관
+개인정보 처리방침
+데이터 사용
+보안
+연결하다
+X ↗
+LinkedIn ↗
+YouTube ↗
+© 2026 Anysphere, Inc.
+🛡 SOC 2 인증
+🖥
+☉
+☾
+🌐
+한국어
+↓

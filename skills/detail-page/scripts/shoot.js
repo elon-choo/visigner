@@ -81,11 +81,26 @@ fs.mkdirSync(outDir, { recursive: true });
 const url = /^https?:\/\//.test(target) ? target : 'file://' + path.resolve(target);
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-// axe-core helper — inject the PINNED axe bundle with Subresource Integrity (Playwright's addScriptTag has no
-// integrity option, so inject the element manually + await load). A hash mismatch / CDN failure rejects → the
+// axe-core helper — fetch the PINNED axe bundle in Node, verify its Subresource Integrity hash here, then
+// define it by EVALUATING THE SOURCE in the page. A <script src> element cannot be used: patchright runs
+// page.evaluate in an isolated world, so a script tag defines window.axe in the MAIN world while the very next
+// page.evaluate reads the isolated world's window — axe.run then threw on every page, the caller's catch set
+// axeClean=null, and null never blocks, so AXE=1 reported "unknown" forever while looking enabled. Evaluating
+// the source puts axe in the same world that calls it. A hash mismatch / fetch failure still rejects → the
 // caller's try/catch sets axeClean=null (unknown), never a silent pass. Read-only; returns [{id,impact,help,nodes}].
 const AXE_RANK = { minor: 1, moderate: 2, serious: 3, critical: 4 };
 const AXE_CDN = { url: 'https://cdn.jsdelivr.net/npm/axe-core@4.12.1/axe.min.js', integrity: 'sha384-JQegRXq6EhTiWoGPFDmqbJNsDow5BoSsGhnaeDzGp+qyOFCuMZZ24qY2fz3FxZF5' };
+let axeSourceCache = null;
+async function axeSource() {
+  if (axeSourceCache) return axeSourceCache;
+  const response = await fetch(AXE_CDN.url);
+  if (!response.ok) throw new Error(`axe-core fetch failed: HTTP ${response.status}`);
+  const bytes = Buffer.from(await response.arrayBuffer());
+  const digest = `sha384-${require('crypto').createHash('sha384').update(bytes).digest('base64')}`;
+  if (digest !== AXE_CDN.integrity) throw new Error(`axe-core SRI mismatch: expected ${AXE_CDN.integrity}, got ${digest}`);
+  axeSourceCache = bytes.toString('utf8');
+  return axeSourceCache;
+}
 
 // Color helpers — turn axe's color-contrast finding into a concrete one-line fix: name the offending text color and
 // suggest a passing OKLCH (keep hue+chroma, move lightness) so a non-designer knows exactly what to set the token to.
@@ -155,14 +170,12 @@ function _findColorToken(targetRgb, customProps) {
 
 async function runAxe(page) {
   await page.evaluate(() => window.scrollTo(0, 0));
-  await page.evaluate(({ url, integrity }) => new Promise((resolve, reject) => {
-    if (window.axe) return resolve(); // already injected (e.g. second context pass)
-    const s = document.createElement('script');
-    s.src = url; s.integrity = integrity; s.crossOrigin = 'anonymous';
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error('axe-core failed to load (SRI mismatch or network)'));
-    document.head.appendChild(s);
-  }), AXE_CDN);
+  const alreadyInjected = await page.evaluate(() => typeof window.axe !== 'undefined');
+  if (!alreadyInjected) await page.evaluate(await axeSource());
+  // Prove axe is reachable from the world that will call it, rather than discovering it via a thrown
+  // TypeError that reads like a page fault. This is the check that was missing while the gate sat inert.
+  const axeReady = await page.evaluate(() => typeof window.axe !== 'undefined' && typeof window.axe.run === 'function');
+  if (!axeReady) throw new Error('axe-core did not define window.axe in the evaluation world after injection');
   const violations = await page.evaluate(async () => {
     const r = await window.axe.run(document, { resultTypes: ['violations'] });
     return r.violations.map((v) => {

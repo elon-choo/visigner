@@ -1,0 +1,1246 @@
+{
+  "meta": {
+    "url": "https://www.playstation.com/en-us/ps5/",
+    "status": 200,
+    "title": "PlayStation®5 | Play Has No Limits | PlayStation",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:31:20.212Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Mont W05",
+      "rawStack": "\"Mont W05\", sst, Arial, sans-serif",
+      "fontWeight": "600",
+      "fontSize": "43px",
+      "lineHeight": "40.42px",
+      "letterSpacing": "normal",
+      "element": "h2",
+      "selector": "div.box > div.body-title-block > div.txt-block-title > h2.txt-style-mega-light"
+    },
+    "body": {
+      "resolvedFamily": "sst",
+      "rawStack": "sst, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "8px",
+      "lineHeight": "12px",
+      "letterSpacing": "normal",
+      "element": "p",
+      "selector": "div.box > div.body-text-block > div.txt-block-paragraph > p.txt-style-disclosure"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "SST",
+        "weight": "700"
+      },
+      {
+        "family": "SST",
+        "weight": "700"
+      },
+      {
+        "family": "SST",
+        "weight": "400"
+      },
+      {
+        "family": "SST",
+        "weight": "300"
+      },
+      {
+        "family": "SST",
+        "weight": "500"
+      },
+      {
+        "family": "SST",
+        "weight": "400"
+      },
+      {
+        "family": "SST",
+        "weight": "400"
+      },
+      {
+        "family": "Shared-Nav-Icons",
+        "weight": "normal"
+      },
+      {
+        "family": "Mont W05",
+        "weight": "800"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.4255835441373045
+      },
+      {
+        "value": "#121314",
+        "cssRgb": "rgb(18, 19, 20)",
+        "areaShare": 0.3572463364821224
+      },
+      {
+        "value": "#f5f7fa",
+        "cssRgb": "rgb(245, 247, 250)",
+        "areaShare": 0.06052095269574348
+      },
+      {
+        "value": "#dee0ec",
+        "cssRgb": "rgb(222, 224, 236)",
+        "areaShare": 0.054844590198583135
+      },
+      {
+        "value": "#d9dce8",
+        "cssRgb": "rgb(217, 220, 232)",
+        "areaShare": 0.03729947624784472
+      },
+      {
+        "value": "#00439c",
+        "cssRgb": "rgb(0, 67, 156)",
+        "areaShare": 0.032991441972427316
+      },
+      {
+        "value": "#e6e9f2",
+        "cssRgb": "rgb(230, 233, 242)",
+        "areaShare": 0.018480551615183714
+      },
+      {
+        "value": "#f5f5f5",
+        "cssRgb": "rgb(245, 245, 245)",
+        "areaShare": 0.0056884453576964596
+      }
+    ],
+    "text": [
+      {
+        "value": "#1f1f1f",
+        "cssRgb": "rgb(31, 31, 31)",
+        "areaShare": 0.5183764715662201
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.2595660930721177
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.22083711529139938
+      },
+      {
+        "value": "#6b6b6b",
+        "cssRgb": "rgb(107, 107, 107)",
+        "areaShare": 0.0006732550266307181
+      },
+      {
+        "value": "#0068bd",
+        "cssRgb": "rgb(0, 104, 189)",
+        "areaShare": 0.0004014441242442943
+      },
+      {
+        "value": "#003697",
+        "cssRgb": "rgb(0, 54, 151)",
+        "areaShare": 0.00004043235187068534
+      }
+    ]
+  },
+  "cssVariables": {
+    "--border-color": "#0072CE",
+    "--color-1-dark": "18 19 20",
+    "--color-1-darken-10-light": "229 229 229",
+    "--color-1-darken-20-light": "204 204 204",
+    "--color-1-light": "255 255 255",
+    "--color-10-dark": "83 177 255",
+    "--color-10-darken-10-dark": "49 161 255",
+    "--color-10-darken-10-light": "0 93 170",
+    "--color-10-darken-20-dark": "15 146 255",
+    "--color-10-darken-20-light": "0 83 151",
+    "--color-10-light": "0 104 189",
+    "--color-11-dark": "252 199 29",
+    "--color-11-light": "252 199 29",
+    "--color-12-dark": "0 148 118",
+    "--color-12-light": "0 122 98",
+    "--color-13-dark": "255 20 63",
+    "--color-13-light": "200 27 58",
+    "--color-14-dark": "217 74 141",
+    "--color-14-light": "203 32 112",
+    "--color-15-dark": "16 252 138",
+    "--color-15-light": "13 212 116",
+    "--color-16-dark": "0 54 151",
+    "--color-16-light": "0 54 151",
+    "--color-17-darken-10-light": "0 100 183",
+    "--color-17-darken-20-light": "0 89 163",
+    "--color-17-light": "0 112 204",
+    "--color-2-dark": "9 10 10",
+    "--color-2-darken-10-light": "212 220 233",
+    "--color-2-darken-20-light": "179 194 216",
+    "--color-2-light": "245 247 250",
+    "--color-3-dark": "0 0 0",
+    "--color-3-light": "235 238 240",
+    "--color-4-dark": "255 255 255",
+    "--color-4-darken-10-dark": "229 229 229",
+    "--color-4-darken-10-light": "0 0 0",
+    "--color-4-darken-20-dark": "204 204 204",
+    "--color-4-darken-20-light": "0 0 0",
+    "--color-4-light": "0 0 0",
+    "--color-5-dark": "178 178 178",
+    "--color-5-light": "107 107 107",
+    "--color-6-dark": "44 45 51",
+    "--color-6-light": "150 151 153",
+    "--color-7-dark": "31 32 36",
+    "--color-7-light": "210 212 217",
+    "--color-8-dark": "23 24 26",
+    "--color-8-light": "243 243 243",
+    "--color-9-dark": "214 61 0",
+    "--color-9-darken-10-dark": "192 53 0",
+    "--color-9-darken-10-light": "192 53 0",
+    "--color-9-darken-20-dark": "170 47 0",
+    "--color-9-darken-20-light": "170 47 0",
+    "--color-9-light": "213 59 0",
+    "--color-role-backgrounds-card-dark": "rgb(31 32 36/0.97)",
+    "--color-role-backgrounds-card-light": "rgb(255 255 255/0.97)",
+    "--color-role-backgrounds-commerce-link-active-dark": "rgb(170 47 0/1)",
+    "--color-role-backgrounds-commerce-link-active-light": "rgb(170 47 0/1)",
+    "--color-role-backgrounds-commerce-link-base-dark": "rgb(214 61 0/1)",
+    "--color-role-backgrounds-commerce-link-base-light": "rgb(213 59 0/1)",
+    "--color-role-backgrounds-commerce-link-focus-dark": "rgb(192 53 0/1)",
+    "--color-role-backgrounds-commerce-link-focus-light": "rgb(192 53 0/1)",
+    "--color-role-backgrounds-commerce-link-hover-dark": "rgb(192 53 0/1)",
+    "--color-role-backgrounds-commerce-link-hover-light": "rgb(192 53 0/1)",
+    "--color-role-backgrounds-disabled-link-dark": "rgb(178 178 178/0.4)",
+    "--color-role-backgrounds-disabled-link-light": "rgb(107 107 107/0.6)",
+    "--color-role-backgrounds-divider-line-dark": "rgb(255 255 255/0.2)",
+    "--color-role-backgrounds-divider-line-light": "rgb(0 0 0/0.2)",
+    "--color-role-backgrounds-filter-dark": "rgb(9 10 10/0.3)",
+    "--color-role-backgrounds-filter-light": "rgb(245 247 250/0.3)",
+    "--color-role-backgrounds-form-field-dark": "rgb(255 255 255/0.08)",
+    "--color-role-backgrounds-form-field-light": "rgb(0 0 0/0.06)",
+    "--color-role-backgrounds-interactive-wizard-dark": "rgb(0 0 0/1)",
+    "--color-role-backgrounds-interactive-wizard-light": "rgb(210 212 217/1)",
+    "--color-role-backgrounds-overlay-card-dark": "rgb(18 19 20/0.8)",
+    "--color-role-backgrounds-overlay-card-light": "rgb(255 255 255/0.97)",
+    "--color-role-backgrounds-pagination-active-dark": "rgb(44 45 51/0.85)",
+    "--color-role-backgrounds-pagination-active-light": "rgb(150 151 153/0.1)",
+    "--color-role-backgrounds-primary-link-active-dark": "rgb(204 204 204/1)",
+    "--color-role-backgrounds-primary-link-active-light": "rgb(0 89 163/1)",
+    "--color-role-backgrounds-primary-link-base-dark": "rgb(255 255 255/1)",
+    "--color-role-backgrounds-primary-link-base-light": "rgb(0 112 204/1)",
+    "--color-role-backgrounds-primary-link-focus-dark": "rgb(229 229 229/1)",
+    "--color-role-backgrounds-primary-link-focus-light": "rgb(0 100 183/1)",
+    "--color-role-backgrounds-primary-link-hover-dark": "rgb(229 229 229/1)",
+    "--color-role-backgrounds-primary-link-hover-light": "rgb(0 100 183/1)",
+    "--color-role-backgrounds-rating-dark": "rgb(31 32 36/0.85)",
+    "--color-role-backgrounds-rating-light": "rgb(150 151 153/0.1)",
+    "--color-role-backgrounds-review-dark": "rgb(31 32 36/0.85)",
+    "--color-role-backgrounds-review-light": "rgb(150 151 153/0.1)",
+    "--color-role-backgrounds-secondary-link-active-dark": "rgb(204 204 204/0.3)",
+    "--color-role-backgrounds-secondary-link-active-light": "rgb(0 0 0/0.16)",
+    "--color-role-backgrounds-secondary-link-base-dark": "rgb(255 255 255/0.3)",
+    "--color-role-backgrounds-secondary-link-base-light": "rgb(0 0 0/0.06)",
+    "--color-role-backgrounds-secondary-link-focus-dark": "rgb(229 229 229/0.3)",
+    "--color-role-backgrounds-secondary-link-focus-light": "rgb(212 220 233/0.6)",
+    "--color-role-backgrounds-secondary-link-hover-dark": "rgb(229 229 229/0.3)",
+    "--color-role-backgrounds-secondary-link-hover-light": "rgb(0 0 0/0.1)",
+    "--color-role-borders-commerce-link-active-dark": "rgb(170 47 0/1)",
+    "--color-role-borders-commerce-link-active-light": "rgb(170 47 0/1)",
+    "--color-role-borders-commerce-link-base-dark": "rgb(214 61 0/1)",
+    "--color-role-borders-commerce-link-base-light": "rgb(213 59 0/1)",
+    "--color-role-borders-commerce-link-focus-dark": "rgb(192 53 0/1)",
+    "--color-role-borders-commerce-link-focus-light": "rgb(192 53 0/1)",
+    "--color-role-borders-commerce-link-hover-dark": "rgb(192 53 0/1)",
+    "--color-role-borders-commerce-link-hover-light": "rgb(192 53 0/1)",
+    "--color-role-borders-divider-line-active-dark": "rgb(255 255 255/0.08)",
+    "--color-role-borders-divider-line-active-light": "rgb(243 243 243/1)",
+    "--color-role-borders-divider-line-base-dark": "rgb(255 255 255/0.08)",
+    "--color-role-borders-divider-line-base-light": "rgb(243 243 243/1)",
+    "--color-role-borders-divider-line-focus-dark": "rgb(255 255 255/0.08)",
+    "--color-role-borders-divider-line-focus-light": "rgb(243 243 243/1)",
+    "--color-role-borders-divider-line-hover-dark": "rgb(255 255 255/0.08)",
+    "--color-role-borders-divider-line-hover-light": "rgb(243 243 243/1)",
+    "--color-role-borders-primary-link-active-dark": "rgb(229 229 229/1)",
+    "--color-role-borders-primary-link-active-light": "rgb(0 100 183/1)",
+    "--color-role-borders-primary-link-base-dark": "rgb(255 255 255/0.5)",
+    "--color-role-borders-primary-link-base-light": "rgb(0 112 204/0.5)",
+    "--color-role-borders-primary-link-focus-dark": "rgb(229 229 229/1)",
+    "--color-role-borders-primary-link-focus-light": "rgb(0 100 183/1)",
+    "--color-role-borders-primary-link-hover-dark": "rgb(229 229 229/0.5)",
+    "--color-role-borders-primary-link-hover-light": "rgb(0 100 183/0.5)",
+    "--color-role-borders-secondary-link-active-dark": "rgb(229 229 229/0.3)",
+    "--color-role-borders-secondary-link-active-light": "rgb(212 220 233/0.6)",
+    "--color-role-borders-secondary-link-base-dark": "rgb(255 255 255/0.3)",
+    "--color-role-borders-secondary-link-base-light": "rgb(245 247 250/1)",
+    "--color-role-borders-secondary-link-focus-dark": "rgb(229 229 229/0.2)",
+    "--color-role-borders-secondary-link-focus-light": "rgb(212 220 233/0.6)",
+    "--color-role-borders-secondary-link-hover-dark": "rgb(229 229 229/0.2)",
+    "--color-role-borders-secondary-link-hover-light": "rgb(212 220 233/0.6)",
+    "--color-role-gradients-accent-dark": "linear-gradient(rgb(0 104 189/1), rgb(0 54 151/1))",
+    "--color-role-gradients-accent-light": "linear-gradient(rgb(0 104 189/1), rgb(0 54 151/1))",
+    "--color-role-gradients-content-dark": "linear-gradient(rgb(23 24 26/1), rgb(31 32 36/1))",
+    "--color-role-gradients-content-light": "linear-gradient(rgb(243 243 243/1), rgb(255 255 255/1))",
+    "--color-role-gradients-content-transparent-dark": "linear-gradient(rgb(23 24 26/0.85), rgb(31 32 36/0.85))",
+    "--color-role-gradients-content-transparent-light": "linear-gradient(rgb(243 243 243/0.85), rgb(255 255 255/0.85))",
+    "--color-role-gradients-cx-article-dark": "linear-gradient(0deg, rgb(178 178 178/1), rgb(18 19 20/1))",
+    "--color-role-gradients-cx-article-light": "linear-gradient(0deg, #828fa4, rgb(255 255 255/1))",
+    "--color-role-gradients-fade-in-dark": "linear-gradient(rgb(31 32 36/0), rgb(31 32 36/1))",
+    "--color-role-gradients-fade-in-light": "linear-gradient(rgb(255 255 255/0) rgb(255 255 255/1))",
+    "--color-role-gradients-fade-out-dark": "linear-gradient(rgb(31 32 36/1), rgb(31 32 36/0.7))",
+    "--color-role-gradients-fade-out-light": "linear-gradient(rgb(255 255 255/1), rgb(255 255 255/0.7))",
+    "--color-role-gradients-gloss-dark": "linear-gradient(to bottom right, rgb(0 0 0/0.08), rgb(255 255 255/0.2), rgb(0 0 0/0.08))",
+    "--color-role-gradients-gloss-light": "linear-gradient(to bottom right, rgb(255 255 255/0.08), rgb(255 255 255/0.2), rgb(255 255 255/0.08))",
+    "--color-role-gradients-surface-dark": "linear-gradient(rgb(23 24 26/1), rgb(31 32 36/1))",
+    "--color-role-gradients-surface-interactive-wizard-desktop-dark": "linear-gradient(0deg, rgb(23 24 26/1), rgb(31 32 36/1))",
+    "--color-role-gradients-surface-interactive-wizard-desktop-light": "linear-gradient(0deg, rgb(255 255 255/1), rgb(210 212 217/1))",
+    "--color-role-gradients-surface-interactive-wizard-mobile-dark": "linear-gradient(to bottom, rgb(18 19 20/1), rgb(31 32 36/1))",
+    "--color-role-gradients-surface-interactive-wizard-mobile-light": "linear-gradient(0deg, rgb(255 255 255/1), rgb(210 212 217/1))",
+    "--color-role-gradients-surface-light": "linear-gradient(rgb(243 243 243/1), rgb(255 255 255/1))",
+    "--color-role-gradients-text-dark": "linear-gradient(rgb(0 0 0/0) 75%, rgb(0 0 0/0.7))",
+    "--color-role-gradients-text-light": "linear-gradient(rgb(0 0 0/0) 75%, rgb(0 0 0/0.7))",
+    "--color-role-page-backgrounds-primary-dark": "rgb(18 19 20/1)",
+    "--color-role-page-backgrounds-primary-light": "rgb(255 255 255/1)",
+    "--color-role-page-backgrounds-secondary-dark": "rgb(9 10 10/1)",
+    "--color-role-page-backgrounds-secondary-light": "rgb(245 247 250/1)",
+    "--color-role-page-backgrounds-tertiary-dark": "rgb(0 0 0/1)",
+    "--color-role-page-backgrounds-tertiary-light": "rgb(235 238 240/1)",
+    "--color-role-section-gradients-blue-end": "rgb(0 104 189/1)",
+    "--color-role-section-gradients-blue-start": "rgb(0 54 151/1)",
+    "--color-role-section-gradients-emphasis-end-dark": "#333A4A",
+    "--color-role-section-gradients-emphasis-end-light": "rgb(245 247 250/1)",
+    "--color-role-section-gradients-emphasis-start-dark": "rgb(18 19 20/1)",
+    "--color-role-section-gradients-emphasis-start-light": "#D1D3DF",
+    "--color-role-section-gradients-primary-end-dark": "#2A2C2F",
+    "--color-role-section-gradients-primary-end-light": "rgb(255 255 255/1)",
+    "--color-role-section-gradients-primary-start-dark": "#050606",
+    "--color-role-section-gradients-primary-start-light": "rgb(245 247 250/1)",
+    "--color-role-shadows-high-active-dark": "rgb(0 0 0/1)",
+    "--color-role-shadows-high-active-light": "rgb(0 0 0/0.32)",
+    "--color-role-shadows-high-base-dark": "rgb(0 0 0/0.8)",
+    "--color-role-shadows-high-base-light": "rgb(0 0 0/0.16)",
+    "--color-role-shadows-high-hover-dark": "rgb(0 0 0/1)",
+    "--color-role-shadows-high-hover-light": "rgb(0 0 0/0.32)",
+    "--color-role-shadows-low-active-dark": "rgb(0 0 0/0.8)",
+    "--color-role-shadows-low-active-light": "rgb(0 0 0/0.16)",
+    "--color-role-shadows-low-base-dark": "rgb(0 0 0/0.06)",
+    "--color-role-shadows-low-base-light": "rgb(0 0 0/0.08)",
+    "--color-role-shadows-low-hover-dark": "rgb(0 0 0/0.8)",
+    "--color-role-shadows-low-hover-light": "rgb(0 0 0/0.16)",
+    "--color-role-text-button-dark": "rgb(0 0 0/1)",
+    "--color-role-text-button-light": "rgb(255 255 255/1)",
+    "--color-role-text-button-secondary-dark": "rgb(255 255 255/1)",
+    "--color-role-text-button-secondary-light": "rgb(0 104 189/1)",
+    "--color-role-text-button-tertiary-dark": "rgb(255 255 255/1)",
+    "--color-role-text-button-tertiary-light": "rgb(0 104 189/1)",
+    "--color-role-text-commerce-link-active-dark": "rgb(204 204 204/1)",
+    "--color-role-text-commerce-link-active-light": "rgb(204 204 204/1)",
+    "--color-role-text-commerce-link-base-dark": "rgb(255 255 255/1)",
+    "--color-role-text-commerce-link-base-light": "rgb(255 255 255/1)",
+    "--color-role-text-commerce-link-focus-dark": "rgb(204 204 204/1)",
+    "--color-role-text-commerce-link-focus-light": "rgb(204 204 204/1)",
+    "--color-role-text-commerce-link-hover-dark": "rgb(229 229 229/1)",
+    "--color-role-text-commerce-link-hover-light": "rgb(229 229 229/1)",
+    "--color-role-text-disabled-link-dark": "rgb(44 45 51/1)",
+    "--color-role-text-disabled-link-light": "rgb(210 212 217/1)",
+    "--color-role-text-hint-dark": "rgb(217 74 141/1)",
+    "--color-role-text-hint-light": "rgb(203 32 112/1)",
+    "--color-role-text-link-active-dark": "rgb(15 146 255/1)",
+    "--color-role-text-link-active-light": "rgb(0 83 151/1)",
+    "--color-role-text-link-base-dark": "rgb(83 177 255/1)",
+    "--color-role-text-link-base-light": "rgb(0 104 189/1)",
+    "--color-role-text-link-focus-dark": "rgb(49 161 255/1)",
+    "--color-role-text-link-focus-light": "rgb(0 93 170/1)",
+    "--color-role-text-link-hover-dark": "rgb(49 161 255/1)",
+    "--color-role-text-link-hover-light": "rgb(0 93 170/1)",
+    "--color-role-text-placeholder-dark": "rgb(255 255 255/0.6)",
+    "--color-role-text-placeholder-light": "rgb(0 0 0/0.6)",
+    "--color-role-text-primary-base-dark": "rgb(255 255 255/1)",
+    "--color-role-text-primary-base-light": "rgb(0 0 0/1)",
+    "--color-role-text-ps-plus-dark": "rgb(252 199 29/1)",
+    "--color-role-text-ps-plus-light": "rgb(252 199 29/1)",
+    "--color-role-text-secondary-dark": "rgb(178 178 178/1)",
+    "--color-role-text-secondary-light": "rgb(107 107 107/1)",
+    "--color-role-text-success-dark": "rgb(0 148 118/1)",
+    "--color-role-text-success-light": "rgb(0 122 98/1)",
+    "--color-role-text-warning-dark": "rgb(255 20 63/1)",
+    "--color-role-text-warning-light": "rgb(200 27 58/1)",
+    "--component-additional-top-gap": "0%",
+    "--corner-size-0": "2px",
+    "--corner-size-1": "3px",
+    "--corner-size-2": "6px",
+    "--corner-size-3": "12px",
+    "--corner-size-4": "24px",
+    "--dk-font": "\"sst\", Arial, sans-serif",
+    "--dk-font-bebas-neue": "\"bebas neue\", \"sst\", Arial, sans-serif",
+    "--dk-font-condensed": "\"sst condensed\", \"sst\", Arial, sans-serif",
+    "--dk-font-mont": "\"Mont W05\", \"sst\", Arial, sans-serif",
+    "--icon-size-1": "12px",
+    "--icon-size-2": "18px",
+    "--icon-size-3": "28px",
+    "--icon-size-4": "40px",
+    "--icon-size-5": "64px",
+    "--icon-size-6": "96px",
+    "--mesh-column-width": "calc(calc((100vw - 15px) - 42px - 42px + 14px) / 12)",
+    "--mesh-columns": "12",
+    "--mesh-container-size": "calc((100vw - 15px) - 42px - 42px + 14px)",
+    "--mesh-gutter": "14px",
+    "--mesh-gutter-half": "calc(14px * 0.5)",
+    "--mesh-gutter-half-negative": "calc(calc(14px * 0.5) * -1)",
+    "--mesh-gutter-negative": "calc(14px * -1)",
+    "--mesh-margin": "42px",
+    "--mesh-max-width": "100%",
+    "--nav-offset": "105px",
+    "--ph-animation-delay": "0.4s",
+    "--ph-animation-duration": "0.8s",
+    "--ph-mobile-gradient-height": "70px",
+    "--ph-mobile-ratio": "16 / 9",
+    "--ph-offset-background": "70px",
+    "--ph-offset-content-bottom": "0",
+    "--ph-offset-feature-bottom": "0",
+    "--ph-offset-feature-top": "42px",
+    "--ph-offset-keyart": "0",
+    "--root-font-size": "14px",
+    "--scrollbar-width": "15px",
+    "--shadow-color": "#1F1F1F",
+    "--space-1": "2px",
+    "--space-10": "56px",
+    "--space-11": "70px",
+    "--space-12": "112px",
+    "--space-13": "224px",
+    "--space-2": "4px",
+    "--space-3": "7px",
+    "--space-4": "10px",
+    "--space-5": "14px",
+    "--space-6": "21px",
+    "--space-7": "28px",
+    "--space-8": "35px",
+    "--space-9": "42px",
+    "--spacer-size-0": "0",
+    "--spacer-size-1": "75px",
+    "--spacer-size-2": "150px",
+    "--spacer-size-3": "225px",
+    "--spacer-size-4": "300px",
+    "--spacer-size-5": "375px",
+    "--sticker-size-1": "36px",
+    "--sticker-size-2": "42px",
+    "--sticker-size-3": "56px",
+    "--sticker-size-4": "70px",
+    "--sticker-size-5": "112px",
+    "--text-1": "8px",
+    "--text-10": "53px",
+    "--text-11": "67px",
+    "--text-2": "10px",
+    "--text-3": "12px",
+    "--text-4": "14px",
+    "--text-5": "18px",
+    "--text-6": "22px",
+    "--text-7": "27px",
+    "--text-8": "34px",
+    "--text-9": "43px"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 5796
+    },
+    {
+      "value": "7px",
+      "count": 114
+    },
+    {
+      "value": "14px",
+      "count": 99
+    },
+    {
+      "value": "28px",
+      "count": 84
+    },
+    {
+      "value": "21px",
+      "count": 82
+    },
+    {
+      "value": "10px",
+      "count": 80
+    },
+    {
+      "value": "42px",
+      "count": 73
+    },
+    {
+      "value": "2px",
+      "count": 72
+    },
+    {
+      "value": "189.5px",
+      "count": 50
+    },
+    {
+      "value": "56px",
+      "count": 46
+    },
+    {
+      "value": "-1.75px",
+      "count": 18
+    },
+    {
+      "value": "-7px",
+      "count": 8
+    },
+    {
+      "value": "-42px",
+      "count": 7
+    },
+    {
+      "value": "-28px",
+      "count": 6
+    },
+    {
+      "value": "35px",
+      "count": 6
+    },
+    {
+      "value": "-10px",
+      "count": 5
+    },
+    {
+      "value": "-21px",
+      "count": 4
+    },
+    {
+      "value": "140px",
+      "count": 4
+    },
+    {
+      "value": "74px",
+      "count": 4
+    },
+    {
+      "value": "84px",
+      "count": 4
+    },
+    {
+      "value": "-56px",
+      "count": 3
+    },
+    {
+      "value": "-140px",
+      "count": 2
+    },
+    {
+      "value": "16px",
+      "count": 2
+    },
+    {
+      "value": "3.5px",
+      "count": 2
+    },
+    {
+      "value": "8px",
+      "count": 2
+    },
+    {
+      "value": "-64px",
+      "count": 1
+    },
+    {
+      "value": "19.2031px",
+      "count": 1
+    },
+    {
+      "value": "20px",
+      "count": 1
+    },
+    {
+      "value": "2990px",
+      "count": 1
+    },
+    {
+      "value": "4px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 1368
+    },
+    {
+      "value": "12px",
+      "count": 90
+    },
+    {
+      "value": "24px",
+      "count": 35
+    },
+    {
+      "value": "3px",
+      "count": 34
+    },
+    {
+      "value": "28px",
+      "count": 20
+    },
+    {
+      "value": "100%",
+      "count": 8
+    },
+    {
+      "value": "8px",
+      "count": 8
+    },
+    {
+      "value": "50%",
+      "count": 2
+    },
+    {
+      "value": "999px",
+      "count": 2
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 1528
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.8) 0px 4px 7px 0px",
+      "count": 22
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.06) 0px 4px 7px 0px",
+      "count": 8
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.16) 0px 4px 7px 0px",
+      "count": 6
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.12) 0px 8px 16px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.16) 0px 0px 7px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.64) 0px 7px 14px 0px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 1301
+      },
+      {
+        "value": "0.2s ease-in-out, height",
+        "count": 63
+      },
+      {
+        "value": "0.25s ease-in-out",
+        "count": 43
+      },
+      {
+        "value": "background-color 0.3s ease-in-out, width 0.3s ease-in-out",
+        "count": 29
+      },
+      {
+        "value": "0.1s ease-in-out",
+        "count": 28
+      },
+      {
+        "value": "opacity 1s ease-in-out",
+        "count": 24
+      },
+      {
+        "value": "box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out",
+        "count": 22
+      },
+      {
+        "value": "0.2s ease-in-out",
+        "count": 14
+      },
+      {
+        "value": "top 0.2s ease-in-out",
+        "count": 8
+      },
+      {
+        "value": "transform 0.55s, -webkit-transform 0.55s",
+        "count": 7
+      },
+      {
+        "value": "0.05s ease-in-out",
+        "count": 6
+      },
+      {
+        "value": "background-color 0.25s ease-in",
+        "count": 6
+      },
+      {
+        "value": "height 0.55s",
+        "count": 2
+      },
+      {
+        "value": "height 0.55s, transform 0.55s, -webkit-transform 0.55s",
+        "count": 2
+      },
+      {
+        "value": "-webkit-filter 0.25s ease-in-out, filter 0.25s ease-in-out",
+        "count": 1
+      },
+      {
+        "value": "height 0.25s ease-out",
+        "count": 1
+      },
+      {
+        "value": "left 0.25s ease-in",
+        "count": 1
+      },
+      {
+        "value": "margin-left 0.1s ease-out 0.22s, opacity 0.1s ease-out 0.22s",
+        "count": 1
+      },
+      {
+        "value": "margin-left 0.1s ease-out 0.24s, opacity 0.1s ease-out 0.24s",
+        "count": 1
+      },
+      {
+        "value": "margin-left 0.1s ease-out 0.26s, opacity 0.1s ease-out 0.26s",
+        "count": 1
+      },
+      {
+        "value": "margin-left 0.1s ease-out 0.28s, opacity 0.1s ease-out 0.28s",
+        "count": 1
+      },
+      {
+        "value": "margin-left 0.1s ease-out 0.2s, opacity 0.1s ease-out 0.2s",
+        "count": 1
+      },
+      {
+        "value": "margin-left 0.1s ease-out 0.32s, opacity 0.1s ease-out 0.32s",
+        "count": 1
+      },
+      {
+        "value": "margin-left 0.1s ease-out 0.3s, opacity 0.1s ease-out 0.3s",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.3s ease-in-out",
+        "count": 1
+      },
+      {
+        "value": "top 0.55s",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 1506
+      },
+      {
+        "value": "0.75s both fadeIn",
+        "count": 55
+      },
+      {
+        "value": "1s both fadeInLight",
+        "count": 4
+      },
+      {
+        "value": "1s both fadeIn",
+        "count": 1
+      },
+      {
+        "value": "1s ease-out 0.5s forwards wizard-fg-all",
+        "count": 1
+      }
+    ],
+    "prefersReducedMotion": false
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 289,
+      "pageHeightPx": 21369,
+      "bodyTextLen": 12485,
+      "bigImageCount": 19,
+      "textToHeightRatio": 0.5842575693761992,
+      "largestHeadingPx": 43
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.playstation.com/font-stack/v1/css/font-all.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.playstation.com/font-stack/v1/css/font-sst-condensed.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://static.playstation.com/base-styles/v0/psw-styles.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://web-toolbar.playstation.com/psw.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://web-toolbar.playstation.com/oracle-4b59ecbbb4e830041087.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-1 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-1-darken-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-1-darken-20 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-10-darken-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-10-darken-20 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-11 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-12 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-13 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-14 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-15 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-16 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-17 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-17-darken-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-17-darken-20 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-2 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-2-darken-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-2-darken-20 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-3 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-4 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-4-darken-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-4-darken-20 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-5 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-6 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-7 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-8 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-9 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-9-darken-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-9-darken-20 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-card has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-commerce-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-commerce-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-commerce-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-commerce-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-disabled-link has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-divider-line has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-filter has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-form-field has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-interactive-wizard has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-overlay-card has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-pagination-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-primary-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-primary-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-primary-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-primary-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-rating has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-review has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-secondary-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-secondary-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-secondary-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-backgrounds-secondary-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-commerce-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-commerce-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-commerce-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-commerce-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-divider-line-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-divider-line-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-divider-line-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-divider-line-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-primary-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-primary-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-primary-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-primary-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-secondary-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-secondary-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-secondary-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-borders-secondary-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-accent has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-content has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-content-transparent has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-cx-article has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-fade-in has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-fade-out has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-gloss has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-surface has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-surface-interactive-wizard-desktop has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-surface-interactive-wizard-mobile has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-gradients-text has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-page-backgrounds-primary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-page-backgrounds-secondary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-page-backgrounds-tertiary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-section-gradients-emphasis-end has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-section-gradients-emphasis-start has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-section-gradients-primary-end has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-section-gradients-primary-start has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-shadows-high-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-shadows-high-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-shadows-high-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-shadows-low-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-shadows-low-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-shadows-low-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-button has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-button-secondary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-button-tertiary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-commerce-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-commerce-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-commerce-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-commerce-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-disabled-link has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-hint has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-link-active has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-link-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-link-focus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-link-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-placeholder has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-primary-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-ps-plus has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-secondary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-success has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --color-role-text-warning has no resolved computed value on :root"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

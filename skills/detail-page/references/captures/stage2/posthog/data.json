@@ -1,0 +1,29 @@
+{
+  "url": "https://posthog.com",
+  "status": 200,
+  "expanded": "Read more",
+  "title": "About PostHog",
+  "headings": [
+    "H2: We're here to help make your product self-driving",
+    "H3: So how did we get here?",
+    "H2: Why we're different",
+    "H3: We just do the right thing",
+    "H3: Transparency >>",
+    "H2: Everything in one place",
+    "H2: Value-based pricing Usage-based pricing",
+    "H2: The strategy appears to be working",
+    "H2: So tl;dr:"
+  ],
+  "imageCount": 8,
+  "bigImages": [
+    "https://res.cloudinary.com/dmukukwp6/image/upload/c_scale,w_1555/9000_hedge_light_42c729131e",
+    "https://res.cloudinary.com/dmukukwp6/image/upload/c_scale,w_1555/9000_hedge_dark_b36706e924",
+    "https://res.cloudinary.com/dmukukwp6/image/upload/James_H_5cb4c53d9a",
+    "https://res.cloudinary.com/dmukukwp6/image/upload/c_scale,w_574/hn_screenshot_e2819766a4",
+    "https://res.cloudinary.com/dmukukwp6/image/upload/c_scale,w_386/q_100/v1/posthog.com/src/components/About/AboutStory/images/james",
+    "https://res.cloudinary.com/dmukukwp6/image/upload/c_scale,w_782/team_tulum_a4899e0a9e",
+    "https://res.cloudinary.com/dmukukwp6/image/upload/h_500,c_limit,q_auto,f_auto/warehouse_5d02e5d7b0.webp"
+  ],
+  "pageHeight": 1600,
+  "bodyTextLen": 6979
+}

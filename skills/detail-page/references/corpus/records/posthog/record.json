@@ -1,0 +1,567 @@
+{
+  "schema_version": "1.0.0",
+  "id": "posthog",
+  "capture_dir": "captures/stage2/posthog",
+  "url": "https://posthog.com",
+  "title": "About PostHog",
+  "status": 200,
+  "captured_at": "2026-07-18",
+  "freshness": {
+    "capturedAt": "2026-07-17T23:50:48.578Z",
+    "recaptureDueAt": "2026-10-15T23:50:48.578Z",
+    "policy": "90d"
+  },
+  "family": "app-ui",
+  "mode": "landing",
+  "category": "brand-site",
+  "exemplar_role": "positive",
+  "sector": "analytics",
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "Tags are limited to the supplied data.json, styles.json, bodytext.txt, and the single PNG tile. authoredRegion.verdict is unknown, so collector CSS values are not attributed to the authored surface. The tile shows a long-form PostHog company-story surface inside persistent navigation, but the one-tile capture does not support a full recurrence or section-offset claim.",
+  "capture": {
+    "page_height_px": {
+      "value": 1600,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight",
+      "gap": null
+    },
+    "body_text_len": {
+      "value": 6979,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen",
+      "gap": null
+    },
+    "image_count": {
+      "value": 8,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/imageCount",
+      "gap": null
+    },
+    "big_images": {
+      "value": [
+        "https://res.cloudinary.com/dmukukwp6/image/upload/c_scale,w_1555/9000_hedge_light_42c729131e",
+        "https://res.cloudinary.com/dmukukwp6/image/upload/c_scale,w_1555/9000_hedge_dark_b36706e924",
+        "…5 more…"
+      ],
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bigImages — 7 entries; first 2 listed; …5 more…",
+      "gap": "GAP-09"
+    },
+    "tile_count": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of tile_*.png on disk (tile_00)",
+      "gap": null
+    },
+    "tile_w_px": {
+      "value": 1280,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_h_px": {
+      "value": 1600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_format": {
+      "value": "png",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG file header, tile_00.png",
+      "gap": null
+    },
+    "tile_scale": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1280/1280 = 1; native 1280×1600 PNG tile dimensions",
+      "gap": null
+    },
+    "covered_height_px": {
+      "value": 1600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1 tile × 1600px = 1600px",
+      "gap": "GAP-05"
+    },
+    "coverage_ok": {
+      "value": true,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1600 >= 1600 = true",
+      "gap": "GAP-05"
+    },
+    "color_fidelity": {
+      "value": "lossless",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG + 1280/1280 scale = lossless",
+      "gap": null
+    },
+    "has_dom": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture directory contains styles.json but no captured DOM dump; has_dom = false",
+      "gap": "GAP-01"
+    }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": {
+        "value": {
+          "hue_family": "sage-green",
+          "role_note": "Muted sage/green fills the surrounding page field and the large story panel."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.84,
+        "evidence": "tile_00.png",
+        "gap": null
+      },
+      "secondary_30": {
+        "value": {
+          "hue_family": "cream-gray",
+          "role_note": "Pale cream-gray story surfaces contain long-form text and image blocks."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.8,
+        "evidence": "tile_00.png",
+        "gap": null
+      },
+      "accent_10": {
+        "value": {
+          "hue_family": "orange",
+          "role_note": "Orange is used for the primary Get started action and selected illustrated details."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.78,
+        "evidence": "tile_00.png",
+        "gap": null
+      },
+      "field_committed": {
+        "value": true,
+        "provenance": "tile-vision",
+        "confidence": 0.78,
+        "evidence": "tile_00.png shows a green illustrated field surrounding the rounded story panel",
+        "gap": null
+      },
+      "field_evidence": {
+        "value": "A muted green illustrated environment owns the outer field, while a pale rounded panel carries the company-story content.",
+        "provenance": "tile-vision",
+        "confidence": 0.76,
+        "evidence": "tile_00.png",
+        "gap": null
+      },
+      "field_sections": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      }
+    },
+    "temperature": {
+      "value": "warm-neutral",
+      "provenance": "tile-vision",
+      "confidence": 0.8,
+      "evidence": "tile_00.png",
+      "gap": null
+    },
+    "computed_backgrounds": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; computed backgrounds are not safely attributable to the authored region.",
+      "gap": "GAP-01"
+    },
+    "ramp": [],
+    "chroma_max_measured": {
+      "value": null,
+      "provenance": "tile-px",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "chrome_excluded": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No human chrome-region annotation is present.",
+      "gap": "GAP-07"
+    }
+  },
+  "type": {
+    "display": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "body": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "mono": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; mono family is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; type scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "pairing_note": {
+      "value": "Long-form sans-serif editorial copy is paired with hand-drawn illustrations, icon-like navigation, and short emphatic headings.",
+      "provenance": "tile-vision",
+      "confidence": 0.74,
+      "evidence": "tile_00.png",
+      "gap": null
+    },
+    "weight_contrast_observed": {
+      "value": "moderate",
+      "provenance": "tile-vision",
+      "confidence": 0.74,
+      "evidence": "tile_00.png",
+      "gap": null
+    },
+    "kr_display_present": {
+      "value": false,
+      "provenance": "tile-vision",
+      "confidence": 1,
+      "evidence": "tile_00.png shows Latin display copy; no Korean display text is visible.",
+      "gap": null
+    }
+  },
+  "layout": {
+    "archetype": {
+      "value": "sidebar-shell",
+      "provenance": "tile-vision",
+      "confidence": 0.82,
+      "evidence": "tile_00.png shows persistent left/right product navigation flanking a central story panel",
+      "gap": null
+    },
+    "content_width_px": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "column_system": {
+      "value": "Persistent icon-and-label navigation rails flank a large rounded central editorial panel with a narrow reading measure and image inserts.",
+      "provenance": "tile-vision",
+      "confidence": 0.86,
+      "evidence": "tile_00.png",
+      "gap": null
+    },
+    "primitive_repeated": {
+      "value": "Long-form story sections alternate with hand-drawn or photographic illustrations inside one persistent branded shell.",
+      "provenance": "tile-vision",
+      "confidence": 0.76,
+      "evidence": "tile_00.png and bodytext.txt:L22-L30,L111-L150",
+      "gap": null
+    }
+  },
+  "rhythm": {
+    "band_count": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "median_band_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "viewports": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight ÷ (derived covered_height_px ÷ tile_count); 1600 ÷ (1600 ÷ 1) = 1",
+      "gap": null
+    },
+    "text_density": {
+      "value": 6979,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen ÷ derived viewports; 6979 ÷ 1 = 6979",
+      "gap": null
+    },
+    "image_density": {
+      "value": 8,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/imageCount ÷ derived viewports; 8 ÷ 1 = 8",
+      "gap": null
+    },
+    "spacing_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; spacing scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "radius_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; radius scale is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "signature": {
+    "name": {
+      "value": "Illustrated company-story shell",
+      "provenance": "tile-vision",
+      "confidence": 0.82,
+      "evidence": "tile_00.png",
+      "gap": null
+    },
+    "family": {
+      "value": "brand-commerce",
+      "provenance": "tile-vision",
+      "confidence": 0.7,
+      "evidence": "tile_00.png; the illustrated story world and navigation shell dominate the captured surface",
+      "gap": null
+    },
+    "description": {
+      "value": "PostHog places a long, candid company narrative inside a rounded editorial panel, surrounded by an illustrated green environment and persistent product navigation.",
+      "provenance": "tile-vision",
+      "confidence": 0.84,
+      "evidence": "tile_00.png and bodytext.txt:L27-L36,L52-L65",
+      "gap": null
+    },
+    "evidence_tiles": {
+      "value": [
+        "tile_00.png"
+      ],
+      "provenance": "tile-vision",
+      "confidence": 0.8,
+      "evidence": "tile_00.png",
+      "gap": "GAP-09"
+    },
+    "embodies_brief": {
+      "value": "The company page makes its point of view visible through the combination of candid founder voice, anti-industry copy, public-transparency claims, and a distinctive illustrated portal.",
+      "provenance": "hand",
+      "confidence": 0.78,
+      "evidence": "tile_00.png and bodytext.txt:L27-L36,L52-L65,L95-L109",
+      "gap": null
+    },
+    "tell_risk": {
+      "value": [],
+      "provenance": "hand",
+      "confidence": 0.74,
+      "evidence": "tile_00.png shows a coherent illustrated brand shell and long-form authored narrative; no named anti-pattern is identified.",
+      "gap": null
+    },
+    "recurrence": {
+      "value": "hero-anchored",
+      "provenance": "tile-vision",
+      "confidence": 0.62,
+      "evidence": "tile_00.png; only one tile is available, so recurrence beyond the captured viewport is not established.",
+      "gap": "GAP-09"
+    }
+  },
+  "motion": {
+    "gif_asset_count": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of .gif URLs in data.json#/bigImages = 0",
+      "gap": null
+    },
+    "gif_evidence": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "dynamic_demo_present": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "gif_asset_count > 0 = false; still tile does not establish interactive motion.",
+      "gap": null
+    },
+    "notes": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "Still capture data does not establish motion behavior.",
+      "gap": "GAP-08"
+    },
+    "durations_ms": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion timings are withheld.",
+      "gap": "GAP-01"
+    },
+    "easings": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion easings are withheld.",
+      "gap": "GAP-01"
+    },
+    "reduced_motion_honored": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; reduced-motion behavior is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "commerce": {
+    "awareness": {
+      "value": "solution-aware",
+      "provenance": "hand",
+      "confidence": 0.66,
+      "evidence": "bodytext.txt:L27-L38 opens with the company's self-driving product/platform claim and an Explore product suite action.",
+      "gap": "GAP-06"
+    },
+    "sophistication": {
+      "value": 3,
+      "provenance": "hand",
+      "confidence": 0.7,
+      "evidence": "bodytext.txt:L32-L36,L70-L93,L111-L129 combines product scope with transparent pricing, company ideology, and operating mechanisms.",
+      "gap": "GAP-06"
+    },
+    "arc": [
+      {
+        "stage": "problem",
+        "present": false,
+        "evidence": "bodytext.txt opens with company/product positioning, not an explicit pain-agitation block."
+      },
+      {
+        "stage": "affinity",
+        "present": true,
+        "evidence": "bodytext.txt:L57-L65 frames the reader relationship and states the company tries to treat users as it would want to be treated."
+      },
+      {
+        "stage": "solution",
+        "present": true,
+        "evidence": "bodytext.txt:L30-L36 — PostHog presents a self-driving product and single platform for people who build things."
+      },
+      {
+        "stage": "offer",
+        "present": true,
+        "evidence": "bodytext.txt:L7 and L38 — Get started – free and Explore product suite are explicit routes."
+      },
+      {
+        "stage": "narrow",
+        "present": false,
+        "evidence": "bodytext.txt contains no time, capacity, price, or availability narrowing device."
+      },
+      {
+        "stage": "action",
+        "present": true,
+        "evidence": "bodytext.txt:L7 — Get started – free is the direct action."
+      }
+    ],
+    "arc_resolved": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of commerce.arc[] stages with present !== null = 6",
+      "gap": null
+    },
+    "arc_total": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PASONA stage count = 6",
+      "gap": null
+    },
+    "arc_coverage": {
+      "value": 0.67,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "4 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.67",
+      "gap": null
+    },
+    "authority_numbers": {
+      "value": [
+        "190254+",
+        "65%",
+        "$100bn"
+      ],
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": "bodytext.txt:L90,L138-L140",
+      "gap": "GAP-09"
+    },
+    "reward_ladder": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_device": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_repetition": {
+      "value": 2,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 2",
+      "gap": null
+    },
+    "one_message": {
+      "value": "PostHog presents a self-driving product and an unusually transparent company whose tools, pricing, and operating philosophy are kept in one public place.",
+      "provenance": "hand",
+      "confidence": 0.8,
+      "evidence": "bodytext.txt:L30-L36,L52-L65,L95-L109,L111-L129",
+      "gap": null
+    }
+  }
+}

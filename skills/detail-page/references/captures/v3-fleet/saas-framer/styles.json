@@ -1,0 +1,575 @@
+{
+  "meta": {
+    "url": "https://www.framer.com/",
+    "status": 200,
+    "title": "Framer: AI website builder for professional sites",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:20:56.194Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "GT Walsheim Medium",
+      "rawStack": "\"GT Walsheim Medium\", \"GT Walsheim Medium Placeholder\", sans-serif",
+      "fontWeight": "500",
+      "fontSize": "54px",
+      "lineHeight": "54px",
+      "letterSpacing": "-2.16px",
+      "element": "h1",
+      "selector": "header.framer-p8y6nc > div.framer-rd4qms > div.framer-10v2ys1 > h1.framer-text"
+    },
+    "body": {
+      "resolvedFamily": "sans-serif",
+      "rawStack": "sans-serif",
+      "fontWeight": "400",
+      "fontSize": "12px",
+      "lineHeight": "normal",
+      "letterSpacing": "normal",
+      "element": "li",
+      "selector": "div.framer-16op6qu > div.framer-1pda9s8 > ul > li.ticker-item"
+    },
+    "mono": {
+      "resolvedFamily": "Input Mono Bold",
+      "rawStack": "\"Input Mono Bold\", \"Input Mono Bold Placeholder\", monospace",
+      "fontWeight": "700",
+      "fontSize": "12px",
+      "lineHeight": "16px",
+      "letterSpacing": "normal",
+      "element": "p",
+      "selector": "div.framer-F8c8k > div.framer-1x0smbr > div.framer-1ha2dxq > p.framer-text"
+    },
+    "documentFonts": [
+      {
+        "family": "Inter Medium",
+        "weight": "500"
+      },
+      {
+        "family": "GT Walsheim Medium",
+        "weight": "500"
+      },
+      {
+        "family": "Input Mono Regular",
+        "weight": "400"
+      },
+      {
+        "family": "Input Mono Bold",
+        "weight": "700"
+      },
+      {
+        "family": "Inter",
+        "weight": "600"
+      },
+      {
+        "family": "Inter Variable",
+        "weight": "400"
+      },
+      {
+        "family": "Inter",
+        "weight": "400"
+      },
+      {
+        "family": "Inter",
+        "weight": "700"
+      },
+      {
+        "family": "Inter Variable",
+        "weight": "400"
+      },
+      {
+        "family": "Inter",
+        "weight": "500"
+      },
+      {
+        "family": "Azeret Mono",
+        "weight": "400"
+      },
+      {
+        "family": "JetBrains Mono",
+        "weight": "400"
+      },
+      {
+        "family": "Inter Placeholder",
+        "weight": "normal"
+      },
+      {
+        "family": "Azeret Mono Placeholder",
+        "weight": "normal"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.8059665888932013
+      },
+      {
+        "value": "#111111",
+        "cssRgb": "rgb(17, 17, 17)",
+        "areaShare": 0.13202169534109656
+      },
+      {
+        "value": "#171717",
+        "cssRgb": "rgb(23, 23, 23)",
+        "areaShare": 0.02773767961187219
+      },
+      {
+        "value": "#ffffff26",
+        "cssRgb": "rgba(255, 255, 255, 0.15)",
+        "areaShare": 0.007793496271364259
+      },
+      {
+        "value": "#0099ff26",
+        "cssRgb": "rgba(0, 153, 255, 0.15)",
+        "areaShare": 0.007380646801393452
+      },
+      {
+        "value": "#242424",
+        "cssRgb": "rgb(36, 36, 36)",
+        "areaShare": 0.0030546021581722522
+      },
+      {
+        "value": "#0099ff1f",
+        "cssRgb": "rgba(0, 153, 255, 0.12)",
+        "areaShare": 0.0030285499855964623
+      },
+      {
+        "value": "#0099ff",
+        "cssRgb": "rgb(0, 153, 255)",
+        "areaShare": 0.002243243283889852
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.9707637428554057
+      },
+      {
+        "value": "#0000ee",
+        "cssRgb": "rgb(0, 0, 238)",
+        "areaShare": 0.02098366798513689
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.003878354993396144
+      },
+      {
+        "value": "#ffffff99",
+        "cssRgb": "rgba(255, 255, 255, 0.6)",
+        "areaShare": 0.0014136831616792707
+      },
+      {
+        "value": "#999999",
+        "cssRgb": "rgb(153, 153, 153)",
+        "areaShare": 0.0011702818964403543
+      },
+      {
+        "value": "#cccccc",
+        "cssRgb": "rgb(204, 204, 204)",
+        "areaShare": 0.0009601163526305389
+      }
+    ]
+  },
+  "cssVariables": {
+    "--one-if-corner-shape-supported": "1"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 14567
+    },
+    {
+      "value": "10px",
+      "count": 811
+    },
+    {
+      "value": "15px",
+      "count": 347
+    },
+    {
+      "value": "5px",
+      "count": 244
+    },
+    {
+      "value": "8px",
+      "count": 133
+    },
+    {
+      "value": "20px",
+      "count": 110
+    },
+    {
+      "value": "6px",
+      "count": 97
+    },
+    {
+      "value": "25px",
+      "count": 72
+    },
+    {
+      "value": "1px",
+      "count": 71
+    },
+    {
+      "value": "3px",
+      "count": 54
+    },
+    {
+      "value": "4px",
+      "count": 41
+    },
+    {
+      "value": "30px",
+      "count": 30
+    },
+    {
+      "value": "40px",
+      "count": 19
+    },
+    {
+      "value": "2px",
+      "count": 18
+    },
+    {
+      "value": "-72.5px",
+      "count": 16
+    },
+    {
+      "value": "11px",
+      "count": 14
+    },
+    {
+      "value": "120px",
+      "count": 8
+    },
+    {
+      "value": "60px",
+      "count": 8
+    },
+    {
+      "value": "47px",
+      "count": 7
+    },
+    {
+      "value": "0.5px",
+      "count": 6
+    },
+    {
+      "value": "45px",
+      "count": 5
+    },
+    {
+      "value": "7px",
+      "count": 4
+    },
+    {
+      "value": "16px",
+      "count": 3
+    },
+    {
+      "value": "26px",
+      "count": 3
+    },
+    {
+      "value": "1.1px",
+      "count": 2
+    },
+    {
+      "value": "100px",
+      "count": 2
+    },
+    {
+      "value": "12px",
+      "count": 2
+    },
+    {
+      "value": "160px",
+      "count": 2
+    },
+    {
+      "value": "2.2px",
+      "count": 2
+    },
+    {
+      "value": "200px",
+      "count": 2
+    },
+    {
+      "value": "3.3px",
+      "count": 2
+    },
+    {
+      "value": "50px",
+      "count": 2
+    },
+    {
+      "value": "52px",
+      "count": 2
+    },
+    {
+      "value": "0.3px",
+      "count": 1
+    },
+    {
+      "value": "1.6px",
+      "count": 1
+    },
+    {
+      "value": "102px",
+      "count": 1
+    },
+    {
+      "value": "150px",
+      "count": 1
+    },
+    {
+      "value": "4.4px",
+      "count": 1
+    },
+    {
+      "value": "64px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 2940
+    },
+    {
+      "value": "8px",
+      "count": 279
+    },
+    {
+      "value": "15px",
+      "count": 76
+    },
+    {
+      "value": "6px",
+      "count": 36
+    },
+    {
+      "value": "5px",
+      "count": 35
+    },
+    {
+      "value": "20px",
+      "count": 31
+    },
+    {
+      "value": "4px",
+      "count": 26
+    },
+    {
+      "value": "100px",
+      "count": 21
+    },
+    {
+      "value": "18px",
+      "count": 16
+    },
+    {
+      "value": "10px",
+      "count": 14
+    },
+    {
+      "value": "25px",
+      "count": 9
+    },
+    {
+      "value": "3px",
+      "count": 8
+    },
+    {
+      "value": "1px",
+      "count": 4
+    },
+    {
+      "value": "50px",
+      "count": 3
+    },
+    {
+      "value": "100%",
+      "count": 1
+    },
+    {
+      "value": "12px",
+      "count": 1
+    },
+    {
+      "value": "14px",
+      "count": 1
+    },
+    {
+      "value": "18px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "19px",
+      "count": 1
+    },
+    {
+      "value": "21px",
+      "count": 1
+    },
+    {
+      "value": "25px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "30px",
+      "count": 1
+    },
+    {
+      "value": "50%",
+      "count": 1
+    },
+    {
+      "value": "7px",
+      "count": 1
+    },
+    {
+      "value": "9px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 3474
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 2px 6px 0px",
+      "count": 6
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.25) 0px 4px 8px 0px",
+      "count": 6
+    },
+    {
+      "value": "rgb(17, 17, 17) 0px 0px 0px 1.5px",
+      "count": 4
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.1) 0px 1px 2px 0px",
+      "count": 3
+    },
+    {
+      "value": "rgba(0, 153, 255, 0.2) 0px 5px 5px 0px",
+      "count": 2
+    },
+    {
+      "value": "rgb(17, 17, 17) 0px 0px 0px 2px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.1) 0px 10px 20px 0px, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 12.2804px 19.6486px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 14.3275px 22.924px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 18.27px 29.232px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 23.2122px 37.1396px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 28.7878px 46.0604px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 33.73px 53.968px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 37.6725px 60.276px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.2) 0px 39.7196px 63.5514px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.25) 0px 0px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.25) 0px 2px 4px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 153, 255, 0.15) 0px 1px 2px 0px, rgba(0, 153, 255, 0.2) 0px 2px 4px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(255, 255, 255, 0.1) 0px 0px 0px 1px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 3507
+      },
+      {
+        "value": "background, box-shadow",
+        "count": 1
+      },
+      {
+        "value": "color cubic-bezier(0, 0, 1, 1)",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 3509
+      }
+    ],
+    "prefersReducedMotion": false
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 1,
+      "pageHeightPx": 10923,
+      "bodyTextLen": 8219,
+      "bigImageCount": 21,
+      "textToHeightRatio": 0.7524489609081754,
+      "largestHeadingPx": 54
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://accounts.google.com/gsi/style (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --overflow-clip-fallback has no resolved computed value on :root"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

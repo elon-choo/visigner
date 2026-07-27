@@ -3,7 +3,10 @@
 // Regression smoke gate for the shipped Visigner skill set and documentation preview.
 // The two counts below are intentionally pinned. A quiet deletion is a CI failure.
 const EXPECTED_SKILL_COUNT = 8;
-const EXPECTED_CORPUS_RECORD_COUNT = 12;
+// 12 -> 42: the 30 v3 overlay records were merged into the shipped corpus (owner-approved,
+// card visigner/2026-07-26/004). The pin moves with a deliberate merge; it still catches a
+// quiet deletion.
+const EXPECTED_CORPUS_RECORD_COUNT = 42;
 const EXPECTED_REASONING_RECORD_COUNT = 12;
 const EXPECTED_ANTI_PATTERN_TABLE_COUNT = 12;
 

@@ -1,0 +1,13 @@
+{
+  "url": "https://arc.net",
+  "status": 200,
+  "title": "Arc from The Browser Company",
+  "pageHeight": 6415,
+  "bodyTextLen": 2231,
+  "imageCount": 3,
+  "expanded": null,
+  "tiles": 5,
+  "coveredHeight": 8000,
+  "maxTiles": 90,
+  "outDir": "references/captures/stage2/arc"
+}

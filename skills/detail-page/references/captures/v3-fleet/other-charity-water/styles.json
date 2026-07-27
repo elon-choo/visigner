@@ -1,0 +1,1225 @@
+{
+  "meta": {
+    "url": "https://www.charitywater.org/",
+    "status": 200,
+    "title": "charity: water | Help Bring Clean and Safe Water to Communities",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:40:01.879Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Kazimir Text",
+      "rawStack": "\"Kazimir Text\", serif",
+      "fontWeight": "400",
+      "fontSize": "46px",
+      "lineHeight": "52px",
+      "letterSpacing": "normal",
+      "element": "h1",
+      "selector": "div.builder-block > div.builder-block > span.builder-text > h1"
+    },
+    "body": {
+      "resolvedFamily": "Open Sans",
+      "rawStack": "\"Open Sans\", Arial, \"Trebuchet MS\", \"Segoe UI\", Helvetica, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "12px",
+      "lineHeight": "19.8px",
+      "letterSpacing": "0.3px",
+      "element": "span",
+      "selector": "div#cookiescript_toppart > div#cookiescript_leftpart > div#cookiescript_description > span"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "Proxima Nova",
+        "weight": "400"
+      },
+      {
+        "family": "Proxima Nova",
+        "weight": "500"
+      },
+      {
+        "family": "Kazimir Text",
+        "weight": "normal"
+      },
+      {
+        "family": "Proxima Nova",
+        "weight": "400"
+      },
+      {
+        "family": "Proxima Nova",
+        "weight": "500"
+      },
+      {
+        "family": "Kazimir Text",
+        "weight": "normal"
+      },
+      {
+        "family": "cw-icons",
+        "weight": "normal"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.8722967429889138
+      },
+      {
+        "value": "#f8eed3",
+        "cssRgb": "rgb(248, 238, 211)",
+        "areaShare": 0.05963641632596233
+      },
+      {
+        "value": "#faf7f0",
+        "cssRgb": "rgb(250, 247, 240)",
+        "areaShare": 0.04466440276380134
+      },
+      {
+        "value": "#222520",
+        "cssRgb": "rgb(34, 37, 32)",
+        "areaShare": 0.012717027563310732
+      },
+      {
+        "value": "#ffca0a",
+        "cssRgb": "rgb(255, 202, 10)",
+        "areaShare": 0.006804649109897636
+      },
+      {
+        "value": "#e9eae4",
+        "cssRgb": "rgb(233, 234, 228)",
+        "areaShare": 0.0014394308827683322
+      },
+      {
+        "value": "#f4f5f0",
+        "cssRgb": "rgb(244, 245, 240)",
+        "areaShare": 0.0012596034724442337
+      },
+      {
+        "value": "#003366",
+        "cssRgb": "rgb(0, 51, 102)",
+        "areaShare": 0.0005468429936754929
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.6473597481976769
+      },
+      {
+        "value": "#222520",
+        "cssRgb": "rgb(34, 37, 32)",
+        "areaShare": 0.31264914531142163
+      },
+      {
+        "value": "#003366",
+        "cssRgb": "rgb(0, 51, 102)",
+        "areaShare": 0.012704346047996789
+      },
+      {
+        "value": "#71716c",
+        "cssRgb": "rgb(113, 113, 108)",
+        "areaShare": 0.01051483552954206
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.009415952074606599
+      },
+      {
+        "value": "#2d2d2d",
+        "cssRgb": "rgb(45, 45, 45)",
+        "areaShare": 0.0036352518398531206
+      }
+    ]
+  },
+  "cssVariables": {
+    "--ds-v1-background-dark": "#222520",
+    "--ds-v1-background-light-primary": "#FAF7F0",
+    "--ds-v1-background-light-primary-with-opacity": "rgba(#{*cwYellow100}, #{*cwBgDefaultOpacity})",
+    "--ds-v1-background-light-secondary": "#F8EED3",
+    "--ds-v1-button-primary-bg": "#FFCA0A",
+    "--ds-v1-button-primary-bg-hover": "#FFD53B",
+    "--ds-v1-button-primary-text": "#222520",
+    "--ds-v1-component-padding-0": "0px",
+    "--ds-v1-component-padding-lg": "60px",
+    "--ds-v1-component-padding-md": "48px",
+    "--ds-v1-component-padding-sm": "24px",
+    "--ds-v1-component-padding-xl": "104px",
+    "--ds-v1-component-padding-xs": "16px",
+    "--ds-v1-component-padding-xxl": "124px",
+    "--ds-v1-component-padding-xxs": "8px",
+    "--ds-v1-cw-black": "#000000",
+    "--ds-v1-cw-primary": "#FFCA0A",
+    "--ds-v1-cw-white": "#FFFFFF",
+    "--ds-v1-font-heading": "Kazimir Text",
+    "--ds-v1-font-mono": "Anonymous Pro",
+    "--ds-v1-font-sans": "Proxima Nova",
+    "--ds-v1-global-text-default": "#222520",
+    "--ds-v1-global-text-inverted": "#FFFFFF",
+    "--ds-v1-heading-2xl": "2.3rem",
+    "--ds-v1-heading-3xl": "2.8rem",
+    "--ds-v1-heading-lg": "1.4rem",
+    "--ds-v1-heading-md": "1.05rem",
+    "--ds-v1-heading-sm": "0.9rem",
+    "--ds-v1-heading-xl": "1.75rem",
+    "--ds-v1-heading-xs": "0.7rem",
+    "--ds-v1-link-primary-text": "#222520",
+    "--ds-v1-link-primary-text-hover": "#383B36",
+    "--ds-v1-link-primary-underline": "#FFCA0A",
+    "--ds-v1-link-primary-underline-height": "2px",
+    "--ds-v1-link-primary-underline-hover": "#FFD53B",
+    "--ds-v1-link-primary-underline-spacing": "3px",
+    "--ds-v1-maxwidth-lg": "800px",
+    "--ds-v1-maxwidth-md": "640px",
+    "--ds-v1-maxwidth-sm": "400px",
+    "--ds-v1-maxwidth-xl": "960px",
+    "--ds-v1-maxwidth-xs": "320px",
+    "--ds-v1-maxwidth-xxl": "1200px",
+    "--ds-v1-maxwidth-xxs": "240px",
+    "--ds-v1-nav-bg": "#FFFFFF",
+    "--ds-v1-nav-border": "#000000",
+    "--ds-v1-nav-button-primary": "#003366",
+    "--ds-v1-nav-button-primary-border": "#003366",
+    "--ds-v1-nav-button-primary-text": "#FFFFFF",
+    "--ds-v1-nav-button-secondary": "transparent",
+    "--ds-v1-nav-button-secondary-border": "#003366",
+    "--ds-v1-nav-button-secondary-text": "#003366",
+    "--ds-v1-nav-dropdown-border": "#dfdfd7",
+    "--ds-v1-social-apple": "#000000",
+    "--ds-v1-social-facebook": "#3b5998",
+    "--ds-v1-social-google": "#4285f4",
+    "--ds-v1-social-pay-pal": "#2f6eb4",
+    "--ds-v1-social-twitter": "#50a5e1",
+    "--ds-v1-spacing-0": "0px",
+    "--ds-v1-spacing-05": "2px",
+    "--ds-v1-spacing-1": "4px",
+    "--ds-v1-spacing-10": "40px",
+    "--ds-v1-spacing-11": "44px",
+    "--ds-v1-spacing-12": "48px",
+    "--ds-v1-spacing-13": "52px",
+    "--ds-v1-spacing-14": "56px",
+    "--ds-v1-spacing-15": "60px",
+    "--ds-v1-spacing-16": "64px",
+    "--ds-v1-spacing-17": "68px",
+    "--ds-v1-spacing-18": "72px",
+    "--ds-v1-spacing-19": "76px",
+    "--ds-v1-spacing-2": "8px",
+    "--ds-v1-spacing-20": "80px",
+    "--ds-v1-spacing-21": "84px",
+    "--ds-v1-spacing-22": "88px",
+    "--ds-v1-spacing-23": "92px",
+    "--ds-v1-spacing-24": "96px",
+    "--ds-v1-spacing-25": "100px",
+    "--ds-v1-spacing-26": "104px",
+    "--ds-v1-spacing-27": "108px",
+    "--ds-v1-spacing-28": "112px",
+    "--ds-v1-spacing-29": "116px",
+    "--ds-v1-spacing-3": "12px",
+    "--ds-v1-spacing-30": "120px",
+    "--ds-v1-spacing-31": "124px",
+    "--ds-v1-spacing-32": "128px",
+    "--ds-v1-spacing-33": "132px",
+    "--ds-v1-spacing-34": "136px",
+    "--ds-v1-spacing-35": "140px",
+    "--ds-v1-spacing-36": "144px",
+    "--ds-v1-spacing-37": "148px",
+    "--ds-v1-spacing-38": "152px",
+    "--ds-v1-spacing-39": "156px",
+    "--ds-v1-spacing-4": "16px",
+    "--ds-v1-spacing-40": "160px",
+    "--ds-v1-spacing-41": "164px",
+    "--ds-v1-spacing-42": "168px",
+    "--ds-v1-spacing-43": "172px",
+    "--ds-v1-spacing-44": "176px",
+    "--ds-v1-spacing-45": "180px",
+    "--ds-v1-spacing-46": "184px",
+    "--ds-v1-spacing-47": "188px",
+    "--ds-v1-spacing-48": "192px",
+    "--ds-v1-spacing-49": "196px",
+    "--ds-v1-spacing-5": "20px",
+    "--ds-v1-spacing-50": "200px",
+    "--ds-v1-spacing-6": "24px",
+    "--ds-v1-spacing-7": "28px",
+    "--ds-v1-spacing-8": "32px",
+    "--ds-v1-spacing-9": "36px",
+    "--ds-v1-text-2xs": "0.6rem",
+    "--ds-v1-text-3xs": "0.5rem",
+    "--ds-v1-text-accent": "#5493D3",
+    "--ds-v1-text-base": "0.8rem",
+    "--ds-v1-text-default": "#222520",
+    "--ds-v1-text-inverted": "#FFFFFF",
+    "--ds-v1-text-leading-2xs": "0.8rem",
+    "--ds-v1-text-leading-3xs": "0.8rem",
+    "--ds-v1-text-leading-base": "1rem",
+    "--ds-v1-text-leading-heading-2xl": "2.6rem",
+    "--ds-v1-text-leading-heading-3xl": "3.2rem",
+    "--ds-v1-text-leading-heading-lg": "1.6rem",
+    "--ds-v1-text-leading-heading-md": "1.2rem",
+    "--ds-v1-text-leading-heading-sm": "1rem",
+    "--ds-v1-text-leading-heading-xl": "2rem",
+    "--ds-v1-text-leading-heading-xs": "0.8rem",
+    "--ds-v1-text-leading-lg": "1.4rem",
+    "--ds-v1-text-leading-md": "1.2rem",
+    "--ds-v1-text-leading-sm": "1rem",
+    "--ds-v1-text-leading-xs": "1rem",
+    "--ds-v1-text-lg": "1.05rem",
+    "--ds-v1-text-md": "0.9rem",
+    "--ds-v1-text-sm": "0.8rem",
+    "--ds-v1-text-xs": "0.7rem",
+    "--font-heading": "\"Kazimir\"",
+    "--font-mono": "\"Anonymous Pro\"",
+    "--font-sans": "\"Proxima Nova\"",
+    "--iti-arrow-color": "#555",
+    "--iti-arrow-height": "4px",
+    "--iti-arrow-padding": "6px",
+    "--iti-arrow-width": "6px",
+    "--iti-border-color": "#ccc",
+    "--iti-border-width": "1px",
+    "--iti-dialcode-color": "#999",
+    "--iti-dropdown-bg": "white",
+    "--iti-flag-height": "12px",
+    "--iti-flag-sprite-height": "12px",
+    "--iti-flag-sprite-width": "3904px",
+    "--iti-flag-width": "16px",
+    "--iti-hover-color": "rgba(0, 0, 0, .05)",
+    "--iti-mobile-popup-margin": "30px",
+    "--iti-path-flags-1x": "url(/vite/assets/flags-a2kmUSbF.webp)",
+    "--iti-path-flags-2x": "url(/vite/assets/flags@2x-gR6KPp3x.webp)",
+    "--iti-path-globe-1x": "url(data:image/webp;base64,UklGRvoBAABXRUJQVlA4TO4BAAAvE8AEENXIkiRZtZu7H33ql07cqTlilvbz9i4tosSMZma27zWzHRGyIEk2bcu2bdvGn23btm3btm3btm0/m5PqAEkLTYYwxTPAW84Tl6wNgmvIqptKKH9nYAr4xle+TML/BDI2LSg6QHKT/nngE4+ZMIUePUGeTvly+YoV8F1DtkGUzlfst2LUKTX6PaWZeMWiDqN6PgcciGa2boYPmxlR5bIIL5l6RVyDYMXmY1f10pGb7PmAN6sRTBTN3N9C9Zi/LbVhlL+Oo2M7RxoE/a4+/nDjeBrSVwtGYXGGMIrUbJzCU1LgFftP9K1hkpOXmBim30cIJ1hgOkSwMhYCMgmaw7rXcfT5/wQcFhrcuaOEBuq5ytYblLPBEhV0Aq/ZqcDn/6RUDgrUL0/0UZgK/p+rR8/4nZAqFfuXA6TbtFQyJSe4gpj6T19a5q+HLEkox0mlWXvbIGbuJw28fkozjybhT5oXHNY4py5rH1CflcyeB1fId9wXDAvFmz/8m6AE/8TgYzEVGoRMCKUhND7PQho7jGo1utkdV559cm3llGFs3sxBZrmGbEExop91jyfg5G7BmCCi6evNaSDFBrG3vyaRNzt+HJ9kQpVbgj+xFUoNgr3abxqGfH3WfQq9lp5UZPRW74ZbFgpq+EGo67dUAQ==)",
+    "--iti-path-globe-2x": "url(data:image/webp;base64,UklGRlwFAABXRUJQVlA4TE8FAAAvJ8AJEEfHKJIkKdmcgvjj3wwill7QwKhtJEnOnIDmv/zJLAdGbSNJcuYENP/lT2Y5OGwjSZHmtL3wTFl9tp8SM/9xz47Ctm2b7mnwDggKFNd77jgHyxhIYVvLQBDEHEBKRQBIOXzQpAhiBQCIAMaIAACHhAQHIMFhhRkSRt1hlRIYDAZDhiE3CVrBS2gFkZGRYdA6mjQQBYAv6yOZSVAQCoPWMCWBIBQKwtCCUBANFARBlChBfPCG/dZUjxJECYJQECU+KGFQEC1YdN/NSUNRTDm4osQBGUwFjDFCBOYRo9QWxAmPlKQECRERMbVLCZapZ0owSrnz3hb6/P8auL9vAwr7/xeS5EV9q2sWU2vbtjla27Zt28akprq6a3bPtm2np87eJIvePUzd9fvoXkT0fwK4Vwdo8t6qyQW+O7Tn4k7NAdvi/jMR0fGpwhglhZBKm3B0pzvg3JcDrUuMEn7SDaUIRTLhhqb/AbDvw+bbJToMEq5QflFfv+QhJVPxcmkm/Ih9TzZfFxk/CJUnP7zMykJqnhsqQ51M6tTv2Pdgc/GKCuKmaI96HlhVAJy4vWVWWgRSfYJ9l4jv+4aB0F15Td3kH1YW4DiMnEJHGSaFOoOdw4LxOhCqPTf0JvLys6I8Wv/9BeeuhEkZfE+UZfNSOumqT+CArgHwbBHZw+ZB00AGeiYxIKKudH2zDxg97VK7FxdO6+9Pmt3l4J/bZR58rtyEOY6dtdhcMbPh2jsyNKr3mNnDy+c8Pig0od5wGXakg7DYgYgfU5648s0fC0Ljv9SigQVrHwUafXVgmNE92zBBBeYjsHn5L6Emz/6776EnxwJUsqKADMDmq8fG/T16fujr7lhknhheLG4PPwFD15IXs2xWFWBZVj4ndDW+fDItPRncssi75Fxv/iHQQL2PDbkg4k/zP/BfgfR1axxy59PM/IYdsypZWUCUiTlck2/zTz4fm3LzqkNlxxnzW+A4fK4vkbNrIbn7bgVoKn3djQu90krrllynQ1g7v2rpjUYsfeR6tdLSaqV5w5fR6E5+k8BVT/0aqqSXDAdV4wvpCplTCJnbFTLb9dTEHjoQQiTMC7Ah3PPuwbffOfD+xP4d3s7uMGDC+wcOvrs7kVKTZ6m4EMIVfn1O61JyrnuU3EM3A3znefrp142f5cnmnDXNyXecPFYUYNt2pVUlvot//qWFDszz9aTrCuGpQVX4Wn+KAw6rCrAgw/eqLZXQVQfmXZ5QnnCF2wrwdlJ5F8DhC1MP/itRnhv+wmHji7hpT+x0tekziRw7jxUF2LZznX3xOydH3e5fVhYWO5QOlClPzYFX9EMD65P9bBHZ16fLq7dHfrlal5vO2LxuKkTcfABvjZDxwsWvf9hs7pCv2ry5cowvB2/8iosq5YraWHw7JCxLyaAWZPoUrilMaRMKo8WwpQv0z2AXqnLzLA42H5gKEVcTuM76RfDtpVrzh9b5oTp0e5SI+Topy78hAzFm6QqRMN2gugNYLH0EoHF6Pyw3vm+OYQMRlwPpCd+sAep/WQ1OPGZZ13lO0ugpE0+m1xGRbdNKe67wzTN3Nouw3yfw03WH+nrnqUAnEul5YOXA5o20L4SnAiXjoX6f7Pm6RIeBl14EGe4a8VLad4UnvZTwysxR2DtOumEiUOpliLi7FWNb2vOEK4QQnnyoIav+Ko9XhGbUF1gZ7tWKcVBLX+T05HkOGmn0iA4WjsW9Ww6ny3WiTAjhyd41WWfGrv4sAof7t/l+ppGJlFeR7oBVr4kF2BYP0oYjDxsZpjuTsQDHsXjAUYxrrwwe9gGWRRRZ3CcA)",
+    "--iti-spacer-horizontal": "8px",
+    "--iti-triangle-border": "calc(6px / 2)",
+    "--swiper-navigation-size": "44px",
+    "--swiper-theme-color": "#007aff",
+    "--tw-ring-color": "rgba(59, 130, 246, .5)",
+    "--tw-ring-offset-color": "#fff",
+    "--tw-ring-offset-shadow": "0 0 #0000",
+    "--tw-ring-offset-width": "0px",
+    "--tw-ring-shadow": "0 0 #0000",
+    "--tw-shadow": "0 0 #0000"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 1848
+    },
+    {
+      "value": "20px",
+      "count": 40
+    },
+    {
+      "value": "16px",
+      "count": 23
+    },
+    {
+      "value": "24px",
+      "count": 19
+    },
+    {
+      "value": "8px",
+      "count": 13
+    },
+    {
+      "value": "28px",
+      "count": 10
+    },
+    {
+      "value": "122.5px",
+      "count": 8
+    },
+    {
+      "value": "12px",
+      "count": 8
+    },
+    {
+      "value": "10px",
+      "count": 7
+    },
+    {
+      "value": "60px",
+      "count": 7
+    },
+    {
+      "value": "104px",
+      "count": 6
+    },
+    {
+      "value": "40px",
+      "count": 6
+    },
+    {
+      "value": "70.8438px",
+      "count": 6
+    },
+    {
+      "value": "32px",
+      "count": 4
+    },
+    {
+      "value": "46.8438px",
+      "count": 4
+    },
+    {
+      "value": "58.8438px",
+      "count": 4
+    },
+    {
+      "value": "5px",
+      "count": 4
+    },
+    {
+      "value": "120px",
+      "count": 3
+    },
+    {
+      "value": "124px",
+      "count": 2
+    },
+    {
+      "value": "15px",
+      "count": 2
+    },
+    {
+      "value": "171.422px",
+      "count": 2
+    },
+    {
+      "value": "225px",
+      "count": 2
+    },
+    {
+      "value": "24.8438px",
+      "count": 2
+    },
+    {
+      "value": "25px",
+      "count": 2
+    },
+    {
+      "value": "300.391px",
+      "count": 2
+    },
+    {
+      "value": "32.5px",
+      "count": 2
+    },
+    {
+      "value": "357.5px",
+      "count": 2
+    },
+    {
+      "value": "375px",
+      "count": 2
+    },
+    {
+      "value": "406.234px",
+      "count": 2
+    },
+    {
+      "value": "99.9844px",
+      "count": 2
+    },
+    {
+      "value": "-80px",
+      "count": 1
+    },
+    {
+      "value": "100px",
+      "count": 1
+    },
+    {
+      "value": "14px",
+      "count": 1
+    },
+    {
+      "value": "3px",
+      "count": 1
+    },
+    {
+      "value": "4px",
+      "count": 1
+    },
+    {
+      "value": "50px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 518
+    },
+    {
+      "value": "4px",
+      "count": 28
+    },
+    {
+      "value": "8px",
+      "count": 14
+    },
+    {
+      "value": "12px",
+      "count": 4
+    },
+    {
+      "value": "9999px",
+      "count": 3
+    },
+    {
+      "value": "0px 5px 5px 0px",
+      "count": 1
+    },
+    {
+      "value": "1px",
+      "count": 1
+    },
+    {
+      "value": "3px 3px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "4px 4px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "5px 0px 0px 5px",
+      "count": 1
+    },
+    {
+      "value": "8px 8px 0px 0px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 569
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.1) 0px 0px 0px 2px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.16) 1px 1px 12px 5px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.25) 0px 4px 4px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.35) 1px 2px 8px 0px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 473
+      },
+      {
+        "value": "color 0.15s linear",
+        "count": 54
+      },
+      {
+        "value": "opacity 0.2s ease-in-out",
+        "count": 13
+      },
+      {
+        "value": "0.5s ease-out",
+        "count": 11
+      },
+      {
+        "value": "transform",
+        "count": 9
+      },
+      {
+        "value": "background-color 0.15s linear",
+        "count": 6
+      },
+      {
+        "value": "0.1s",
+        "count": 2
+      },
+      {
+        "value": "opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+        "count": 2
+      },
+      {
+        "value": "0.15s linear",
+        "count": 1
+      },
+      {
+        "value": "background-color 0.3s",
+        "count": 1
+      },
+      {
+        "value": "color 0.15s",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 573
+      }
+    ],
+    "prefersReducedMotion": false
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 164,
+      "pageHeightPx": 6239,
+      "bodyTextLen": 5008,
+      "bigImageCount": 1,
+      "textToHeightRatio": 0.802692739221029,
+      "largestHeadingPx": 46
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://cdn.icomoon.io/46248/CWIcons/style.css?2bl483 (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --background-dark has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --background-light-primary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --background-light-primary-with-opacity has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --background-light-secondary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --button-primary-bg has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --button-primary-bg-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --button-primary-text has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-0 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-lg has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-md has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-sm has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-xxl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --component-padding-xxs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-bg-default-opacity has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-black has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-blue has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-blue-100 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-blue-300 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-blue-500 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-blue-700 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-green-200 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-green-300 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-green-500 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-green-700 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-grey-100 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-grey-200 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-grey-400 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-grey-600 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-grey-700 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-grey-800 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-grey-900 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-orange-300 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-orange-500 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-orange-700 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-purple-300 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-purple-500 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-purple-700 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-white has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-yellow-100 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-yellow-300 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-yellow-450 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --cw-yellow-500 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --global-radius has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --global-text-default has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --global-text-inverted has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --link-primary-text has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --link-primary-text-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --link-primary-underline has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --link-primary-underline-height has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --link-primary-underline-hover has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --link-primary-underline-spacing has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --maxwidth-lg has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --maxwidth-md has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --maxwidth-sm has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --maxwidth-xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --maxwidth-xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --maxwidth-xxl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --maxwidth-xxs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-bg has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-border has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-button-primary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-button-primary-border has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-button-primary-text has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-button-secondary has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-button-secondary-border has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-button-secondary-text has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --nav-dropdown-border has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --social-apple has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --social-facebook has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --social-google has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --social-pay-pal has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --social-twitter has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-0 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-05 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-1 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-10 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-11 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-12 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-13 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-14 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-15 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-16 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-17 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-18 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-19 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-2 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-20 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-21 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-22 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-23 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-24 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-25 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-26 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-27 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-28 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-29 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-3 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-30 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-31 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-32 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-33 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-34 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-35 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-36 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-37 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-38 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-39 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-4 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-40 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-41 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-42 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-43 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-44 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-45 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-46 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-47 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-48 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-49 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-5 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-50 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-6 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-7 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-8 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --spacing-9 has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-2xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-2xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-3xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-3xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-4xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-5xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-6xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-accent has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-default has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-inverted has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-2xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-2xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-3xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-3xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-4xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-5xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-6xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-base has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-lg has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-sm has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-leading-xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-lg has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-sm has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-xl has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --text-xs has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-ring-inset has no resolved computed value on :root"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Visigner v2 — 상상하지 않는다. 증거로 짓고, 지어낸 숫자는 거부한다</title>
-<meta name="description" content="Visigner v2: 실제 페이지 12장의 캡처 증거로 빌드를 접지하고, 근거 없는 숫자를 기계가 거부하는 Claude Code 디자인 플러그인. 설치 두 줄.">
+<meta name="description" content="Visigner v2: 실제 페이지 42장의 캡처 증거로 빌드를 접지하고, 근거 없는 숫자를 기계가 거부하는 Claude Code 디자인 플러그인. 설치 두 줄.">
 <link rel="canonical" href="https://elon-choo.github.io/visigner/">
 <meta property="og:title" content="Visigner v2 — It doesn't imagine.">
 <meta property="og:description" content="Builds grounded in a corpus of 12 captured pages. Fabricated numbers mechanically refused. Two lines to install.">
@@ -32,6 +32,14 @@
   --color-verm:       color(srgb 0.87059 0.24706 0.14902);
   --color-verm-press: color(srgb 0.72549 0.2 0.09412);
   --color-verm-bright:color(srgb 0.9098 0.35294 0.23529);
+  /* verm-bright with lightness lifted only — same OKLCH hue 33.6 and chroma .182, L .649 -> .689.
+     For the ONE place the vermilion sits on translucent chrome: the sticky nav. The nav paints
+     --color-ink-glass (ink at 93%, no backdrop-filter), so when it rides over the bone .final band
+     its effective ground is #25292F, where #E85A3C measures 4.14:1 — under the 4.5:1 axe requires.
+     Deliberately NOT applied to --color-verm-bright globally: that token is also the :focus-visible
+     ring, and on the bone band lifting it would drop the ring from 3.07:1 to 2.62:1, under the 3:1
+     non-text floor. Fixing one contrast failure by opening another is not a fix. */
+  --color-verm-on-glass: oklch(0.689 0.182 33.6);
   --color-pine:       color(srgb 0.2902 0.51765 0.40392);
   --color-pine-bright:color(srgb 0.36863 0.60392 0.47843);
   --color-pine-on-bone:color(srgb 0.24314 0.44706 0.34118);
@@ -78,6 +86,14 @@
   --color-verm:       color(srgb 0.87059 0.24706 0.14902);
   --color-verm-press: color(srgb 0.72549 0.2 0.09412);
   --color-verm-bright:color(srgb 0.9098 0.35294 0.23529);
+  /* verm-bright with lightness lifted only — same OKLCH hue 33.6 and chroma .182, L .649 -> .689.
+     For the ONE place the vermilion sits on translucent chrome: the sticky nav. The nav paints
+     --color-ink-glass (ink at 93%, no backdrop-filter), so when it rides over the bone .final band
+     its effective ground is #25292F, where #E85A3C measures 4.14:1 — under the 4.5:1 axe requires.
+     Deliberately NOT applied to --color-verm-bright globally: that token is also the :focus-visible
+     ring, and on the bone band lifting it would drop the ring from 3.07:1 to 2.62:1, under the 3:1
+     non-text floor. Fixing one contrast failure by opening another is not a fix. */
+  --color-verm-on-glass: oklch(0.689 0.182 33.6);
   --color-pine:       color(srgb 0.2902 0.51765 0.40392);
   --color-pine-bright:color(srgb 0.36863 0.60392 0.47843);
   --color-pine-on-bone:color(srgb 0.24314 0.44706 0.34118);
@@ -140,10 +156,14 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
 @media (max-width:640px){ h2{font-size:var(--fs-27)} }
 /* ============ nav ============ */
 .nav{border-bottom:1px solid var(--color-rule-soft);position:sticky;top:0;background:var(--color-ink-glass);z-index:50}
-.nav-in{display:flex;align-items:center;gap:var(--space-3);height:60px}
+.nav-in{display:flex;align-items:center;gap:var(--space-3);min-height:60px}
+/* min-width:0 lets the flex row actually shrink. Without it the items refuse to go below their
+   content width and the browser falls back to character-wrap — Korean labels stacked one glyph per
+   line and the row grew past the 60px bar instead of narrowing (WCAG 1.4.10). */
+.nav-in > *{min-width:0}
 .wordmark{font-family:var(--font-display);font-weight:900;font-size:var(--fs-21);letter-spacing:-.02em;
   text-decoration:none;display:flex;align-items:baseline;gap:9px}
-.wordmark .v2{font-weight:500;font-size:var(--fs-12);color:var(--color-verm-bright);
+.wordmark .v2{font-weight:500;font-size:var(--fs-12);color:var(--color-verm-on-glass);
   border:1px solid var(--color-rule);padding:1px 8px;border-radius:99px}
 .nav-links{display:flex;gap:var(--space-3);margin-left:auto;align-items:center}
 .nav-links a{font-size:var(--fs-14);color:var(--color-bone-dim);text-decoration:none}
@@ -155,6 +175,24 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
   background:var(--color-verm-press);text-decoration:none;padding:8px 15px;border-radius:var(--radius-1)}
 .nav-links a.nav-cta:hover{background:var(--color-verm)}
 @media (max-width:860px){ .nav-links a.hide-m{display:none} }
+/* Degradation starts at 500px and the row is fully broken by 420px, so drop the remaining text links
+   before that and keep only the install CTA + language toggle — the two things a phone visitor needs. */
+@media (max-width:520px){
+  .nav-links{gap:var(--space-2)}
+  .nav-links a:not(.nav-cta){display:none}
+  .nav-links a.nav-cta{padding:8px 12px;white-space:nowrap}
+  .lang-tg{white-space:nowrap;padding:5px 10px}
+}
+/* Below 360px even the two-word CTA overruns: swap in the one-word label. Both languages get one so
+   the toggle never lands on an empty button. */
+/* The wide label is the default; the short one only exists below 360px. The language attribute lives
+   on the root as data-lang (see the two rules near the top), so these ride on that same switch. */
+.nav-cta .narrow-only{display:none}
+@media (max-width:360px){
+  .nav-cta .wide-only{display:none}
+  [data-lang="ko"] .nav-cta .ko.narrow-only{display:inline}
+  [data-lang="en"] .nav-cta .en.narrow-only{display:inline}
+}
 /* ============ hero ============ */
 .hero{padding:var(--space-6) 0 var(--space-5)}
 .hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:var(--space-5);align-items:start}
@@ -288,6 +326,20 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
 .sidecar-anti .chip{font-size:var(--fs-12);color:var(--color-paper-mut);
   border:1px solid var(--color-bone-rule);border-radius:99px;padding:4px 12px}
 .sidecar-anti .chip::before{content:"⨯ ";color:var(--color-verm-press)}
+/* ============ ships — the pages that are actually in the box ============ */
+.ships{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-3)}
+@media (max-width:860px){ .ships{grid-template-columns:1fr;max-width:520px} }
+.ship{border:1px solid var(--color-rule);border-radius:var(--radius-2);background:var(--color-ink-2);
+  overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.ship-shot{width:100%;height:auto;background:var(--color-bone);border-bottom:1px solid var(--color-rule)}
+.ship-tab{display:flex;align-items:baseline;gap:var(--space-2);padding:9px var(--space-2);
+  border-bottom:1px dashed var(--color-rule-soft);min-width:0}
+.ship-tab code{font-size:var(--fs-12);color:var(--color-bone);min-width:0;overflow-wrap:anywhere}
+.ship-tab .kind{margin-left:auto;flex:none;font-size:var(--fs-12);color:var(--color-muted)}
+.ship-cap{padding:var(--space-2);font-size:var(--fs-14);line-height:1.7;color:var(--color-bone-dim)}
+.ship-cap strong{color:var(--color-bone);font-weight:600}
+.ships-foot{margin-top:var(--space-3);font-size:var(--fs-12);color:var(--color-muted);line-height:1.95}
+.ships-foot code{color:var(--color-pine-bright);overflow-wrap:anywhere}
 /* ============ ledger — no header pattern; a statement, then rows ============ */
 .ledger-open{font-family:var(--font-display);font-weight:900;font-size:var(--fs-39);line-height:1.2;
   max-width:20em;margin-bottom:var(--space-2)}
@@ -358,7 +410,7 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
       <a href="guide.html"><span class="ko">가이드</span><span class="en">Guide</span></a>
       <a href="how-to.html"><span class="ko">실전</span><span class="en">How-to</span></a>
       <button class="lang-tg" id="langTg" type="button" aria-label="Switch language / 언어 전환">KO / EN</button>
-      <a class="nav-cta" href="#install"><span class="ko">설치 2줄</span><span class="en">Install, 2 lines</span></a>
+      <a class="nav-cta" href="#install" aria-label="설치 2줄 / Install, 2 lines"><span class="ko wide-only">설치 2줄</span><span class="en wide-only">Install, 2 lines</span><span class="ko narrow-only">설치</span><span class="en narrow-only">Install</span></a>
     </div>
   </div>
 </nav>
@@ -375,10 +427,10 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
         <span class="en">It doesn't<br>imagine<span class="period">.</span></span>
       </h1>
       <p class="hero-sub">
-        <span class="ko">Visigner v2는 디자인을 감으로 그리지 않습니다. <strong>실제 페이지 12장의 캡처 증거</strong>로 빌드를 접지하고,
+        <span class="ko">Visigner v2는 디자인을 감으로 그리지 않습니다. <strong>실제 페이지 42장의 캡처 증거</strong>로 빌드를 접지하고,
         레시피가 뒷받침하지 않는 숫자는 <span class="refword">기계가 거부</span>합니다.
         랜딩과 상세페이지, 앱 UI, 브랜드, 토큰까지 전부 이 규율 위에서.</span>
-        <span class="en">Visigner v2 doesn't design from vibes. Builds are grounded in <strong>captured evidence from 12 real pages</strong>,
+        <span class="en">Visigner v2 doesn't design from vibes. Builds are grounded in <strong>captured evidence from 42 real pages</strong>,
         and any number the recipe can't back is <span class="refword">mechanically refused</span>.
         Landing pages, Korean detail pages, app UI, brand, tokens: all on that discipline.</span>
       </p>
@@ -502,9 +554,9 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
       <p class="eyebrow"><span class="ko">근거의 출처</span><span class="en">Where the evidence lives</span></p>
       <h2 id="corpus-h"><span class="ko">상상이 아니라,<br>캡처입니다</span><span class="en">Captured,<br>not imagined</span></h2>
       <p>
-        <span class="ko">빌드가 접지되는 코퍼스입니다. 실제로 렌더해 타일과 본문, 실측 스타일까지 뜬 페이지 12장.
+        <span class="ko">빌드가 접지되는 코퍼스입니다. 실제로 렌더해 타일과 본문, 실측 스타일까지 뜬 페이지 42장.
         잘된 페이지만이 아니라 <strong>반면교사</strong>도 기록합니다. 첫 한국 positive 상세페이지가 이번 v2에 들어왔습니다.</span>
-        <span class="en">The corpus a build grounds into: 12 pages actually rendered and captured, tiles to body text to measured styles.
+        <span class="en">The corpus a build grounds into: 42 pages actually rendered and captured, tiles to body text to measured styles.
         Not just the good ones. <strong>Negative exemplars</strong> are on file too, and the first Korean-positive detail page landed in v2.</span>
       </p>
     </div>
@@ -557,6 +609,80 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
         <span class="chip"><span class="ko">내러티브로 합쳐지지 않는 기능 카드 그리드</span><span class="en">feature grids that never add up to a narrative</span></span>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ============ SHIPS — real renders of the pages inside the plugin ============ -->
+<section class="sect" id="ships" aria-labelledby="ships-h">
+  <div class="wrap">
+    <div class="sect-head">
+      <h2 id="ships-h"><span class="ko">설명 말고, 페이지를 보여드립니다</span><span class="en">Enough describing. Here are the pages.</span></h2>
+      <span class="rulebar" aria-hidden="true"></span>
+    </div>
+    <p class="sect-lede">
+      <span class="ko">아래 세 장은 플러그인 안에 실제로 들어 있는 <strong>스타터 페이지</strong>입니다. 설치하면
+      <code>skills/detail-page/assets/starter/</code>에 그대로 딸려오고, 브리프에 맞춰 갈아끼우는 출발점입니다.
+      썸네일은 그 파일을 지금 그대로 렌더해서 찍은 화면이지, 상상해서 그린 목업이 아닙니다.</span>
+      <span class="en">These three are <strong>starter pages that actually ship inside the plugin</strong>, installed to
+      <code>skills/detail-page/assets/starter/</code> as the starting point you replace per brief.
+      Each thumbnail is that file rendered as it stands — not a mockup drawn from imagination.</span>
+    </p>
+    <div class="ships">
+      <figure class="ship">
+        <img class="ship-shot" src="assets/starter-landing.png" width="512" height="640" loading="lazy" decoding="async"
+             data-alt-ko="skills/detail-page/assets/starter/landing.html 렌더 화면. 'Marrow' 시간 추적 제품의 마케팅 랜딩 상단으로, 세리프 대형 헤드라인과 어두운 터미널 목업, 그 아래 로고 바가 보인다."
+             data-alt-en="Rendered screenshot of skills/detail-page/assets/starter/landing.html — the top of the 'Marrow' time-tracking marketing landing, showing a large serif headline, a dark terminal mock, and a logo bar beneath."
+             alt="skills/detail-page/assets/starter/landing.html 렌더 화면. 'Marrow' 시간 추적 제품의 마케팅 랜딩 상단으로, 세리프 대형 헤드라인과 어두운 터미널 목업, 그 아래 로고 바가 보인다.">
+        <div class="ship-tab">
+          <code>starter/landing.html</code>
+          <span class="kind"><span class="ko">마케팅 랜딩</span><span class="en">marketing landing</span></span>
+        </div>
+        <figcaption class="ship-cap">
+          <span class="ko"><strong>서구권 마케팅 랜딩.</strong> 세리프 대형 헤드라인, 제품을 실제로 보여주는 터미널 목업,
+          로고 바, 기능 섹션이 한 파일에 들어 있습니다.</span>
+          <span class="en"><strong>A Latin-first marketing landing.</strong> Big serif headline, a terminal mock that shows the
+          product doing its job, a logo bar and a feature section — one file.</span>
+        </figcaption>
+      </figure>
+      <figure class="ship">
+        <img class="ship-shot" src="assets/starter-pricing.png" width="512" height="640" loading="lazy" decoding="async"
+             data-alt-ko="skills/detail-page/assets/starter/pricing.html 렌더 화면. 'Cadence' 요금제 페이지로, 월간·연간 토글과 3단 플랜 카드, 그 아래 줄 단위 비교표가 보인다."
+             data-alt-en="Rendered screenshot of skills/detail-page/assets/starter/pricing.html — the 'Cadence' pricing page, showing a monthly/annual toggle, three plan cards, and a line-by-line comparison table below."
+             alt="skills/detail-page/assets/starter/pricing.html 렌더 화면. 'Cadence' 요금제 페이지로, 월간·연간 토글과 3단 플랜 카드, 그 아래 줄 단위 비교표가 보인다.">
+        <div class="ship-tab">
+          <code>starter/pricing.html</code>
+          <span class="kind"><span class="ko">요금제 비교</span><span class="en">plan comparison</span></span>
+        </div>
+        <figcaption class="ship-cap">
+          <span class="ko"><strong>요금제 비교 페이지.</strong> 월간과 연간 토글, 3단 플랜 카드, 그리고 플랜을 줄 단위로
+          맞대는 비교표까지.</span>
+          <span class="en"><strong>A plan-comparison pricing page.</strong> Monthly and annual toggle, three plan cards, and a
+          table that puts the plans side by side, line by line.</span>
+        </figcaption>
+      </figure>
+      <figure class="ship">
+        <img class="ship-shot" src="assets/starter-settings.png" width="512" height="640" loading="lazy" decoding="async"
+             data-alt-ko="skills/detail-page/assets/starter/settings.html 렌더 화면. 앱 설정 화면으로, 이메일 입력란의 붉은 검증 에러와 읽기 전용 필드, 켜짐·꺼짐·잠금 상태의 토글이 보인다."
+             data-alt-en="Rendered screenshot of skills/detail-page/assets/starter/settings.html — an app settings screen showing a red validation error on the email field, read-only fields, and toggles in on, off and locked states."
+             alt="skills/detail-page/assets/starter/settings.html 렌더 화면. 앱 설정 화면으로, 이메일 입력란의 붉은 검증 에러와 읽기 전용 필드, 켜짐·꺼짐·잠금 상태의 토글이 보인다.">
+        <div class="ship-tab">
+          <code>starter/settings.html</code>
+          <span class="kind"><span class="ko">앱 설정 화면</span><span class="en">app settings screen</span></span>
+        </div>
+        <figcaption class="ship-cap">
+          <span class="ko"><strong>앱 설정 화면.</strong> 잘 되는 상태만 그린 게 아니라 검증 에러와 읽기 전용 필드,
+          켜짐과 꺼짐과 잠금까지 토글 상태를 미리 그려 뒀습니다.</span>
+          <span class="en"><strong>An app settings screen.</strong> Not just the happy path: a validation error, read-only
+          fields, and toggles already drawn in their on, off and locked states.</span>
+        </figcaption>
+      </figure>
+    </div>
+    <p class="ships-foot">
+      <span class="ko">캡처 조건: 1280×1600 뷰포트에서 2배 스케일로 렌더한 뒤 512×640으로 리샘플했고, 세 파일 모두 콘솔 에러 0으로 로드됐습니다.
+      직접 확인하려면 설치 후 <code>skills/detail-page/assets/starter/</code>의 파일을 브라우저로 여세요.</span>
+      <span class="en">Capture: rendered at a 1280×1600 viewport at 2× scale, resampled to 512×640; all three loaded with 0 console errors.
+      To check for yourself, open the files in <code>skills/detail-page/assets/starter/</code> after installing.</span>
+    </p>
   </div>
 </section>
 
@@ -652,6 +778,8 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
   </div>
 </section>
 
+</main>
+
 <footer class="footer">
   <div class="wrap foot-in">
     <a href="https://github.com/elon-choo/visigner"><span class="ko">깃허브 ↗</span><span class="en">GitHub ↗</span></a>
@@ -662,8 +790,6 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
     <span><span class="ko">소스 공개, 코어 의존성 0, 제작</span><span class="en">source-open, 0 core deps, built by</span> <a href="https://github.com/elon-choo">@elon-choo</a></span>
   </div>
 </footer>
-
-</main>
 
 <div class="toast" id="toast" aria-hidden="true"></div>
 <div class="sr-status" role="status" aria-live="polite" id="copyStatus"></div>
@@ -713,6 +839,27 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
       });
     }, { threshold: 0.45 });
     io.observe(band);
+  }
+})();
+</script>
+<script>
+// Bilingual alt text. The .ko/.en span trick can't reach inside an attribute, so the screenshot alts
+// carry data-alt-ko / data-alt-en and get swapped whenever <html data-lang> changes. Deliberately
+// additive: this watches the attribute instead of hooking the toggle handler, so it also covers the
+// localStorage restore that runs before anyone clicks, and it cannot break the toggle if it throws.
+(function(){
+  var root = document.documentElement;
+  var imgs = document.querySelectorAll('img[data-alt-ko][data-alt-en]');
+  if (!imgs.length) return;
+  function sync(){
+    var en = root.getAttribute('data-lang') === 'en';
+    Array.prototype.forEach.call(imgs, function(img){
+      img.setAttribute('alt', img.getAttribute(en ? 'data-alt-en' : 'data-alt-ko'));
+    });
+  }
+  sync();
+  if ('MutationObserver' in window) {
+    new MutationObserver(sync).observe(root, { attributes: true, attributeFilter: ['data-lang'] });
   }
 })();
 </script>

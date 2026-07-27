@@ -132,6 +132,13 @@
   .col { max-width: 1080px; margin-inline: auto; padding-inline: 24px; }
   .col-narrow { max-width: 720px; margin-inline: auto; padding-inline: 24px; }
 
+  /* ---- Masthead: wraps instead of overflowing. Word-length in nav labels is content, not layout, so the
+     bar has to survive a longer label without pushing the document past the viewport. ---- */
+  .masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px 16px;
+    flex-wrap: wrap; padding-block: 20px; }
+  .masthead nav { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 24px; font-size: 14px; }
+  @media (max-width: 560px) { .masthead nav { gap: 10px 16px; } }
+
   /* ---- One repeated layout primitive: the bordered card (features + pricing reuse it) ---- */
   .card { background: var(--color-card); border: 1px solid var(--color-line); border-radius: 16px; box-shadow: var(--shadow-e1); }
 
@@ -158,15 +165,30 @@
   .hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 48px; align-items: center; }
   @media (max-width: 880px) { .grid-3, .grid-2, .hero-grid { grid-template-columns: 1fr; } }
 
-  .eyebrow { font-family: var(--font-latin); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-primary); }
+  /* ---- Run-in head: the tier name and the sentence that qualifies it are ONE typographic unit (display
+     name + deck in the body face). Replaces the name-label-plus-detached-paragraph pattern; hierarchy is
+     size + weight + color, never tracking or a mono costume. There is deliberately NO .eyebrow class here:
+     a tracked kicker over every section header is the single most legible AI tell in this genre. ---- */
+  .deck { display: block; font-family: var(--font-body); font-size: 14px; font-weight: 400; line-height: 1.5;
+    letter-spacing: 0; color: var(--color-muted); margin-top: 8px; }
+
+  /* Solid-fill lozenge for the one recommended tier. Filled shape + sentence case, so it reads as emphasis
+     rather than as a tracked uppercase micro-label repeated for decoration. */
+  .flag { font-size: 12px; font-weight: 600; color: var(--color-on-accent); background: var(--color-accent);
+    padding: 4px 11px; border-radius: 9999px; white-space: nowrap; }
+
+  /* A single quote, set large in the display face and given its own full-bleed beat — the page's one piece
+     of qualitative proof, and the rhythm break between the feature grid and the price. */
+  .pull { font-family: var(--font-display); font-size: clamp(21px, 2.8vw, 30px); font-weight: 600;
+    line-height: 1.32; margin: 0; }
 </style>
 </head>
 <body>
 
 <!-- ░░ NAV ░░ -->
-<header class="col" style="display:flex;align-items:center;justify-content:space-between;padding-block:20px">
+<header class="col masthead">
   <span class="font-display" style="font-size:22px;font-weight:900;letter-spacing:-0.02em">Marrow</span>
-  <nav style="display:flex;align-items:center;gap:24px;font-size:14px">
+  <nav aria-label="Primary">
     <a href="#features" class="text-muted" style="text-decoration:none">Features</a>
     <a href="#pricing" class="text-muted" style="text-decoration:none">Pricing</a>
     <a href="#faq" class="text-muted" style="text-decoration:none">FAQ</a>
@@ -178,8 +200,7 @@
   <!-- ░░ 1 · HERO — thesis grounded in the subject (a terminal), not a big-number+gradient template ░░ -->
   <section class="col hero-grid" style="padding-block:64px">
     <div>
-      <p class="eyebrow reveal" data-d="1">time tracking · zero context-switch</p>
-      <h1 class="reveal" data-d="2" style="font-size:clamp(40px,6vw,68px);font-weight:900;line-height:1.02;margin-top:14px">
+      <h1 class="reveal" data-d="2" style="font-size:clamp(40px,6vw,68px);font-weight:900;line-height:1.02">
         Time tracking that disappears into your terminal.
       </h1>
       <p class="reveal text-muted" data-d="3" style="font-size:clamp(17px,2vw,20px);line-height:1.5;margin-top:20px;max-width:30em">
@@ -229,10 +250,12 @@ Wed ████░░░░░  3.4h</span></pre>
   <!-- ░░ 3 · VALUE — the thesis expanded into one sharp statement ░░ -->
   <section class="bg-ink text-surface" style="padding-block:64px">
     <div class="col-narrow reveal" style="text-align:center">
-      <p class="eyebrow" style="color:var(--color-accent-300)">why it sticks</p>
-      <p class="font-display" style="font-size:clamp(26px,4vw,40px);font-weight:600;line-height:1.2;margin-top:16px">
-        Every tracker you abandoned needed you to remember it. Marrow lives where you already are, so the timer
-        runs even when you forget it exists.
+      <p class="font-display" style="font-size:clamp(26px,4vw,40px);font-weight:600;line-height:1.2">
+        Every tracker you abandoned needed you to remember it.
+      </p>
+      <p style="font-size:17px;line-height:1.6;opacity:0.8;margin-top:18px;max-width:34em;margin-inline:auto">
+        Marrow lives where you already are, so the timer keeps running even when you forget it exists, and the
+        week is already written by the time you stop.
       </p>
     </div>
   </section>
@@ -240,15 +263,14 @@ Wed ████░░░░░  3.4h</span></pre>
   <!-- ░░ 4 · FEATURES — ONE repeated primitive (.card), benefit headline above each ░░ -->
   <section id="features" class="col" style="padding-block:64px">
     <div class="reveal" style="max-width:38em">
-      <p class="eyebrow">features</p>
-      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.05;margin-top:12px">
+      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.05">
         Built for people who hate tracking time.
       </h2>
     </div>
     <div class="grid-3" style="margin-top:40px">
       <article class="card reveal" data-d="1" style="padding:24px">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--color-primary)"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-        <h3 style="font-size:20px;font-weight:600;margin-top:16px">One command, zero ceremony</h3>
+        <h3 style="font-size:20px;font-weight:600;margin-top:16px">Start and stop with two words</h3>
         <p class="text-muted" style="margin-top:8px;font-size:15px;line-height:1.55">
           <code style="font-family:var(--font-latin)">mar start</code> and <code style="font-family:var(--font-latin)">mar stop</code>.
           That is the entire interface. No timesheet grid to fill on Friday.
@@ -256,7 +278,7 @@ Wed ████░░░░░  3.4h</span></pre>
       </article>
       <article class="card reveal" data-d="2" style="padding:24px">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--color-primary)"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-        <h3 style="font-size:20px;font-weight:600;margin-top:16px">Auto-tags from git</h3>
+        <h3 style="font-size:20px;font-weight:600;margin-top:16px">Every commit tags the session itself</h3>
         <p class="text-muted" style="margin-top:8px;font-size:15px;line-height:1.55">
           Commits, branches and PRs attach themselves to the running session, so the log writes itself
           with real context instead of "misc work".
@@ -264,7 +286,7 @@ Wed ████░░░░░  3.4h</span></pre>
       </article>
       <article class="card reveal" data-d="3" style="padding:24px">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--color-primary)"><path d="M3 3v18h18"/><rect x="7" y="11" width="3" height="7"/><rect x="13" y="7" width="3" height="11"/></svg>
-        <h3 style="font-size:20px;font-weight:600;margin-top:16px">Invoices in one line</h3>
+        <h3 style="font-size:20px;font-weight:600;margin-top:16px">A month of sessions becomes an invoice</h3>
         <p class="text-muted" style="margin-top:8px;font-size:15px;line-height:1.55">
           <code style="font-family:var(--font-latin)">mar bill --client acme</code> turns a month of sessions into a
           clean, client-ready breakdown you can export.
@@ -273,16 +295,26 @@ Wed ████░░░░░  3.4h</span></pre>
     </div>
   </section>
 
-  <!-- ░░ 5 · PRICING — same .card primitive, accent reserved for the recommended tier's CTA ░░ -->
-  <section id="pricing" class="col" style="padding-block:48px 64px">
+  <!-- ░░ 5 · ONE VOICE — a headingless beat between the feature grid and the price. Its job in the pacing arc
+       is to break the header-block rhythm and to put a named human between two blocks of product claims. ░░ -->
+  <section class="col" style="padding-block:8px 40px">
+    <figure class="reveal" style="max-width:34em;margin:0 auto;text-align:center">
+      <blockquote class="pull">“I stopped filling in timesheets on Friday. The week was already written.”</blockquote>
+      <figcaption class="text-muted" style="margin-top:14px;font-size:14px">
+        Dana Okafor, contract backend engineer, billing 4 clients
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- ░░ 6 · PRICING — same .card primitive, accent reserved for the recommended tier's CTA ░░ -->
+  <section id="pricing" class="col" style="padding-block:8px 64px">
     <div class="reveal" style="text-align:center;max-width:34em;margin-inline:auto">
-      <p class="eyebrow">pricing</p>
-      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.05;margin-top:12px">Free to track. Pay when you bill.</h2>
+      <h2 style="font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.05">Free to track. Pay when you bill.</h2>
     </div>
     <div class="grid-2" style="margin-top:40px;max-width:760px;margin-inline:auto">
       <article class="card reveal" data-d="1" style="padding:28px;display:flex;flex-direction:column">
-        <h3 style="font-size:18px;font-weight:600">Solo</h3>
-        <p style="margin-top:10px"><span class="font-display" style="font-size:44px;font-weight:900">$0</span><span class="text-muted" style="font-size:15px"> / forever</span></p>
+        <h3 style="font-size:18px;font-weight:600">Solo<span class="deck">free forever, for one person tracking their own work</span></h3>
+        <p style="margin-top:14px"><span class="font-display" style="font-size:44px;font-weight:900">$0</span><span class="text-muted" style="font-size:15px"> / forever</span></p>
         <ul class="text-muted" style="margin-top:18px;font-size:15px;line-height:2;list-style:none;padding:0">
           <li>Unlimited tracking + git tags</li>
           <li>Weekly &amp; monthly summaries</li>
@@ -291,11 +323,11 @@ Wed ████░░░░░  3.4h</span></pre>
         <a href="#cta" class="btn btn-ghost" style="margin-top:auto;margin-top:24px">Install Marrow</a>
       </article>
       <article class="card reveal" data-d="2" style="padding:28px;display:flex;flex-direction:column;border-color:var(--color-accent);box-shadow:var(--shadow-e2)">
-        <div style="display:flex;align-items:center;justify-content:space-between">
-          <h3 style="font-size:18px;font-weight:600">Billable</h3>
-          <span style="font-family:var(--font-latin);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-on-accent);background:var(--color-accent);padding:4px 10px;border-radius:9999px">Popular</span>
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+          <h3 style="font-size:18px;font-weight:600">Billable<span class="deck">for when the hours have to turn into an invoice</span></h3>
+          <span class="flag">Most picked</span>
         </div>
-        <p style="margin-top:10px"><span class="font-display" style="font-size:44px;font-weight:900">$9</span><span class="text-muted" style="font-size:15px"> / month</span></p>
+        <p style="margin-top:14px"><span class="font-display" style="font-size:44px;font-weight:900">$9</span><span class="text-muted" style="font-size:15px"> / month</span></p>
         <ul class="text-muted" style="margin-top:18px;font-size:15px;line-height:2;list-style:none;padding:0">
           <li>Everything in Solo</li>
           <li>One-line client invoices</li>
@@ -306,7 +338,7 @@ Wed ████░░░░░  3.4h</span></pre>
     </div>
   </section>
 
-  <!-- ░░ 6 · FAQ — native <details>, no JS, empty/answer states free ░░ -->
+  <!-- ░░ 7 · FAQ — native <details>, no JS, empty/answer states free ░░ -->
   <section id="faq" class="col-narrow" style="padding-block:48px 64px">
     <h2 class="reveal" style="font-size:clamp(26px,4vw,38px);font-weight:900;text-align:center">Questions, answered</h2>
     <div class="reveal" style="margin-top:28px;border-top:1px solid var(--color-line)">
@@ -325,7 +357,7 @@ Wed ████░░░░░  3.4h</span></pre>
     </div>
   </section>
 
-  <!-- ░░ 7 · FINAL CTA — recap ONE benefit + the focal-accent action ░░ -->
+  <!-- ░░ 8 · FINAL CTA — recap ONE benefit + the focal-accent action ░░ -->
   <section id="cta" class="bg-ink text-surface" style="padding-block:72px">
     <div class="col-narrow reveal" style="text-align:center">
       <h2 style="font-size:clamp(30px,5vw,52px);font-weight:900;line-height:1.05">Stop remembering to track. Just code.</h2>

@@ -1,0 +1,568 @@
+{
+  "schema_version": "1.0.0",
+  "id": "clerk",
+  "capture_dir": "captures/stage2/clerk",
+  "url": "https://clerk.com",
+  "title": "Clerk | Authentication and User Management",
+  "status": 200,
+  "captured_at": "2026-07-18",
+  "freshness": {
+    "capturedAt": "2026-07-18T00:00:30.095Z",
+    "recaptureDueAt": "2026-10-16T00:00:30.095Z",
+    "policy": "90d"
+  },
+  "family": "app-ui",
+  "mode": "landing",
+  "category": "saas-marketing-site",
+  "exemplar_role": "positive",
+  "sector": "dev-tools",
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "Tags are limited to the supplied data.json, styles.json, bodytext.txt, and PNG tiles. authoredRegion.verdict is unknown, so collector CSS values are not attributed to the authored surface. The capture visibly includes both light marketing bands and dark authentication feature bands; the platform nav is not separately annotated because no chrome-region map is present.",
+  "capture": {
+    "page_height_px": {
+      "value": 7616,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight",
+      "gap": null
+    },
+    "body_text_len": {
+      "value": 13039,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen",
+      "gap": null
+    },
+    "image_count": {
+      "value": 24,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/imageCount",
+      "gap": null
+    },
+    "big_images": {
+      "value": [
+        "https://clerk.com/_next/static/media/circuit-lines@2xl.0~0tt7bohu08~.webp?dpl=dpl_7v5ywwZAja5SzLdzCGVfVB6imwRY",
+        "https://clerk.com/_next/static/media/circuit-components@2xl.062j.easiiyfv.webp?dpl=dpl_7v5ywwZAja5SzLdzCGVfVB6imwRY",
+        "…20 more…"
+      ],
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bigImages — 22 entries; first 2 listed; …20 more…",
+      "gap": "GAP-09"
+    },
+    "tile_count": {
+      "value": 5,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of tile_*.png on disk (tile_00..tile_04)",
+      "gap": null
+    },
+    "tile_w_px": {
+      "value": 1280,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_h_px": {
+      "value": 1600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_format": {
+      "value": "png",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG file header, tile_00.png",
+      "gap": null
+    },
+    "tile_scale": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1280/1280 = 1; native 1280×1600 PNG tile dimensions",
+      "gap": null
+    },
+    "covered_height_px": {
+      "value": 8000,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "5 tiles × 1600px = 8000px",
+      "gap": "GAP-05"
+    },
+    "coverage_ok": {
+      "value": true,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "8000 >= 7616 = true",
+      "gap": "GAP-05"
+    },
+    "color_fidelity": {
+      "value": "lossless",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG + 1280/1280 scale = lossless",
+      "gap": null
+    },
+    "has_dom": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture directory contains styles.json but no captured DOM dump; has_dom = false",
+      "gap": "GAP-01"
+    }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": {
+        "value": {
+          "hue_family": "achromatic-light",
+          "role_note": "White and very light gray carry the hero, component introduction, pricing, and testimonial regions."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.9,
+        "evidence": "tile_00.png and tile_04.png",
+        "gap": null
+      },
+      "secondary_30": {
+        "value": {
+          "hue_family": "near-black",
+          "role_note": "Near-black dark feature bands and charcoal UI cards supply the strongest secondary surface."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.84,
+        "evidence": "tile_01.png",
+        "gap": null
+      },
+      "accent_10": {
+        "value": {
+          "hue_family": "violet",
+          "role_note": "Violet is reserved for the primary CTA and small product/category accents."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.8,
+        "evidence": "tile_00.png and tile_04.png",
+        "gap": null
+      },
+      "field_committed": {
+        "value": false,
+        "provenance": "tile-vision",
+        "confidence": 0.84,
+        "evidence": "tile_00.png, tile_01.png, and tile_04.png show light and dark bands with violet CTA accents, not one saturated field owning the page",
+        "gap": null
+      },
+      "field_evidence": {
+        "value": "The page alternates white/light-gray marketing bands and a near-black authentication feature band; violet remains an accent rather than a page field.",
+        "provenance": "tile-vision",
+        "confidence": 0.8,
+        "evidence": "tile_00.png and tile_01.png",
+        "gap": null
+      },
+      "field_sections": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      }
+    },
+    "temperature": {
+      "value": "cool-neutral",
+      "provenance": "tile-vision",
+      "confidence": 0.78,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "computed_backgrounds": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; computed backgrounds are not safely attributable to the authored region.",
+      "gap": "GAP-01"
+    },
+    "ramp": [],
+    "chroma_max_measured": {
+      "value": null,
+      "provenance": "tile-px",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "chrome_excluded": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No human chrome-region annotation is present.",
+      "gap": "GAP-07"
+    }
+  },
+  "type": {
+    "display": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "body": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "mono": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; mono family is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; type scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "pairing_note": {
+      "value": "Large sans-serif authentication claims are paired with neutral explanatory copy, compact component labels, and dark product UI panels.",
+      "provenance": "tile-vision",
+      "confidence": 0.78,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "weight_contrast_observed": {
+      "value": "strong",
+      "provenance": "tile-vision",
+      "confidence": 0.84,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "kr_display_present": {
+      "value": false,
+      "provenance": "tile-vision",
+      "confidence": 1,
+      "evidence": "tile_00.png and tile_04.png show Latin display copy; no Korean display text is visible.",
+      "gap": null
+    }
+  },
+  "layout": {
+    "archetype": {
+      "value": "band-stack",
+      "provenance": "tile-vision",
+      "confidence": 0.84,
+      "evidence": "tile_00.png, tile_01.png, and tile_04.png show a hero, logo proof row, component sections, dark feature bands, pricing, and testimonials",
+      "gap": null
+    },
+    "content_width_px": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "column_system": {
+      "value": "A centered hero leads into product-component demonstrations, dark feature grids, pricing blocks, and a testimonial field.",
+      "provenance": "tile-vision",
+      "confidence": 0.8,
+      "evidence": "tile_00.png, tile_01.png, and tile_04.png",
+      "gap": null
+    },
+    "primitive_repeated": {
+      "value": "Authentication, B2B, and billing capabilities recur as labeled UI cards and embedded component demonstrations.",
+      "provenance": "tile-vision",
+      "confidence": 0.86,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    }
+  },
+  "rhythm": {
+    "band_count": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "median_band_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "viewports": {
+      "value": 4.76,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight ÷ (derived covered_height_px ÷ tile_count); 7616 ÷ (8000 ÷ 5) = 4.76",
+      "gap": null
+    },
+    "text_density": {
+      "value": 2739.29,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen ÷ derived viewports; 13039 ÷ 4.76 = 2739.29",
+      "gap": null
+    },
+    "image_density": {
+      "value": 5.04,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/imageCount ÷ derived viewports; 24 ÷ 4.76 = 5.04",
+      "gap": null
+    },
+    "spacing_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; spacing scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "radius_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; radius scale is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "signature": {
+    "name": {
+      "value": "Embedded authentication component gallery",
+      "provenance": "tile-vision",
+      "confidence": 0.86,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "family": {
+      "value": "layout-editorial",
+      "provenance": "tile-vision",
+      "confidence": 0.72,
+      "evidence": "tile_00.png and tile_01.png; the component gallery and dark card composition carry the page",
+      "gap": null
+    },
+    "description": {
+      "value": "Clerk makes authentication tangible through a repeated gallery of sign-in, session, security, and organization interfaces embedded beside concise capability copy.",
+      "provenance": "tile-vision",
+      "confidence": 0.88,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "evidence_tiles": {
+      "value": [
+        "tile_00.png",
+        "tile_01.png",
+        "tile_04.png"
+      ],
+      "provenance": "tile-vision",
+      "confidence": 0.82,
+      "evidence": "tile_00.png, tile_01.png, and tile_04.png",
+      "gap": "GAP-09"
+    },
+    "embodies_brief": {
+      "value": "The page sells a developer infrastructure layer by showing the actual user-management surfaces, then backs the promise with product breadth and customer proof.",
+      "provenance": "hand",
+      "confidence": 0.82,
+      "evidence": "tile_00.png, tile_01.png, tile_04.png, and bodytext.txt:L11-L24,L423-L427",
+      "gap": null
+    },
+    "tell_risk": {
+      "value": [],
+      "provenance": "hand",
+      "confidence": 0.76,
+      "evidence": "tile_00.png and tile_01.png show concrete authentication interfaces and a coherent product-specific component system; no named anti-pattern is identified.",
+      "gap": null
+    },
+    "recurrence": {
+      "value": "section-system",
+      "provenance": "tile-vision",
+      "confidence": 0.8,
+      "evidence": "tile_00.png, tile_01.png, and tile_04.png",
+      "gap": "GAP-09"
+    }
+  },
+  "motion": {
+    "gif_asset_count": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of .gif URLs in data.json#/bigImages = 0",
+      "gap": null
+    },
+    "gif_evidence": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "dynamic_demo_present": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "gif_asset_count > 0 = false; still tiles do not establish interactive motion.",
+      "gap": null
+    },
+    "notes": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "Still capture data does not establish motion behavior.",
+      "gap": "GAP-08"
+    },
+    "durations_ms": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion timings are withheld.",
+      "gap": "GAP-01"
+    },
+    "easings": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion easings are withheld.",
+      "gap": "GAP-01"
+    },
+    "reduced_motion_honored": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; reduced-motion behavior is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "commerce": {
+    "awareness": {
+      "value": "solution-aware",
+      "provenance": "hand",
+      "confidence": 0.82,
+      "evidence": "bodytext.txt:L11-L16 opens with complete user management, authentication mechanism, and a Start building for free action.",
+      "gap": "GAP-06"
+    },
+    "sophistication": {
+      "value": 3,
+      "provenance": "hand",
+      "confidence": 0.72,
+      "evidence": "bodytext.txt:L13-L24,L238-L244 names full-stack auth, drop-in components, security practices, and concrete UI mechanisms rather than a bare superlative.",
+      "gap": "GAP-06"
+    },
+    "arc": [
+      {
+        "stage": "problem",
+        "present": true,
+        "evidence": "bodytext.txt:L13 and L242 — 'Need more than sign-in?' and changing authentication requirements frame the problem."
+      },
+      {
+        "stage": "affinity",
+        "present": false,
+        "evidence": "bodytext.txt contains customer proof but no explicit reader-empathy beat before the solution."
+      },
+      {
+        "stage": "solution",
+        "present": true,
+        "evidence": "bodytext.txt:L13-L24 — Clerk names full-stack auth, user management, and drop-in UI components."
+      },
+      {
+        "stage": "offer",
+        "present": true,
+        "evidence": "bodytext.txt:L15 — 'Start building for free' is an explicit offer route."
+      },
+      {
+        "stage": "narrow",
+        "present": false,
+        "evidence": "bodytext.txt includes free-tier quantities but no time, capacity, price, or availability scarcity device is asserted as a narrowing mechanism."
+      },
+      {
+        "stage": "action",
+        "present": true,
+        "evidence": "bodytext.txt:L15 — 'Start building for free' is the primary action CTA."
+      }
+    ],
+    "arc_resolved": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of commerce.arc[] stages with present !== null = 6",
+      "gap": null
+    },
+    "arc_total": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PASONA stage count = 6",
+      "gap": null
+    },
+    "arc_coverage": {
+      "value": 0.67,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "4 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.67",
+      "gap": null
+    },
+    "authority_numbers": {
+      "value": [
+        "50,000",
+        "100"
+      ],
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": "bodytext.txt:L425",
+      "gap": "GAP-09"
+    },
+    "reward_ladder": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_device": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_repetition": {
+      "value": 2,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 2",
+      "gap": null
+    },
+    "one_message": {
+      "value": "Clerk gives teams production-ready authentication and user-management components so they can launch faster without building the identity layer themselves.",
+      "provenance": "hand",
+      "confidence": 0.86,
+      "evidence": "bodytext.txt:L11-L24,L238-L244",
+      "gap": null
+    }
+  }
+}

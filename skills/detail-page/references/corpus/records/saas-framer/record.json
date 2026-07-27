@@ -1,0 +1,553 @@
+{
+  "schema_version": "1.0.0",
+  "id": "saas-framer",
+  "capture_dir": "captures/v3-fleet/saas-framer",
+  "url": "https://www.framer.com/",
+  "title": "Framer: AI website builder for professional sites",
+  "status": 200,
+  "captured_at": "2026-07-23T15:20:56.194Z",
+  "freshness": {
+    "capturedAt": "2026-07-23T15:20:56.194Z",
+    "recaptureDueAt": "2026-10-21T15:20:56.194Z",
+    "policy": "90d"
+  },
+  "family": "capture-styles",
+  "mode": "landing",
+  "category": "saas-marketing-site",
+  "exemplar_role": "neutral",
+  "sector": null,
+  "locale": null,
+  "expanded": null,
+  "notes": "Only capture artifacts and target category metadata are represented. No interpretive or consulting-derived text is recorded.",
+  "target_metadata": {
+    "category": "saas-product",
+    "url": "https://www.framer.com/"
+  },
+  "styles_inventory": "{\"type\":{\"display\":{\"resolvedFamily\":\"GT Walsheim Medium\",\"rawStack\":\"\\\"GT Walsheim Medium\\\", \\\"GT Walsheim Medium Placeholder\\\", sans-serif\",\"fontWeight\":\"500\",\"fontSize\":\"54px\",\"lineHeight\":\"54px\",\"letterSpacing\":\"-2.16px\",\"element\":\"h1\",\"selector\":\"header.framer-p8y6nc > div.framer-rd4qms > div.framer-10v2ys1 > h1.framer-text\"},\"body\":{\"resolvedFamily\":\"sans-serif\",\"rawStack\":\"sans-serif\",\"fontWeight\":\"400\",\"fontSize\":\"12px\",\"lineHeight\":\"normal\",\"letterSpacing\":\"normal\",\"element\":\"li\",\"selector\":\"div.framer-16op6qu > div.framer-1pda9s8 > ul > li.ticker-item\"},\"mono\":{\"resolvedFamily\":\"Input Mono Bold\",\"rawStack\":\"\\\"Input Mono Bold\\\", \\\"Input Mono Bold Placeholder\\\", monospace\",\"fontWeight\":\"700\",\"fontSize\":\"12px\",\"lineHeight\":\"16px\",\"letterSpacing\":\"normal\",\"element\":\"p\",\"selector\":\"div.framer-F8c8k > div.framer-1x0smbr > div.framer-1ha2dxq > p.framer-text\"},\"documentFonts\":[{\"family\":\"Inter Medium\",\"weight\":\"500\"},{\"family\":\"GT Walsheim Medium\",\"weight\":\"500\"},{\"family\":\"Input Mono Regular\",\"weight\":\"400\"},{\"family\":\"Input Mono Bold\",\"weight\":\"700\"},{\"family\":\"Inter\",\"weight\":\"600\"},{\"family\":\"Inter Variable\",\"weight\":\"400\"},{\"family\":\"Inter\",\"weight\":\"400\"},{\"family\":\"Inter\",\"weight\":\"700\"},{\"family\":\"Inter Variable\",\"weight\":\"400\"},{\"family\":\"Inter\",\"weight\":\"500\"},{\"family\":\"Azeret Mono\",\"weight\":\"400\"},{\"family\":\"JetBrains Mono\",\"weight\":\"400\"},{\"family\":\"Inter Placeholder\",\"weight\":\"normal\"},{\"family\":\"Azeret Mono Placeholder\",\"weight\":\"normal\"}]},\"color\":{\"backgrounds\":[{\"value\":\"#000000\",\"cssRgb\":\"rgb(0, 0, 0)\",\"areaShare\":0.8059665888932013},{\"value\":\"#111111\",\"cssRgb\":\"rgb(17, 17, 17)\",\"areaShare\":0.13202169534109656},{\"value\":\"#171717\",\"cssRgb\":\"rgb(23, 23, 23)\",\"areaShare\":0.02773767961187219},{\"value\":\"#ffffff26\",\"cssRgb\":\"rgba(255, 255, 255, 0.15)\",\"areaShare\":0.007793496271364259},{\"value\":\"#0099ff26\",\"cssRgb\":\"rgba(0, 153, 255, 0.15)\",\"areaShare\":0.007380646801393452},{\"value\":\"#242424\",\"cssRgb\":\"rgb(36, 36, 36)\",\"areaShare\":0.0030546021581722522},{\"value\":\"#0099ff1f\",\"cssRgb\":\"rgba(0, 153, 255, 0.12)\",\"areaShare\":0.0030285499855964623},{\"value\":\"#0099ff\",\"cssRgb\":\"rgb(0, 153, 255)\",\"areaShare\":0.002243243283889852}],\"text\":[{\"value\":\"#000000\",\"cssRgb\":\"rgb(0, 0, 0)\",\"areaShare\":0.9707637428554057},{\"value\":\"#0000ee\",\"cssRgb\":\"rgb(0, 0, 238)\",\"areaShare\":0.02098366798513689},{\"value\":\"#ffffff\",\"cssRgb\":\"rgb(255, 255, 255)\",\"areaShare\":0.003878354993396144},{\"value\":\"#ffffff99\",\"cssRgb\":\"rgba(255, 255, 255, 0.6)\",\"areaShare\":0.0014136831616792707},{\"value\":\"#999999\",\"cssRgb\":\"rgb(153, 153, 153)\",\"areaShare\":0.0011702818964403543},{\"value\":\"#cccccc\",\"cssRgb\":\"rgb(204, 204, 204)\",\"areaShare\":0.0009601163526305389}]},\"spacing\":[{\"value\":\"0px\",\"count\":14567},{\"value\":\"10px\",\"count\":811},{\"value\":\"15px\",\"count\":347},{\"value\":\"5px\",\"count\":244},{\"value\":\"8px\",\"count\":133},{\"value\":\"20px\",\"count\":110},{\"value\":\"6px\",\"count\":97},{\"value\":\"25px\",\"count\":72},{\"value\":\"1px\",\"count\":71},{\"value\":\"3px\",\"count\":54},{\"value\":\"4px\",\"count\":41},{\"value\":\"30px\",\"count\":30},{\"value\":\"40px\",\"count\":19},{\"value\":\"2px\",\"count\":18},{\"value\":\"-72.5px\",\"count\":16},{\"value\":\"11px\",\"count\":14},{\"value\":\"120px\",\"count\":8},{\"value\":\"60px\",\"count\":8},{\"value\":\"47px\",\"count\":7},{\"value\":\"0.5px\",\"count\":6},{\"value\":\"45px\",\"count\":5},{\"value\":\"7px\",\"count\":4},{\"value\":\"16px\",\"count\":3},{\"value\":\"26px\",\"count\":3},{\"value\":\"1.1px\",\"count\":2},{\"value\":\"100px\",\"count\":2},{\"value\":\"12px\",\"count\":2},{\"value\":\"160px\",\"count\":2},{\"value\":\"2.2px\",\"count\":2},{\"value\":\"200px\",\"count\":2},{\"value\":\"3.3px\",\"count\":2},{\"value\":\"50px\",\"count\":2},{\"value\":\"52px\",\"count\":2},{\"value\":\"0.3px\",\"count\":1},{\"value\":\"1.6px\",\"count\":1},{\"value\":\"102px\",\"count\":1},{\"value\":\"150px\",\"count\":1},{\"value\":\"4.4px\",\"count\":1},{\"value\":\"64px\",\"count\":1}],\"radius\":[{\"value\":\"0px\",\"count\":2940},{\"value\":\"8px\",\"count\":279},{\"value\":\"15px\",\"count\":76},{\"value\":\"6px\",\"count\":36},{\"value\":\"5px\",\"count\":35},{\"value\":\"20px\",\"count\":31},{\"value\":\"4px\",\"count\":26},{\"value\":\"100px\",\"count\":21},{\"value\":\"18px\",\"count\":16},{\"value\":\"10px\",\"count\":14},{\"value\":\"25px\",\"count\":9},{\"value\":\"3px\",\"count\":8},{\"value\":\"1px\",\"count\":4},{\"value\":\"50px\",\"count\":3},{\"value\":\"100%\",\"count\":1},{\"value\":\"12px\",\"count\":1},{\"value\":\"14px\",\"count\":1},{\"value\":\"18px 0px 0px\",\"count\":1},{\"value\":\"19px\",\"count\":1},{\"value\":\"21px\",\"count\":1},{\"value\":\"25px 0px 0px\",\"count\":1},{\"value\":\"30px\",\"count\":1},{\"value\":\"50%\",\"count\":1},{\"value\":\"7px\",\"count\":1},{\"value\":\"9px\",\"count\":1}],\"motion\":{\"transitions\":[{\"value\":\"all\",\"count\":3507},{\"value\":\"background, box-shadow\",\"count\":1},{\"value\":\"color cubic-bezier(0, 0, 1, 1)\",\"count\":1}],\"animations\":[{\"value\":\"none\",\"count\":3509}],\"prefersReducedMotion\":false},\"authoredRegion\":{\"verdict\":\"unknown\",\"signals\":{\"cssVarCount\":1,\"pageHeightPx\":10923,\"bodyTextLen\":8219,\"bigImageCount\":21,\"textToHeightRatio\":0.7524489609081754,\"largestHeadingPx\":54},\"note\":\"REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile.\"}}",
+  "capture": {
+    "page_height_px": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "body_text_len": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "image_count": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "big_images": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "tile_count": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "tile_w_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "tile_h_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "tile_format": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "tile_scale": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "covered_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-05"
+    },
+    "coverage_ok": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-05"
+    },
+    "color_fidelity": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "has_dom": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "styles.json collector output is not a captured DOM dump; has_dom = false",
+      "gap": "GAP-01"
+    }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "secondary_30": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "accent_10": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "field_committed": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "field_evidence": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "field_sections": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      }
+    },
+    "temperature": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "computed_backgrounds": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; computed backgrounds is withheld.",
+      "gap": "GAP-01"
+    },
+    "ramp": [],
+    "chroma_max_measured": {
+      "value": null,
+      "provenance": "tile-px",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "chrome_excluded": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No human chrome-region annotation is present.",
+      "gap": "GAP-07"
+    }
+  },
+  "type": {
+    "display": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; display family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; display weights is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "body": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; body family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; body weights is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "mono": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; mono family is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; type scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "pairing_note": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "weight_contrast_observed": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "kr_display_present": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    }
+  },
+  "layout": {
+    "archetype": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "content_width_px": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "column_system": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "primitive_repeated": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    }
+  },
+  "rhythm": {
+    "band_count": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "median_band_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "viewports": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "text_density": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "image_density": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "spacing_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; spacing scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "radius_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; radius scale is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "signature": {
+    "name": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "family": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "description": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "evidence_tiles": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "embodies_brief": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "tell_risk": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "recurrence": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    }
+  },
+  "motion": {
+    "gif_asset_count": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "gif_evidence": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "dynamic_demo_present": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "notes": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "Still capture data does not establish motion behavior.",
+      "gap": "GAP-08"
+    },
+    "durations_ms": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; motion durations is withheld.",
+      "gap": "GAP-01"
+    },
+    "easings": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; motion easings is withheld.",
+      "gap": "GAP-01"
+    },
+    "reduced_motion_honored": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict is not \"dom-authored\"; reduced-motion behavior is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "commerce": {
+    "awareness": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "sophistication": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "arc": [
+      {
+        "stage": "problem",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "affinity",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "solution",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "offer",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "narrow",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "action",
+        "present": null,
+        "evidence": null
+      }
+    ],
+    "arc_resolved": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of commerce.arc[] stages with present !== null = 0",
+      "gap": "GAP-09"
+    },
+    "arc_total": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PASONA stage count = 6",
+      "gap": null
+    },
+    "arc_coverage": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "authority_numbers": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "reward_ladder": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_device": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_repetition": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "one_message": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    }
+  }
+}

@@ -1,0 +1,567 @@
+{
+  "schema_version": "1.0.0",
+  "id": "cursor",
+  "capture_dir": "captures/stage2/cursor",
+  "url": "https://cursor.com",
+  "title": "Cursor: AI coding agent",
+  "status": 200,
+  "captured_at": "2026-07-18",
+  "freshness": {
+    "capturedAt": "2026-07-18T00:06:40.768Z",
+    "recaptureDueAt": "2026-10-16T00:06:40.768Z",
+    "policy": "90d"
+  },
+  "family": "app-ui",
+  "mode": "landing",
+  "category": "saas-marketing-site",
+  "exemplar_role": "positive",
+  "sector": "dev-tools",
+  "locale": "ko-KR",
+  "expanded": null,
+  "notes": "Tags are limited to the supplied data.json, styles.json, bodytext.txt, and PNG tiles. authoredRegion.verdict is unknown, so collector CSS values are not attributed to the authored surface. The page includes Korean localization and several product UI demonstrations; those visible facts are retained without promoting styles.json font names to authored CSS evidence.",
+  "capture": {
+    "page_height_px": {
+      "value": 8492,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight",
+      "gap": null
+    },
+    "body_text_len": {
+      "value": 8660,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen",
+      "gap": null
+    },
+    "image_count": {
+      "value": 9,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/imageCount",
+      "gap": null
+    },
+    "big_images": {
+      "value": [
+        "https://cursor.com/marketing-static/_next/image?url=https%3A%2F%2Fptht05hbb1ssoooe.public.blob.vercel-storage.com%2Fassets%2Fmisc%2Fasset-cc24ca462279ca23250c.jpg&w=1920&q=70",
+        "https://cursor.com/marketing-static/demos/cursor-wallpaper.png",
+        "…7 more…"
+      ],
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bigImages — 9 entries; first 2 listed; …7 more…",
+      "gap": "GAP-09"
+    },
+    "tile_count": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of tile_*.png on disk (tile_00..tile_05)",
+      "gap": null
+    },
+    "tile_w_px": {
+      "value": 1280,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_h_px": {
+      "value": 1600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_format": {
+      "value": "png",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG file header, tile_00.png",
+      "gap": null
+    },
+    "tile_scale": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1280/1280 = 1; native 1280×1600 PNG tile dimensions",
+      "gap": null
+    },
+    "covered_height_px": {
+      "value": 9600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "6 tiles × 1600px = 9600px",
+      "gap": "GAP-05"
+    },
+    "coverage_ok": {
+      "value": true,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "9600 >= 8492 = true",
+      "gap": "GAP-05"
+    },
+    "color_fidelity": {
+      "value": "lossless",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG + 1280/1280 scale = lossless",
+      "gap": null
+    },
+    "has_dom": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture directory contains styles.json but no captured DOM dump; has_dom = false",
+      "gap": "GAP-01"
+    }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": {
+        "value": {
+          "hue_family": "warm-off-white",
+          "role_note": "Warm off-white and pale gray carry the hero, product demos, logo proof, and closing sections."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.9,
+        "evidence": "tile_00.png and tile_05.png",
+        "gap": null
+      },
+      "secondary_30": {
+        "value": {
+          "hue_family": "warm-gray",
+          "role_note": "Soft gray demo canvases and restrained black UI provide secondary structure."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.82,
+        "evidence": "tile_00.png and tile_01.png",
+        "gap": null
+      },
+      "accent_10": {
+        "value": {
+          "hue_family": "black-and-orange",
+          "role_note": "Black anchors navigation and download actions; orange appears as a localized action accent in later product sections."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.72,
+        "evidence": "tile_00.png and tile_01.png",
+        "gap": null
+      },
+      "field_committed": {
+        "value": false,
+        "provenance": "tile-vision",
+        "confidence": 0.86,
+        "evidence": "tile_00.png, tile_01.png, and tile_05.png show light neutral bands and embedded imagery rather than a saturated field owning a band",
+        "gap": null
+      },
+      "field_evidence": {
+        "value": "The page keeps a light neutral ground while using product screenshots, wallpaper, black actions, and small orange links as accents.",
+        "provenance": "tile-vision",
+        "confidence": 0.8,
+        "evidence": "tile_00.png, tile_01.png, and tile_05.png",
+        "gap": null
+      },
+      "field_sections": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      }
+    },
+    "temperature": {
+      "value": "warm-neutral",
+      "provenance": "tile-vision",
+      "confidence": 0.82,
+      "evidence": "tile_00.png and tile_05.png",
+      "gap": null
+    },
+    "computed_backgrounds": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; computed backgrounds are not safely attributable to the authored region.",
+      "gap": "GAP-01"
+    },
+    "ramp": [],
+    "chroma_max_measured": {
+      "value": null,
+      "provenance": "tile-px",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "chrome_excluded": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No human chrome-region annotation is present.",
+      "gap": "GAP-07"
+    }
+  },
+  "type": {
+    "display": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "body": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "mono": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; mono family is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; type scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "pairing_note": {
+      "value": "A restrained sans-serif content system is paired with code-like UI labels and serif copy inside some embedded product views.",
+      "provenance": "tile-vision",
+      "confidence": 0.72,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "weight_contrast_observed": {
+      "value": "moderate",
+      "provenance": "tile-vision",
+      "confidence": 0.76,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "kr_display_present": {
+      "value": true,
+      "provenance": "tile-vision",
+      "confidence": 1,
+      "evidence": "tile_00.png shows Korean navigation and hero copy; tile_01.png shows additional Korean interface copy.",
+      "gap": null
+    }
+  },
+  "layout": {
+    "archetype": {
+      "value": "feature-strip-alternating",
+      "provenance": "tile-vision",
+      "confidence": 0.76,
+      "evidence": "tile_00.png and tile_01.png show repeated text-plus-product-demo sections with changing side emphasis",
+      "gap": null
+    },
+    "content_width_px": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "column_system": {
+      "value": "A sparse hero and logo proof strip lead into alternating text-and-interface demonstration sections, then a closing download CTA.",
+      "provenance": "tile-vision",
+      "confidence": 0.78,
+      "evidence": "tile_00.png, tile_01.png, and tile_05.png",
+      "gap": null
+    },
+    "primitive_repeated": {
+      "value": "Product screenshots and interactive-agent scenes recur as the visual proof attached to short feature claims.",
+      "provenance": "tile-vision",
+      "confidence": 0.86,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    }
+  },
+  "rhythm": {
+    "band_count": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "median_band_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "viewports": {
+      "value": 5.31,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight ÷ (derived covered_height_px ÷ tile_count); 8492 ÷ (9600 ÷ 6) = 5.31",
+      "gap": null
+    },
+    "text_density": {
+      "value": 1631.65,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen ÷ derived viewports; 8660 ÷ 5.31 = 1631.65",
+      "gap": null
+    },
+    "image_density": {
+      "value": 1.7,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/imageCount ÷ derived viewports; 9 ÷ 5.31 = 1.70",
+      "gap": null
+    },
+    "spacing_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; spacing scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "radius_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; radius scale is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "signature": {
+    "name": {
+      "value": "Product UI demo over a quiet neutral ground",
+      "provenance": "tile-vision",
+      "confidence": 0.84,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "family": {
+      "value": "photo-film",
+      "provenance": "tile-vision",
+      "confidence": 0.7,
+      "evidence": "tile_00.png; the main hero is a product UI render composited over a photographic wallpaper scene",
+      "gap": null
+    },
+    "description": {
+      "value": "Cursor repeatedly places its desktop, CLI, and agent interfaces inside large calm frames, allowing the product workflow to become the page's primary visual object.",
+      "provenance": "tile-vision",
+      "confidence": 0.84,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "evidence_tiles": {
+      "value": [
+        "tile_00.png",
+        "tile_01.png",
+        "tile_05.png"
+      ],
+      "provenance": "tile-vision",
+      "confidence": 0.8,
+      "evidence": "tile_00.png, tile_01.png, and tile_05.png",
+      "gap": "GAP-09"
+    },
+    "embodies_brief": {
+      "value": "The page demonstrates an AI coding agent by showing the agent working across desktop, CLI, planning, code, and team contexts rather than leaving the promise at slogan level.",
+      "provenance": "hand",
+      "confidence": 0.82,
+      "evidence": "tile_00.png, tile_01.png, tile_05.png, and bodytext.txt:L17-L18,L76-L104,L153-L179",
+      "gap": null
+    },
+    "tell_risk": {
+      "value": [
+        "browser-mockup"
+      ],
+      "provenance": "hand",
+      "confidence": 0.7,
+      "evidence": "tile_00.png and tile_01.png use repeated large browser/desktop mockups as the main product proof.",
+      "gap": null
+    },
+    "recurrence": {
+      "value": "section-system",
+      "provenance": "tile-vision",
+      "confidence": 0.78,
+      "evidence": "tile_00.png, tile_01.png, and tile_05.png",
+      "gap": "GAP-09"
+    }
+  },
+  "motion": {
+    "gif_asset_count": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of .gif URLs in data.json#/bigImages = 0",
+      "gap": null
+    },
+    "gif_evidence": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "dynamic_demo_present": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "gif_asset_count > 0 = false; bodytext describes interactive demos, but still tiles do not establish their motion behavior.",
+      "gap": null
+    },
+    "notes": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "Still capture data does not establish motion behavior.",
+      "gap": "GAP-08"
+    },
+    "durations_ms": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion timings are withheld.",
+      "gap": "GAP-01"
+    },
+    "easings": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion easings are withheld.",
+      "gap": "GAP-01"
+    },
+    "reduced_motion_honored": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; reduced-motion behavior is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "commerce": {
+    "awareness": {
+      "value": "solution-aware",
+      "provenance": "hand",
+      "confidence": 0.74,
+      "evidence": "bodytext.txt:L12-L17 names Cursor as a coding agent and immediately gives download/demo actions.",
+      "gap": "GAP-06"
+    },
+    "sophistication": {
+      "value": 3,
+      "provenance": "hand",
+      "confidence": 0.7,
+      "evidence": "bodytext.txt:L17-L18,L76-L104,L153-L179 names multiple interfaces, agent workflows, planning, code changes, and deployed-output proof.",
+      "gap": "GAP-06"
+    },
+    "arc": [
+      {
+        "stage": "problem",
+        "present": false,
+        "evidence": "bodytext.txt opens with a coding-agent promise and demo, not an explicit pain-agitation block."
+      },
+      {
+        "stage": "affinity",
+        "present": false,
+        "evidence": "bodytext.txt describes the research team and product workflow but does not contain a direct reader-empathy beat."
+      },
+      {
+        "stage": "solution",
+        "present": true,
+        "evidence": "bodytext.txt:L12-L18 — Cursor is named as a coding agent and its desktop/CLI demos are introduced."
+      },
+      {
+        "stage": "offer",
+        "present": true,
+        "evidence": "bodytext.txt:L13-L15 — macOS download and demo request are explicit routes."
+      },
+      {
+        "stage": "narrow",
+        "present": false,
+        "evidence": "bodytext.txt full transcript contains no time, capacity, price, or availability narrowing device."
+      },
+      {
+        "stage": "action",
+        "present": true,
+        "evidence": "bodytext.txt:L13 — macOS용 다운로드 is the direct primary action."
+      }
+    ],
+    "arc_resolved": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of commerce.arc[] stages with present !== null = 6",
+      "gap": null
+    },
+    "arc_total": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PASONA stage count = 6",
+      "gap": null
+    },
+    "arc_coverage": {
+      "value": 0.5,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "3 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.5",
+      "gap": null
+    },
+    "authority_numbers": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "reward_ladder": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_device": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_repetition": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 0",
+      "gap": null
+    },
+    "one_message": {
+      "value": "Cursor presents an AI coding agent that turns software ideas into working code through desktop, CLI, planning, and collaborative workflows.",
+      "provenance": "hand",
+      "confidence": 0.84,
+      "evidence": "bodytext.txt:L12-L18,L76-L104,L153-L179",
+      "gap": null
+    }
+  }
+}

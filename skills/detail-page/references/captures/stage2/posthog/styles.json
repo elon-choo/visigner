@@ -1,0 +1,487 @@
+{
+  "meta": {
+    "url": "https://posthog.com/",
+    "status": 200,
+    "title": "PostHog – We make your product self-driving",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-17T23:50:48.578Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Open Runde",
+      "rawStack": "\"Open Runde\", sans-serif",
+      "fontWeight": "700",
+      "fontSize": "24px",
+      "lineHeight": "32px",
+      "letterSpacing": "-0.6px",
+      "element": "h2",
+      "selector": "div > div.min-h-full > div.max-w-3xl > h2#value-based-pricing-usage-based-pricing"
+    },
+    "body": {
+      "resolvedFamily": "Open Runde",
+      "rawStack": "\"Open Runde\", sans-serif",
+      "fontWeight": "400",
+      "fontSize": "16px",
+      "lineHeight": "28px",
+      "letterSpacing": "normal",
+      "element": "article",
+      "selector": "div.relative > div.app-scroll-viewport > div.block > article.prose"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "Source Code Pro",
+        "weight": "400"
+      },
+      {
+        "family": "Open Runde",
+        "weight": "400"
+      },
+      {
+        "family": "Open Runde",
+        "weight": "500"
+      },
+      {
+        "family": "Open Runde",
+        "weight": "600"
+      },
+      {
+        "family": "Open Runde",
+        "weight": "700"
+      },
+      {
+        "family": "Lato",
+        "weight": "400"
+      },
+      {
+        "family": "Lato",
+        "weight": "700"
+      },
+      {
+        "family": "Lato",
+        "weight": "900"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#eeefe9",
+        "cssRgb": "rgb(238, 239, 233)",
+        "areaShare": 0.5204202144926645
+      },
+      {
+        "value": "#e5e7e0bf",
+        "cssRgb": "rgba(229, 231, 224, 0.75)",
+        "areaShare": 0.3768997708772356
+      },
+      {
+        "value": "#e5e7e0",
+        "cssRgb": "rgb(229, 231, 224)",
+        "areaShare": 0.04569732532826035
+      },
+      {
+        "value": "#f54e001a",
+        "cssRgb": "rgba(245, 78, 0, 0.1)",
+        "areaShare": 0.015612606434779935
+      },
+      {
+        "value": "#d9e8f2",
+        "cssRgb": "rgb(217, 232, 242)",
+        "areaShare": 0.01463681853260619
+      },
+      {
+        "value": "#fdfdf880",
+        "cssRgb": "rgba(253, 253, 248, 0.5)",
+        "areaShare": 0.012847874045287654
+      },
+      {
+        "value": "#fdfdf8",
+        "cssRgb": "rgb(253, 253, 248)",
+        "areaShare": 0.006142333025119409
+      },
+      {
+        "value": "#eb9d2a",
+        "cssRgb": "rgb(235, 157, 42)",
+        "areaShare": 0.0033819233992556544
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.5496864450588279
+      },
+      {
+        "value": "#374151",
+        "cssRgb": "rgb(55, 65, 81)",
+        "areaShare": 0.4403112410195232
+      },
+      {
+        "value": "#111827",
+        "cssRgb": "rgb(17, 24, 39)",
+        "areaShare": 0.0057133177474113965
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.0026164313678186915
+      },
+      {
+        "value": "#111111",
+        "cssRgb": "rgb(17, 17, 17)",
+        "areaShare": 0.0011247872726181814
+      },
+      {
+        "value": "#23251d",
+        "cssRgb": "rgb(35, 37, 29)",
+        "areaShare": 0.00030505177717310645
+      }
+    ]
+  },
+  "cssVariables": {
+    "--squeak-button-color": "245,78,0",
+    "--squeak-default-avatar-fill": "255,255,255",
+    "--squeak-primary-color": "0,0,0",
+    "--swiper-pagination-bullet-inactive-color": "#000",
+    "--swiper-pagination-color": "#f54e00",
+    "--swiper-theme-color": "#007aff",
+    "--tw-border-spacing-x": "0",
+    "--tw-border-spacing-y": "0",
+    "--tw-ring-color": "rgba(59,130,246,.5)",
+    "--tw-ring-offset-color": "#fff",
+    "--tw-ring-offset-shadow": "0 0 #0000",
+    "--tw-ring-offset-width": "0px",
+    "--tw-ring-shadow": "0 0 #0000",
+    "--tw-rotate": "0",
+    "--tw-scale-x": "1",
+    "--tw-scale-y": "1",
+    "--tw-scroll-snap-strictness": "proximity",
+    "--tw-shadow": "0 0 #0000",
+    "--tw-shadow-colored": "0 0 #0000",
+    "--tw-skew-x": "0",
+    "--tw-skew-y": "0",
+    "--tw-translate-x": "0",
+    "--tw-translate-y": "0",
+    "--viewport-padding": "25px"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 733
+    },
+    {
+      "value": "16px",
+      "count": 31
+    },
+    {
+      "value": "8px",
+      "count": 12
+    },
+    {
+      "value": "2px",
+      "count": 8
+    },
+    {
+      "value": "4px",
+      "count": 7
+    },
+    {
+      "value": "1px",
+      "count": 4
+    },
+    {
+      "value": "32px",
+      "count": 3
+    },
+    {
+      "value": "12px",
+      "count": 2
+    },
+    {
+      "value": "24px",
+      "count": 2
+    },
+    {
+      "value": "28px",
+      "count": 2
+    },
+    {
+      "value": "44px",
+      "count": 2
+    },
+    {
+      "value": "82.0938px",
+      "count": 2
+    },
+    {
+      "value": "-16px",
+      "count": 1
+    },
+    {
+      "value": "176px",
+      "count": 1
+    },
+    {
+      "value": "48px",
+      "count": 1
+    },
+    {
+      "value": "6px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 6726
+    },
+    {
+      "value": "4px",
+      "count": 18
+    },
+    {
+      "value": "2px",
+      "count": 13
+    },
+    {
+      "value": "9999px",
+      "count": 9
+    },
+    {
+      "value": "6px",
+      "count": 6
+    },
+    {
+      "value": "20px",
+      "count": 2
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 6769
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px",
+      "count": 2
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.25) 0px 25px 50px -12px",
+      "count": 2
+    },
+    {
+      "value": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.1) 0px 2px 4px -2px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 6746
+      },
+      {
+        "value": "transform 0.2s cubic-bezier(0, 0, 0.2, 1)",
+        "count": 13
+      },
+      {
+        "value": "color 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), text-decoration-color 0.15s cubic-bezier(0.4, 0, 0.2, 1), fill 0.15s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+        "count": 7
+      },
+      {
+        "value": "0.15s cubic-bezier(0.4, 0, 0.2, 1)",
+        "count": 2
+      },
+      {
+        "value": "opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1)",
+        "count": 2
+      },
+      {
+        "value": "0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.1s cubic-bezier(0.4, 0, 0.2, 1)",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.25s linear",
+        "count": 1
+      },
+      {
+        "value": "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 6774
+      }
+    ],
+    "prefersReducedMotion": true
+  },
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 24,
+      "pageHeightPx": 1600,
+      "bodyTextLen": 6979,
+      "bigImageCount": 2,
+      "textToHeightRatio": 4.361875,
+      "largestHeadingPx": 24
+    },
+    "note": "Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-blur has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-brightness has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-contrast has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-grayscale has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-hue-rotate has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-invert has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-opacity has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-saturate has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-backdrop-sepia has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-blur has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-brightness has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-contain-layout has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-contain-paint has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-contain-size has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-contain-style has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-contrast has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-drop-shadow has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-gradient-from-position has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-gradient-to-position has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-gradient-via-position has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-grayscale has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-hue-rotate has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-invert has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-numeric-figure has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-numeric-fraction has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-numeric-spacing has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-ordinal has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-pan-x has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-pan-y has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-pinch-zoom has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-ring-inset has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-saturate has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-sepia has no resolved computed value on :root"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "unreadable: --tw-slashed-zero has no resolved computed value on :root"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

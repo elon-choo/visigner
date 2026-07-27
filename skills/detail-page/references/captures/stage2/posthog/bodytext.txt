@@ -1,0 +1,152 @@
+Products
+Pricing
+Docs
+Community
+Company
+More
+Get started – free
+Home
+Self-driving product
+Context warehouse
+Pricing
+Docs
+Demo
+Talk to a human
+Why PostHog?
+Changelog
+Company handbook
+Store
+Careers
+Trash
+
+FROM THE DESK OF
+James Hawkins
+Co-founder
+james406
+
+There are other AI companies,
+but they not like us 
+
+We're here to help make your product self-driving
+
+Literally every piece of software that a product engineer needs.
+
+This includes agents and tools for building products, talking to customers, and making sense of all your customer data.
+
+PostHog is a single platform for people who build things.
+
+Explore product suite
+So how did we get here?
+
+James Hawkins
+Co-CEO
+Tim Glaser
+Co-CEO
+
+PostHog was hatched in Y Combinator's W20 batch.
+
+We launched on Hacker News with our MVP in 2020 – just 4 weeks after we started writing code. The response was overwhelmingly positive.
+
+Since then, we've grown far beyond analytics – into an entire product & data toolkit – used by 190254+ teams.
+
+But our approach to building PostHog is very different.
+
+Read our story
+Why we're different
+
+Warning: If you like the way most companies treat you, you might not like us. See 15 reasons why PostHog might be wrong for you.
+
+We're building the company we've always wanted to work for. This means rejecting all the annoying parts of the SaaS industry that have somehow become industry-standard.
+
+If it gives you the ick, you know it gives us the ick too.
+
+You can sum it up our ideology with this: we try to treat you how we'd want to be treated.
+
+We just do the right thing
+TN
+TLDR Founders Newsletter
+June 18, 2025
+
+PostHog vs. The Industry
+
+PostHog [breaks] every SaaS rule:
+
+Open source products
+Generous free tiers
+Inbound-led sales
+Price cuts instead of increases
+Protection against viral usage spikes
+
+While Salesforce hikes prices 6% annually, PostHog proves there's room for startups that do the exact opposite of what private equity-backed software companies typically do.
+
+The TLDR newsletter highlighted an article that covered some of the key things that make us different. Here are a few more they missed:
+
+No loss leaders. We don't sell products at a loss - we run the company default alive. This means we've never had layoffs, and we don't take huge risks that could result in the company disappearing overnight.
+No sleazy renewal tactics. We don't screw you on contract terms like auto-renewal. And while most companies will try to increase your prices every year, you won't find that here.
+Use it without talking to us. You can use all our stuff monthly until you want to lock things in with us. We don't pressure people.
+Actually technical support. We don't offshore our support. In fact, the entire 
+Support Team
+ has engineering backgrounds!
+Here for the long haul. We have zero intention of selling our business. We want to see just how crazy huge this gigantic software stack can get - and we think that it will reach at least $100bn in value. We'll be around and fighting for a long, long time. It's our life's work.
+Honest communication. Even in our content, it's more honest and not like the marketing-speak you've come to expect from other companies. It actively helps developers build successful products. That's our mission.
+
+The reason we uniquely love doing all these sorts of things is that we grow because of our reputation on the internet, whereas every single competitor grows by salespeople. This aligns us with customers. Long term, that is what wins.
+
+Transparency >>
+
+You can see how our entire company operates.
+
+Our manual for our salespeople, marketing team, and so on
+You can even see what everyone is paid
+Our product roadmap is public – you can vote on what we should build next
+See who's working on which product and what their goals are
+Our codebase is 
+open source
+ – if you're interested in seeing how we handle customer data, you can audit our entire codebase
+
+You won't get this level of transparency from most companies!
+
+If you're thinking about bringing PostHog into your business – or if you're interested in joining us – you should be able to make an informed decision. Not just about what exists today, but about the future and longevity of the organization.
+
+Everything in one place
+
+Sure, building one product is great, but why stop there?
+
+One of the advantages of PostHog is that we're building all the tools you need, so you can have all the context you need in one place. This frees up your time to focus on your users instead of fixing endless data integrations.
+
+We have 10+ paid products today, and even if we don't offer it yet, we will eventually.
+
+Our unique approach to building a company has allowed us to attract top talent. Many of our team are former founders. We allow our small teams to operate mostly autonomously, which means it's like we're building a bunch of mini startups within an organization that already has product-market fit.
+
+We're going to build every piece of SaaS you need to make your product successful. You read that right. We've already got the world's best track record at delivering them by being the widest with so many customers.
+
+Value-based pricing Usage-based pricing
+
+Companies with large sales teams use value-based pricing where they try to suss out how much you're willing to spend. PostHog operates more like a utility – we cover our costs with razor thin margins, and we make up for it with scale.
+
+PostHog is priced to match the cheapest major competitor, so you know you don't have to compare pricing for each new product.
+
+And because every product has a generous free tier, you can always try it out before paying anything at all. Without talking to sales. Because our pricing is completely transparent.
+
+Our pricing is sustainable because most customers use multiple products
+The strategy appears to be working
+
+The team at a recent offsite in Tulum
+
+Nobody wants to be a sheep, but it's probably a good sign when something is very popular.
+
+We have over 190254+ customers using our products. Just under a quarter of a million engineers use us. That's far, far more than any of our competitors – most have around 1-3k customers. It's what happens when the internet loves you.
+
+65% of every Y Combinator batch (the world's best accelerator for startups) use our products.
+
+So tl;dr:
+
+Whether you're looking to bring PostHog into your business – or if you're looking to build products with us – we hope you leave our portal on the internet with the understanding that we're here to build a generational company.
+
+This isn't a bait-and-switch scheme or an attempt to exit in a few years. We're building the company we've always wanted to work for – and the type of organization that we'd want to buy software from.
+
+If we haven't convinced you yet, come back to our site in a few months. It's almost guaranteed we'll have a few new products by then.
+
+P.S. We've also got some cool company merch. It's made of high quality materials so you'll actually want to wear it.
+
+Navigated to
