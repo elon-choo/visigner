@@ -1,0 +1,17 @@
+{
+  "url": "https://www.wadiz.kr/web/campaign/detail/400620",
+  "status": 200,
+  "title": "[3.7억] 4년 갈고 닦은 AI 자동화 시스템 - 블로그·스레드·전자책 by 블로리즘 | wadiz",
+  "pageHeight": 8024,
+  "bodyTextLen": 5933,
+  "imageCount": 27,
+  "tiles": 6,
+  "coveredHeight": 9600,
+  "maxTiles": 90,
+  "outDir": "/Users/elon/visigner/references/captures/v3-fleet/kr-wadiz-blorism-400620",
+  "requestedUrl": "https://www.wadiz.kr/web/campaign/detail/400620",
+  "capturedAt": "2026-07-23T15:16:33.649Z",
+  "renderer": "patchright-chromium-headed",
+  "hydrated": true,
+  "expanded": "더보기"
+}

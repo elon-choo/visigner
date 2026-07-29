@@ -30,9 +30,13 @@ const a = typeof args === 'string'
   ? (() => { try { return JSON.parse(args) } catch (_) { return {} } })()
   : (args && typeof args === 'object' ? args : {})
 // Skill root: the caller passes it (the model knows this skill's install dir). Installed as a plugin it
-// is "${CLAUDE_PLUGIN_ROOT}/skills/detail-page"; falls back to the dev path. MUST arrive via args.skillRoot
-// because the Workflow sandbox cannot resolve its own filesystem path.
-const SKILL = a.skillRoot || '/Users/elon/.claude/skills/detail-page'
+// is "${CLAUDE_PLUGIN_ROOT}/skills/detail-page". MUST arrive via args.skillRoot because the Workflow
+// sandbox cannot resolve its own filesystem path.
+// No dev-path fallback: '/Users/elon/.claude/skills/detail-page' exists on exactly one machine, so on
+// anyone else's it silently pointed the whole workflow at a directory that is not there and the failures
+// surfaced later as missing references. Absent skillRoot is a caller error — say so here.
+const SKILL = a.skillRoot
+if (!SKILL) throw new Error('ultracode-workflow: args.skillRoot is required (e.g. `${CLAUDE_PLUGIN_ROOT}/skills/detail-page`); the Workflow sandbox cannot resolve it on its own')
 const subject = a.subject || a.brief || 'a product detail page'
 const brief = a.brief || subject
 const mode = a.mode || 'detail' // 'detail' (상세/Wadiz) | 'landing'

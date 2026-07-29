@@ -156,7 +156,11 @@
   .section + .section { border-top: 1px solid var(--color-line); }
   .section > header { margin-bottom: 18px; }
   .section h2 { font-size: 19px; font-weight: 700; }
-  .section .desc { color: var(--color-muted); font-size: 14px; margin-top: 4px; line-height: 1.5; }
+  /* Run-in head: the section name and the sentence that scopes it are ONE unit. The name stays the short
+     word the sub-nav uses, and the qualifier rides in the body face directly under it — so the heading does
+     the explaining instead of a detached grey paragraph repeating the nav label back at you. */
+  .section .desc { display: block; font-family: var(--font-body); font-weight: 400; letter-spacing: 0;
+    color: var(--color-muted); font-size: 14px; margin-top: 5px; line-height: 1.5; }
 
   /* ---- Fields + every state ---- */
   .field { margin-bottom: 18px; }
@@ -232,10 +236,13 @@
 
 <div class="page">
   <!-- ░░ HEADER ░░ -->
+  <!-- No tracked mono kicker over the H1. The workspace name is information, so it belongs in the sentence
+       that a reader actually reads, not in a decorative uppercase label above the title. -->
   <header class="sig" style="margin-bottom:24px">
-    <p style="font-family:var(--font-latin);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-primary)">Workspace · Northwind</p>
-    <h1 style="font-size:clamp(26px,4vw,34px);font-weight:700;margin-top:6px">Settings</h1>
-    <p class="text-muted" style="font-size:15px;margin-top:6px">Manage your profile, notifications and security for this workspace.</p>
+    <h1 style="font-size:clamp(26px,4vw,34px);font-weight:700">Settings</h1>
+    <p class="text-muted" style="font-size:15px;margin-top:8px">
+      Northwind workspace, signed in as Avery Reed. Everything here applies to your account only.
+    </p>
   </header>
 
   <div class="shell">
@@ -261,8 +268,7 @@
       <!-- SECTION · PROFILE -->
       <section class="section" id="profile">
         <header>
-          <h2>Profile</h2>
-          <p class="desc">This is how teammates see you across the workspace.</p>
+          <h2>Profile<span class="desc">This is how teammates see you across the workspace.</span></h2>
         </header>
 
         <!-- default state -->
@@ -298,8 +304,7 @@
       <!-- SECTION · ACCOUNT -->
       <section class="section" id="account">
         <header>
-          <h2>Account</h2>
-          <p class="desc">Sign-in details and workspace ownership.</p>
+          <h2>Account<span class="desc">Your sign-in details, and who owns this workspace.</span></h2>
         </header>
 
         <!-- ERROR state (pre-set so the state is visible in the scaffold) -->
@@ -323,8 +328,7 @@
       <!-- SECTION · NOTIFICATIONS -->
       <section class="section" id="notifications">
         <header>
-          <h2>Notifications</h2>
-          <p class="desc">Choose what reaches your inbox. Changes save with the bar below.</p>
+          <h2>Notifications<span class="desc">Choose what reaches your inbox. Changes save with the bar below.</span></h2>
         </header>
 
         <div class="row">
@@ -348,8 +352,7 @@
       <!-- SECTION · SECURITY -->
       <section class="section" id="security">
         <header>
-          <h2>Security</h2>
-          <p class="desc">Protect access to your account.</p>
+          <h2>Security<span class="desc">Protect access to your account.</span></h2>
         </header>
 
         <div class="field">

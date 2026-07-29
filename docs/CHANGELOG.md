@@ -1,5 +1,28 @@
 # Changelog
 
+## 2.0.1 — The a11y gate was never running; now it is (2026-07-28)
+
+A patch release whose headline is a repair to the inspection machine itself. `shoot.js`'s `AXE=1` path returned null on **every** page on this stack, and a null axe result never blocks — so the accessibility gate reported "unknown" forever while looking enabled. Repairing it immediately surfaced a real serious violation on this project's own landing page.
+
+### Fixed
+- **`shoot.js` axe injection (the big one)** — axe was injected with a `<script src>` element, but patchright runs `page.evaluate` in an isolated world, so the bundle defined `window.axe` in the **main** world while the very next `page.evaluate` read the isolated world's `window`. Every `axe.run` threw, the caller's catch set `axeClean=null`, and null never blocks. The bundle is now fetched in Node, its SRI hash verified in Node, and defined via `page.evaluate(source)` in the same world that calls it — plus an explicit post-injection check that throws with a clear message instead of degrading to a silent null.
+- **Landing contrast (found by the repaired gate)** — the sticky nav is painted with a translucent ink, so over the bone band its effective ground is `#25292F`, where the `v2` badge measured **4.147:1** against a 4.5:1 requirement. Added `--color-verm-on-glass` (hue 33.6 and chroma 0.182 unchanged, lightness 0.649 → 0.689) scoped to that badge: **4.860:1**. Not applied globally because `--color-verm-bright` is also the `:focus-visible` ring, where the same lift would drop it from 3.073:1 to 2.622:1 and breach the 3:1 non-text floor.
+- **Landing nav reflow (WCAG 1.4.10)** — the nav's flex row had no `min-width:0`, so instead of shrinking it fell back to character-wrap: Korean labels stacked one glyph per line, the row grew to 102.75px inside a 60px bar and escaped it, and at 320px the page overflowed horizontally by 67px. Fixed with `min-width:0`, `min-height` on the bar, a 520px breakpoint that collapses the text links, and a 360px short CTA label provided in both languages so the toggle never lands on an empty button. Measured 0px overflow across 320/360/390/1280 × KO/EN.
+- **Landing footer landmark** — `<footer>` sat inside `<main>`, so it never got the implicit `contentinfo` role and screen-reader users had no landmark route to it. Closed `<main>` before the footer; the AX tree now reports one contentinfo.
+- **Landing corpus count** — the page claimed evidence from "12 real pages" in the meta description and body copy while the corpus had grown to 42. Corrected in all five places, both languages.
+- **Starter templates** — removed the anti-AI tells the skill's own grader was flagging in its own starters: `pricing.html` went from **ai-likely** (4 tells, two HIGH) to 0 tells, `landing.html` from 2 to 0, `app-shell.html` and `settings.html` from 1 to 0. Uppercase eyebrows were deleted at the CSS-rule level rather than the markup, mono-costumed value cells became `font-variant-numeric: tabular-nums`, and em-dash placeholders in the comparison table became a real X icon paired with the existing check.
+- **`capture-spa.js`** — guarded the CLI behind `require.main === module`; `require()`-ing the module used to parse the caller's argv and start a capture as a side effect.
+- **`ultracode-workflow.js`** — removed the `/Users/elon/.claude/skills/detail-page` fallback. It exists on exactly one machine, so everywhere else it silently pointed the workflow at a directory that is not there; a missing `skillRoot` now throws with a message that names the fix.
+
+### Added
+- **Corpus 12 → 42 records** — the v3 reference fleet (SaaS, portfolio, editorial, KR commerce, marketing) merged into the shipped corpus. Capture tiles are downscaled to 640px width, which keeps the addition at ~28 MB rather than ~106 MB; `corpus-validate` passes 42 records / 2,795 envelopes with all invariants held.
+- **Landing evidence strip** — three thumbnails of starter templates that actually ship in the plugin, rendered from the current files (512×640, 262 KB total), with bilingual captions and alt text that swaps with the language toggle.
+
+### Known limitations
+- `app-shell.html` and `settings.html` carry **0 tells** but still grade `suspect`: `computeVerdict` returns suspect on `monotonyScore >= 0.58` regardless of tells, and a page whose sections all carry headings cannot get below that. Reaching `clean` would mean deleting headings that screen-reader users navigate by, so the score was left alone.
+- The 29CM mongdol record's `GAP-01`/`GAP-07` are still open. The capture succeeded but the collector declined to classify the maker-owned region, so no maker-provenance colour or type exists; filling those fields would mean inventing them.
+- `starter/index.html` reports one HIGH anti-pattern hit under the `saas-marketing-site` category — a `backdrop-filter` on the sticky buy bar matched by a category that does not fit a Korean detail page. Pre-existing and untouched.
+
 ## 2.0.0 — The v2 machine, wired in: reference-grounded builds + enforced honesty (2026-07-19)
 
 v1 graded pages after the fact. v2 grounds the build in a real-page corpus **before** code and enforces honesty/anti-pattern rules as machine gates — the capabilities were built and verified as a standalone pipeline, and this release wires them into the shipped skill (owner-approved).

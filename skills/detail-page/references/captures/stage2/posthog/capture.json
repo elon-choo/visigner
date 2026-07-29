@@ -1,0 +1,13 @@
+{
+  "url": "https://posthog.com",
+  "status": 200,
+  "title": "About PostHog",
+  "pageHeight": 1600,
+  "bodyTextLen": 6979,
+  "imageCount": 8,
+  "expanded": "Read more",
+  "tiles": 1,
+  "coveredHeight": 1600,
+  "maxTiles": 90,
+  "outDir": "references/captures/stage2/posthog"
+}

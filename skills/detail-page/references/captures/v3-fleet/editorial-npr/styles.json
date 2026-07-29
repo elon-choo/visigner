@@ -1,0 +1,669 @@
+{
+  "meta": {
+    "url": "https://www.npr.org/",
+    "status": 200,
+    "title": "NPR - Breaking News, Analysis, Music, Arts & Podcasts : NPR",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:34:27.705Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "NPRSans",
+      "rawStack": "NPRSans, Helvetica, Arial, sans-serif",
+      "fontWeight": "500",
+      "fontSize": "14px",
+      "lineHeight": "19.6px",
+      "letterSpacing": "0.84px",
+      "element": "h2",
+      "selector": "div.story-wrap > div.story-text > div.slug-wrap > h2.slug"
+    },
+    "body": {
+      "resolvedFamily": "NPRSans",
+      "rawStack": "NPRSans, Helvetica, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "14px",
+      "lineHeight": "21px",
+      "letterSpacing": "0.28px",
+      "element": "article",
+      "selector": "div#contentWrap > div#res1002-115 > div.bucketwrap > article#story1234569831"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "NPRSans",
+        "weight": "400"
+      },
+      {
+        "family": "NPRSans",
+        "weight": "500"
+      },
+      {
+        "family": "NPRSans",
+        "weight": "700"
+      },
+      {
+        "family": "NPRSans",
+        "weight": "400"
+      },
+      {
+        "family": "NPRSerif",
+        "weight": "400"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#f2f2f2",
+        "cssRgb": "rgb(242, 242, 242)",
+        "areaShare": 0.5423446227068313
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.43634533208852844
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.00860419202242905
+      },
+      {
+        "value": "#737373",
+        "cssRgb": "rgb(115, 115, 115)",
+        "areaShare": 0.008423080641475678
+      },
+      {
+        "value": "#0a61db",
+        "cssRgb": "rgb(10, 97, 219)",
+        "areaShare": 0.0011831327212473279
+      },
+      {
+        "value": "#333333",
+        "cssRgb": "rgb(51, 51, 51)",
+        "areaShare": 0.001076191615468314
+      },
+      {
+        "value": "#575757",
+        "cssRgb": "rgb(87, 87, 87)",
+        "areaShare": 0.0009464733558165818
+      },
+      {
+        "value": "#063679",
+        "cssRgb": "rgb(6, 54, 121)",
+        "areaShare": 0.0006176349568236577
+      }
+    ],
+    "text": [
+      {
+        "value": "#212121",
+        "cssRgb": "rgb(33, 33, 33)",
+        "areaShare": 0.8518485542419905
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.09507256113557937
+      },
+      {
+        "value": "#0a61db",
+        "cssRgb": "rgb(10, 97, 219)",
+        "areaShare": 0.0365928641739337
+      },
+      {
+        "value": "#737373",
+        "cssRgb": "rgb(115, 115, 115)",
+        "areaShare": 0.007556993284228144
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.007368033484806162
+      },
+      {
+        "value": "#575757",
+        "cssRgb": "rgb(87, 87, 87)",
+        "areaShare": 0.0014776127249146857
+      }
+    ]
+  },
+  "cssVariables": {
+    "--bg-blog-gradient-bottom": "hsl(0, 0%, 83%)",
+    "--bg-blog-gradient-top": "hsl(0, 0%, 100%)",
+    "--bg-bottom-menu": "hsl(215, 92%, 14%)",
+    "--bg-inversePrimary": "hsl(0, 0%, 13%)",
+    "--bg-inversePrimary-hover": "hsl(0, 0%, 34%)",
+    "--bg-inverseSecondary": "hsl(0, 0%, 20%)",
+    "--bg-music": "hsl(31, 46%, 89%)",
+    "--bg-primary": "hsl(0, 0%, 100%)",
+    "--bg-quaternary": "hsl(0, 0%, 75%)",
+    "--bg-red": "hsl(0, 74%, 48%)",
+    "--bg-red-hover": "hsl(0, 71%, 65%)",
+    "--bg-secondary": "hsl(0, 0%, 95%)",
+    "--bg-secondary-hover": "hsl(0, 0%, 83%)",
+    "--bg-story-tag": "hsl(0, 0%, 95%)",
+    "--bg-tertiary": "hsl(0, 0%, 83%)",
+    "--black-100": "hsl(0, 0%, 0%)",
+    "--blue-100": "hsl(215, 81%, 85%)",
+    "--blue-200": "hsl(215, 96%, 75%)",
+    "--blue-300": "hsl(215, 75%, 63%)",
+    "--blue-400": "hsl(214, 75%, 58%)",
+    "--blue-50": "hsl(216, 71%, 95%)",
+    "--blue-500": "hsl(215, 91%, 45%)",
+    "--blue-600": "hsl(215, 91%, 41%)",
+    "--blue-700": "hsl(215, 91%, 32%)",
+    "--blue-800": "hsl(215, 90%, 25%)",
+    "--blue-800-00": "hsl(from hsl(215, 90%, 25%) h s l / 0%)",
+    "--blue-800-50": "hsl(from hsl(215, 90%, 25%) h s l / 50%)",
+    "--blue-900": "hsl(215, 92%, 14%)",
+    "--blue-900-00": "hsl(from hsl(215, 92%, 14%) h s l / 0%)",
+    "--color-primary": "hsl(215, 91%, 45%)",
+    "--color-primary-hover": "hsl(215, 75%, 63%)",
+    "--color-secondary": "hsl(215, 75%, 63%)",
+    "--color-secondary-hover": "hsl(215, 81%, 85%)",
+    "--container-shadow-mild": "hsl(from hsl(0, 0%, 7%) h s l / 5%)",
+    "--container-shadow-moderate": "hsl(from hsl(0, 0%, 7%) h s l / 20%)",
+    "--fg-inversePrimary": "hsl(0, 0%, 100%)",
+    "--fg-inversePrimary-hover": "hsl(216, 71%, 95%)",
+    "--fg-inverseSecondary": "hsl(0, 0%, 83%)",
+    "--fg-inverseTertiary": "hsl(0, 0%, 75%)",
+    "--fg-inverseTertiary-hover": "hsl(0, 0%, 83%)",
+    "--fg-primary": "hsl(0, 0%, 13%)",
+    "--fg-primary-hover": "hsl(0, 0%, 45%)",
+    "--fg-quaternary": "hsl(0, 0%, 56%)",
+    "--fg-secondary": "hsl(0, 0%, 34%)",
+    "--fg-secondary-hover": "hsl(0, 0%, 56%)",
+    "--fg-story-tag": "hsl(0, 0%, 34%)",
+    "--fg-story-tag-hover": "hsl(0, 0%, 56%)",
+    "--fg-tertiary": "hsl(0, 0%, 45%)",
+    "--fg-tertiary-hover": "hsl(0, 0%, 63%)",
+    "--gray-100": "hsl(0, 0%, 83%)",
+    "--gray-200": "hsl(0, 0%, 75%)",
+    "--gray-200-20": "hsl(from hsl(0, 0%, 75%) h s l / 20%)",
+    "--gray-300": "hsl(0, 0%, 63%)",
+    "--gray-400": "hsl(0, 0%, 56%)",
+    "--gray-50": "hsl(0, 0%, 95%)",
+    "--gray-500": "hsl(0, 0%, 45%)",
+    "--gray-500-00": "hsl(from hsl(0, 0%, 45%) h s l / 0%)",
+    "--gray-600": "hsl(0, 0%, 34%)",
+    "--gray-700": "hsl(0, 0%, 20%)",
+    "--gray-800": "hsl(0, 0%, 13%)",
+    "--gray-900": "hsl(0, 0%, 7%)",
+    "--gray-900-00": "hsl(from hsl(0, 0%, 7%) h s l / 0%)",
+    "--gray-900-05": "hsl(from hsl(0, 0%, 7%) h s l / 5%)",
+    "--gray-900-20": "hsl(from hsl(0, 0%, 7%) h s l / 20%)",
+    "--gray-900-50": "hsl(from hsl(0, 0%, 7%) h s l / 50%)",
+    "--gray-900-70": "hsl(from hsl(0, 0%, 7%) h s l / 70%)",
+    "--green-100": "hsl(115, 36%, 77%)",
+    "--green-200": "hsl(115, 35%, 66%)",
+    "--green-300": "hsl(115, 34%, 51%)",
+    "--green-400": "hsl(115, 47%, 41%)",
+    "--green-50": "hsl(115, 33%, 93%)",
+    "--green-500": "hsl(115, 91%, 27%)",
+    "--green-600": "hsl(115, 92%, 24%)",
+    "--green-700": "hsl(115, 92%, 19%)",
+    "--green-800": "hsl(115, 92%, 15%)",
+    "--green-900": "hsl(115, 90%, 11%)",
+    "--magenta-100": "hsl(308, 62%, 84%)",
+    "--magenta-200": "hsl(309, 44%, 67%)",
+    "--magenta-300": "hsl(309, 39%, 55%)",
+    "--magenta-400": "hsl(308, 42%, 47%)",
+    "--magenta-50": "hsl(306, 83%, 95%)",
+    "--magenta-500": "hsl(308, 57%, 39%)",
+    "--magenta-600": "hsl(309, 59%, 33%)",
+    "--magenta-700": "hsl(309, 63%, 28%)",
+    "--magenta-800": "hsl(309, 71%, 22%)",
+    "--magenta-900": "hsl(309, 76%, 15%)",
+    "--magenta-900-00": "hsl(from hsl(309, 76%, 15%) h s l / 0%)",
+    "--music-text": "hsl(359, 74%, 44%)",
+    "--music-text-hover": "hsl(0, 74%, 34%)",
+    "--orange-100": "hsl(29, 88%, 84%)",
+    "--orange-200": "hsl(29, 88%, 76%)",
+    "--orange-300": "hsl(29, 88%, 65%)",
+    "--orange-400": "hsl(29, 86%, 58%)",
+    "--orange-50": "hsl(29, 85%, 95%)",
+    "--orange-500": "hsl(29, 93%, 48%)",
+    "--orange-600": "hsl(29, 94%, 44%)",
+    "--orange-700": "hsl(29, 93%, 34%)",
+    "--orange-800": "hsl(29, 94%, 26%)",
+    "--orange-900": "hsl(29, 94%, 20%)",
+    "--podcast-location-five": "hsl(359, 74%, 44%)",
+    "--podcast-location-four": "hsl(263, 44%, 82%)",
+    "--podcast-location-one": "hsl(29, 85%, 95%)",
+    "--podcast-location-six": "hsl(0, 0%, 7%)",
+    "--podcast-location-three": "hsl(215, 91%, 41%)",
+    "--podcast-location-two": "hsl(215, 81%, 85%)",
+    "--red-100": "hsl(0, 68%, 84%)",
+    "--red-200": "hsl(359, 68%, 76%)",
+    "--red-300": "hsl(0, 71%, 65%)",
+    "--red-400": "hsl(0, 68%, 59%)",
+    "--red-50": "hsl(0, 69%, 95%)",
+    "--red-500": "hsl(0, 74%, 48%)",
+    "--red-600": "hsl(359, 74%, 44%)",
+    "--red-700": "hsl(0, 74%, 34%)",
+    "--red-800": "hsl(0, 73%, 27%)",
+    "--red-900": "hsl(359, 75%, 20%)",
+    "--red-text": "hsl(0, 74%, 48%)",
+    "--red-text-hover": "hsl(0, 71%, 65%)",
+    "--tan-100": "hsl(32, 48%, 83%)",
+    "--tan-200": "hsl(32, 49%, 78%)",
+    "--tan-300": "hsl(33, 50%, 75%)",
+    "--tan-400": "hsl(32, 53%, 71%)",
+    "--tan-50": "hsl(31, 46%, 89%)",
+    "--tan-500": "hsl(32, 53%, 68%)",
+    "--tan-600": "hsl(32, 48%, 60%)",
+    "--tan-700": "hsl(32, 38%, 52%)",
+    "--tan-800": "hsl(32, 46%, 38%)",
+    "--tan-900": "hsl(32, 51%, 32%)",
+    "--tan-900-00": "hsl(from hsl(32, 51%, 32%) h s l / 0%)",
+    "--teal-100": "hsl(180, 56%, 80%)",
+    "--teal-200": "hsl(180, 42%, 68%)",
+    "--teal-300": "hsl(180, 39%, 56%)",
+    "--teal-400": "hsl(180, 38%, 44%)",
+    "--teal-50": "hsl(180, 100%, 96%)",
+    "--teal-500": "hsl(180, 44%, 34%)",
+    "--teal-600": "hsl(180, 53%, 30%)",
+    "--teal-700": "hsl(180, 62%, 25%)",
+    "--teal-700-00": "hsl(from hsl(180, 62%, 25%) h s l / 0%)",
+    "--teal-800": "hsl(180, 80%, 18%)",
+    "--teal-900": "hsl(180, 91%, 14%)",
+    "--violet-100": "hsl(263, 44%, 82%)",
+    "--violet-200": "hsl(263, 45%, 73%)",
+    "--violet-300": "hsl(263, 43%, 60%)",
+    "--violet-400": "hsl(263, 43%, 52%)",
+    "--violet-50": "hsl(263, 41%, 94%)",
+    "--violet-500": "hsl(263, 64%, 40%)",
+    "--violet-600": "hsl(262, 64%, 37%)",
+    "--violet-700": "hsl(263, 64%, 29%)",
+    "--violet-800": "hsl(263, 65%, 22%)",
+    "--violet-900": "hsl(263, 63%, 17%)",
+    "--white-100": "hsl(0, 0%, 100%)",
+    "--white-100-00": "hsl(from hsl(0, 0%, 100%) h s l / 0%)",
+    "--white-100-05": "hsl(from hsl(0, 0%, 100%) h s l / 5%)",
+    "--white-100-20": "hsl(from hsl(0, 0%, 100%) h s l / 20%)",
+    "--white-100-70": "hsl(from hsl(0, 0%, 100%) h s l / 70%)",
+    "--yellow-100": "hsl(55, 97%, 85%)",
+    "--yellow-200": "hsl(54, 98%, 77%)",
+    "--yellow-300": "hsl(54, 99%, 66%)",
+    "--yellow-400": "hsl(54, 98%, 60%)",
+    "--yellow-50": "hsl(53, 100%, 95%)",
+    "--yellow-500": "hsl(54, 98%, 50%)",
+    "--yellow-600": "hsl(54, 98%, 45%)",
+    "--yellow-700": "hsl(54, 99%, 35%)",
+    "--yellow-800": "hsl(54, 99%, 27%)",
+    "--yellow-900": "hsl(54, 98%, 21%)"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 3194
+    },
+    {
+      "value": "20px",
+      "count": 134
+    },
+    {
+      "value": "16px",
+      "count": 78
+    },
+    {
+      "value": "15px",
+      "count": 71
+    },
+    {
+      "value": "12px",
+      "count": 23
+    },
+    {
+      "value": "25px",
+      "count": 23
+    },
+    {
+      "value": "6px",
+      "count": 16
+    },
+    {
+      "value": "10px",
+      "count": 14
+    },
+    {
+      "value": "9px",
+      "count": 11
+    },
+    {
+      "value": "234.844px",
+      "count": 10
+    },
+    {
+      "value": "8px",
+      "count": 10
+    },
+    {
+      "value": "30px",
+      "count": 7
+    },
+    {
+      "value": "-1px",
+      "count": 4
+    },
+    {
+      "value": "1px",
+      "count": 4
+    },
+    {
+      "value": "5.5px",
+      "count": 4
+    },
+    {
+      "value": "122.328px",
+      "count": 3
+    },
+    {
+      "value": "122.344px",
+      "count": 3
+    },
+    {
+      "value": "492.188px",
+      "count": 3
+    },
+    {
+      "value": "134.188px",
+      "count": 2
+    },
+    {
+      "value": "134.219px",
+      "count": 2
+    },
+    {
+      "value": "159.922px",
+      "count": 2
+    },
+    {
+      "value": "18px",
+      "count": 2
+    },
+    {
+      "value": "22px",
+      "count": 2
+    },
+    {
+      "value": "234.812px",
+      "count": 2
+    },
+    {
+      "value": "50px",
+      "count": 2
+    },
+    {
+      "value": "122.312px",
+      "count": 1
+    },
+    {
+      "value": "122.359px",
+      "count": 1
+    },
+    {
+      "value": "134.141px",
+      "count": 1
+    },
+    {
+      "value": "159.875px",
+      "count": 1
+    },
+    {
+      "value": "17px",
+      "count": 1
+    },
+    {
+      "value": "234.609px",
+      "count": 1
+    },
+    {
+      "value": "234.75px",
+      "count": 1
+    },
+    {
+      "value": "234.828px",
+      "count": 1
+    },
+    {
+      "value": "234.891px",
+      "count": 1
+    },
+    {
+      "value": "234.906px",
+      "count": 1
+    },
+    {
+      "value": "234.953px",
+      "count": 1
+    },
+    {
+      "value": "335px",
+      "count": 1
+    },
+    {
+      "value": "40px",
+      "count": 1
+    },
+    {
+      "value": "492.156px",
+      "count": 1
+    },
+    {
+      "value": "492.344px",
+      "count": 1
+    },
+    {
+      "value": "5px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 1526
+    },
+    {
+      "value": "2px",
+      "count": 53
+    },
+    {
+      "value": "60px",
+      "count": 42
+    },
+    {
+      "value": "15px",
+      "count": 19
+    },
+    {
+      "value": "2px 2px 0px 0px",
+      "count": 11
+    },
+    {
+      "value": "6px",
+      "count": 8
+    },
+    {
+      "value": "50%",
+      "count": 5
+    },
+    {
+      "value": "40px",
+      "count": 2
+    },
+    {
+      "value": "5px 5px 0px 0px",
+      "count": 2
+    },
+    {
+      "value": "7px",
+      "count": 2
+    },
+    {
+      "value": "35px",
+      "count": 1
+    },
+    {
+      "value": "3px 3px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "4px",
+      "count": 1
+    },
+    {
+      "value": "5px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 1628
+    },
+    {
+      "value": "color(srgb 0.07 0.07 0.07 / 0.05) 0px 0px 7px 0px",
+      "count": 43
+    },
+    {
+      "value": "color(srgb 0.07 0.07 0.07 / 0.2) 0px 0px 4px 0px",
+      "count": 2
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.05) 0px 0px 7px 0px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 1442
+      },
+      {
+        "value": "0.2s",
+        "count": 68
+      },
+      {
+        "value": "0.4s ease-in",
+        "count": 48
+      },
+      {
+        "value": "opacity 0.25s",
+        "count": 24
+      },
+      {
+        "value": "background-color 0.1s ease-in-out",
+        "count": 21
+      },
+      {
+        "value": "color 0.1s ease-in-out",
+        "count": 21
+      },
+      {
+        "value": "opacity 0.25s ease-in-out, visibility 0.25s ease-in-out",
+        "count": 18
+      },
+      {
+        "value": "transform 0.2s ease-in-out",
+        "count": 16
+      },
+      {
+        "value": "background-color 0.3s",
+        "count": 5
+      },
+      {
+        "value": "0.5s",
+        "count": 4
+      },
+      {
+        "value": "box-shadow 0.25s",
+        "count": 2
+      },
+      {
+        "value": "none",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.1s ease-in-out, transform 0.5s",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.25s cubic-bezier(0, 0.25, 0.25, 1), background-size 0.25s cubic-bezier(0, 0.25, 0.25, 1)",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.25s ease-in-out",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.25s ease-in-out 0.5s, visibility 0.25s ease-in-out 0.5s",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 1664
+      },
+      {
+        "value": "2s fadeIn",
+        "count": 10
+      }
+    ],
+    "prefersReducedMotion": false
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 164,
+      "pageHeightPx": 14153,
+      "bodyTextLen": 12123,
+      "bigImageCount": 13,
+      "textToHeightRatio": 0.8565675121882287,
+      "largestHeadingPx": 22
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://prod-eks-static-assets.npr.org/static/javascript/jwplayer/skins/npr.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://prod-eks-bundles.npr.org/dist/bundles/persistent-css-104d4709505a25ab6e1b.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://prod-eks-bundles.npr.org/dist/bundles/persistent_medium-css-104d4709505a25ab6e1b.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://prod-eks-bundles.npr.org/dist/bundles/persistent_large-css-104d4709505a25ab6e1b.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://prod-eks-bundles.npr.org/dist/bundles/fonts-css-104d4709505a25ab6e1b.css (SecurityError)"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://prod-eks-bundles.npr.org/dist/bundles/newsHomepage-css-104d4709505a25ab6e1b.css (SecurityError)"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

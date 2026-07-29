@@ -253,12 +253,17 @@ async function capture(options) {
   }
 }
 
-let options;
-try {
-  options = parseArgs(process.argv.slice(2));
-} catch (error) {
-  fail(error.message);
-}
-if (options) {
-  capture(options).catch((error) => fail(error.message, 2));
+// Only drive the CLI when this file IS the entry point. Without the guard a `require('./capture-spa')`
+// from a test or another script parsed that caller's argv and started a capture as a side effect of the
+// import.
+if (require.main === module) {
+  let options;
+  try {
+    options = parseArgs(process.argv.slice(2));
+  } catch (error) {
+    fail(error.message);
+  }
+  if (options) {
+    capture(options).catch((error) => fail(error.message, 2));
+  }
 }

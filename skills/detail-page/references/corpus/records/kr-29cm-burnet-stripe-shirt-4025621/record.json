@@ -1,0 +1,573 @@
+{
+  "schema_version": "1.0.0",
+  "id": "kr-29cm-burnet-stripe-shirt-4025621",
+  "capture_dir": "captures/v3-fleet/kr-29cm-burnet-stripe-shirt-4025621",
+  "url": "https://www.29cm.co.kr/products/4025621",
+  "title": "[2차] Burnet Stripe Sheer Shirt (Beige) - 감도 깊은 취향 셀렉트샵 29CM",
+  "status": 200,
+  "captured_at": "2026-07-23T15:15:48.353Z",
+  "freshness": {
+    "capturedAt": "2026-07-23T15:15:48.353Z",
+    "recaptureDueAt": "2026-10-21T15:15:48.353Z",
+    "policy": "90d"
+  },
+  "family": "capture-spa",
+  "mode": "detail",
+  "category": "kr-detail-page",
+  "exemplar_role": "neutral",
+  "sector": null,
+  "locale": "ko-KR",
+  "expanded": "더보기",
+  "notes": "Only capture artifacts and target category metadata are represented. No interpretive or consulting-derived text is recorded.",
+  "target_metadata": {
+    "category": "kr-commerce-detail",
+    "url": "https://www.29cm.co.kr/products/4025621"
+  },
+  "capture": {
+    "page_height_px": {
+      "value": 40442,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/pageHeight",
+      "gap": null
+    },
+    "body_text_len": {
+      "value": 8531,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/bodyTextLen",
+      "gap": null
+    },
+    "image_count": {
+      "value": 40,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/imageCount",
+      "gap": null
+    },
+    "big_images": {
+      "value": [
+        "https://img.29cm.co.kr/cms/202607/11f17f26aca0a602814899ba4d109a9b.jpg?width=1440&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685bd18716d790904dc4fd255125.jpg?width=720&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685bd7ec5b899090e3e29a2caf73.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685bd99acedd9090bbef214e8176.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685bdb521be9b3578d0f52a52239.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685bdd8e9e6fb3577525db293174.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685bdf65a861b357833e65f723fa.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685be11e54e3b357ffd3bf7c02d5.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685be2fdea55b35755208fa4d745.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685be4952c27b357ab78e9cbc45f.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685be659987bb357ffb608265620.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685be7f93e999090d58ad2259684.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f1685be9b56db3b35725b5244c7cda.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/item/202606/11f16925680f102f9090df3ef02ce254.jpg?width=1080&format=webp",
+        "https://img.29cm.co.kr/cms/202606/11f1694f3134c2bd9090bd1c130bfbbc.jpg?width=1000&format=webp",
+        "https://img.29cm.co.kr/next-product/2026/07/03/1becc6d0117b4fad9126b5e75d788722_20260703193058.jpeg?width=400&format=webp",
+        "https://img.29cm.co.kr/next-product/2026/07/03/5197e2a6f65a4dbaad1333681d23385e_20260703193058.jpeg?width=400&format=webp",
+        "https://img.29cm.co.kr/next-product/2026/07/01/737b81abec3d447984972de1955f6e0d_20260701171156.jpg?width=400&format=webp",
+        "https://img.29cm.co.kr/next-product/2026/06/29/0545d017350548e5b0ab2073f946b2e3_20260629163343.jpg?width=400&format=webp",
+        "https://img.29cm.co.kr/next-product/2026/06/27/f0f5b32dd87c4b20a7f3b8fa708ff6ce_20260627120104.jpeg?width=400&format=webp"
+      ],
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bigImages",
+      "gap": null
+    },
+    "tile_count": {
+      "value": 26,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/tiles",
+      "gap": null
+    },
+    "tile_w_px": {
+      "value": 1280,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_h_px": {
+      "value": 1600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_format": {
+      "value": "png",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG file header, tile_00.png",
+      "gap": null
+    },
+    "tile_scale": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1280/1280 = 1; native 1280×1600 PNG tile dimensions",
+      "gap": "GAP-05"
+    },
+    "covered_height_px": {
+      "value": 41600,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "capture.json#/coveredHeight",
+      "gap": null
+    },
+    "coverage_ok": {
+      "value": true,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "41600 >= 40442 = true",
+      "gap": null
+    },
+    "color_fidelity": {
+      "value": "lossless",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG + 1280/1280 scale = lossless",
+      "gap": null
+    },
+    "has_dom": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture directory contains capture.json/data.json/bodytext.txt and tiles but no captured DOM dump; has_dom = false",
+      "gap": "GAP-01"
+    }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "secondary_30": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "accent_10": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "field_committed": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "field_evidence": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      },
+      "field_sections": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      }
+    },
+    "temperature": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "computed_backgrounds": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "No styles.json collector artifact is present; computed backgrounds is withheld.",
+      "gap": "GAP-01"
+    },
+    "ramp": [],
+    "chroma_max_measured": {
+      "value": null,
+      "provenance": "tile-px",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "chrome_excluded": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No human chrome-region annotation is present.",
+      "gap": "GAP-07"
+    }
+  },
+  "type": {
+    "display": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "No styles.json collector artifact is present; display family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "No styles.json collector artifact is present; display weights is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "body": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "No styles.json collector artifact is present; body family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "No styles.json collector artifact is present; body weights is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "mono": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "No styles.json collector artifact is present; mono family is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "No styles.json collector artifact is present; type scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "pairing_note": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "weight_contrast_observed": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "kr_display_present": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    }
+  },
+  "layout": {
+    "archetype": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "content_width_px": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "column_system": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "primitive_repeated": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    }
+  },
+  "rhythm": {
+    "band_count": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "median_band_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "viewports": {
+      "value": 25.28,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture.json#/pageHeight ÷ (capture.json#/coveredHeight ÷ capture.json#/tiles); 40442 ÷ (41600 ÷ 26) = 25.28",
+      "gap": null
+    },
+    "text_density": {
+      "value": 337.51,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture.json#/bodyTextLen ÷ derived viewports; 8531 ÷ 25.28 = 337.51",
+      "gap": null
+    },
+    "image_density": {
+      "value": 1.58,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture.json#/imageCount ÷ derived viewports; 40 ÷ 25.28 = 1.58",
+      "gap": null
+    },
+    "spacing_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "No styles.json collector artifact is present; spacing scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "radius_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "No styles.json collector artifact is present; radius scale is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "signature": {
+    "name": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "family": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "description": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "evidence_tiles": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "embodies_brief": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "tell_risk": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "recurrence": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    }
+  },
+  "motion": {
+    "gif_asset_count": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of .gif URLs in data.json#/bigImages",
+      "gap": null
+    },
+    "gif_evidence": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "dynamic_demo_present": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "gif_asset_count > 0 = false; still tiles do not establish interactive motion.",
+      "gap": null
+    },
+    "notes": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "Still capture data does not establish motion behavior.",
+      "gap": "GAP-08"
+    },
+    "durations_ms": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "No styles.json collector artifact is present; motion durations is withheld.",
+      "gap": "GAP-01"
+    },
+    "easings": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "No styles.json collector artifact is present; motion easings is withheld.",
+      "gap": "GAP-01"
+    },
+    "reduced_motion_honored": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "No styles.json collector artifact is present; reduced-motion behavior is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "commerce": {
+    "awareness": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "sophistication": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    },
+    "arc": [
+      {
+        "stage": "problem",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "affinity",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "solution",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "offer",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "narrow",
+        "present": null,
+        "evidence": null
+      },
+      {
+        "stage": "action",
+        "present": null,
+        "evidence": null
+      }
+    ],
+    "arc_resolved": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of commerce.arc[] stages with present !== null = 0",
+      "gap": "GAP-09"
+    },
+    "arc_total": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PASONA stage count = 6",
+      "gap": null
+    },
+    "arc_coverage": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "authority_numbers": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "reward_ladder": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_device": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_repetition": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 0",
+      "gap": null
+    },
+    "one_message": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No curator judgement is supplied with this capture.",
+      "gap": "GAP-06"
+    }
+  }
+}

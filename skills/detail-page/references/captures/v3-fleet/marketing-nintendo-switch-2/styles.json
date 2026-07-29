@@ -1,0 +1,500 @@
+{
+  "meta": {
+    "url": "https://www.nintendo.com/us/gaming-systems/switch-2/",
+    "status": 200,
+    "title": "Nintendo Switch 2: All Together, Anytime, Anywhere - Nintendo US",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:32:22.748Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Geologica Variable",
+      "rawStack": "\"Geologica Variable\", -apple-system, \"system-ui\", sans-serif",
+      "fontWeight": "600",
+      "fontSize": "28px",
+      "lineHeight": "37.8px",
+      "letterSpacing": "normal",
+      "element": "h1",
+      "selector": "section.PeonWrapper_peonSection__Ok606 > div.PeonWrapper_childContainer__lunGX > div > h1.s954l"
+    },
+    "body": {
+      "resolvedFamily": "Geologica Variable",
+      "rawStack": "\"Geologica Variable\", -apple-system, \"system-ui\", sans-serif",
+      "fontWeight": "300",
+      "fontSize": "16px",
+      "lineHeight": "22.4px",
+      "letterSpacing": "normal",
+      "element": "p",
+      "selector": "a.FancyMiniBlade_fancyMiniBlade__dDWMA > div.FancyMiniBlade_fancyContent__rA_lz > div > p.sc-9cc55030-0"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "Geologica Variable",
+        "weight": "100 900"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#e60012",
+        "cssRgb": "rgb(230, 0, 18)",
+        "areaShare": 0.5886066063027026
+      },
+      {
+        "value": "#242424",
+        "cssRgb": "rgb(36, 36, 36)",
+        "areaShare": 0.22608899417623035
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.11745805792570142
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.05611637752739521
+      },
+      {
+        "value": "#f8f8f8",
+        "cssRgb": "rgb(248, 248, 248)",
+        "areaShare": 0.009019579473644925
+      },
+      {
+        "value": "#ac000d",
+        "cssRgb": "rgb(172, 0, 13)",
+        "areaShare": 0.001032897763278323
+      },
+      {
+        "value": "#00000099",
+        "cssRgb": "rgba(0, 0, 0, 0.6)",
+        "areaShare": 0.0008178607335303196
+      },
+      {
+        "value": "#e50013",
+        "cssRgb": "rgb(229, 0, 19)",
+        "areaShare": 0.0004374658767874114
+      }
+    ],
+    "text": [
+      {
+        "value": "#484848",
+        "cssRgb": "rgb(72, 72, 72)",
+        "areaShare": 0.6931356063871754
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.24159402824416476
+      },
+      {
+        "value": "#242424",
+        "cssRgb": "rgb(36, 36, 36)",
+        "areaShare": 0.06253482720747029
+      },
+      {
+        "value": "#e60012",
+        "cssRgb": "rgb(230, 0, 18)",
+        "areaShare": 0.0027196458058443944
+      },
+      {
+        "value": "#c8c8c8",
+        "cssRgb": "rgb(200, 200, 200)",
+        "areaShare": 0.00001589235534495496
+      }
+    ]
+  },
+  "cssVariables": {
+    "--app-height": "1600px",
+    "--border-radius": "0.75rem",
+    "--border-radius-small": "0.5rem",
+    "--quiq-a11y-letter-spacing": "normal",
+    "--quiq-a11y-line-height": "1.2",
+    "--quiq-a11y-paragraph-spacing": "2em",
+    "--quiq-a11y-word-spacing": "normal",
+    "--quiq-cs-boxshadow-focus": "rgba(0,0,0,.6) 0px 1px 6px,rgba(0,0,0,.6) 0px 1px 4px",
+    "--quiq-cs-boxshadow-primary": "rgba(0,0,0,.12) 0px 1px 6px,rgba(0,0,0,.12) 0px 1px 4px",
+    "--quiq-cs-colors-alertbar-background": "#f3dc82",
+    "--quiq-cs-colors-alertbar-text": "rgba(0,0,0,.5)",
+    "--quiq-cs-colors-blue-eight": "#115ca7",
+    "--quiq-cs-colors-blue-three": "#559ce2",
+    "--quiq-cs-colors-darkgreytext": "#4a4a4a",
+    "--quiq-cs-colors-focus": "#577abd",
+    "--quiq-cs-colors-lightgrey": "#eee",
+    "--quiq-cs-colors-lightgreytext": "#ababab",
+    "--quiq-cs-colors-primary": "#090442",
+    "--quiq-cs-colors-yellows-three": "#f1d45f",
+    "--quiq-cs-colors-yellows-two": "#f3dc82",
+    "--quiq-cs-font-family-primary": "sans-serif",
+    "--quiq-cs-font-size-one": "14px",
+    "--quiq-cs-font-size-two": "16px",
+    "--quiq-cs-font-size-zero": "12px",
+    "--quiq-cs-notificationblurb-radius-rounded": "25px",
+    "--quiq-cs-notificationblurb-radius-sharp": "4px",
+    "--quiq-cs-notificationblurb-radius-soft": "16px",
+    "--quiq-cs-root-zindex": "99999",
+    "--quiq-cs-shadow-padding": "14px",
+    "--quiq-cs-shadow-size": "6px",
+    "--quiq-cs-space-five": "32px",
+    "--quiq-cs-space-four": "16px",
+    "--quiq-cs-space-one": "4px",
+    "--quiq-cs-space-three": "12px",
+    "--quiq-cs-space-two": "8px",
+    "--quiq-theme-colors-cardborder": "#ababab",
+    "--quiq-theme-colors-primary": "#090442",
+    "--quiq-theme-colors-shadow": "#eee",
+    "--quiq-webchat-sdk-border-radius-md": "4px",
+    "--quiq-webchat-sdk-boxshadow-primary": "rgba(0,0,0,.12) 0px 1px 6px,rgba(0,0,0,.12) 0px 1px 4px",
+    "--quiq-webchat-sdk-colors-alertbar-background": "#f3dc82",
+    "--quiq-webchat-sdk-colors-alertbar-text": "rgba(0,0,0,.5)",
+    "--quiq-webchat-sdk-colors-blue-three": "#559ce2",
+    "--quiq-webchat-sdk-colors-border": "#ababab",
+    "--quiq-webchat-sdk-colors-lightgreytext": "rgba(0,0,0,.33)",
+    "--quiq-webchat-sdk-colors-yellows-three": "#f1d45f",
+    "--quiq-webchat-sdk-colors-yellows-two": "#f3dc82",
+    "--quiq-webchat-sdk-space-four": "32px",
+    "--quiq-webchat-sdk-space-one": "4px",
+    "--quiq-webchat-sdk-space-three": "16px",
+    "--quiq-webchat-sdk-space-two": "8px",
+    "--theme-animation-button-hover-scaleX": "1.05",
+    "--theme-animation-button-hover-scaleY": "1.05",
+    "--theme-animation-button-hover-transition-scaleX-stiffness": "600",
+    "--theme-animation-button-hover-transition-scaleX-type": "spring",
+    "--theme-animation-button-hover-transition-scaleY-stiffness": "600",
+    "--theme-animation-button-hover-transition-scaleY-type": "spring",
+    "--theme-animation-button-tap-scaleX": "0.99",
+    "--theme-animation-button-tap-scaleY": "0.99",
+    "--theme-animation-button-tap-transition-duration": "0.1",
+    "--theme-animation-button-tap-transition-ease": "anticipate",
+    "--theme-animation-button-tap-transition-type": "tween",
+    "--theme-animation-horizontal-fastBounce-damping": "24",
+    "--theme-animation-horizontal-fastBounce-stiffness": "729",
+    "--theme-animation-horizontal-fastBounce-type": "spring",
+    "--theme-animation-horizontal-fastEase-damping": "30",
+    "--theme-animation-horizontal-fastEase-stiffness": "401.4",
+    "--theme-animation-horizontal-fastEase-type": "spring",
+    "--theme-animation-horizontal-standardBounce-damping": "19",
+    "--theme-animation-horizontal-standardBounce-stiffness": "284",
+    "--theme-animation-horizontal-standardBounce-type": "spring",
+    "--theme-animation-horizontal-standardEase-damping": "13.4",
+    "--theme-animation-horizontal-standardEase-stiffness": "80.1",
+    "--theme-animation-horizontal-standardEase-type": "spring",
+    "--theme-animation-vertical-fastBounce-damping": "25",
+    "--theme-animation-vertical-fastBounce-stiffness": "645",
+    "--theme-animation-vertical-fastBounce-type": "spring",
+    "--theme-animation-vertical-fastEase-damping": "48",
+    "--theme-animation-vertical-fastEase-stiffness": "1024",
+    "--theme-animation-vertical-fastEase-type": "spring",
+    "--theme-animation-vertical-gentleBounce-damping": "18.3",
+    "--theme-animation-vertical-gentleBounce-stiffness": "178",
+    "--theme-animation-vertical-gentleBounce-type": "spring",
+    "--theme-animation-vertical-standardBounce-damping": "19",
+    "--theme-animation-vertical-standardBounce-stiffness": "284",
+    "--theme-animation-vertical-standardBounce-type": "spring",
+    "--theme-animation-vertical-standardEase-damping": "20",
+    "--theme-animation-vertical-standardEase-stiffness": "177.8",
+    "--theme-animation-vertical-standardEase-type": "spring",
+    "--theme-borderRadius": "0.75rem",
+    "--theme-borderRadiusRound": "1rem",
+    "--theme-borderRadiusSmall": "0.5rem",
+    "--theme-category": "\"General\"",
+    "--theme-color-black": "#000",
+    "--theme-color-darkGray1": "#242424",
+    "--theme-color-darkGray2": "#484848",
+    "--theme-color-darkGray3": "#727272",
+    "--theme-color-darkGray4": "#969696",
+    "--theme-color-focus": "#3946a0",
+    "--theme-color-lightGray1": "#c8c8c8",
+    "--theme-color-lightGray2": "#dadada",
+    "--theme-color-lightGray3": "#efefef",
+    "--theme-color-lightGray4": "#f8f8f8",
+    "--theme-color-primary": "#e60012",
+    "--theme-color-primaryHover": "#ac000d",
+    "--theme-color-primaryHoverRgb": "172,0,13",
+    "--theme-color-primaryLight": "#fde6e7",
+    "--theme-color-primaryRgb": "230,0,18",
+    "--theme-color-secondary": "#3946a0",
+    "--theme-color-secondaryHover": "#2a3477",
+    "--theme-color-secondaryLight": "#bdc3e8",
+    "--theme-color-white": "#fff",
+    "--theme-colors-alert-attentionBg": "#e8ebfc",
+    "--theme-colors-alert-attentionIcon": "#3946a0",
+    "--theme-colors-alert-errorIcon": "#e60012",
+    "--theme-colors-alert-maintenanceBg": "#efefef",
+    "--theme-colors-alert-successBg": "#e1f7d6",
+    "--theme-colors-alert-successIcon": "#2d8513",
+    "--theme-colors-alert-text": "#484848",
+    "--theme-colors-alert-warningBg": "#fffbb1",
+    "--theme-colors-alert-warningIcon": "#bea000",
+    "--theme-colors-button-background-disabled": "#dadada",
+    "--theme-colors-button-background-ghost": "rgba(0,0,0,.25)",
+    "--theme-colors-button-background-ghostFocus": "hsla(0,0%,100%,.25)",
+    "--theme-colors-button-background-ghostHover": "rgba(0,0,0,.5)",
+    "--theme-colors-button-background-primary": "#e60012",
+    "--theme-colors-button-background-primaryHover": "#ac000d",
+    "--theme-colors-button-background-quaternary": "#fff",
+    "--theme-colors-button-background-quaternaryHover": "#efefef",
+    "--theme-colors-button-background-quaternarySelected": "#3946a0",
+    "--theme-colors-button-background-secondary": "#3946a0",
+    "--theme-colors-button-background-tertiary": "#fff",
+    "--theme-colors-button-background-tertiarySelected": "#e60012",
+    "--theme-colors-button-content-ghost": "#fff",
+    "--theme-colors-button-content-primary": "#fff",
+    "--theme-colors-button-content-quaternary": "#3946a0",
+    "--theme-colors-button-content-quaternarySelected": "#fff",
+    "--theme-colors-button-content-secondary": "#fff",
+    "--theme-colors-button-content-tertiary": "#e60012",
+    "--theme-colors-button-content-tertiarySelected": "#fff",
+    "--theme-colors-button-stroke-ghost": "#fff",
+    "--theme-colors-button-stroke-quaternary": "#3946a0",
+    "--theme-colors-button-stroke-tertiary": "#e60012",
+    "--theme-colors-descriptionTag-blue": "#4b5cce",
+    "--theme-colors-descriptionTag-charcoal": "#484848",
+    "--theme-colors-descriptionTag-green": "#2d8513",
+    "--theme-colors-descriptionTag-red": "#e60012",
+    "--theme-colors-descriptionTag-text": "#fff",
+    "--theme-colors-descriptionTag-violet": "#9531b9",
+    "--theme-colors-icon-inverse": "#fff",
+    "--theme-colors-icon-primary": "#e60012",
+    "--theme-colors-icon-standard": "#484848",
+    "--theme-colors-text-inverse": "#fff",
+    "--theme-colors-text-link": "#e60012",
+    "--theme-colors-text-standard": "#484848",
+    "--theme-colors-ui-accent": "#e60012",
+    "--theme-colors-ui-bgAccent": "#f8f8f8",
+    "--theme-colors-ui-bgMain": "#fff",
+    "--theme-colors-ui-line": "#dadada",
+    "--theme-description": "\"This is the default theme used on nintendo.com\"",
+    "--theme-font-family": "\"Geologica Variable\",-apple-system,\"BlinkMacSystemFont\",sans-serif",
+    "--theme-font-lineHeight": "1.4",
+    "--theme-font-size-bodyDesktop": "1rem",
+    "--theme-font-size-bodyMobile": "0.875rem",
+    "--theme-font-size-captionDesktop": "0.875rem",
+    "--theme-font-size-captionMobile": "0.75rem",
+    "--theme-font-size-h1LDesktop": "2.375rem",
+    "--theme-font-size-h1LMobile": "1.75rem",
+    "--theme-font-size-h1SDesktop": "1.75rem",
+    "--theme-font-size-h1SMobile": "1.3125rem",
+    "--theme-font-size-h2Desktop": "1.3125rem",
+    "--theme-font-size-h2Mobile": "1.125rem",
+    "--theme-font-size-h3Desktop": "1.125rem",
+    "--theme-font-size-h3Mobile": "1rem",
+    "--theme-font-size-h4Desktop": "1rem",
+    "--theme-font-size-h4Mobile": "0.875rem",
+    "--theme-font-size-legalDesktop": "0.75rem",
+    "--theme-font-size-legalMobile": "0.625rem",
+    "--theme-font-size-titleDesktop": "1rem",
+    "--theme-font-size-titleMobile": "0.875rem",
+    "--theme-font-variation-settings": "\"CRSV\" 1",
+    "--theme-font-weight-bold": "600",
+    "--theme-font-weight-light": "300",
+    "--theme-image-desktop-xxsmall-height": "5.5rem",
+    "--theme-image-desktop-xxsmall-width": "10rem",
+    "--theme-image-mobile-xxsmall-height": "4.25rem",
+    "--theme-image-mobile-xxsmall-width": "7.5rem",
+    "--theme-movement-delay": "25ms",
+    "--theme-movement-duration": "200ms",
+    "--theme-movement-easing": "ease-in-out",
+    "--theme-name": "\"Nintendo Light Theme\"",
+    "--theme-nav-desktop-height": "59px",
+    "--theme-nav-desktop-logo-width": "132px",
+    "--theme-page-maxWidth": "90rem",
+    "--theme-page-slimMaxWidth": "71.5rem",
+    "--theme-scrim-dark": "rgba(0,0,0,.6)",
+    "--theme-scrim-light": "hsla(0,0%,100%,.6)",
+    "--theme-skeleton-icon": "star-play-nintendo",
+    "--theme-skeleton-image": "star-play-nintendo",
+    "--theme-slug": "nintendo-light-theme",
+    "--theme-spacing-0": "0rem",
+    "--theme-spacing-112": "7rem",
+    "--theme-spacing-12": "0.75rem",
+    "--theme-spacing-128": "8rem",
+    "--theme-spacing-16": "1rem",
+    "--theme-spacing-2": "0.125rem",
+    "--theme-spacing-20": "1.25rem",
+    "--theme-spacing-24": "1.5rem",
+    "--theme-spacing-28": "1.75rem",
+    "--theme-spacing-32": "2rem",
+    "--theme-spacing-36": "2.25rem",
+    "--theme-spacing-4": "0.25rem",
+    "--theme-spacing-40": "2.5rem",
+    "--theme-spacing-44": "2.75rem",
+    "--theme-spacing-48": "3rem",
+    "--theme-spacing-64": "4rem",
+    "--theme-spacing-8": "0.5rem",
+    "--theme-spacing-80": "5rem",
+    "--theme-spacing-96": "6rem",
+    "--theme-status": "approved"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 1063
+    },
+    {
+      "value": "16px",
+      "count": 46
+    },
+    {
+      "value": "32px",
+      "count": 26
+    },
+    {
+      "value": "24px",
+      "count": 18
+    },
+    {
+      "value": "8px",
+      "count": 7
+    },
+    {
+      "value": "6px",
+      "count": 6
+    },
+    {
+      "value": "10px",
+      "count": 4
+    },
+    {
+      "value": "48px",
+      "count": 3
+    },
+    {
+      "value": "20px",
+      "count": 2
+    },
+    {
+      "value": "32.5px",
+      "count": 2
+    },
+    {
+      "value": "40px",
+      "count": 2
+    },
+    {
+      "value": "80px",
+      "count": 2
+    },
+    {
+      "value": "-64px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 481
+    },
+    {
+      "value": "4px",
+      "count": 40
+    },
+    {
+      "value": "12px",
+      "count": 35
+    },
+    {
+      "value": "8px",
+      "count": 6
+    },
+    {
+      "value": "36px",
+      "count": 5
+    },
+    {
+      "value": "20px",
+      "count": 4
+    },
+    {
+      "value": "48px",
+      "count": 2
+    },
+    {
+      "value": "0px 0px 0px 12px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 569
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.07) 0px 2px 8px 0px",
+      "count": 5
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 482
+      },
+      {
+        "value": "border-bottom-color 0.2s ease-in-out 0.025s, color 0.2s ease-in-out 0.025s",
+        "count": 39
+      },
+      {
+        "value": "color 0.2s ease-in-out 0.025s",
+        "count": 25
+      },
+      {
+        "value": "0.2s ease-in-out",
+        "count": 20
+      },
+      {
+        "value": "0.3s",
+        "count": 6
+      },
+      {
+        "value": "0.8s",
+        "count": 1
+      },
+      {
+        "value": "color 0.2s ease-in-out",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 574
+      }
+    ],
+    "prefersReducedMotion": true
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 220,
+      "pageHeightPx": 5951,
+      "bodyTextLen": 2325,
+      "bigImageCount": 14,
+      "textToHeightRatio": 0.390690640228533,
+      "largestHeadingPx": 28
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "cssVariables",
+      "reason": "externalCssSkipped: https://fonts.googleapis.com/css2?family=Geologica:wght%2CCRSV@300..600%2C1&display=swap (SecurityError)"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

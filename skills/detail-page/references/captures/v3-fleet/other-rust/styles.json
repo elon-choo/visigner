@@ -1,0 +1,217 @@
+{
+  "meta": {
+    "url": "https://rust-lang.org/",
+    "status": 200,
+    "title": "Rust Programming Language",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:37:55.836Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Alfa Slab One",
+      "rawStack": "\"Alfa Slab One\", serif",
+      "fontWeight": "300",
+      "fontSize": "96px",
+      "lineHeight": "115.2px",
+      "letterSpacing": "1px",
+      "element": "h1",
+      "selector": "header.mt3 > div.flex > div.w-70-l > h1"
+    },
+    "body": {
+      "resolvedFamily": "Fira Sans",
+      "rawStack": "\"Fira Sans\", Helvetica, Arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "18px",
+      "lineHeight": "27px",
+      "letterSpacing": "normal",
+      "element": "p",
+      "selector": "div.w-100 > div.flex-none > section.w-100 > p.f3"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "Alfa Slab One",
+        "weight": "400"
+      },
+      {
+        "family": "Fira Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Fira Sans",
+        "weight": "400"
+      },
+      {
+        "family": "Fira Sans",
+        "weight": "600"
+      },
+      {
+        "family": "Fira Sans",
+        "weight": "800"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.5926168903246335
+      },
+      {
+        "value": "#2e2459",
+        "cssRgb": "rgb(46, 36, 89)",
+        "areaShare": 0.12843933561630264
+      },
+      {
+        "value": "#a72145",
+        "cssRgb": "rgb(167, 33, 69)",
+        "areaShare": 0.10473013066962682
+      },
+      {
+        "value": "#0b7261",
+        "cssRgb": "rgb(11, 114, 97)",
+        "areaShare": 0.08186553452980644
+      },
+      {
+        "value": "#2a3439",
+        "cssRgb": "rgb(42, 52, 57)",
+        "areaShare": 0.08154759983471674
+      },
+      {
+        "value": "#ffc832",
+        "cssRgb": "rgb(255, 200, 50)",
+        "areaShare": 0.01080050902491385
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.624346349965116
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.3704159795431132
+      },
+      {
+        "value": "#2a3439",
+        "cssRgb": "rgb(42, 52, 57)",
+        "areaShare": 0.0028727734656510623
+      },
+      {
+        "value": "#ffc832",
+        "cssRgb": "rgb(255, 200, 50)",
+        "areaShare": 0.00217863807742301
+      },
+      {
+        "value": "#4299bf",
+        "cssRgb": "rgb(66, 153, 191)",
+        "areaShare": 0.00018625894869670815
+      }
+    ]
+  },
+  "cssVariables": {},
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 347
+    },
+    {
+      "value": "12px",
+      "count": 17
+    },
+    {
+      "value": "24px",
+      "count": 16
+    },
+    {
+      "value": "56.5px",
+      "count": 12
+    },
+    {
+      "value": "6px",
+      "count": 10
+    },
+    {
+      "value": "30px",
+      "count": 6
+    },
+    {
+      "value": "60px",
+      "count": 5
+    },
+    {
+      "value": "48px",
+      "count": 2
+    },
+    {
+      "value": "3px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 162
+    },
+    {
+      "value": "4px",
+      "count": 10
+    },
+    {
+      "value": "2px",
+      "count": 5
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 177
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 177
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 177
+      }
+    ],
+    "prefersReducedMotion": false
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 0,
+      "pageHeightPx": 3490,
+      "bodyTextLen": 3485,
+      "bigImageCount": 0,
+      "textToHeightRatio": 0.998567335243553,
+      "largestHeadingPx": 96
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

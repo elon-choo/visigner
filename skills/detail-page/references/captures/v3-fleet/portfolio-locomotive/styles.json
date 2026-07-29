@@ -1,0 +1,302 @@
+{
+  "meta": {
+    "url": "https://locomotive.ca/en",
+    "status": 200,
+    "title": "Locomotive | Montreal web agency",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-23T15:24:53.093Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "LocomotiveNew",
+      "rawStack": "LocomotiveNew, -apple-system, \"system-ui\", \"avenir next\", avenir, \"segoe ui\", \"helvetica neue\", helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "97.7778px",
+      "lineHeight": "107.556px",
+      "letterSpacing": "normal",
+      "element": "h1",
+      "selector": "div.c-work-single-hero_inner > div.c-work-single-hero_grid > div.c-work-single-hero_title > h1.c-heading"
+    },
+    "body": {
+      "resolvedFamily": "HelveticaNowDisplay",
+      "rawStack": "HelveticaNowDisplay, -apple-system, \"system-ui\", \"avenir next\", avenir, \"segoe ui\", \"helvetica neue\", helvetica, Cantarell, Ubuntu, roboto, noto, arial, sans-serif",
+      "fontWeight": "400",
+      "fontSize": "26px",
+      "lineHeight": "31.2px",
+      "letterSpacing": "normal",
+      "element": "div",
+      "selector": "div.c-section-overline_inner > div.o-grid > div.o-grid_item > div.c-wysiwyg"
+    },
+    "mono": null,
+    "documentFonts": [
+      {
+        "family": "HelveticaNowDisplay",
+        "weight": "400"
+      },
+      {
+        "family": "LocomotiveNew",
+        "weight": "400"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.9948725965543593
+      },
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.005127403445640718
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.9980283521992566
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.0019716478007434516
+      }
+    ]
+  },
+  "cssVariables": {
+    "--about-head-content-offset-vh": "0.15",
+    "--border": "solid 2px",
+    "--border-size": "2px",
+    "--cc-bg": "#fff",
+    "--cc-btn-border-radius": ".4rem",
+    "--cc-btn-primary-bg": "#30363c",
+    "--cc-btn-primary-border-color": "#30363c",
+    "--cc-btn-primary-color": "#fff",
+    "--cc-btn-primary-hover-bg": "#000",
+    "--cc-btn-primary-hover-border-color": "#000",
+    "--cc-btn-primary-hover-color": "#fff",
+    "--cc-btn-secondary-bg": "#eaeff2",
+    "--cc-btn-secondary-border-color": "#eaeff2",
+    "--cc-btn-secondary-color": "#2c2f31",
+    "--cc-btn-secondary-hover-bg": "#d4dae0",
+    "--cc-btn-secondary-hover-border-color": "#d4dae0",
+    "--cc-btn-secondary-hover-color": "#000",
+    "--cc-cookie-category-block-bg": "#f0f4f7",
+    "--cc-cookie-category-block-border": "#f0f4f7",
+    "--cc-cookie-category-block-hover-bg": "#e9eff4",
+    "--cc-cookie-category-block-hover-border": "#e9eff4",
+    "--cc-cookie-category-expanded-block-bg": "transparent",
+    "--cc-cookie-category-expanded-block-hover-bg": "#dee4e9",
+    "--cc-font-family": "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"",
+    "--cc-footer-bg": "#eaeff2",
+    "--cc-footer-border-color": "#e4eaed",
+    "--cc-footer-color": "#5e6266",
+    "--cc-link-color": "#30363c",
+    "--cc-modal-border-radius": ".5rem",
+    "--cc-modal-margin": "1rem",
+    "--cc-modal-transition-duration": ".25s",
+    "--cc-overlay-bg": "rgba(0,0,0,.65)",
+    "--cc-pm-toggle-border-radius": "4em",
+    "--cc-primary-color": "#2c2f31",
+    "--cc-secondary-color": "#5e6266",
+    "--cc-section-category-border": "#f0f4f7",
+    "--cc-separator-border-color": "#f0f4f7",
+    "--cc-toggle-off-bg": "#667481",
+    "--cc-toggle-off-knob-bg": "#fff",
+    "--cc-toggle-on-bg": "#30363c",
+    "--cc-toggle-on-knob-bg": "#fff",
+    "--cc-toggle-readonly-bg": "#d5dee2",
+    "--cc-toggle-readonly-knob-bg": "#fff",
+    "--cc-toggle-readonly-knob-icon-color": "#d5dee2",
+    "--cc-z-index": "2147483647",
+    "--color": "#000000",
+    "--color-bg": "#FFFFFF",
+    "--font-size": "15px",
+    "--font-size-h1": "4.6666666667rem",
+    "--font-size-h2": "1.7333333333rem",
+    "--font-size-h3": "1.4666666667rem",
+    "--font-size-h4": "1.3333333333rem",
+    "--font-size-h5": "1.2rem",
+    "--font-size-h6": "1.0666666667rem",
+    "--font-size-huge": "7.6388888889vw",
+    "--font-size-medium": "1.7333333333rem",
+    "--grid-columns": "12",
+    "--grid-gutter": "20px",
+    "--grid-margin": "2.6666666667rem",
+    "--head-padding-vh": "0.25",
+    "--header-height": "4rem",
+    "--menu-color": "#FFFFFF",
+    "--menu-color-bg": "#312DFB",
+    "--scroll-direction": "-1",
+    "--spacing-big": "150",
+    "--spacing-big-mobile": "80",
+    "--spacing-enormous": "250",
+    "--spacing-enormous-mobile": "140",
+    "--spacing-huge": "200",
+    "--spacing-huge-mobile": "100",
+    "--spacing-large": "80",
+    "--spacing-large-mobile": "52",
+    "--spacing-medium": "40",
+    "--spacing-medium-mobile": "40",
+    "--spacing-micro": "14",
+    "--spacing-micro-mobile": "8",
+    "--spacing-small": "30",
+    "--spacing-small-mobile": "30",
+    "--spacing-tiny": "20",
+    "--spacing-tiny-mobile": "20",
+    "--swiper-navigation-size": "44px",
+    "--swiper-theme-color": "#007aff",
+    "--vh": "16px"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 1128
+    },
+    {
+      "value": "20px",
+      "count": 38
+    },
+    {
+      "value": "40px",
+      "count": 37
+    },
+    {
+      "value": "133.333px",
+      "count": 20
+    },
+    {
+      "value": "223.333px",
+      "count": 9
+    },
+    {
+      "value": "7px",
+      "count": 8
+    },
+    {
+      "value": "177.778px",
+      "count": 7
+    },
+    {
+      "value": "19.5px",
+      "count": 4
+    },
+    {
+      "value": "30px",
+      "count": 4
+    },
+    {
+      "value": "16px",
+      "count": 3
+    },
+    {
+      "value": "71.1111px",
+      "count": 3
+    },
+    {
+      "value": "-124.444px",
+      "count": 2
+    },
+    {
+      "value": "400px",
+      "count": 2
+    },
+    {
+      "value": "15px",
+      "count": 1
+    },
+    {
+      "value": "6.4px",
+      "count": 1
+    },
+    {
+      "value": "8px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 290
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 290
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 272
+      },
+      {
+        "value": "transform",
+        "count": 10
+      },
+      {
+        "value": "background-size 0.25s, color 0.25s",
+        "count": 2
+      },
+      {
+        "value": "none",
+        "count": 2
+      },
+      {
+        "value": "background-color 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)",
+        "count": 1
+      },
+      {
+        "value": "background-color 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), opacity 0.2s cubic-bezier(0.215, 0.61, 0.355, 1)",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.25s, visibility 0.25s, transform 0.25s",
+        "count": 1
+      },
+      {
+        "value": "transform 0.2s cubic-bezier(0.215, 0.61, 0.355, 1)",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 290
+      }
+    ],
+    "prefersReducedMotion": true
+  },
+  "makerStyles": null,
+  "chromeStyles": null,
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 83,
+      "pageHeightPx": 16055,
+      "bodyTextLen": 2412,
+      "bigImageCount": 7,
+      "textToHeightRatio": 0.15023357209592028,
+      "largestHeadingPx": 97.7778
+    },
+    "note": "REFUSING — authored region is unresolved; provide an explicit region classification; no region default will be assumed. Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "type.mono",
+      "reason": "no rendered element used a mono/code/courier computed font family"
+    },
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>SCAFFOLD — plan-comparison pricing page (replace per brief)</title>
+<title>SCAFFOLD: plan-comparison pricing page (replace per brief)</title>
 
 <!--
   STARTER VARIANT: plan-comparison PRICING page. Pick THIS file when the brief is "a pricing / plans /
@@ -130,6 +130,13 @@
   .col { max-width: 1120px; margin-inline: auto; padding-inline: 24px; }
   @media (max-width: 480px) { .col { padding-inline: 16px; } }
 
+  /* ---- Masthead: wraps instead of overflowing. Word-length in nav labels is content, not layout, so the
+     bar has to survive a longer label without pushing the document past the viewport. ---- */
+  .masthead { display: flex; align-items: center; justify-content: space-between; gap: 12px 16px;
+    flex-wrap: wrap; padding-block: 20px; }
+  .masthead nav { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 22px; font-size: 14px; }
+  @media (max-width: 560px) { .masthead nav { gap: 10px 14px; } }
+
   /* ---- Buttons ---- */
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px;
     padding-inline: 22px; border-radius: 10px; font-weight: 600; line-height: 1; font-family: var(--font-body);
@@ -140,7 +147,22 @@
   .btn-primary { background: var(--color-primary); color: oklch(0.99 0.005 95); }
   .btn-ghost { border: 1px solid var(--color-line); color: var(--color-ink); background: transparent; }
 
-  .eyebrow { font-family: var(--font-latin); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-primary); }
+  /* ---- Run-in head: the plan name and its qualifier are ONE typographic unit (display name + deck in the
+     body face), instead of a name label followed by a detached paragraph. Hierarchy comes from size + weight
+     + color, not from tracking or a mono costume. ---- */
+  .deck { display: block; font-family: var(--font-body); font-size: 13px; font-weight: 400; line-height: 1.45;
+    color: var(--color-muted); letter-spacing: 0; margin-top: 6px; min-height: 36px; }
+
+  /* ---- Pacing devices: a quiet fine-print strip, then a full-bleed one-line statement, then a quote.
+     They deliberately carry NO heading so the page's rhythm is not one repeated header-block all the way down. ---- */
+  .fineprint { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 28px;
+    font-size: 13px; color: var(--color-muted); }
+  .fineprint b { color: var(--color-ink); font-weight: 600; }
+  .statement { font-family: var(--font-display); font-weight: 700; line-height: 1.15;
+    font-size: clamp(24px, 3.6vw, 38px); max-width: 22ch; }
+  .quote { font-family: var(--font-display); font-size: clamp(20px, 2.6vw, 27px); font-weight: 500;
+    line-height: 1.35; margin: 0; }
+  .quote + .attrib { margin-top: 14px; font-size: 14px; color: var(--color-muted); }
 
   /* ---- Billing segmented toggle ---- */
   .seg { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--color-line);
@@ -149,8 +171,7 @@
     font-size: 14px; font-weight: 600; padding: 9px 18px; border-radius: 9999px; cursor: pointer;
     transition: background-color .2s var(--ease-out), color .2s var(--ease-out); }
   .seg button[aria-pressed="true"] { background: var(--color-primary); color: oklch(0.99 0.005 95); }
-  .seg .save { display: inline-block; margin-left: 6px; font-family: var(--font-latin); font-size: 11px;
-    letter-spacing: 0.04em; color: var(--color-primary); }
+  .seg .save { display: inline-block; margin-left: 6px; font-size: 11px; font-weight: 600; color: var(--color-primary); }
   .seg button[aria-pressed="true"] .save { color: oklch(0.95 0.04 120); }
 
   /* ---- Tier cards: ONE repeated primitive ---- */
@@ -160,13 +181,16 @@
     box-shadow: var(--shadow-e1); padding: 26px; display: flex; flex-direction: column; position: relative; }
   .tier.is-recommended { border-color: var(--color-accent); box-shadow: var(--shadow-e3);
     outline: 2px solid var(--color-accent); outline-offset: -2px; }
-  .tier .ribbon { position: absolute; top: -13px; left: 26px; font-family: var(--font-latin); font-size: 11px;
-    letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-on-accent); background: var(--color-accent);
+  /* Solid-fill lozenge, sentence case, no tracking — a filled shape earns the eye, so the label does not
+     need a mono costume to look deliberate. */
+  .tier .ribbon { position: absolute; top: -13px; left: 26px; font-size: 12px; font-weight: 600;
+    color: var(--color-on-accent); background: var(--color-accent);
     padding: 5px 12px; border-radius: 9999px; box-shadow: var(--shadow-e1); }
   .tier .price { display: flex; align-items: baseline; gap: 6px; margin-top: 14px; }
-  .tier .amt { font-family: var(--font-latin); font-size: 44px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  /* The ONE reserved mono use on this page: the price figure itself — a genuinely tabular string, at display size. */
+  .amt { font-family: var(--font-latin); font-size: 44px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
   .tier .per { color: var(--color-muted); font-size: 15px; }
-  .tier .bill { font-size: 13px; color: var(--color-muted); margin-top: 8px; min-height: 20px; font-family: var(--font-latin); }
+  .tier .bill { font-size: 13px; color: var(--color-muted); margin-top: 8px; min-height: 20px; }
   .tier ul { list-style: none; padding: 0; margin: 20px 0 24px; display: grid; gap: 11px; }
   .tier li { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.5; }
   .tier li svg { flex: none; margin-top: 2px; color: var(--color-primary); }
@@ -186,9 +210,13 @@
     border-bottom: 1px solid var(--color-line); color: var(--color-ink); }
   .matrix tbody td { text-align: center; font-size: 14px; padding: 13px 14px; border-bottom: 1px solid var(--color-line);
     color: var(--color-muted); }
-  .matrix tbody td.val { color: var(--color-ink); font-family: var(--font-latin); font-size: 13px; }
-  .matrix .group th { font-family: var(--font-latin); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--color-primary); padding-top: 22px; background: transparent; }
+  /* Numbers line up because of tabular-nums (the typographic tool for the job), not because the cells wear a
+     monospace costume — so "Unlimited" and "Priority email" read as words, not as terminal output. */
+  .matrix tbody td.val { color: var(--color-ink); font-size: 14px; font-variant-numeric: tabular-nums; }
+  /* Group rows step DOWN one level from the section h2 using the display face at a real size/weight jump —
+     hierarchy by scale, not by tracking + uppercase. */
+  .matrix .group th { font-family: var(--font-display); font-size: 16px; font-weight: 700;
+    color: var(--color-ink); padding-top: 26px; background: transparent; }
   .matrix col.rec, .matrix td.rec-col, .matrix th.rec-col { background: color-mix(in oklch, var(--color-primary-50) 70%, transparent); }
   .yes { color: var(--color-primary); } .no { color: var(--color-muted); }
   @media (max-width: 600px) {
@@ -202,16 +230,16 @@
   .faq details { border-bottom: 1px solid var(--color-line); padding: 18px 4px; }
   .faq summary { cursor: pointer; font-weight: 600; font-size: 16px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
   .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: "+"; color: var(--color-muted); font-family: var(--font-latin); }
+  .faq summary::after { content: "+"; color: var(--color-muted); font-weight: 400; }
   .faq details[open] summary::after { content: "–"; }
 </style>
 </head>
 <body>
 
 <!-- ░░ NAV ░░ -->
-<header class="col" style="display:flex;align-items:center;justify-content:space-between;padding-block:20px;gap:16px">
+<header class="col masthead">
   <span class="font-display" style="font-size:22px;font-weight:800;letter-spacing:-0.02em">Cadence</span>
-  <nav style="display:flex;align-items:center;gap:22px;font-size:14px">
+  <nav aria-label="Primary">
     <a href="#plans" class="text-muted" style="text-decoration:none">Plans</a>
     <a href="#compare" class="text-muted" style="text-decoration:none">Compare</a>
     <a href="#faq" class="text-muted" style="text-decoration:none">FAQ</a>
@@ -220,14 +248,15 @@
 </header>
 
 <main>
-  <!-- ░░ 1 · HEADER + billing toggle (the one orchestrated entrance) ░░ -->
+  <!-- ░░ 1 · HEADER + billing toggle (the one orchestrated entrance) ░░
+       No eyebrow above the H1: the page is titled "pricing" by the nav and the URL, so a tracked kicker
+       repeating it is furniture. The fact the buyer needs is IN the headline instead. -->
   <section class="col" style="padding-block:56px 36px;text-align:center">
-    <p class="eyebrow reveal" data-d="1">pricing</p>
-    <h1 class="sig" style="font-size:clamp(34px,5.5vw,56px);font-weight:800;line-height:1.04;margin-top:12px;max-width:16ch;margin-inline:auto">
+    <h1 class="sig" style="font-size:clamp(34px,5.5vw,56px);font-weight:800;line-height:1.04;max-width:16ch;margin-inline:auto">
       One price per seat. Every feature scales with you.
     </h1>
     <p class="reveal text-muted" data-d="3" style="font-size:clamp(16px,2vw,19px);line-height:1.5;margin-top:18px;max-width:52ch;margin-inline:auto">
-      Switch to annual and keep two months. No setup fees, no per-action billing — just the plan that fits the team.
+      Switch to annual and keep two months. No setup fees and no per-action billing, just the plan that fits the team.
     </p>
 
     <div class="reveal" data-d="4" style="margin-top:28px">
@@ -244,8 +273,7 @@
 
       <!-- Starter -->
       <article class="tier reveal" data-d="1" aria-label="Starter plan">
-        <h2 style="font-size:18px;font-weight:700">Starter</h2>
-        <p class="text-muted" style="font-size:13px;margin-top:6px;min-height:36px">For a solo operator or a side project getting off the ground.</p>
+        <h2 style="font-size:18px;font-weight:700">Starter<span class="deck">for a solo operator, or a side project getting off the ground</span></h2>
         <div class="price"><span class="amt" data-m="$19" data-a="$15">$19</span><span class="per">/seat · mo</span></div>
         <p class="bill" data-m="Billed monthly" data-a="$180/seat billed yearly · save $48">Billed monthly</p>
         <ul>
@@ -259,8 +287,7 @@
       <!-- Pro — RECOMMENDED default + focal accent CTA -->
       <article class="tier is-recommended reveal" data-d="2" aria-label="Pro plan, recommended" aria-current="true">
         <span class="ribbon">Most popular</span>
-        <h2 style="font-size:18px;font-weight:700">Pro</h2>
-        <p class="text-muted" style="font-size:13px;margin-top:6px;min-height:36px">For a growing team that needs history, roles and real support.</p>
+        <h2 style="font-size:18px;font-weight:700">Pro<span class="deck">for a growing team that needs history, roles and real support</span></h2>
         <div class="price"><span class="amt" data-m="$39" data-a="$31">$39</span><span class="per">/seat · mo</span></div>
         <p class="bill" data-m="Billed monthly" data-a="$372/seat billed yearly · save $96">Billed monthly</p>
         <ul>
@@ -274,8 +301,7 @@
 
       <!-- Scale — high anchor / decoy -->
       <article class="tier reveal" data-d="3" aria-label="Scale plan">
-        <h2 style="font-size:18px;font-weight:700">Scale</h2>
-        <p class="text-muted" style="font-size:13px;margin-top:6px;min-height:36px">For an org with SSO, audit and procurement requirements.</p>
+        <h2 style="font-size:18px;font-weight:700">Scale<span class="deck">for an org with SSO, audit and procurement requirements</span></h2>
         <div class="price"><span class="amt" data-m="$79" data-a="$63">$79</span><span class="per">/seat · mo</span></div>
         <p class="bill" data-m="Billed monthly" data-a="$756/seat billed yearly · save $192">Billed monthly</p>
         <ul>
@@ -287,14 +313,35 @@
         <a href="#" class="btn btn-ghost cta">Contact sales</a>
       </article>
     </div>
-    <p class="text-muted reveal" style="text-align:center;font-size:13px;margin-top:18px">Prices in USD. Cancel or change plan anytime — proration is automatic.</p>
   </section>
 
-  <!-- ░░ 3 · COMPARISON MATRIX — sticky header, every cell/state covered (✓ / — / value) ░░ -->
-  <section id="compare" class="col" style="padding-block:32px 56px">
+  <!-- ░░ 3 · FINE PRINT — the quiet beat. Deliberately headingless and small: the money questions a buyer
+       asks right after seeing a price, answered in one line each so the page does not read as one repeated
+       header-block rhythm all the way down. ░░ -->
+  <section class="col" style="padding-block:8px 4px">
+    <div class="fineprint reveal">
+      <span>Prices in <b>USD</b>, billed by card or invoice.</span>
+      <span>Change plan any day; <b>proration is automatic</b>.</span>
+      <span>No card needed to start.</span>
+    </div>
+  </section>
+
+  <!-- ░░ 4 · THE LOUD BEAT — full-bleed ink, one sentence, no heading. This is the pacing jump cut: the
+       quietest block on the page is immediately followed by the largest type on it. ░░ -->
+  <section style="background:var(--color-ink);color:oklch(0.97 0.01 95);padding-block:56px;margin-top:24px">
+    <div class="col reveal" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:16px 48px">
+      <p class="statement">Every plan is the whole product.</p>
+      <p style="font-size:16px;line-height:1.6;opacity:0.78;max-width:40ch;margin:0">
+        The tier only sets how much history, how many people and how much paperwork you need. Nothing is
+        held back to be sold to you later.
+      </p>
+    </div>
+  </section>
+
+  <!-- ░░ 5 · COMPARISON MATRIX — sticky header, every cell/state covered (✓ / ✕ / value) ░░ -->
+  <section id="compare" class="col" style="padding-block:48px 56px">
     <div class="reveal" style="max-width:36ch;margin-bottom:18px">
-      <p class="eyebrow">compare</p>
-      <h2 style="font-size:clamp(26px,4vw,38px);font-weight:800;line-height:1.06;margin-top:10px">Every plan, line by line.</h2>
+      <h2 style="font-size:clamp(26px,4vw,38px);font-weight:800;line-height:1.06">Every plan, line by line.</h2>
     </div>
 
     <div class="reveal" role="region" aria-label="Plan comparison" tabindex="0">
@@ -327,28 +374,28 @@
           <tr class="group"><th scope="colgroup" colspan="4">Collaboration</th></tr>
           <tr>
             <th scope="row">Roles &amp; permissions</th>
-            <td><span class="no" aria-label="Not included">—</span></td>
+            <td><svg class="no" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Not included"><line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="6.5"/></svg></td>
             <td class="rec-col"><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
             <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
           </tr>
           <tr>
             <th scope="row">Guest access</th>
-            <td><span class="no" aria-label="Not included">—</span></td>
+            <td><svg class="no" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Not included"><line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="6.5"/></svg></td>
             <td class="rec-col"><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
             <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
           </tr>
           <tr>
             <th scope="row">Audit log</th>
-            <td><span class="no" aria-label="Not included">—</span></td>
-            <td class="rec-col"><span class="no" aria-label="Not included">—</span></td>
+            <td><svg class="no" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Not included"><line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="6.5"/></svg></td>
+            <td class="rec-col"><svg class="no" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Not included"><line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="6.5"/></svg></td>
             <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
           </tr>
 
           <tr class="group"><th scope="colgroup" colspan="4">Security &amp; support</th></tr>
           <tr>
             <th scope="row">SSO / SAML</th>
-            <td><span class="no" aria-label="Not included">—</span></td>
-            <td class="rec-col"><span class="no" aria-label="Not included">—</span></td>
+            <td><svg class="no" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Not included"><line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="6.5"/></svg></td>
+            <td class="rec-col"><svg class="no" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Not included"><line x1="6.5" y1="6.5" x2="17.5" y2="17.5"/><line x1="6.5" y1="17.5" x2="17.5" y2="6.5"/></svg></td>
             <td><svg class="yes" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-label="Included"><polyline points="20 6 9 17 4 12"/></svg></td>
           </tr>
           <tr>
@@ -357,7 +404,7 @@
           </tr>
           <tr>
             <th scope="row">Uptime SLA</th>
-            <td class="val">—</td><td class="val rec-col">99.9%</td><td class="val">99.99%</td>
+            <td class="val">Best effort</td><td class="val rec-col">99.9%</td><td class="val">99.99%</td>
           </tr>
         </tbody>
         <tfoot>
@@ -372,13 +419,22 @@
     </div>
   </section>
 
-  <!-- ░░ 4 · FAQ — native <details>, no JS needed ░░ -->
+  <!-- ░░ 6 · ONE VOICE — headingless again, and quiet after the density of the table. A named buyer saying
+       the price was worth it does more work here than another header block would. ░░ -->
+  <section class="col" style="padding-block:8px 8px">
+    <figure class="reveal" style="max-width:32em;margin:0 auto;text-align:center">
+      <blockquote class="quote">“We moved from Starter to Pro in week three and never looked at the invoice again.”</blockquote>
+      <figcaption class="attrib">Priya Raman, operations lead at a 22-person studio</figcaption>
+    </figure>
+  </section>
+
+  <!-- ░░ 7 · FAQ — native <details>, no JS needed ░░ -->
   <section id="faq" class="col faq" style="max-width:760px;padding-block:24px 56px">
     <h2 class="reveal" style="font-size:clamp(24px,4vw,34px);font-weight:800;text-align:center;margin-bottom:18px">Pricing questions</h2>
     <div class="reveal" style="border-top:1px solid var(--color-line)">
       <details>
         <summary>How does annual billing save 20%?</summary>
-        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Annual plans are billed once a year at the discounted seat rate — effectively two months free. Pro is $39/seat monthly or $31/seat on annual ($372/seat/year), a $96 saving per seat.</p>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Annual plans are billed once a year at the discounted seat rate, which works out to two months free. Pro is $39/seat monthly or $31/seat on annual ($372/seat/year), a $96 saving per seat.</p>
       </details>
       <details>
         <summary>What happens when I add or remove a seat?</summary>
@@ -386,12 +442,12 @@
       </details>
       <details>
         <summary>Can I switch plans later?</summary>
-        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Yes — upgrade or downgrade anytime from the billing page. Upgrades take effect immediately; downgrades apply at the end of the current period so you keep what you have paid for.</p>
+        <p class="text-muted" style="margin-top:10px;font-size:15px;line-height:1.6">Yes. Upgrade or downgrade anytime from the billing page. Upgrades take effect immediately; downgrades apply at the end of the current period so you keep what you have paid for.</p>
       </details>
     </div>
   </section>
 
-  <!-- ░░ 5 · FINAL CTA ░░ -->
+  <!-- ░░ 8 · FINAL CTA ░░ -->
   <section class="bg-ink" style="background:var(--color-ink);padding-block:64px">
     <div class="col reveal" style="text-align:center;color:oklch(0.97 0.01 95)">
       <h2 style="font-size:clamp(28px,4.5vw,44px);font-weight:800;line-height:1.05">Start on Pro free for 14 days.</h2>

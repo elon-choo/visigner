@@ -1,0 +1,17 @@
+{
+  "url": "https://www.wadiz.kr/web/campaign/detail/403454",
+  "status": 200,
+  "title": "[누적2.9억] AI로 외주비 0원 상세페이지 템플릿 I 와디즈 1위 by HAXAI INC | wadiz",
+  "pageHeight": 8029,
+  "bodyTextLen": 4811,
+  "imageCount": 27,
+  "tiles": 6,
+  "coveredHeight": 9600,
+  "maxTiles": 90,
+  "outDir": "/Users/elon/visigner/references/captures/v3-fleet/kr-wadiz-haxai-403454",
+  "requestedUrl": "https://www.wadiz.kr/web/campaign/detail/403454",
+  "capturedAt": "2026-07-23T15:17:37.949Z",
+  "renderer": "patchright-chromium-headed",
+  "hydrated": true,
+  "expanded": "더보기"
+}

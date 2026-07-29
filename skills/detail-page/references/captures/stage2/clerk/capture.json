@@ -1,0 +1,13 @@
+{
+  "url": "https://clerk.com",
+  "status": 200,
+  "title": "Clerk | Authentication and User Management",
+  "pageHeight": 7616,
+  "bodyTextLen": 13039,
+  "imageCount": 24,
+  "expanded": null,
+  "tiles": 5,
+  "coveredHeight": 8000,
+  "maxTiles": 90,
+  "outDir": "references/captures/stage2/clerk"
+}

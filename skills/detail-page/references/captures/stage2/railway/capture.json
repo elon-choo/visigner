@@ -1,0 +1,13 @@
+{
+  "url": "https://railway.com",
+  "status": 200,
+  "title": "Railway | The all-in-one intelligent cloud provider",
+  "pageHeight": 12068,
+  "bodyTextLen": 16194,
+  "imageCount": 24,
+  "expanded": null,
+  "tiles": 8,
+  "coveredHeight": 12800,
+  "maxTiles": 90,
+  "outDir": "references/captures/stage2/railway"
+}

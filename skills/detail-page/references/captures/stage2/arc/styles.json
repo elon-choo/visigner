@@ -1,0 +1,433 @@
+{
+  "meta": {
+    "url": "https://arc.net/",
+    "status": 200,
+    "title": "Arc from The Browser Company",
+    "viewport": {
+      "width": 1280,
+      "height": 1600
+    },
+    "capturedAt": "2026-07-18T00:05:02.296Z",
+    "collectorVersion": "1.0.0"
+  },
+  "type": {
+    "display": {
+      "resolvedFamily": "Marlin Soft SQ",
+      "rawStack": "\"Marlin Soft SQ\", -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+      "fontWeight": "700",
+      "fontSize": "45.51px",
+      "lineHeight": "42.25px",
+      "letterSpacing": "-1.8204px",
+      "element": "h1",
+      "selector": "section.c-gujhdE > div.c-fdRmVl > div.c-ckytNz > h1.c-cWWJcT"
+    },
+    "body": {
+      "resolvedFamily": "Marlin",
+      "rawStack": "Marlin, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, Oxygen, Ubuntu, Cantarell, \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+      "fontWeight": "400",
+      "fontSize": "13px",
+      "lineHeight": "normal",
+      "letterSpacing": "normal",
+      "element": "div",
+      "selector": "section.c-gujhdE > div.c-fdRmVl > div.c-ckytNz > div.c-iPjdSy"
+    },
+    "mono": {
+      "resolvedFamily": "ABC Favorit Mono",
+      "rawStack": "\"ABC Favorit Mono\", Menlo, Monaco, \"Lucida Console\", \"Liberation Mono\", \"DejaVu Sans Mono\", \"Bitstream Vera Sans Mono\", \"Courier New\", monospace",
+      "fontWeight": "400",
+      "fontSize": "12px",
+      "lineHeight": "normal",
+      "letterSpacing": "1.8px",
+      "element": "div",
+      "selector": "section.c-gujhdE > div.c-fdRmVl > div.c-jOSEof > div.c-hcjzbh"
+    },
+    "documentFonts": [
+      {
+        "family": "Marlin",
+        "weight": "800"
+      },
+      {
+        "family": "Inter",
+        "weight": "700"
+      },
+      {
+        "family": "InterVariable",
+        "weight": "100 900"
+      },
+      {
+        "family": "ABC Favorit Mono",
+        "weight": "700"
+      },
+      {
+        "family": "ABC Favorit Mono",
+        "weight": "400"
+      },
+      {
+        "family": "Marlin Soft SQ",
+        "weight": "500"
+      },
+      {
+        "family": "Marlin Soft SQ",
+        "weight": "700"
+      },
+      {
+        "family": "Marlin Soft SQ",
+        "weight": "700"
+      },
+      {
+        "family": "ABC Oracle",
+        "weight": "400"
+      },
+      {
+        "family": "Exposure VAR",
+        "weight": "700"
+      },
+      {
+        "family": "Exposure VAR",
+        "weight": "750"
+      }
+    ]
+  },
+  "color": {
+    "backgrounds": [
+      {
+        "value": "#fffcec",
+        "cssRgb": "rgb(255, 252, 236)",
+        "areaShare": 0.48164623959118547
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.35912123058009576
+      },
+      {
+        "value": "#3139fb",
+        "cssRgb": "rgb(49, 57, 251)",
+        "areaShare": 0.15777687893825693
+      },
+      {
+        "value": "#000000d9",
+        "cssRgb": "rgba(0, 0, 0, 0.85)",
+        "areaShare": 0.0008296302383905736
+      },
+      {
+        "value": "#2702c2",
+        "cssRgb": "rgb(39, 2, 194)",
+        "areaShare": 0.0006260206520712931
+      }
+    ],
+    "text": [
+      {
+        "value": "#000000",
+        "cssRgb": "rgb(0, 0, 0)",
+        "areaShare": 0.801065649104845
+      },
+      {
+        "value": "#fffadd",
+        "cssRgb": "rgb(255, 250, 221)",
+        "areaShare": 0.11447633016992767
+      },
+      {
+        "value": "#3139fb",
+        "cssRgb": "rgb(49, 57, 251)",
+        "areaShare": 0.053660437761926895
+      },
+      {
+        "value": "#fffcec",
+        "cssRgb": "rgb(255, 252, 236)",
+        "areaShare": 0.027315910491210824
+      },
+      {
+        "value": "#696969",
+        "cssRgb": "rgb(105, 105, 105)",
+        "areaShare": 0.0019375392621104417
+      },
+      {
+        "value": "#ffffff",
+        "cssRgb": "rgb(255, 255, 255)",
+        "areaShare": 0.0008543363341807586
+      }
+    ]
+  },
+  "cssVariables": {
+    "--announcement-banner-height": "0px",
+    "--announcement-banner-height-desktop": "0px",
+    "--colors-brandBlue": "#3139FB",
+    "--colors-brandDarkBlue": "#000354",
+    "--colors-brandDeepBlue": "#2404AA",
+    "--colors-brandOffwhite": "#FFFCEC",
+    "--colors-brandRed": "#FB3A4D",
+    "--colors-focusOutline": "#96C4FF",
+    "--colors-highContrast": "#000",
+    "--colors-lowContrast": "#FFF",
+    "--colors-primary1": "rgb(255, 234, 231)",
+    "--colors-primary10": "rgb(71, 17, 12)",
+    "--colors-primary11": "rgb(26, 4, 2)",
+    "--colors-primary12": "rgb(9, 2, 1)",
+    "--colors-primary2": "rgb(255, 201, 195)",
+    "--colors-primary3": "rgb(252, 163, 159)",
+    "--colors-primary4": "rgb(252, 130, 121)",
+    "--colors-primary5": "rgb(253, 105, 88)",
+    "--colors-primary6": "rgb(250, 69, 49)",
+    "--colors-primary7": "rgb(207, 56, 40)",
+    "--colors-primary8": "rgb(162, 43, 31)",
+    "--colors-primary9": "rgb(116, 30, 21)",
+    "--colors-secondary1": "rgb(0, 234, 231)",
+    "--colors-secondary10": "rgb(0, 17, 12)",
+    "--colors-secondary11": "rgb(0, 4, 2)",
+    "--colors-secondary12": "rgb(0, 2, 1)",
+    "--colors-secondary2": "rgb(0, 201, 195)",
+    "--colors-secondary3": "rgb(0, 163, 159)",
+    "--colors-secondary4": "rgb(0, 130, 121)",
+    "--colors-secondary5": "rgb(0, 105, 88)",
+    "--colors-secondary6": "rgb(0, 69, 49)",
+    "--colors-secondary7": "rgb(0, 56, 40)",
+    "--colors-secondary8": "rgb(0, 43, 31)",
+    "--colors-secondary9": "rgb(0, 30, 21)",
+    "--colors-students-arc_blue": "rgb(12, 80, 255)",
+    "--colors-students-arc_blue_pale": "rgb(69, 138, 255)",
+    "--colors-students-arc_pinkish": "rgb(242, 94, 107)",
+    "--colors-students-dark_blue": "rgb(39, 2, 194)",
+    "--colors-students-dark_grey": "rgb(60, 59, 58)",
+    "--colors-students-deep_blue": "rgb(36, 4, 170)",
+    "--colors-students-light_blue": "rgb(205, 204, 223)",
+    "--colors-students-light_green": "rgb(211, 224, 129)",
+    "--colors-students-light_grey": "rgb(225, 224, 206)",
+    "--colors-students-light_grey-hover": "rgb(215, 214, 196)",
+    "--colors-students-off_white": "rgb(245, 244, 226)",
+    "--colors-students-salmon": "rgb(242, 194, 172)",
+    "--colors-students-text_dark": "rgb(118, 110, 106)",
+    "--colors-students-text_light": "rgb(151, 146, 143)",
+    "--fontSizes-10": "10px",
+    "--fontSizes-12": "12px",
+    "--fontSizes-14": "14px",
+    "--fontSizes-16": "16px",
+    "--fontSizes-20": "20px",
+    "--fontSizes-24": "24px",
+    "--fontSizes-32": "32px",
+    "--fontSizes-36": "36px",
+    "--fontSizes-40": "40px",
+    "--fontSizes-48": "48px",
+    "--fontWeights-400": "400",
+    "--fontWeights-500": "500",
+    "--fontWeights-600": "600",
+    "--fontWeights-700": "700",
+    "--fontWeights-800": "800",
+    "--fonts-body": "\"InterVariable\", \"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+    "--fonts-boostSans": "-apple-system, BlinkMacSystemFont, sans-serif",
+    "--fonts-boostsSoft": "Marlin Soft Basic, -apple-system, BlinkMacSystemFont, sans-serif",
+    "--fonts-cta": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+    "--fonts-exposure": "\"Exposure VAR\", \"Helvetica\", sans-serif",
+    "--fonts-mono": "ABC Favorit Mono, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace",
+    "--fonts-oracle": "\"ABC Oracle\", \"Helvetica\", sans-serif",
+    "--fonts-referralCode": "\"Inter\", -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+    "--fonts-referralSans": "-apple-system, BlinkMacSystemFont, sans-serif",
+    "--fonts-sans": "Marlin, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+    "--fonts-softSans": "Marlin Soft SQ, -apple-system, BlinkMacSystemFont, \"Segoe UI\", \"Roboto\", \"Oxygen\", \"Ubuntu\", \"Cantarell\", \"Fira Sans\", \"Droid Sans\", \"Helvetica Neue\", sans-serif",
+    "--lineHeights-12": "12px",
+    "--lineHeights-16": "16px",
+    "--lineHeights-20": "20px",
+    "--lineHeights-24": "24px",
+    "--lineHeights-32": "32px",
+    "--lineHeights-40": "40px",
+    "--lineHeights-48": "48px",
+    "--lineHeights-56": "56px",
+    "--max-width": "1280px",
+    "--mobile-cta-height": "56px",
+    "--navbar-height": "64px",
+    "--padding": "32px",
+    "--page-padding-left": "max(0px, 32px)",
+    "--page-padding-right": "max(0px, 32px)",
+    "--radii-12": "12px",
+    "--radii-16": "16px",
+    "--radii-2": "2px",
+    "--radii-32": "32px",
+    "--radii-4": "4px",
+    "--radii-8": "8px",
+    "--radii-round": "9999px",
+    "--shadows-large": "0 30px 60px rgba(0, 0, 0, 0.12)",
+    "--shadows-medium": "0 8px 30px rgba(0, 0, 0, 0.12)",
+    "--shadows-small": "0 5px 10px rgba(0, 0, 0, 0.12)",
+    "--sizes-12": "12px",
+    "--sizes-16": "16px",
+    "--sizes-24": "24px",
+    "--sizes-32": "32px",
+    "--sizes-4": "4px",
+    "--sizes-40": "40px",
+    "--sizes-48": "48px",
+    "--sizes-56": "56px",
+    "--sizes-64": "64px",
+    "--sizes-72": "72px",
+    "--sizes-8": "8px",
+    "--space-12": "12px",
+    "--space-16": "16px",
+    "--space-24": "24px",
+    "--space-32": "32px",
+    "--space-4": "4px",
+    "--space-40": "40px",
+    "--space-48": "48px",
+    "--space-56": "56px",
+    "--space-64": "64px",
+    "--space-72": "72px",
+    "--space-8": "8px"
+  },
+  "spacing": [
+    {
+      "value": "0px",
+      "count": 567
+    },
+    {
+      "value": "16px",
+      "count": 16
+    },
+    {
+      "value": "24px",
+      "count": 16
+    },
+    {
+      "value": "32px",
+      "count": 14
+    },
+    {
+      "value": "8px",
+      "count": 14
+    },
+    {
+      "value": "12px",
+      "count": 4
+    },
+    {
+      "value": "48px",
+      "count": 4
+    },
+    {
+      "value": "128px",
+      "count": 2
+    },
+    {
+      "value": "38.4px",
+      "count": 2
+    },
+    {
+      "value": "-4px",
+      "count": 1
+    },
+    {
+      "value": "150px",
+      "count": 1
+    },
+    {
+      "value": "160px",
+      "count": 1
+    },
+    {
+      "value": "25px",
+      "count": 1
+    },
+    {
+      "value": "72px",
+      "count": 1
+    },
+    {
+      "value": "80px",
+      "count": 1
+    },
+    {
+      "value": "90px",
+      "count": 1
+    }
+  ],
+  "radius": [
+    {
+      "value": "0px",
+      "count": 267
+    },
+    {
+      "value": "8px",
+      "count": 9
+    },
+    {
+      "value": "10px",
+      "count": 3
+    },
+    {
+      "value": "22px",
+      "count": 1
+    },
+    {
+      "value": "4px",
+      "count": 1
+    }
+  ],
+  "elevation": [
+    {
+      "value": "none",
+      "count": 277
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.1) 0px 5px 5px 0px",
+      "count": 3
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.25) 0px 2px 8px 0px",
+      "count": 1
+    }
+  ],
+  "motion": {
+    "transitions": [
+      {
+        "value": "all",
+        "count": 270
+      },
+      {
+        "value": "transform 0.15s, background 0.15s",
+        "count": 5
+      },
+      {
+        "value": "transform 0.15s, box-shadow 0.15s ease-out",
+        "count": 3
+      },
+      {
+        "value": "background 0.2s ease-in-out",
+        "count": 1
+      },
+      {
+        "value": "opacity 0.1s ease-out",
+        "count": 1
+      },
+      {
+        "value": "transform 0.2s ease-in-out",
+        "count": 1
+      }
+    ],
+    "animations": [
+      {
+        "value": "none",
+        "count": 279
+      },
+      {
+        "value": "78.5225s linear infinite scroll",
+        "count": 2
+      }
+    ],
+    "prefersReducedMotion": false
+  },
+  "authoredRegion": {
+    "verdict": "unknown",
+    "signals": {
+      "cssVarCount": 120,
+      "pageHeightPx": 6505,
+      "bodyTextLen": 2231,
+      "bigImageCount": 2,
+      "textToHeightRatio": 0.34296694850115295,
+      "largestHeadingPx": 45.51
+    },
+    "note": "Signals do not satisfy either conservative authored-region profile."
+  },
+  "gaps": [
+    {
+      "field": "authoredRegion",
+      "reason": "unknown: conservative platform-chrome and DOM-authored thresholds were not both satisfied"
+    }
+  ]
+}

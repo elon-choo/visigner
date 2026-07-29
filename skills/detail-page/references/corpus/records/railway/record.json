@@ -1,0 +1,572 @@
+{
+  "schema_version": "1.0.0",
+  "id": "railway",
+  "capture_dir": "captures/stage2/railway",
+  "url": "https://railway.com",
+  "title": "Railway | The all-in-one intelligent cloud provider",
+  "status": 200,
+  "captured_at": "2026-07-18",
+  "freshness": {
+    "capturedAt": "2026-07-18T00:02:07.119Z",
+    "recaptureDueAt": "2026-10-16T00:02:07.119Z",
+    "policy": "90d"
+  },
+  "family": "app-ui",
+  "mode": "landing",
+  "category": "saas-marketing-site",
+  "exemplar_role": "positive",
+  "sector": "cloud-infrastructure",
+  "locale": "en-US",
+  "expanded": null,
+  "notes": "Tags are limited to the supplied data.json, styles.json, bodytext.txt, and PNG tiles. authoredRegion.verdict is unknown, so collector CSS values are not attributed to the authored surface. The page visibly combines a dark illustrated cloud/deployment world with repeated infrastructure UI diagrams; no exact CSS or section-pixel measurements are promoted from styles.json.",
+  "capture": {
+    "page_height_px": {
+      "value": 12068,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight",
+      "gap": null
+    },
+    "body_text_len": {
+      "value": 16194,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen",
+      "gap": null
+    },
+    "image_count": {
+      "value": 24,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/imageCount",
+      "gap": null
+    },
+    "big_images": {
+      "value": [
+        "https://railway.com/secret-landing/hero/bg-train-day.webp",
+        "https://railway.com/secret-landing/hero/bg-train-dusk.webp",
+        "…5 more…"
+      ],
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": "data.json#/bigImages — 7 entries; first 2 listed; …5 more…",
+      "gap": "GAP-09"
+    },
+    "tile_count": {
+      "value": 8,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of tile_*.png on disk (tile_00..tile_07)",
+      "gap": null
+    },
+    "tile_w_px": {
+      "value": 1280,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_h_px": {
+      "value": 1600,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG IHDR header, tile_00.png",
+      "gap": null
+    },
+    "tile_format": {
+      "value": "png",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG file header, tile_00.png",
+      "gap": null
+    },
+    "tile_scale": {
+      "value": 1,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "1280/1280 = 1; native 1280×1600 PNG tile dimensions",
+      "gap": null
+    },
+    "covered_height_px": {
+      "value": 12800,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "8 tiles × 1600px = 12800px",
+      "gap": "GAP-05"
+    },
+    "coverage_ok": {
+      "value": true,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "12800 >= 12068 = true",
+      "gap": "GAP-05"
+    },
+    "color_fidelity": {
+      "value": "lossless",
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PNG + 1280/1280 scale = lossless",
+      "gap": null
+    },
+    "has_dom": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "capture directory contains styles.json but no captured DOM dump; has_dom = false",
+      "gap": "GAP-01"
+    }
+  },
+  "palette": {
+    "roles": {
+      "dominant_60": {
+        "value": {
+          "hue_family": "near-black-violet",
+          "role_note": "A deep near-black/violet field carries the hero, deployment diagrams, and closing footer world."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.92,
+        "evidence": "tile_00.png and tile_07.png",
+        "gap": null
+      },
+      "secondary_30": {
+        "value": {
+          "hue_family": "illustrated-blue-purple",
+          "role_note": "Blue-purple atmospheric landscape and dark service cards create the main secondary depth."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.82,
+        "evidence": "tile_00.png and tile_01.png",
+        "gap": null
+      },
+      "accent_10": {
+        "value": {
+          "hue_family": "violet-green",
+          "role_note": "Violet actions and green deployment-status marks provide functional accents in the infrastructure UI."
+        },
+        "provenance": "tile-vision",
+        "confidence": 0.8,
+        "evidence": "tile_00.png and tile_01.png",
+        "gap": null
+      },
+      "field_committed": {
+        "value": true,
+        "provenance": "tile-vision",
+        "confidence": 0.9,
+        "evidence": "tile_00.png and tile_07.png show a persistent dark illustrated field across hero, diagrams, and footer",
+        "gap": null
+      },
+      "field_evidence": {
+        "value": "Near-black/violet is the page ground, while the illustrated cloud/rail landscape and dark deployment canvas keep the cloud-provider world continuous.",
+        "provenance": "tile-vision",
+        "confidence": 0.86,
+        "evidence": "tile_00.png, tile_01.png, and tile_07.png",
+        "gap": null
+      },
+      "field_sections": {
+        "value": null,
+        "provenance": "tile-vision",
+        "confidence": null,
+        "evidence": null,
+        "gap": "GAP-09"
+      }
+    },
+    "temperature": {
+      "value": "cool-neutral",
+      "provenance": "tile-vision",
+      "confidence": 0.84,
+      "evidence": "tile_00.png and tile_07.png",
+      "gap": null
+    },
+    "computed_backgrounds": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; computed backgrounds are not safely attributable to the authored region.",
+      "gap": "GAP-01"
+    },
+    "ramp": [],
+    "chroma_max_measured": {
+      "value": null,
+      "provenance": "tile-px",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "chrome_excluded": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "No human chrome-region annotation is present.",
+      "gap": "GAP-07"
+    }
+  },
+  "type": {
+    "display": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; display weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "body": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body family is withheld.",
+        "gap": "GAP-01"
+      },
+      "weights": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; body weights are withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "mono": {
+      "family": {
+        "value": null,
+        "provenance": "dom",
+        "confidence": null,
+        "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; mono family is withheld.",
+        "gap": "GAP-01"
+      }
+    },
+    "scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; type scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "pairing_note": {
+      "value": "Serif-like display headlines are paired with restrained sans-serif copy and compact mono-like infrastructure labels inside the diagrams.",
+      "provenance": "tile-vision",
+      "confidence": 0.8,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "weight_contrast_observed": {
+      "value": "strong",
+      "provenance": "tile-vision",
+      "confidence": 0.82,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "kr_display_present": {
+      "value": false,
+      "provenance": "tile-vision",
+      "confidence": 1,
+      "evidence": "tile_00.png and tile_01.png show Latin display copy; no Korean display text is visible.",
+      "gap": null
+    }
+  },
+  "layout": {
+    "archetype": {
+      "value": "band-stack",
+      "provenance": "tile-vision",
+      "confidence": 0.86,
+      "evidence": "tile_00.png, tile_01.png, and tile_07.png show stacked hero, deployment, networking, observability, proof, and footer bands",
+      "gap": null
+    },
+    "content_width_px": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-03"
+    },
+    "column_system": {
+      "value": "Large centered claims introduce successive infrastructure bands; each band pairs a text block with a wide dark service diagram or illustrated scene.",
+      "provenance": "tile-vision",
+      "confidence": 0.84,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "primitive_repeated": {
+      "value": "Deployment cards, service graphs, status marks, and network links repeat as the concrete proof language for each cloud capability.",
+      "provenance": "tile-vision",
+      "confidence": 0.9,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    }
+  },
+  "rhythm": {
+    "band_count": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "median_band_height_px": {
+      "value": null,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "viewports": {
+      "value": 7.54,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/pageHeight ÷ (derived covered_height_px ÷ tile_count); 12068 ÷ (12800 ÷ 8) = 7.54",
+      "gap": null
+    },
+    "text_density": {
+      "value": 2147.03,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/bodyTextLen ÷ derived viewports; 16194 ÷ 7.54 = 2147.03",
+      "gap": null
+    },
+    "image_density": {
+      "value": 3.18,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "data.json#/imageCount ÷ derived viewports; 24 ÷ 7.54 = 3.18",
+      "gap": null
+    },
+    "spacing_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; spacing scale is withheld.",
+      "gap": "GAP-01"
+    },
+    "radius_scale_px": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; radius scale is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "signature": {
+    "name": {
+      "value": "Illustrated railway cloud with live service graph",
+      "provenance": "tile-vision",
+      "confidence": 0.88,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "family": {
+      "value": "brand-commerce",
+      "provenance": "tile-vision",
+      "confidence": 0.72,
+      "evidence": "tile_00.png; the railway/landscape motif and service graph make the infrastructure promise memorable",
+      "gap": null
+    },
+    "description": {
+      "value": "Railway joins a night-sky railway landscape to a dark live-service canvas, turning deployment topology, statuses, and connections into the page's recurring brand image.",
+      "provenance": "tile-vision",
+      "confidence": 0.9,
+      "evidence": "tile_00.png and tile_01.png",
+      "gap": null
+    },
+    "evidence_tiles": {
+      "value": [
+        "tile_00.png",
+        "tile_01.png",
+        "tile_07.png"
+      ],
+      "provenance": "tile-vision",
+      "confidence": 0.82,
+      "evidence": "tile_00.png, tile_01.png, and tile_07.png",
+      "gap": "GAP-09"
+    },
+    "embodies_brief": {
+      "value": "The page makes peaceful deployment concrete by showing the infrastructure graph, deployed services, status states, and later operational proof inside a continuous railway-themed world.",
+      "provenance": "hand",
+      "confidence": 0.84,
+      "evidence": "tile_00.png, tile_01.png, tile_07.png, and bodytext.txt:L9-L15,L67-L71,L666-L670,L1221-L1229",
+      "gap": null
+    },
+    "tell_risk": {
+      "value": [],
+      "provenance": "hand",
+      "confidence": 0.78,
+      "evidence": "tile_00.png and tile_01.png show a product-specific illustrated infrastructure system rather than an unnamed generic hero asset; no named anti-pattern is identified.",
+      "gap": null
+    },
+    "recurrence": {
+      "value": "section-system",
+      "provenance": "tile-vision",
+      "confidence": 0.8,
+      "evidence": "tile_00.png, tile_01.png, and tile_07.png",
+      "gap": "GAP-09"
+    }
+  },
+  "motion": {
+    "gif_asset_count": {
+      "value": 0,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of .gif URLs in data.json#/bigImages = 0",
+      "gap": null
+    },
+    "gif_evidence": {
+      "value": null,
+      "provenance": "capture-json",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "dynamic_demo_present": {
+      "value": false,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "gif_asset_count > 0 = false; still tiles do not establish interactive motion.",
+      "gap": null
+    },
+    "notes": {
+      "value": null,
+      "provenance": "hand",
+      "confidence": null,
+      "evidence": "Still capture data does not establish motion behavior.",
+      "gap": "GAP-08"
+    },
+    "durations_ms": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion timings are withheld.",
+      "gap": "GAP-01"
+    },
+    "easings": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; motion easings are withheld.",
+      "gap": "GAP-01"
+    },
+    "reduced_motion_honored": {
+      "value": null,
+      "provenance": "dom",
+      "confidence": null,
+      "evidence": "styles.json#/authoredRegion/verdict = \"unknown\"; reduced-motion behavior is withheld.",
+      "gap": "GAP-01"
+    }
+  },
+  "commerce": {
+    "awareness": {
+      "value": "solution-aware",
+      "provenance": "hand",
+      "confidence": 0.8,
+      "evidence": "bodytext.txt:L9-L15 opens with the peaceful shipping outcome, intelligent-cloud mechanism, and Deploy/Agents actions.",
+      "gap": "GAP-06"
+    },
+    "sophistication": {
+      "value": 3,
+      "provenance": "hand",
+      "confidence": 0.74,
+      "evidence": "bodytext.txt:L67-L71,L189-L215,L229-L237 names deployment, networking, scaling, observability, and concrete workflow mechanisms.",
+      "gap": "GAP-06"
+    },
+    "arc": [
+      {
+        "stage": "problem",
+        "present": true,
+        "evidence": "bodytext.txt:L69-L71 frames deployment without complexity and no-new-tools as the problem context."
+      },
+      {
+        "stage": "affinity",
+        "present": false,
+        "evidence": "bodytext.txt contains developer testimonials but no explicit reader-empathy beat before the solution."
+      },
+      {
+        "stage": "solution",
+        "present": true,
+        "evidence": "bodytext.txt:L11-L15,L67-L71 names the all-in-one intelligent cloud provider and deployment mechanism."
+      },
+      {
+        "stage": "offer",
+        "present": true,
+        "evidence": "bodytext.txt:L8,L13-L15 — Book a demo, Deploy, and Agents are explicit routes into the product."
+      },
+      {
+        "stage": "narrow",
+        "present": false,
+        "evidence": "bodytext.txt contains no time, capacity, price, or availability narrowing device."
+      },
+      {
+        "stage": "action",
+        "present": true,
+        "evidence": "bodytext.txt:L13 — Deploy is the primary action CTA."
+      }
+    ],
+    "arc_resolved": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "count of commerce.arc[] stages with present !== null = 6",
+      "gap": null
+    },
+    "arc_total": {
+      "value": 6,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "PASONA stage count = 6",
+      "gap": null
+    },
+    "arc_coverage": {
+      "value": 0.67,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "4 commerce.arc[] stages with present = true ÷ 6 resolved stages = 0.67",
+      "gap": null
+    },
+    "authority_numbers": {
+      "value": [
+        "107.1M+",
+        "3,810,408",
+        "12,295,800",
+        "107,181,665",
+        "208,520,361,815",
+        "958,177,335,097"
+      ],
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": "bodytext.txt:L666,L670",
+      "gap": "GAP-09"
+    },
+    "reward_ladder": {
+      "value": null,
+      "provenance": "tile-vision",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_device": {
+      "value": null,
+      "provenance": "bodytext",
+      "confidence": null,
+      "evidence": null,
+      "gap": "GAP-09"
+    },
+    "urgency_repetition": {
+      "value": 5,
+      "provenance": "derived",
+      "confidence": null,
+      "evidence": "regex count of urgency terms /(limited|today|last chance|ending|deadline)/iu over bodytext.txt = 5",
+      "gap": null
+    },
+    "one_message": {
+      "value": "Railway promises a calmer deployment workflow by combining production deployment, networking, scaling, and observability in one intelligent cloud provider.",
+      "provenance": "hand",
+      "confidence": 0.86,
+      "evidence": "bodytext.txt:L9-L15,L67-L71,L189-L237",
+      "gap": null
+    }
+  }
+}

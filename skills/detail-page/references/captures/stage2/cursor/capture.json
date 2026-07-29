@@ -1,0 +1,13 @@
+{
+  "url": "https://cursor.com",
+  "status": 200,
+  "title": "Cursor: AI coding agent",
+  "pageHeight": 8492,
+  "bodyTextLen": 8660,
+  "imageCount": 9,
+  "expanded": null,
+  "tiles": 6,
+  "coveredHeight": 9600,
+  "maxTiles": 90,
+  "outDir": "references/captures/stage2/cursor"
+}

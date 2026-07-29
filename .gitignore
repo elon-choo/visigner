@@ -35,3 +35,12 @@ docs/ANALYSIS-*.md
 # hostname-leaking singleton symlinks) — regenerated on every headed capture run;
 # never publishable (red-team H-02, 2026-07-19).
 **/.profile_*/
+
+# v3 staging root and the raw capture fleet it was built from (local only — never part of the
+# published plugin). Approved by the owner as an accidental-commit guard, card
+# visigner/2026-07-24/002. `v3/` holds the Movements catalog/composer while it is still staging;
+# `/references/` is the repo-root raw fleet (891M on disk, mostly Chromium residue and full-page
+# tiles). Corpus records promoted into the plugin live under
+# skills/detail-page/references/corpus/ and are unaffected by these patterns.
+v3/
+/references/
