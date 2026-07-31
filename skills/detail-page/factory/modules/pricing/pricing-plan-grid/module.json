@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "pricing-plan-grid",
+  "type": "pricing",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "pricePlans": {
+      "type": "collection",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 4
+    }
+  },
+  "variants": {
+    "layoutArchetype": "grid",
+    "density": "standard",
+    "backgroundBleed": "card-contained",
+    "motion": "none",
+    "artDirection": "typographic"
+  },
+  "provenance": "mined",
+  "variantProvenance": "structure-mined",
+  "corpusSource": {
+    "recordId": "posthog",
+    "sectionSpan": "captures/stage2/posthog/tile_00.png#pricing"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "variantProvenance": "structure-mined",
+    "censusTypePeerSpanCount": 13,
+    "observedRawTypePeerSpanCount": 13,
+    "observedActiveTypePeerSpanCount": 8,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "allowedConfidences": [
+        "high"
+      ],
+      "confidenceRationale": null,
+      "corpusInputsUsed": true
+    },
+    "axisPermutationFallback": null,
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": []
+    },
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "posthog",
+        "spanOrder": 9,
+        "type": "pricing",
+        "confidence": "high",
+        "sectionSpan": "captures/stage2/posthog/tile_00.png#pricing",
+        "styleInventory": "skills/detail-page/references/captures/stage2/posthog/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "light",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  }
+}

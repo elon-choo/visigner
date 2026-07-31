@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "faq-compact-grid",
+  "type": "faq",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "faqItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 3,
+      "maxItems": 10
+    }
+  },
+  "variants": {
+    "layoutArchetype": "grid",
+    "density": "compact",
+    "backgroundBleed": "card-contained",
+    "motion": "none",
+    "artDirection": "data-led"
+  },
+  "provenance": "mined",
+  "variantProvenance": "structure-mined; axis-composed",
+  "corpusSource": {
+    "recordId": "kr-detail-29cm-mongdol-2530940",
+    "sectionSpan": "captures/kr-detail-29cm-2530940-r3/tile_26.png#faq"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "variantProvenance": "structure-mined; axis-composed",
+    "censusTypePeerSpanCount": 13,
+    "observedRawTypePeerSpanCount": 13,
+    "observedActiveTypePeerSpanCount": 11,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "allowedConfidences": [
+        "high"
+      ],
+      "confidenceRationale": null,
+      "corpusInputsUsed": true
+    },
+    "axisPermutationFallback": {
+      "eligibleDistinctSourceRecordIds": [
+        "kr-detail-29cm-mongdol-2530940"
+      ],
+      "targetDistinctSourceCount": 4,
+      "minimumDifferingAxes": 2,
+      "composedAxes": {
+        "layoutArchetype": "grid",
+        "density": "compact",
+        "backgroundBleed": "card-contained",
+        "motion": "none",
+        "artDirection": "data-led"
+      }
+    },
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": [
+        {
+          "peer": "faq-disclosure-stack",
+          "origin": "generated",
+          "differingAxes": 4
+        }
+      ]
+    },
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "kr-detail-29cm-mongdol-2530940",
+        "spanOrder": 13,
+        "type": "faq",
+        "confidence": "high",
+        "sectionSpan": "captures/kr-detail-29cm-2530940-r3/tile_26.png#faq",
+        "styleInventory": "skills/detail-page/references/captures/kr-detail-29cm-2530940-r3/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "unresolved",
+          "displayTypographyObserved": false,
+          "bodyTypographyObserved": false,
+          "spacingInventoryObserved": false,
+          "radiusInventoryObserved": false,
+          "elevationInventoryObserved": false,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+<section class="module-pricing-editorial-stack" aria-labelledby="module-pricing-editorial-stack-title">
+  <header class="module-pricing-editorial-stack__header">
+    <h2 class="module-pricing-editorial-stack__headline" id="module-pricing-editorial-stack-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <ul class="module-pricing-editorial-stack__items" data-slot="pricePlans"><li class="module-pricing-editorial-stack__item"><strong>Plan name</strong><span>Price and conditions are supplied at assembly.</span></li><li class="module-pricing-editorial-stack__item"><strong>Plan name</strong><span>Price and conditions are supplied at assembly.</span></li></ul>
+</section>
+
+<style>
+  .module-pricing-editorial-stack { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-pricing-editorial-stack__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-pricing-editorial-stack__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-pricing-editorial-stack__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-pricing-editorial-stack__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-pricing-editorial-stack__item strong, .module-pricing-editorial-stack__item span { min-inline-size: 0; }
+  .module-pricing-editorial-stack__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-pricing-editorial-stack__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-pricing-editorial-stack__items { grid-template-columns: repeat(2, minmax(0, 1fr)); } .module-pricing-editorial-stack__item { background: var(--color-card); box-shadow: var(--shadow-e1); }
+  .module-pricing-editorial-stack { padding: var(--space-48) var(--space-24); } .module-pricing-editorial-stack__items { gap: var(--space-24); }
+  .module-pricing-editorial-stack__items { grid-template-columns: minmax(0, 1fr); }
+  
+</style>

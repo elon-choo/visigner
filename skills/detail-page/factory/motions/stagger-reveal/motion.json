@@ -1,0 +1,19 @@
+{
+  "name": "stagger-reveal",
+  "purpose": "Reveal a short collection in sequence while keeping each item in its final document flow position.",
+  "sectionTypeHints": ["proof", "process", "gallery", "feature"],
+  "motionVariant": "stagger",
+  "cwvImpact": {
+    "grade": "medium",
+    "rationale": "Several stable children transition only opacity and transform with bounded semantic delays."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "Stops all item motion and leaves every item visible in its final state."
+  },
+  "cwvTripwire": {
+    "layoutShift": "Only opacity and transform may transition on collection items.",
+    "longAnimation": "Each item uses a bounded host semantic duration token and bounded stagger delay.",
+    "durationCap": "Duration and stagger delays use host semantic duration tokens.",
+    "looping": "Repeating animation is not used."
+  }
+}

@@ -1,0 +1,22 @@
+<section class="module-immersive-media-hero" aria-labelledby="module-immersive-media-hero-title">
+  <div class="module-immersive-media-hero__copy">
+    <p class="module-immersive-media-hero__eyebrow" data-slot="eyebrow">Section signal</p>
+    <h1 class="module-immersive-media-hero__headline" id="module-immersive-media-hero-title" data-slot="headline">A neutral starting point for a clear next step</h1>
+    <p class="module-immersive-media-hero__body" data-slot="body">This placeholder introduces one idea in plain language before a visitor chooses a simple, reversible action.</p>
+    <a class="module-immersive-media-hero__cta" data-slot="primaryCtaLabel" data-slot-href="primaryCtaHref" href="#">Explore example</a>
+  </div>
+  <figure class="module-immersive-media-hero__media" data-slot="media">
+    <div class="module-immersive-media-hero__media-placeholder" role="img" data-slot="mediaAlt" data-slot-aria-label="mediaAlt" aria-label="Neutral abstract media placeholder"><span class="module-immersive-media-hero__media-backdrop" aria-hidden="true"></span><span class="module-immersive-media-hero__media-frame" aria-hidden="true"></span></div>
+  </figure>
+  <style>
+    .module-immersive-media-hero { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+    .module-immersive-media-hero__copy { display: grid; gap: var(--space-16); align-content: center; }
+    .module-immersive-media-hero__eyebrow { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+    .module-immersive-media-hero__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-48); line-height: var(--leading-48); }
+    .module-immersive-media-hero__body { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+    .module-immersive-media-hero__cta { justify-self: start; padding: var(--space-12) var(--space-24); border-radius: var(--radius-md); background: var(--color-accent); color: var(--color-on-accent); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+    .module-immersive-media-hero__media { min-block-size: var(--space-96); margin: 0; border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e2); }
+    .module-immersive-media-hero__media-placeholder { min-block-size: var(--space-96); background: linear-gradient(var(--color-card), var(--color-surface)); border-radius: inherit; }
+      .module-immersive-media-hero { align-content: center; min-block-size: var(--space-96); } .module-immersive-media-hero__copy { position: relative; z-index: 1; max-inline-size: var(--prose-max-width); } .module-immersive-media-hero__media { grid-row: 1; grid-column: 1; opacity: 0.72; } .module-immersive-media-hero__copy { grid-row: 1; grid-column: 1; align-self: center; padding: var(--space-32); border-radius: var(--radius-lg); background: var(--color-ink); } .module-immersive-media-hero__media-placeholder { display: grid; align-items: center; justify-items: center; padding: var(--space-24); } .module-immersive-media-hero__media-backdrop, .module-immersive-media-hero__media-frame { grid-row: 1; grid-column: 1; display: block; border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); } .module-immersive-media-hero__media-backdrop { min-block-size: var(--space-96); inline-size: 100%; background: var(--color-card); } .module-immersive-media-hero__media-frame { min-block-size: var(--space-64); inline-size: 100%; max-inline-size: var(--space-96); background: var(--color-ink); box-shadow: var(--shadow-e3); }
+  </style>
+</section>

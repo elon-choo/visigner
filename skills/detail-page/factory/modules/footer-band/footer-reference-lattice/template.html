@@ -1,0 +1,33 @@
+<footer class="module-footer-reference-lattice">
+  <div class="module-footer-reference-lattice__utility">
+      <p class="module-footer-reference-lattice__label" data-slot="sectionLabel">Reference routes</p>
+      <p class="module-footer-reference-lattice__note" data-slot="sourceNote">A compact endpoint for neutral reference links and a contact route.</p>
+      <a class="module-footer-reference-lattice__contact" data-slot="contactLabel" href="mailto:contact@example.invalid">Contact route</a>
+    </div>
+    <nav class="module-footer-reference-lattice__nav" data-slot-aria-label="sectionLabel" aria-label="Footer navigation">
+      <ul class="module-footer-reference-lattice__links" data-slot="navItems">
+        <li><strong>Explore</strong><a href="#">Overview</a><a href="#">Archive</a></li>
+        <li><strong>Reference</strong><a href="#">Guide</a><a href="#">Notes</a></li>
+        <li><strong>Support</strong><a href="#">Help</a><a href="#">Status</a></li>
+      </ul>
+    </nav>
+  <small class="module-footer-reference-lattice__legal" data-slot="legalText">Neutral legal text is supplied when this module is assembled.</small>
+</footer>
+
+<style>
+  .module-footer-reference-lattice { display: grid; gap: var(--space-32); padding: var(--space-48) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-footer-reference-lattice__utility { display: grid; gap: var(--space-12); align-content: start; }
+  .module-footer-reference-lattice__label { margin: 0; font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-footer-reference-lattice__note, .module-footer-reference-lattice__legal { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-footer-reference-lattice__nav { min-inline-size: 0; }
+  .module-footer-reference-lattice__links { display: grid; gap: var(--space-24); margin: 0; padding: 0; list-style: none; }
+  .module-footer-reference-lattice__links li { display: grid; gap: var(--space-8); min-inline-size: 0; }
+  .module-footer-reference-lattice__links strong { font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-footer-reference-lattice__links a { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); text-decoration: none; }
+  .module-footer-reference-lattice__contact { justify-self: start; padding: var(--space-12) var(--space-16); border: var(--space-4) solid var(--color-primary-300); border-radius: var(--radius-md); color: var(--color-surface); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+  .module-footer-reference-lattice__legal { grid-column: 1 / -1; padding-block-start: var(--space-24); border-block-start: var(--space-4) solid var(--color-primary-300); }
+  .module-footer-reference-lattice { grid-template-columns: minmax(0, 1fr); } .module-footer-reference-lattice__links { grid-auto-flow: column; grid-auto-columns: minmax(var(--space-64), 1fr); grid-template-columns: none; overflow-x: auto; } .module-footer-reference-lattice__contact { justify-self: start; }
+  .module-footer-reference-lattice__utility { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; padding: var(--space-24); border: var(--space-4) solid var(--color-primary-300); border-radius: var(--radius-lg); } .module-footer-reference-lattice__links li { padding: var(--space-16); border: var(--space-4) solid var(--color-primary-300); border-radius: var(--radius-md); background: var(--color-card); color: var(--color-ink); } .module-footer-reference-lattice__links li a { color: var(--color-primary-700); }
+  .module-footer-reference-lattice { padding: var(--space-48) var(--space-24); } .module-footer-reference-lattice__items { gap: var(--space-24); }
+  @media (prefers-reduced-motion: no-preference) { .module-footer-reference-lattice { animation: module-footer-reference-lattice-axis-enter var(--dur-2) var(--ease-out) both; } @keyframes module-footer-reference-lattice-axis-enter { from { opacity: 0; transform: translateY(var(--space-12)); } to { opacity: 1; transform: translateY(0); } } } @media (prefers-reduced-motion: reduce) { .module-footer-reference-lattice { animation: none; } }
+</style>

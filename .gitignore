@@ -44,3 +44,9 @@ docs/ANALYSIS-*.md
 # skills/detail-page/references/corpus/ and are unaffected by these patterns.
 v3/
 /references/
+
+# The composer's own build outputs. Every run directory ships its brief.json and selection.json —
+# the two inputs — and page.html is what `node scripts/composer-run.js <brief> <run>` regenerates
+# from them. Committing the output would let a stale page.html disagree with the inputs beside it,
+# which is the exact drift the deterministic assembler exists to rule out.
+skills/detail-page/factory/composer/*/page.html

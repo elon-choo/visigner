@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "feature-matrix-grid",
+  "type": "feature",
+  "provenance": "mined",
+  "slots": {
+    "sectionLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "body": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 24,
+      "maxChars": 360
+    },
+    "featureItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 8
+    }
+  },
+  "variants": {
+    "layoutArchetype": "grid",
+    "density": "standard",
+    "backgroundBleed": "surface-contained",
+    "motion": "none",
+    "artDirection": "data-led"
+  },
+  "corpusSource": {
+    "recordId": "supabase",
+    "sectionSpan": "captures/stage2/supabase/tile_00.png#feature"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "rawCorpusSpanCount": 424,
+    "typePeerSpanCount": 15,
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "supabase",
+        "spanOrder": 12,
+        "type": "feature",
+        "confidence": "med",
+        "sectionSpan": "captures/stage2/supabase/tile_00.png#feature",
+        "styleInventory": "skills/detail-page/references/captures/stage2/supabase/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "light",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  }
+}

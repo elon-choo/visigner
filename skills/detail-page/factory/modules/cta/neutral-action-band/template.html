@@ -1,0 +1,20 @@
+<section class="module-cta" aria-labelledby="cta-title">
+  <p class="module-cta__eyebrow" data-slot="eyebrow">Next step</p>
+  <h2 class="module-cta__headline" id="cta-title" data-slot="headline">Choose one small action to continue</h2>
+  <p class="module-cta__body" data-slot="body">This neutral placeholder keeps the request clear and leaves room for a secondary route when one is useful.</p>
+  <div class="module-cta__actions">
+    <a class="module-cta__primary" data-slot="primaryCtaLabel" href="#" data-slot-href="primaryCtaHref">Continue</a>
+    <a class="module-cta__secondary" data-slot="secondaryCtaLabel" href="#" data-slot-href="secondaryCtaHref">View details</a>
+  </div>
+</section>
+
+<style>
+  .module-cta { display: grid; justify-items: start; gap: var(--space-16); padding: var(--space-48) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-cta__eyebrow { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-cta__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-cta__body { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+  .module-cta__actions { display: flex; flex-wrap: wrap; gap: var(--space-12); }
+  .module-cta__primary, .module-cta__secondary { padding: var(--space-12) var(--space-24); border-radius: var(--radius-md); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+  .module-cta__primary { background: var(--color-accent); color: var(--color-on-accent); }
+  .module-cta__secondary { border: var(--space-4) solid var(--color-primary-300); color: var(--color-surface); }
+</style>

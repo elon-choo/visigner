@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "neutral-split-hero",
+  "type": "hero",
+  "slots": {
+    "eyebrow": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "body": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 24,
+      "maxChars": 360
+    },
+    "primaryCtaLabel": {
+      "type": "text",
+      "required": true,
+      "minChars": 2,
+      "maxChars": 32
+    },
+    "primaryCtaHref": {
+      "type": "url",
+      "required": true,
+      "minChars": 1,
+      "maxChars": 2048
+    },
+    "media": {
+      "type": "asset",
+      "required": true
+    },
+    "mediaAlt": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 160
+    }
+  },
+  "variants": {
+    "layoutArchetype": "split",
+    "density": "standard",
+    "backgroundBleed": "surface-contained",
+    "motion": "none",
+    "artDirection": "typographic"
+  },
+  "corpusSource": {
+    "recordId": "supabase",
+    "sectionSpan": "captures/stage2/supabase/tile_00.png#hero"
+  },
+  "gateProfile": "section-media-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "variantProvenance": "structure-mined"
+}

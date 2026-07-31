@@ -1,0 +1,39 @@
+<section class="module-featured-stack-gallery" aria-labelledby="featured-stack-gallery-title">
+  <header class="module-featured-stack-gallery__header">
+    <p class="module-featured-stack-gallery__label" data-slot="sectionLabel">Selected samples</p>
+    <h2 class="module-featured-stack-gallery__headline" id="featured-stack-gallery-title" data-slot="headline">Review one neutral sample before the related set</h2>
+  </header>
+  <ul class="module-featured-stack-gallery__items" data-slot="galleryItems">
+    <li class="module-featured-stack-gallery__item module-featured-stack-gallery__item--featured">
+      <article class="module-featured-stack-gallery__card">
+        <div class="module-featured-stack-gallery__visual" role="img" aria-label="Neutral visual placeholder for the featured sample"></div>
+        <p class="module-featured-stack-gallery__caption">Featured sample</p>
+      </article>
+    </li>
+    <li class="module-featured-stack-gallery__item">
+      <article class="module-featured-stack-gallery__card">
+        <div class="module-featured-stack-gallery__visual" role="img" aria-label="Neutral visual placeholder for the second sample"></div>
+        <p class="module-featured-stack-gallery__caption">Sample two</p>
+      </article>
+    </li>
+    <li class="module-featured-stack-gallery__item">
+      <article class="module-featured-stack-gallery__card">
+        <div class="module-featured-stack-gallery__visual" role="img" aria-label="Neutral visual placeholder for the third sample"></div>
+        <p class="module-featured-stack-gallery__caption">Sample three</p>
+      </article>
+    </li>
+  </ul>
+  <p class="module-featured-stack-gallery__note" data-slot="sourceNote">Optional context placeholder</p>
+</section>
+
+<style>
+  .module-featured-stack-gallery { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-card); color: var(--color-ink); }
+  .module-featured-stack-gallery__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-featured-stack-gallery__label, .module-featured-stack-gallery__note { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-featured-stack-gallery__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-featured-stack-gallery__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-featured-stack-gallery__card { display: grid; gap: var(--space-12); padding: var(--space-16); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow-e2); }
+  .module-featured-stack-gallery__visual { min-block-size: var(--space-48); border-radius: var(--radius-md); background: linear-gradient(var(--color-primary-100), var(--color-card)); }
+  .module-featured-stack-gallery__item--featured .module-featured-stack-gallery__visual { min-block-size: var(--space-96); background: linear-gradient(var(--color-primary-300), var(--color-surface)); }
+  .module-featured-stack-gallery__caption { margin: 0; font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+</style>

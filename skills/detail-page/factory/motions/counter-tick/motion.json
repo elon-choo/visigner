@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "counter-tick",
+  "purpose": "Acknowledges a discrete value update with a brief visual tick while the host owns number formatting and announcement.",
+  "sectionTypeHints": ["proof", "pricing", "feature"],
+  "motionVariant": "reveal",
+  "cwvImpact": {
+    "grade": "low",
+    "rationale": "The cue is a single opacity and transform transition with no changing dimensions or repeated animation."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "Updated values remain visible without a tick transition; the host can continue using its normal live-region policy."
+  },
+  "cwvTripwire": {
+    "layoutShift": "Only opacity and transform are transitioned; the value container does not change geometry.",
+    "longAnimation": "A single tick is capped at --dur-1 and cannot repeat autonomously.",
+    "allowedAnimatedProperties": ["opacity", "transform"],
+    "durationCap": "--dur-1",
+    "forbidden": ["layout-changing transitions", "transition: all", "infinite animation"]
+  }
+}

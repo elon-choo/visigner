@@ -1,0 +1,19 @@
+{
+  "name": "parallax-subtle",
+  "purpose": "Apply a restrained scroll-linked transform cue to a stable media or feature element.",
+  "sectionTypeHints": ["hero", "gallery", "feature"],
+  "motionVariant": "scroll-linked",
+  "cwvImpact": {
+    "grade": "medium",
+    "rationale": "A host-controlled state changes only transform and uses the bounded semantic motion tokens."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "Stops the transform transition and keeps the element at its unshifted final state."
+  },
+  "cwvTripwire": {
+    "layoutShift": "Only transform may transition.",
+    "longAnimation": "A bounded host semantic duration token is required for the transform transition.",
+    "durationCap": "Timing is limited to the host semantic duration tokens.",
+    "looping": "Repeating animation is not used."
+  }
+}

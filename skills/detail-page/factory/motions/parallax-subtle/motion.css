@@ -1,0 +1,18 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+.motion-parallax-subtle {
+  transition: transform var(--dur-3) var(--ease-out);
+}
+
+.motion-parallax-subtle[data-motion-active="true"] {
+  transform: translateY(var(--space-8));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-parallax-subtle,
+  .motion-parallax-subtle[data-motion-active="true"] {
+    animation: none;
+    transition: none;
+    transform: none;
+  }
+}

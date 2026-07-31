@@ -1,0 +1,19 @@
+{
+  "name": "scroll-pin",
+  "purpose": "Pin a stable section element while giving its entered state a restrained opacity and transform reveal.",
+  "sectionTypeHints": ["proof", "comparison", "pricing", "process"],
+  "motionVariant": "scroll-linked",
+  "cwvImpact": {
+    "grade": "medium",
+    "rationale": "The pinned container retains its document space and its visual transition uses only opacity and transform."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "Disables pinning and motion, then leaves the content visible in normal flow."
+  },
+  "cwvTripwire": {
+    "layoutShift": "The visual transition is limited to opacity and transform on a stable container.",
+    "longAnimation": "A bounded host semantic duration token is required for the entered-state transition.",
+    "durationCap": "Timing is limited to the host semantic duration tokens.",
+    "looping": "Repeating animation is not used."
+  }
+}

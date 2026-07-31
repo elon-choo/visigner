@@ -1,0 +1,32 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+
+/* The host applies data-motion-state="tick" after a discrete value change. */
+.motion-counter-tick [data-counter-value] {
+  opacity: 0;
+  transform: translate3d(0, var(--space-4), 0);
+  transition:
+    opacity var(--dur-1) var(--ease-out),
+    transform var(--dur-1) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.motion-counter-tick[data-motion-state="tick"] [data-counter-value],
+.motion-counter-tick[data-motion-state="rest"] [data-counter-value] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.motion-counter-tick[data-motion-state="rest"] [data-counter-value] {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-counter-tick [data-counter-value] {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}

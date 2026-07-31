@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "utility-columns-footer",
+  "type": "footer-band",
+  "slots": {
+    "navItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "legalText": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 1,
+      "maxChars": 240
+    },
+    "contactLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 2,
+      "maxChars": 48
+    }
+  },
+  "variants": {
+    "layoutArchetype": "split",
+    "density": "airy",
+    "motion": "none",
+    "artDirection": "typographic",
+    "backgroundBleed": "surface-contained"
+  },
+  "corpusSource": {
+    "recordId": "supabase",
+    "sectionSpan": "captures/stage2/supabase/tile_04.png#footer-band"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "rawCorpusSpanCount": 424,
+    "typePeerSpanCount": 21,
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "supabase",
+        "spanOrder": 20,
+        "type": "footer-band",
+        "confidence": "high",
+        "sectionSpan": "captures/stage2/supabase/tile_04.png#footer-band",
+        "styleInventory": "skills/detail-page/references/captures/stage2/supabase/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "light",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  },
+  "variantProvenance": "structure-mined"
+}

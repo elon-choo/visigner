@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "pricing-data-split",
+  "type": "pricing",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "pricePlans": {
+      "type": "collection",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 4
+    }
+  },
+  "variants": {
+    "layoutArchetype": "split",
+    "density": "compact",
+    "backgroundBleed": "contrast-bleed",
+    "motion": "stagger",
+    "artDirection": "data-led"
+  },
+  "provenance": "mined",
+  "variantProvenance": "structure-mined; axis-composed",
+  "corpusSource": {
+    "recordId": "posthog",
+    "sectionSpan": "captures/stage2/posthog/tile_00.png#pricing"
+  },
+  "gateProfile": "section-motion-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "variantProvenance": "structure-mined; axis-composed",
+    "censusTypePeerSpanCount": 13,
+    "observedRawTypePeerSpanCount": 13,
+    "observedActiveTypePeerSpanCount": 8,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "allowedConfidences": [
+        "high"
+      ],
+      "confidenceRationale": null,
+      "corpusInputsUsed": true
+    },
+    "axisPermutationFallback": {
+      "eligibleDistinctSourceRecordIds": [
+        "posthog"
+      ],
+      "targetDistinctSourceCount": 4,
+      "minimumDifferingAxes": 2,
+      "composedAxes": {
+        "layoutArchetype": "split",
+        "density": "compact",
+        "backgroundBleed": "contrast-bleed",
+        "motion": "stagger",
+        "artDirection": "data-led"
+      }
+    },
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": [
+        {
+          "peer": "pricing-plan-grid",
+          "origin": "generated",
+          "differingAxes": 5
+        },
+        {
+          "peer": "pricing-product-rail",
+          "origin": "generated",
+          "differingAxes": 5
+        }
+      ]
+    },
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "posthog",
+        "spanOrder": 9,
+        "type": "pricing",
+        "confidence": "high",
+        "sectionSpan": "captures/stage2/posthog/tile_00.png#pricing",
+        "styleInventory": "skills/detail-page/references/captures/stage2/posthog/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "light",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  }
+}

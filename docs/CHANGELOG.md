@@ -1,5 +1,27 @@
 # Changelog
 
+## 2.1.0 — The catalog composer ships (2026-07-31)
+
+The section catalog and its composer stop being a local staging tree and become part of the plugin. Installing now brings `skills/detail-page/factory/`: 40 section modules, the two-stage composer, every conformance gate, and four worked runs. Steps 1–6 of the skill still write the page by hand; §7 is the other route, for when the page is a known shape and you want the composition rules enforced rather than remembered.
+
+### Added
+- **`skills/detail-page/factory/`** — 40 modules across 10 section types, 8 motion entries, the promoted best-of-N exemplars, compiled token sheets, three self-hosted OFL faces with their licences, and the contract documents (`SECTION-SCHEMA.md`, `COMPOSITION-GRAMMAR.md`, `CATALOG-CONTRACT.md`, `MODULE-TEMPLATE.md`, `FACTORY-BLUEPRINT.md`). `node scripts/contract-validate.js` passes 40/40 from the installed path.
+- **The composer, in two stages.** `composer-select.js` is the only stage that accepts a human or model decision — the ordered sections, the module per section, its five variation axes, and that section's copy. `composer-assemble.js` reads nothing but the resulting `selection.json`; it calls no clock and no random source, so the same brief yields byte-identical HTML.
+- **Briefs carry their own copy.** A section's `content` block holds its words, and the assembler enforces the module's slot contract against it: required slots, character bounds, collection arity, and a hard refusal on asset slots. A partial block exits 1 rather than filling the gap with the module's placeholder sentence — verified by three negative controls (missing required slot, under `minChars`, undeclared slot), each exiting 1 with no HTML written.
+- **Four worked runs** — `case-cafe-subscription` (ko), `case-pilates-studio` (ko), `case-saas-release` (en), each assembling on the first attempt with `grammar-lint` exit 0, plus `case-saas-release-refused`, derived from the third by repeating one section verbatim. It assembles with exit 0 and the gate exits 1 naming four violations, because the assembler does not enforce the composition grammar — a separate gate does. The businesses are invented and each page's footer says so.
+- **Landing and guide reflect the route.** The landing gained a section showing three assembled pages at a size where the body copy is legible, and the refused build as its own block with the four rules it broke and the exit code. The guide gained chapter 07; the how-to gained a fifth recipe.
+
+### Fixed
+- **Three scripts could not run outside a directory named `v3`.** `composer-assemble.js`, `composer-fallback.js` and `diversity-consistency-report.js` derived their tree as `<two levels up>/v3` instead of from `__dirname`, so the machinery only worked at its staging path. They now locate their own tree, like their siblings already did.
+- **`capture-gallery-shots.js`** hardcoded one machine's absolute `node_modules/patchright` path; it resolves relative to the script now.
+- **Landing version badge** — read `v2.0.0` since the 2.0.1 release. The two other `v2.0.0` strings on the page are citations to that changelog entry and are left as they are.
+
+### Known limitations
+- **The five variation axes do not change the render.** They are the record of the choice and what the gate reads; what changes a section's face is which module it is. Two pages differing only in their declared axes came out with the same md5 (`e529af45…`), and no CSS in an assembled page keys off `[data-variant-*]`. The landing and the guide both say so rather than implying otherwise.
+- **`media` slots render as empty frames.** The factory has no asset pipeline, so a module's image slot stays a frame. Supply the section's proof as text, or build the page by hand via steps 1–6.
+- **Two footer modules carry unslotted English.** `link-matrix-footer` and `utility-columns-footer` render two sentences a brief cannot override, which reads wrong on a Korean page. `footer-reference-lattice` exposes the same two as slots; the worked runs use it.
+- **The landing replacement built on this machinery was not shipped.** Eight rounds of an independent three-auditor gate returned NOT-READY on replacing the live page with a fully composed one; the live design stays, and only the evidence it earned was ported in.
+
 ## 2.0.1 — The a11y gate was never running; now it is (2026-07-28)
 
 A patch release whose headline is a repair to the inspection machine itself. `shoot.js`'s `AXE=1` path returned null on **every** page on this stack, and a null axe result never blocks — so the accessibility gate reported "unknown" forever while looking enabled. Repairing it immediately surfaced a real serious violation on this project's own landing page.

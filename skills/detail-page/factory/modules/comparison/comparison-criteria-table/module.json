@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "comparison-criteria-table",
+  "type": "comparison",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "comparisonItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 8
+    }
+  },
+  "variants": {
+    "layoutArchetype": "comparison-table",
+    "density": "standard",
+    "backgroundBleed": "surface-contained",
+    "motion": "none",
+    "artDirection": "data-led"
+  },
+  "provenance": "schema-authored",
+  "variantProvenance": "schema-authored",
+  "corpusSource": {
+    "recordId": "schema",
+    "sectionSpan": "v3/SECTION-SCHEMA.md#comparison"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "schema-authored",
+    "variantProvenance": "schema-authored",
+    "censusTypePeerSpanCount": 0,
+    "observedRawTypePeerSpanCount": 0,
+    "observedActiveTypePeerSpanCount": 0,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "schemaAnchor": "v3/SECTION-SCHEMA.md#comparison",
+      "corpusInputsUsed": false
+    },
+    "axisPermutationFallback": null,
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": []
+    },
+    "inputSpans": []
+  }
+}

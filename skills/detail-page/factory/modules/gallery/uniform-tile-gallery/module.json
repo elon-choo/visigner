@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "uniform-tile-gallery",
+  "type": "gallery",
+  "provenance": "mined",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "galleryItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 12
+    },
+    "sourceNote": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 180
+    }
+  },
+  "variants": {
+    "layoutArchetype": "grid",
+    "density": "airy",
+    "backgroundBleed": "surface-contained",
+    "motion": "none",
+    "artDirection": "editorial"
+  },
+  "corpusSource": {
+    "recordId": "ecommerce-teenage-engineering-ep-133",
+    "sectionSpan": "captures/ecommerce-teenage-engineering-ep-133/tile_00.png#gallery"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "ecommerce-teenage-engineering-ep-133",
+        "segmentFile": "v3/segments/ecommerce-teenage-engineering-ep-133.json",
+        "spanOrder": 10,
+        "type": "gallery",
+        "confidence": "high",
+        "sectionSpan": "captures/ecommerce-teenage-engineering-ep-133/tile_00.png#gallery",
+        "evidenceLocator": "data.json#/headings/8; bodytext.txt:L95"
+      }
+    ]
+  }
+}

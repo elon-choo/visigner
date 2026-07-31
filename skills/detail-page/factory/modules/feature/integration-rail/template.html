@@ -1,0 +1,47 @@
+<section class="module-integration-rail" aria-labelledby="integration-rail-title">
+  <header class="module-integration-rail__header">
+    <p class="module-integration-rail__label" data-slot="sectionLabel">Reference set</p>
+    <h2 class="module-integration-rail__headline" id="integration-rail-title" data-slot="headline">Explore a short set of related starting points</h2>
+    <p class="module-integration-rail__body" data-slot="body">This neutral placeholder presents several related options on a single horizontal path before a reader examines the supporting surface.</p>
+  </header>
+  <ul class="module-integration-rail__list" data-slot="featureItems">
+    <li class="module-integration-rail__item">
+      <span class="module-integration-rail__marker" aria-hidden="true"></span>
+      <h3>First neutral option</h3>
+      <p>A concise note introduces this starting point.</p>
+    </li>
+    <li class="module-integration-rail__item">
+      <span class="module-integration-rail__marker" aria-hidden="true"></span>
+      <h3>Second neutral option</h3>
+      <p>A concise note keeps the route comparable.</p>
+    </li>
+    <li class="module-integration-rail__item">
+      <span class="module-integration-rail__marker" aria-hidden="true"></span>
+      <h3>Third neutral option</h3>
+      <p>A concise note keeps the route independent.</p>
+    </li>
+  </ul>
+  <div class="module-integration-rail__surface" aria-hidden="true">
+    <span class="module-integration-rail__surface-tab"></span>
+    <span class="module-integration-rail__surface-line"></span>
+    <span class="module-integration-rail__surface-line"></span>
+    <span class="module-integration-rail__surface-line module-integration-rail__surface-line--short"></span>
+  </div>
+</section>
+
+<style>
+  .module-integration-rail { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-integration-rail__header { display: grid; justify-items: center; gap: var(--space-12); max-inline-size: var(--prose-max-width); margin-inline: auto; text-align: center; }
+  .module-integration-rail__label { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-integration-rail__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-integration-rail__body { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+  .module-integration-rail__list { display: grid; grid-auto-columns: minmax(var(--space-96), 1fr); grid-auto-flow: column; gap: var(--space-16); margin: 0; padding: 0 var(--space-4) var(--space-8); overflow-x: auto; list-style: none; scroll-snap-type: inline mandatory; }
+  .module-integration-rail__item { display: grid; align-content: start; gap: var(--space-12); padding: var(--space-24); border: var(--space-4) solid var(--color-primary-300); border-radius: var(--radius-lg); background: var(--color-card); scroll-snap-align: start; }
+  .module-integration-rail__marker { display: block; inline-size: var(--space-16); block-size: var(--space-16); border-radius: var(--radius-pill); background: var(--color-accent); box-shadow: var(--shadow-e1); }
+  .module-integration-rail__item h3 { margin: 0; font-family: var(--font-body); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-integration-rail__item p { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-integration-rail__surface { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: var(--space-12); min-block-size: var(--space-96); padding: var(--space-24); border: var(--space-4) solid var(--color-primary-300); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e2); }
+  .module-integration-rail__surface-tab { grid-column: 1 / -1; block-size: var(--space-16); border-radius: var(--radius-sm); background: var(--color-primary-100); }
+  .module-integration-rail__surface-line { grid-column: 1 / -1; block-size: var(--space-12); border-radius: var(--radius-sm); background: var(--color-surface); }
+  .module-integration-rail__surface-line--short { grid-column: span 2; }
+</style>

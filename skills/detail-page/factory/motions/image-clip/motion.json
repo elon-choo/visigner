@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "image-clip",
+  "purpose": "Reveals media inside a static clipping frame using a short transform and opacity transition on the inner layer.",
+  "sectionTypeHints": ["hero", "gallery", "feature"],
+  "motionVariant": "reveal",
+  "cwvImpact": {
+    "grade": "low",
+    "rationale": "The clipping frame has fixed layout while only the contained media layer changes transform and opacity once."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "The media is visible in its final clipped frame without transition or animation."
+  },
+  "cwvTripwire": {
+    "layoutShift": "The clipping frame remains static while only the inner media layer transitions.",
+    "longAnimation": "The reveal is capped at --dur-3 and has no autonomous or repeating animation.",
+    "allowedAnimatedProperties": ["opacity", "transform"],
+    "durationCap": "--dur-3",
+    "forbidden": ["clip-path animation", "layout-changing transitions", "infinite animation"]
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "footer-reference-lattice",
+  "type": "footer-band",
+  "slots": {
+    "navItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 1,
+      "maxItems": 8
+    },
+    "legalText": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 1,
+      "maxChars": 240
+    },
+    "contactLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 2,
+      "maxChars": 48
+    },
+    "sectionLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "sourceNote": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 180
+    }
+  },
+  "variants": {
+    "layoutArchetype": "rail",
+    "density": "standard",
+    "backgroundBleed": "media-bleed",
+    "motion": "reveal",
+    "artDirection": "editorial"
+  },
+  "provenance": "mined",
+  "variantProvenance": "structure-mined",
+  "corpusSource": {
+    "recordId": "arc",
+    "sectionSpan": "captures/stage2/arc/tile_03.png#footer-band"
+  },
+  "gateProfile": "section-motion-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "variantProvenance": "structure-mined",
+    "censusTypePeerSpanCount": 21,
+    "observedRawTypePeerSpanCount": 21,
+    "observedActiveTypePeerSpanCount": 21,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "allowedConfidences": [
+        "high"
+      ],
+      "confidenceRationale": null,
+      "corpusInputsUsed": true
+    },
+    "axisPermutationFallback": null,
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": [
+        {
+          "peer": "compact-legal-footer",
+          "origin": "existing",
+          "differingAxes": 5
+        },
+        {
+          "peer": "link-matrix-footer",
+          "origin": "existing",
+          "differingAxes": 4
+        },
+        {
+          "peer": "utility-columns-footer",
+          "origin": "existing",
+          "differingAxes": 5
+        }
+      ]
+    },
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "arc",
+        "spanOrder": 4,
+        "type": "footer-band",
+        "confidence": "high",
+        "sectionSpan": "captures/stage2/arc/tile_03.png#footer-band",
+        "styleInventory": "skills/detail-page/references/captures/stage2/arc/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "light",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "type": "hero",
+  "selector": "design-critic / best-of-N",
+  "goal": "G3.4",
+  "evaluatedAt": "2026-07-24",
+  "candidatesEvaluated": 6,
+  "renderMethod": "shoot.js on gallery-faithful srcdoc (theme.generated.css + @theme→:root bridge + frameReset, webfonts injected); desktop 1280 + mobile 390",
+  "renderOutcome": "success (6/6 rendered; machine gate overall=true on all 6, but pixel audit failed 3 — machine gates are blind to the copy-clamp break)",
+  "distinctivenessAnchor": "app-ui exemplars (linear/stripe/vercel/raycast); modules mined from SaaS/dev-tool sources",
+  "tellCount": { "note": "all 6 uncapped (distinctivenessCap=10); single-fragment heroes trip no maxEqualCards/centered/monotone-accent tell" },
+  "promoted": [
+    {
+      "moduleId": "editorial-split-hero",
+      "rank": 1,
+      "overall": 7.0,
+      "scores": { "hook": 8, "structure": 8, "benefitVsFeature": 6, "empathy": 6, "proof": 5, "oneMessage": 8, "visualCraft": 8, "urgencyCta": 7, "trustRiskReversal": 6, "aestheticDistinctiveness": 8 },
+      "antiSlop": "PASS",
+      "corpusSource": "resend (stage2/resend/tile_00.png#hero)",
+      "rationale": "Renders clean. Dark contrast-bleed + airy density is a committed art-direction signature (not a default) that mirrors the Linear/Vercel dark editorial hero — the most distinctive of the clean candidates. Left-aligned split keeps copy-first DOM order and gives the media slot room to become a layered artifact. Deduction: media card renders short/stubby against the 3-line headline (slight vertical imbalance). Distinctiveness 8 is a calibrated judgment vs the app-ui anchors, not a measurement.",
+      "caveats": ["copy is placeholder by design", "media slot empty (structure-mined scaffold)", "no responsive media-query — 2-col persists at 390px, documented v1 gap", "axe unverified (axe-core did not inject offline; axeClean=null)"]
+    },
+    {
+      "moduleId": "bento-grid-hero",
+      "rank": 2,
+      "overall": 6.9,
+      "scores": { "hook": 7, "structure": 8, "benefitVsFeature": 6, "empathy": 6, "proof": 6, "oneMessage": 7, "visualCraft": 8, "urgencyCta": 7, "trustRiskReversal": 6, "aestheticDistinctiveness": 8 },
+      "antiSlop": "PASS",
+      "corpusSource": "supabase (stage2/supabase/tile_00.png#hero)",
+      "rationale": "Renders clean. The bento media scaffold (1 wide cell + 3 cells, layered e1 elevation) pre-shapes the media into a believable product-surface composition — the closest of the six to the layered product screenshot that drives the real anchor's distinctiveness, and it matches its product-ui source. Proof scores marginally higher (6) because the bento cells can carry proof tiles. Deduction: bento adds mild visual complexity vs a single artifact, softening one-message to 7. Distinctiveness 8 is a calibrated judgment vs anchors.",
+      "caveats": ["copy is placeholder by design", "bento cells empty (structure-mined scaffold)", "no responsive media-query — documented v1 gap", "axe unverified offline"]
+    }
+  ],
+  "referenceBaseline": {
+    "moduleId": "neutral-split-hero",
+    "overall": 6.8,
+    "aestheticDistinctiveness": 7,
+    "note": "Renders clean and correct, anti-slop PASS, but is the DELIBERATE catalog baseline (light/standard/typographic) against which other heroes define 'what is different' (its own MODULE.md §1). Kept as reference, not promoted to gold — distinctiveness intentionally neutral."
+  },
+  "rejected": [
+    { "moduleId": "immersive-media-hero", "overall": 3.5, "antiSlop": "FAIL", "reason": "copy { max-inline-size: var(--space-96) } clamps the copy column to 96px over the full-bleed media -> headline shatters to 1-3 chars/line ('A/ne/utr/al/sta/rtin/g...'), CTA squished, illegible. Visual craft 2. Machine gate passed overall=true because the vertical char-wrap causes 0px horizontal overflow." },
+    { "moduleId": "framed-stack-hero", "overall": 3.5, "antiSlop": "FAIL", "reason": "same max-inline-size: var(--space-96)=96px clamp on the stacked copy -> identical char-per-line headline break. Visual craft 2." },
+    { "moduleId": "centered-signal-hero", "overall": 3.4, "antiSlop": "FAIL", "reason": "same 96px clamp, centered -> headline becomes a vertical 1-word ribbon. Visual craft 2. Compounding: the 'centered' archetype was explicitly rejected for hero in neutral-split-hero MODULE.md (weakens the media requirement)." }
+  ],
+  "shipGateNote": "By the strict design-critic §7 gate (overall>=8, no dim<7, distinctiveness>=8) NONE ships as a finished conversion page — copy-dependent dims (proof/empathy/benefit 5-6) are capped by placeholder copy + empty media. Gold here = best-of-N STRUCTURAL candidates for exemplar promotion once media/copy fill in, not finished 100-point pages.",
+  "evidencePath": "docs/goals/evidence/v3/G3.4/scoring.md"
+}

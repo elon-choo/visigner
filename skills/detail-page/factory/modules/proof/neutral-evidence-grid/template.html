@@ -1,0 +1,22 @@
+<section class="module-proof" aria-labelledby="proof-title">
+  <header class="module-proof__header">
+    <p class="module-proof__eyebrow" data-slot="eyebrow">Evidence</p>
+    <h2 class="module-proof__headline" id="proof-title" data-slot="headline">Signals that make a simple claim easier to inspect</h2>
+    <p class="module-proof__body" data-slot="body">These neutral placeholders show how supporting facts can be grouped without naming a product or a market.</p>
+  </header>
+  <ul class="module-proof__list" data-slot="proofItems">
+    <li class="module-proof__item">First observable signal</li>
+    <li class="module-proof__item">Second observable signal</li>
+  </ul>
+  <p class="module-proof__source" data-slot="sourceNote">Source note placeholder</p>
+</section>
+
+<style>
+  .module-proof { display: grid; gap: var(--space-32); padding: var(--space-48) var(--space-24); background: var(--color-surface); color: var(--color-ink); }
+  .module-proof__header { display: grid; gap: var(--space-12); }
+  .module-proof__eyebrow, .module-proof__source { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-proof__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-proof__body { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+  .module-proof__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-proof__item { padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-md); background: var(--color-card); box-shadow: var(--shadow-e1); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+</style>

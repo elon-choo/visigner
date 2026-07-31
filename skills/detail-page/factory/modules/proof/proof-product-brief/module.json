@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "proof-product-brief",
+  "type": "proof",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "proofItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 6
+    }
+  },
+  "variants": {
+    "layoutArchetype": "split",
+    "density": "standard",
+    "backgroundBleed": "media-bleed",
+    "motion": "stagger",
+    "artDirection": "typographic"
+  },
+  "provenance": "mined",
+  "variantProvenance": "structure-mined",
+  "corpusSource": {
+    "recordId": "supabase",
+    "sectionSpan": "captures/stage2/supabase/tile_01.png#proof"
+  },
+  "gateProfile": "section-motion-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "variantProvenance": "structure-mined",
+    "censusTypePeerSpanCount": 67,
+    "observedRawTypePeerSpanCount": 67,
+    "observedActiveTypePeerSpanCount": 62,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "allowedConfidences": [
+        "high"
+      ],
+      "confidenceRationale": null,
+      "corpusInputsUsed": true
+    },
+    "axisPermutationFallback": null,
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": [
+        {
+          "peer": "neutral-evidence-grid",
+          "origin": "existing",
+          "differingAxes": 4
+        },
+        {
+          "peer": "proof-source-ledger",
+          "origin": "generated",
+          "differingAxes": 5
+        },
+        {
+          "peer": "proof-railway-matrix",
+          "origin": "generated",
+          "differingAxes": 5
+        }
+      ]
+    },
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "supabase",
+        "spanOrder": 14,
+        "type": "proof",
+        "confidence": "high",
+        "sectionSpan": "captures/stage2/supabase/tile_01.png#proof",
+        "styleInventory": "skills/detail-page/references/captures/stage2/supabase/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "light",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  }
+}

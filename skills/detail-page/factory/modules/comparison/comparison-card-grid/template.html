@@ -1,0 +1,21 @@
+<section class="module-comparison-card-grid" aria-labelledby="module-comparison-card-grid-title">
+  <header class="module-comparison-card-grid__header">
+    <h2 class="module-comparison-card-grid__headline" id="module-comparison-card-grid-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <div class="module-comparison-card-grid__items" role="table" data-slot="comparisonItems"><div class="module-comparison-card-grid__item" role="row"><strong role="cell">Shared criterion</strong><span role="cell">Option value</span></div><div class="module-comparison-card-grid__item" role="row"><strong role="cell">Second criterion</strong><span role="cell">Option value</span></div></div>
+</section>
+
+<style>
+  .module-comparison-card-grid { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-comparison-card-grid__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-comparison-card-grid__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-comparison-card-grid__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-comparison-card-grid__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-comparison-card-grid__item strong, .module-comparison-card-grid__item span { min-inline-size: 0; }
+  .module-comparison-card-grid__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-comparison-card-grid__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-comparison-card-grid__items { grid-template-columns: minmax(0, 1fr); } .module-comparison-card-grid__item { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .module-comparison-card-grid { padding: var(--space-32) var(--space-16); } .module-comparison-card-grid__items { gap: var(--space-16); }
+  .module-comparison-card-grid__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (prefers-reduced-motion: no-preference) { .module-comparison-card-grid { animation: module-comparison-card-grid-axis-enter var(--dur-2) var(--ease-out) both; } @keyframes module-comparison-card-grid-axis-enter { from { opacity: 0; transform: translateY(var(--space-12)); } to { opacity: 1; transform: translateY(0); } } } @media (prefers-reduced-motion: reduce) { .module-comparison-card-grid { animation: none; } }
+</style>

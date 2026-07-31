@@ -1,0 +1,250 @@
+{
+  "briefVersion": "1.0.0",
+  "page": {
+    "title": "Holdpoint — the release checklist that will not let a step be skipped",
+    "language": "en"
+  },
+  "audience": "The person at a 10-to-40-engineer B2B company who owns deploys — usually a staff engineer or an engineering manager who also has to answer the auditor's questions in March.",
+  "objective": "Get one team to import a real runbook and run one real release behind a gate, so they feel the audit trail write itself instead of reading about it.",
+  "core": {
+    "tokenSet": "semantic-v3",
+    "typographyVoices": {
+      "display": "--font-display",
+      "body": "--font-body",
+      "latin": "--font-latin"
+    },
+    "signatureMotif": "A gate that opens only after someone has put their name on the line beneath it."
+  },
+  "sections": [
+    {
+      "type": "hero",
+      "purpose": "Name the moment a small team already recognises — the Friday deploy where a step quietly gets skipped — and offer one reversible step out of it.",
+      "decision": {
+        "moduleId": "bento-grid-hero",
+        "source": "case-saas-release",
+        "reason": "The fold has to hold copy and a live-looking artefact side by side; the bento frame gives the audit trail its own panel next to the promise instead of under it.",
+        "variants": {
+          "layoutArchetype": "split",
+          "density": "airy",
+          "backgroundBleed": "contrast-bleed",
+          "motion": "none",
+          "artDirection": "product-ui"
+        }
+      },
+      "content": {
+        "eyebrow": "Release gating for small teams",
+        "headline": "The deploy checklist nobody can skip at 5pm on a Friday",
+        "body": "Paste in the runbook you already keep in Notion. Holdpoint turns every step into a gate that a named person has to check off before the next one opens, and it records who checked what, on which commit, at what time. When an auditor asks in March, you send a link instead of losing an afternoon.",
+        "primaryCtaLabel": "Start a 14-day trial",
+        "primaryCtaHref": "https://holdpoint.example/trial",
+        "mediaAlt": {
+          "lines": [
+            "09:12 migration dry-run — signed off, R. Ochoa",
+            "09:20 staging smoke — 41/41 passed",
+            "09:34 on-call ack — L. Byrne",
+            "09:41 gate 4 open — deploy 2f9c1ab"
+          ]
+        }
+      }
+    },
+    {
+      "type": "feature",
+      "purpose": "Show the four concrete things a gated checklist does that a written runbook cannot, so the reader stops comparing us to a document.",
+      "decision": {
+        "moduleId": "feature-matrix-grid",
+        "source": "case-saas-release",
+        "reason": "Four capabilities that are meant to be read against each other, not scrolled through one at a time — a matrix keeps them on one surface and gives the lead item the room it needs.",
+        "variants": {
+          "layoutArchetype": "grid",
+          "density": "compact",
+          "backgroundBleed": "surface-contained",
+          "motion": "none",
+          "artDirection": "data-led"
+        }
+      },
+      "content": {
+        "sectionLabel": "What a gate actually does",
+        "headline": "Four things your runbook cannot do on its own",
+        "body": "A document can list the steps. It cannot stop a release when step three was never done, and it cannot tell you six weeks later who decided that was fine at the time. That gap is the whole product.",
+        "featureItems": [
+          [
+            "Steps that refuse to be skipped",
+            "Gate four stays shut until gate three carries a name and a timestamp. Nobody reorders the list halfway through a release, and nobody has to be the person who notices."
+          ],
+          [
+            "One named owner per step",
+            "Steps are assigned to a person, not to a channel. Holdpoint nudges them in Slack and keeps nudging until they check it off or hand it to someone who will."
+          ],
+          [
+            "An audit trail that writes itself",
+            "Every check-off stores the person, the commit SHA, the environment and the clock time. Export the release as CSV or PDF the week your SOC 2 evidence request lands."
+          ],
+          [
+            "Rollback lives in the same list",
+            "The undo steps sit in the runbook already gated, so the 2am version of you is reading a checklist instead of inventing one."
+          ]
+        ]
+      }
+    },
+    {
+      "type": "comparison",
+      "purpose": "Put us honestly beside the three habits teams actually have today, because the real competitor is a Google Doc, not another vendor.",
+      "decision": {
+        "moduleId": "comparison-criteria-table",
+        "source": "case-saas-release",
+        "reason": "The choice is between four working habits, and a criteria table lets each one be judged on the same line rather than sold in its own card.",
+        "variants": {
+          "layoutArchetype": "comparison-table",
+          "density": "standard",
+          "backgroundBleed": "contrast-bleed",
+          "motion": "none",
+          "artDirection": "data-led"
+        }
+      },
+      "content": {
+        "headline": "Holdpoint next to what your team does today",
+        "comparisonItems": [
+          [
+            "A shared doc",
+            "Anyone can edit it mid-release, and afterwards nobody can say who changed step six or when they changed it."
+          ],
+          [
+            "A pinned Slack thread",
+            "Fine for the first hour. By the next release it is ninety messages deep and the decisions are unfindable."
+          ],
+          [
+            "One ticket per step",
+            "Accurate, and slow enough to file that people quietly stop filing them by the third release of the week."
+          ],
+          [
+            "Holdpoint",
+            "One gated list per release: ordered, owned, timestamped, and exportable without anyone writing it up afterwards."
+          ]
+        ]
+      }
+    },
+    {
+      "type": "pricing",
+      "purpose": "Answer the price question before the reader has to hunt for it, and make the free tier honest enough to actually start on.",
+      "decision": {
+        "moduleId": "pricing-plan-grid",
+        "source": "case-saas-release",
+        "reason": "Three plans that differ mainly in retention and evidence handling read best as parallel cards a buyer can scan in one pass.",
+        "variants": {
+          "layoutArchetype": "grid",
+          "density": "standard",
+          "backgroundBleed": "card-contained",
+          "motion": "none",
+          "artDirection": "typographic"
+        }
+      },
+      "content": {
+        "headline": "Priced per engineer, never per deploy",
+        "pricePlans": [
+          [
+            "Solo — free",
+            "One repository, one release at a time, thirty days of history. For the person who is currently the entire release process."
+          ],
+          [
+            "Team — $12 per engineer, per month",
+            "Unlimited repositories and releases, Slack and PagerDuty handoffs, two years of history, CSV and PDF export."
+          ],
+          [
+            "Audit — $29 per engineer, per month",
+            "Everything in Team, plus SSO, immutable evidence exports, seven-year retention, and a free read-only seat for your auditor."
+          ]
+        ]
+      }
+    },
+    {
+      "type": "cta",
+      "purpose": "Ask for a real release rather than a demo, and remove the two things that stop people trying: a card and a call.",
+      "decision": {
+        "moduleId": "cta-split-decision",
+        "source": "case-saas-release",
+        "reason": "The ask and the two commands that satisfy it belong on the same line of sight; the split puts the terminal beside the sentence that justifies typing into it.",
+        "variants": {
+          "layoutArchetype": "split",
+          "density": "airy",
+          "backgroundBleed": "contrast-bleed",
+          "motion": "none",
+          "artDirection": "product-ui"
+        }
+      },
+      "content": {
+        "headline": "Try it on your next release, not on a demo repo",
+        "body": "Import one runbook, put one real deploy behind it, and see whether the trail it leaves is the one you would be happy to hand an auditor. No card, no call, and every release you have recorded exports with you if it turns out not to be for you.",
+        "primaryCtaLabel": "Import your first runbook",
+        "primaryCtaHref": "https://holdpoint.example/import",
+        "mediaAlt": {
+          "lines": [
+            "$ holdpoint import runbook.md",
+            "→ 11 steps, 4 gates detected",
+            "$ holdpoint release start v2.14.0",
+            "→ gate 1 assigned to you"
+          ]
+        }
+      }
+    },
+    {
+      "type": "footer-band",
+      "purpose": "Close with the routes a serious evaluator needs — the import format, the export format, the price — and state plainly that this page is a worked example.",
+      "decision": {
+        "moduleId": "footer-reference-lattice",
+        "source": "case-saas-release",
+        "reason": "An evaluator leaves this page either to read the import format or to email a person, so the footer keeps a contact route next to the documentation columns.",
+        "variants": {
+          "layoutArchetype": "grid",
+          "density": "airy",
+          "backgroundBleed": "surface-contained",
+          "motion": "none",
+          "artDirection": "typographic"
+        }
+      },
+      "content": {
+        "navItems": [
+          [
+            "Product",
+            {
+              "text": "How gates work",
+              "href": "https://holdpoint.example/gates"
+            },
+            {
+              "text": "Audit exports",
+              "href": "https://holdpoint.example/audit"
+            }
+          ],
+          [
+            "Docs",
+            {
+              "text": "Runbook import format",
+              "href": "https://holdpoint.example/docs/import"
+            },
+            {
+              "text": "Slack and PagerDuty setup",
+              "href": "https://holdpoint.example/docs/handoffs"
+            }
+          ],
+          [
+            "Company",
+            {
+              "text": "Pricing",
+              "href": "https://holdpoint.example/pricing"
+            },
+            {
+              "text": "Talk to a human",
+              "href": "mailto:hello@holdpoint.example"
+            }
+          ]
+        ],
+        "legalText": "Holdpoint is a fictional company. This page is a worked example assembled by Visigner from a brief — the product, the plans and the prices are invented, and there is nothing here to buy.",
+        "contactLabel": {
+          "text": "hello@holdpoint.example",
+          "href": "mailto:hello@holdpoint.example"
+        },
+        "sectionLabel": "Before you trial it",
+        "sourceNote": "Holdpoint reads a Markdown runbook and writes back a gated checklist. Nothing is installed in your cluster, and an export is a single CSV."
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+.motion-stagger-reveal > * {
+  opacity: 0;
+  transform: translateY(var(--space-12));
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+}
+
+.motion-stagger-reveal > :nth-child(2) {
+  transition-delay: var(--dur-1);
+}
+
+.motion-stagger-reveal > :nth-child(3) {
+  transition-delay: var(--dur-2);
+}
+
+.motion-stagger-reveal[data-motion-active="true"] > * {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-stagger-reveal > *,
+  .motion-stagger-reveal[data-motion-active="true"] > * {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}

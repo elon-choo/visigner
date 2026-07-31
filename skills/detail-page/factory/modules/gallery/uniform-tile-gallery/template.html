@@ -1,0 +1,44 @@
+<section class="module-uniform-tile-gallery" aria-labelledby="uniform-tile-gallery-title">
+  <header class="module-uniform-tile-gallery__header">
+    <h2 class="module-uniform-tile-gallery__headline" id="uniform-tile-gallery-title" data-slot="headline">Inspect a row of equally weighted neutral samples</h2>
+  </header>
+  <ul class="module-uniform-tile-gallery__items" data-slot="galleryItems">
+    <li class="module-uniform-tile-gallery__item">
+      <article class="module-uniform-tile-gallery__card">
+        <div class="module-uniform-tile-gallery__visual" role="img" aria-label="Neutral visual placeholder for the first sample"></div>
+        <p class="module-uniform-tile-gallery__caption">Sample one</p>
+      </article>
+    </li>
+    <li class="module-uniform-tile-gallery__item">
+      <article class="module-uniform-tile-gallery__card">
+        <div class="module-uniform-tile-gallery__visual" role="img" aria-label="Neutral visual placeholder for the second sample"></div>
+        <p class="module-uniform-tile-gallery__caption">Sample two</p>
+      </article>
+    </li>
+    <li class="module-uniform-tile-gallery__item">
+      <article class="module-uniform-tile-gallery__card">
+        <div class="module-uniform-tile-gallery__visual" role="img" aria-label="Neutral visual placeholder for the third sample"></div>
+        <p class="module-uniform-tile-gallery__caption">Sample three</p>
+      </article>
+    </li>
+    <li class="module-uniform-tile-gallery__item">
+      <article class="module-uniform-tile-gallery__card">
+        <div class="module-uniform-tile-gallery__visual" role="img" aria-label="Neutral visual placeholder for the fourth sample"></div>
+        <p class="module-uniform-tile-gallery__caption">Sample four</p>
+      </article>
+    </li>
+  </ul>
+  <p class="module-uniform-tile-gallery__note" data-slot="sourceNote">Optional context placeholder</p>
+</section>
+
+<style>
+  .module-uniform-tile-gallery { display: grid; gap: var(--space-48); padding: var(--space-64) var(--space-24); background: var(--color-surface); color: var(--color-ink); }
+  .module-uniform-tile-gallery__header { max-inline-size: var(--prose-max-width); }
+  .module-uniform-tile-gallery__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-uniform-tile-gallery__items { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-uniform-tile-gallery__item { min-inline-size: 0; }
+  .module-uniform-tile-gallery__card { display: grid; gap: var(--space-12); padding-block-end: var(--space-16); border-block-end: var(--space-4) solid var(--color-line); }
+  .module-uniform-tile-gallery__visual { aspect-ratio: 1 / 1; border-radius: var(--radius-sm); background: linear-gradient(var(--color-card), var(--color-primary-50)); box-shadow: var(--shadow-e1); }
+  .module-uniform-tile-gallery__caption { margin: 0; font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-uniform-tile-gallery__note { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+</style>

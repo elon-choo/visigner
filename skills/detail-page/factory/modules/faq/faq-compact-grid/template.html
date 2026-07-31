@@ -1,0 +1,21 @@
+<section class="module-faq-compact-grid" aria-labelledby="module-faq-compact-grid-title">
+  <header class="module-faq-compact-grid__header">
+    <h2 class="module-faq-compact-grid__headline" id="module-faq-compact-grid-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <div class="module-faq-compact-grid__items" data-slot="faqItems"><details class="module-faq-compact-grid__item"><summary>Neutral question placeholder</summary><p>Neutral answer placeholder supplied at assembly.</p></details><details class="module-faq-compact-grid__item"><summary>Second question placeholder</summary><p>Neutral answer placeholder supplied at assembly.</p></details><details class="module-faq-compact-grid__item"><summary>Third question placeholder</summary><p>Neutral answer placeholder supplied at assembly.</p></details></div>
+</section>
+
+<style>
+  .module-faq-compact-grid { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-faq-compact-grid__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-faq-compact-grid__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-faq-compact-grid__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-faq-compact-grid__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-faq-compact-grid__item strong, .module-faq-compact-grid__item span { min-inline-size: 0; }
+  .module-faq-compact-grid__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-faq-compact-grid__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-faq-compact-grid__items { grid-template-columns: minmax(0, 1fr); } .module-faq-compact-grid__item summary { cursor: pointer; font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); } .module-faq-compact-grid__item p { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-faq-compact-grid { padding: var(--space-32) var(--space-16); } .module-faq-compact-grid__items { gap: var(--space-16); }
+  .module-faq-compact-grid__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  
+</style>

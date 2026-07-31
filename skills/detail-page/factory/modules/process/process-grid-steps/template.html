@@ -1,0 +1,21 @@
+<section class="module-process-grid-steps" aria-labelledby="module-process-grid-steps-title">
+  <header class="module-process-grid-steps__header">
+    <h2 class="module-process-grid-steps__headline" id="module-process-grid-steps-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <ol class="module-process-grid-steps__items" data-slot="processSteps"><li class="module-process-grid-steps__item"><strong>First step</strong><span>A neutral step description.</span></li><li class="module-process-grid-steps__item"><strong>First step</strong><span>A neutral step description.</span></li></ol>
+</section>
+
+<style>
+  .module-process-grid-steps { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-process-grid-steps__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-process-grid-steps__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-process-grid-steps__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-process-grid-steps__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-process-grid-steps__item strong, .module-process-grid-steps__item span { min-inline-size: 0; }
+  .module-process-grid-steps__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-process-grid-steps__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-process-grid-steps__items { counter-reset: module-step; } .module-process-grid-steps__item { grid-template-columns: auto minmax(0, 1fr); } .module-process-grid-steps__item > * { grid-column: 2; } .module-process-grid-steps__item::before { grid-column: 1; grid-row: 1; align-self: start; counter-increment: module-step; content: counter(module-step); color: var(--color-accent); font-family: var(--font-display); font-size: var(--text-24); line-height: var(--leading-24); }
+  .module-process-grid-steps { padding: var(--space-32) var(--space-16); } .module-process-grid-steps__items { gap: var(--space-16); }
+  .module-process-grid-steps__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (prefers-reduced-motion: no-preference) { .module-process-grid-steps { animation: module-process-grid-steps-axis-enter var(--dur-2) var(--ease-out) both; } @keyframes module-process-grid-steps-axis-enter { from { opacity: 0; transform: translateY(var(--space-12)); } to { opacity: 1; transform: translateY(0); } } } @media (prefers-reduced-motion: reduce) { .module-process-grid-steps { animation: none; } }
+</style>

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "neutral-action-band",
+  "type": "cta",
+  "slots": {
+    "eyebrow": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "body": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 24,
+      "maxChars": 360
+    },
+    "primaryCtaLabel": {
+      "type": "text",
+      "required": true,
+      "minChars": 2,
+      "maxChars": 32
+    },
+    "primaryCtaHref": {
+      "type": "url",
+      "required": true,
+      "minChars": 1,
+      "maxChars": 2048
+    },
+    "secondaryCtaLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 2,
+      "maxChars": 32
+    },
+    "secondaryCtaHref": {
+      "type": "url",
+      "required": false,
+      "minChars": 1,
+      "maxChars": 2048
+    }
+  },
+  "variants": {
+    "layoutArchetype": "centered",
+    "density": "airy",
+    "backgroundBleed": "contrast-bleed",
+    "motion": "none",
+    "artDirection": "typographic"
+  },
+  "corpusSource": {
+    "recordId": "linear",
+    "sectionSpan": "captures/app-ui/linear/tile_00.png#cta"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "variantProvenance": "structure-mined"
+}

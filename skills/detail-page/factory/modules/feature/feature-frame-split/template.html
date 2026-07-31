@@ -1,0 +1,41 @@
+<section class="module-feature-frame-split" aria-labelledby="feature-frame-split-title">
+  <header class="module-feature-frame-split__header">
+    <div class="module-feature-frame-split__identity">
+      <p class="module-feature-frame-split__label" data-slot="sectionLabel">Focused capability</p>
+      <h2 class="module-feature-frame-split__headline" id="feature-frame-split-title" data-slot="headline">A neutral capability with a clear supporting frame</h2>
+    </div>
+    <div class="module-feature-frame-split__detail">
+      <p class="module-feature-frame-split__body" data-slot="body">This neutral placeholder separates the central capability from its supporting details before a reader examines the attached visual reference.</p>
+      <ul class="module-feature-frame-split__list" data-slot="featureItems">
+        <li><h3>First supporting item</h3><p>A short neutral explanation makes this detail inspectable.</p></li>
+        <li><h3>Second supporting item</h3><p>A short neutral explanation keeps the detail independent.</p></li>
+      </ul>
+    </div>
+  </header>
+  <figure class="module-feature-frame-split__media" data-slot="media">
+    <div class="module-feature-frame-split__media-placeholder" role="img" data-slot="mediaAlt" data-slot-aria-label="mediaAlt" aria-label="Neutral abstract media placeholder">
+      <span class="module-feature-frame-split__media-bar" aria-hidden="true"></span>
+      <span class="module-feature-frame-split__media-panel module-feature-frame-split__media-panel--front" aria-hidden="true"></span>
+      <span class="module-feature-frame-split__media-panel" aria-hidden="true"></span>
+      <span class="module-feature-frame-split__media-panel" aria-hidden="true"></span>
+    </div>
+  </figure>
+</section>
+
+<style>
+  .module-feature-frame-split { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-feature-frame-split__header { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-32); align-items: start; }
+  .module-feature-frame-split__identity, .module-feature-frame-split__detail { display: grid; align-content: start; gap: var(--space-16); min-inline-size: 0; }
+  .module-feature-frame-split__label { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-feature-frame-split__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-48); line-height: var(--leading-48); }
+  .module-feature-frame-split__body { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+  .module-feature-frame-split__list { display: grid; gap: var(--space-12); margin: 0; padding: 0; list-style: none; }
+  .module-feature-frame-split__list li { display: grid; gap: var(--space-8); padding-block-start: var(--space-12); border-block-start: var(--space-4) solid var(--color-primary-300); }
+  .module-feature-frame-split__list h3 { margin: 0; font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-feature-frame-split__list p { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-feature-frame-split__media { min-block-size: var(--space-96); margin: 0; border: var(--space-4) solid var(--color-primary-300); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e2); }
+  .module-feature-frame-split__media-placeholder { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: start; gap: var(--space-16); min-block-size: var(--space-96); padding: var(--space-24); border-radius: inherit; background: linear-gradient(var(--color-card), var(--color-ink)); }
+  .module-feature-frame-split__media-bar { grid-column: 1 / -1; block-size: var(--space-16); border-radius: var(--radius-sm); background: var(--color-primary-100); }
+  .module-feature-frame-split__media-panel { display: block; min-block-size: var(--space-48); border: var(--space-4) solid var(--color-primary-300); border-radius: var(--radius-md); background: var(--color-surface); box-shadow: var(--shadow-e1); }
+  .module-feature-frame-split__media-panel--front { grid-column: span 2; min-block-size: var(--space-64); background: var(--color-card); }
+</style>

@@ -1,0 +1,21 @@
+<section class="module-comparison-criteria-table" aria-labelledby="module-comparison-criteria-table-title">
+  <header class="module-comparison-criteria-table__header">
+    <h2 class="module-comparison-criteria-table__headline" id="module-comparison-criteria-table-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <div class="module-comparison-criteria-table__items" role="table" data-slot="comparisonItems"><div class="module-comparison-criteria-table__item" role="row"><strong role="cell">Shared criterion</strong><span role="cell">Option value</span></div><div class="module-comparison-criteria-table__item" role="row"><strong role="cell">Second criterion</strong><span role="cell">Option value</span></div></div>
+</section>
+
+<style>
+  .module-comparison-criteria-table { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-comparison-criteria-table__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-comparison-criteria-table__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-comparison-criteria-table__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-comparison-criteria-table__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-comparison-criteria-table__item strong, .module-comparison-criteria-table__item span { min-inline-size: 0; }
+  .module-comparison-criteria-table__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-comparison-criteria-table__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-comparison-criteria-table__items { grid-template-columns: minmax(0, 1fr); } .module-comparison-criteria-table__item { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .module-comparison-criteria-table { padding: var(--space-48) var(--space-24); } .module-comparison-criteria-table__items { gap: var(--space-24); }
+  .module-comparison-criteria-table__items { grid-template-columns: minmax(0, 1fr); } .module-comparison-criteria-table__item { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  
+</style>

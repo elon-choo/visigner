@@ -1,0 +1,35 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+
+/* The outer frame clips statically; the inner layer is the only moving part. */
+.motion-image-clip {
+  overflow: clip;
+}
+
+.motion-image-clip [data-motion-clip-layer] {
+  opacity: 0;
+  transform: translate3d(0, var(--space-16), 0);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.motion-image-clip[data-motion-state="entered"] [data-motion-clip-layer] {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.motion-image-clip[data-motion-state="rest"] [data-motion-clip-layer] {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-image-clip [data-motion-clip-layer] {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+    will-change: auto;
+  }
+}

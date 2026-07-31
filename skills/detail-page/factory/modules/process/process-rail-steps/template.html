@@ -1,0 +1,21 @@
+<section class="module-process-rail-steps" aria-labelledby="module-process-rail-steps-title">
+  <header class="module-process-rail-steps__header">
+    <h2 class="module-process-rail-steps__headline" id="module-process-rail-steps-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <ol class="module-process-rail-steps__items" data-slot="processSteps"><li class="module-process-rail-steps__item"><strong>First step</strong><span>A neutral step description.</span></li><li class="module-process-rail-steps__item"><strong>First step</strong><span>A neutral step description.</span></li></ol>
+</section>
+
+<style>
+  .module-process-rail-steps { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-process-rail-steps__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-process-rail-steps__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-process-rail-steps__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-process-rail-steps__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-process-rail-steps__item strong, .module-process-rail-steps__item span { min-inline-size: 0; }
+  .module-process-rail-steps__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-process-rail-steps__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-process-rail-steps__items { counter-reset: module-step; } .module-process-rail-steps__item { grid-template-columns: auto minmax(0, 1fr); } .module-process-rail-steps__item > * { grid-column: 2; } .module-process-rail-steps__item::before { grid-column: 1; grid-row: 1; align-self: start; counter-increment: module-step; content: counter(module-step); color: var(--color-accent); font-family: var(--font-display); font-size: var(--text-24); line-height: var(--leading-24); }
+  .module-process-rail-steps { padding: var(--space-64) var(--space-32); } .module-process-rail-steps__items { gap: var(--space-32); }
+  .module-process-rail-steps__items { grid-auto-flow: column; grid-auto-columns: minmax(var(--space-96), 1fr); grid-template-columns: none; overflow-x: auto; padding-block-end: var(--space-8); }
+  @media (prefers-reduced-motion: no-preference) { .module-process-rail-steps__items > * { animation: module-process-rail-steps-axis-enter var(--dur-2) var(--ease-out) both; } .module-process-rail-steps__items > *:nth-child(2) { animation-delay: var(--dur-1); } .module-process-rail-steps__items > *:nth-child(3) { animation-delay: var(--dur-2); } @keyframes module-process-rail-steps-axis-enter { from { opacity: 0; transform: translateY(var(--space-12)); } to { opacity: 1; transform: translateY(0); } } } @media (prefers-reduced-motion: reduce) { .module-process-rail-steps__items > * { animation: none; } }
+</style>

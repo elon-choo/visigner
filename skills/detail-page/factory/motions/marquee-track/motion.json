@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "marquee-track",
+  "purpose": "Provides a bounded, observer- or control-driven horizontal track advance without autonomous looping.",
+  "sectionTypeHints": ["gallery", "feature", "proof"],
+  "motionVariant": "scroll-linked",
+  "cwvImpact": {
+    "grade": "medium",
+    "rationale": "A host-controlled transform moves the track once per state change; it does not animate geometry or repeat autonomously."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "The track remains in its readable resting position with animation and transition disabled."
+  },
+  "cwvTripwire": {
+    "layoutShift": "Only transform is transitioned; the track retains its layout dimensions.",
+    "longAnimation": "A discrete state change is capped at --dur-3 and no autonomous loop is allowed.",
+    "allowedAnimatedProperties": ["transform"],
+    "durationCap": "--dur-3",
+    "forbidden": ["layout-changing transitions", "transition: all", "infinite animation"]
+  }
+}

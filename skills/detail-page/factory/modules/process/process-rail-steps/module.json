@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "process-rail-steps",
+  "type": "process",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "processSteps": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 7
+    }
+  },
+  "variants": {
+    "layoutArchetype": "rail",
+    "density": "airy",
+    "backgroundBleed": "contrast-bleed",
+    "motion": "stagger",
+    "artDirection": "editorial"
+  },
+  "provenance": "schema-authored",
+  "variantProvenance": "schema-authored",
+  "corpusSource": {
+    "recordId": "schema",
+    "sectionSpan": "v3/SECTION-SCHEMA.md#process"
+  },
+  "gateProfile": "section-motion-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "schema-authored",
+    "variantProvenance": "schema-authored",
+    "censusTypePeerSpanCount": 2,
+    "observedRawTypePeerSpanCount": 2,
+    "observedActiveTypePeerSpanCount": 2,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "schemaAnchor": "v3/SECTION-SCHEMA.md#process",
+      "corpusInputsUsed": false
+    },
+    "axisPermutationFallback": null,
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": [
+        {
+          "peer": "process-timeline-steps",
+          "origin": "generated",
+          "differingAxes": 5
+        },
+        {
+          "peer": "process-grid-steps",
+          "origin": "generated",
+          "differingAxes": 5
+        }
+      ]
+    },
+    "inputSpans": []
+  }
+}
