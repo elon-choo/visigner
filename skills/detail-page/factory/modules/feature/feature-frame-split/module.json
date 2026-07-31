@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "feature-frame-split",
+  "type": "feature",
+  "provenance": "mined",
+  "slots": {
+    "sectionLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "body": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 24,
+      "maxChars": 360
+    },
+    "featureItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 8
+    },
+    "media": {
+      "type": "asset",
+      "required": true
+    },
+    "mediaAlt": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 160
+    }
+  },
+  "variants": {
+    "layoutArchetype": "split",
+    "density": "standard",
+    "backgroundBleed": "contrast-bleed",
+    "motion": "none",
+    "artDirection": "product-ui"
+  },
+  "corpusSource": {
+    "recordId": "linear",
+    "sectionSpan": "captures/app-ui/linear/tile_01.png#feature"
+  },
+  "gateProfile": "section-media-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "rawCorpusSpanCount": 424,
+    "typePeerSpanCount": 15,
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "linear",
+        "spanOrder": 6,
+        "type": "feature",
+        "confidence": "med",
+        "sectionSpan": "captures/app-ui/linear/tile_01.png#feature",
+        "styleInventory": "skills/detail-page/references/captures/app-ui/linear/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "dark",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  }
+}

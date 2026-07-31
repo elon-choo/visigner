@@ -1,0 +1,76 @@
+{
+  "generator": "v3/scripts/capture-gallery-shots.js",
+  "renderWidth": 1280,
+  "renderClipHeight": 1600,
+  "deviceScaleFactor": 1,
+  "tileWidth": 640,
+  "rule": "a target becomes a tile only if composer-assemble.js exits 0 on its selection today",
+  "shots": [
+    {
+      "slug": "case-cafe-subscription",
+      "run": "v3/composer/case-cafe-subscription",
+      "selection": "v3/composer/case-cafe-subscription/selection.json",
+      "selectionSha256": "1b11f5879c1a67fa2252aa73c65c5679336b8e6351c8918ae90436ca20f5a7eb",
+      "assembleExit": 0,
+      "grammarLintExit": 0,
+      "grammarLintFirstLine": "PASS v3/composer/_shot-case-cafe-subscription/selection.json",
+      "assembledPageBytes": 102281,
+      "assembledPageSha256": "1cc8fcc9972dbb8d43aa9a53b420df1f2bb34acceb734a4e55e778c0d47aba46",
+      "tile": "v3/site-build/shots/g54k/case-cafe-subscription.png",
+      "tileBytes": 131677,
+      "tileWidth": 640,
+      "tileHeight": 800
+    },
+    {
+      "slug": "case-pilates-studio",
+      "run": "v3/composer/case-pilates-studio",
+      "selection": "v3/composer/case-pilates-studio/selection.json",
+      "selectionSha256": "71ce336eb193669bf9aa25e7c8f08c4c2bc9a041eb6593da4f9033d0c97a098b",
+      "assembleExit": 0,
+      "grammarLintExit": 0,
+      "grammarLintFirstLine": "PASS v3/composer/_shot-case-pilates-studio/selection.json",
+      "assembledPageBytes": 107599,
+      "assembledPageSha256": "8dad13ba0db2a6568af7769242e31822f5cbe186b397b09c887bfbc07d62715e",
+      "tile": "v3/site-build/shots/g54k/case-pilates-studio.png",
+      "tileBytes": 153915,
+      "tileWidth": 640,
+      "tileHeight": 800
+    },
+    {
+      "slug": "case-saas-release",
+      "run": "v3/composer/case-saas-release",
+      "selection": "v3/composer/case-saas-release/selection.json",
+      "selectionSha256": "94b116ff29dd1eb9ede3147dfb2fefbccbcff586ec30f0055bfca0a247c32e61",
+      "assembleExit": 0,
+      "grammarLintExit": 0,
+      "grammarLintFirstLine": "PASS v3/composer/_shot-case-saas-release/selection.json",
+      "assembledPageBytes": 105292,
+      "assembledPageSha256": "919a5dab834f2a8862eb5f1d29b429ecf917e54dec7ebd00a4472818775548b0",
+      "tile": "v3/site-build/shots/g54k/case-saas-release.png",
+      "tileBytes": 169559,
+      "tileWidth": 640,
+      "tileHeight": 800
+    },
+    {
+      "slug": "case-saas-release-refused",
+      "run": "v3/composer/case-saas-release-refused",
+      "selection": "v3/composer/case-saas-release-refused/selection.json",
+      "selectionSha256": "0fed01c38debab27dcd3b5a017f6cc1c6abcd4da1a582f8abe27d82c00f86df8",
+      "assembleExit": 0,
+      "grammarLintExit": 1,
+      "grammarLintFirstLine": "FAIL v3/composer/_shot-case-saas-release-refused/selection.json",
+      "assembledPageBytes": 109775,
+      "assembledPageSha256": "8afff6a47960275776496276f66dfde2e7357bd6634b60ec0b47f663898ecbc7",
+      "tile": "v3/site-build/shots/g54k/case-saas-release-refused.png",
+      "tileBytes": 186718,
+      "tileWidth": 640,
+      "tileHeight": 800
+    }
+  ],
+  "refused": [
+    {
+      "slug": "g4.3-ledger-violation",
+      "reason": "composer-assemble exit 1: composer-assemble: selection.sections[6] declares motion=reveal but names no repertoire entry, so nothing would move"
+    }
+  ]
+}

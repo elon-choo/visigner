@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "border-draw",
+  "purpose": "Reveals a section or card emphasis line through a composited scale transform instead of border-width changes.",
+  "sectionTypeHints": ["cta", "comparison", "faq"],
+  "motionVariant": "reveal",
+  "cwvImpact": {
+    "grade": "low",
+    "rationale": "The visual line keeps its allocated space and only its pseudo-element transform changes during one short transition."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "The emphasis line is rendered fully present with all motion disabled."
+  },
+  "cwvTripwire": {
+    "layoutShift": "The emphasis line retains allocated space while only its transform changes.",
+    "longAnimation": "The draw cue is capped at --dur-2 and has no repeating animation.",
+    "allowedAnimatedProperties": ["transform"],
+    "durationCap": "--dur-2",
+    "forbidden": ["border geometry animation", "transition: all", "infinite animation"]
+  }
+}

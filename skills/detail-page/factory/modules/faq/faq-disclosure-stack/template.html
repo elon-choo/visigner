@@ -1,0 +1,21 @@
+<section class="module-faq-disclosure-stack" aria-labelledby="module-faq-disclosure-stack-title">
+  <header class="module-faq-disclosure-stack__header">
+    <h2 class="module-faq-disclosure-stack__headline" id="module-faq-disclosure-stack-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <div class="module-faq-disclosure-stack__items" data-slot="faqItems"><details class="module-faq-disclosure-stack__item"><summary>Neutral question placeholder</summary><p>Neutral answer placeholder supplied at assembly.</p></details><details class="module-faq-disclosure-stack__item"><summary>Second question placeholder</summary><p>Neutral answer placeholder supplied at assembly.</p></details><details class="module-faq-disclosure-stack__item"><summary>Third question placeholder</summary><p>Neutral answer placeholder supplied at assembly.</p></details></div>
+</section>
+
+<style>
+  .module-faq-disclosure-stack { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-faq-disclosure-stack__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-faq-disclosure-stack__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-faq-disclosure-stack__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-faq-disclosure-stack__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-faq-disclosure-stack__item strong, .module-faq-disclosure-stack__item span { min-inline-size: 0; }
+  .module-faq-disclosure-stack__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-faq-disclosure-stack__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-faq-disclosure-stack__items { grid-template-columns: minmax(0, 1fr); } .module-faq-disclosure-stack__item summary { cursor: pointer; font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); } .module-faq-disclosure-stack__item p { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-faq-disclosure-stack { padding: var(--space-48) var(--space-24); } .module-faq-disclosure-stack__items { gap: var(--space-24); }
+  .module-faq-disclosure-stack__items { grid-template-columns: minmax(0, 1fr); }
+  
+</style>

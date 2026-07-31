@@ -1,0 +1,19 @@
+{
+  "name": "fade-rise",
+  "purpose": "Reveal one stable section root with a short opacity and upward transform transition.",
+  "sectionTypeHints": ["hero", "cta", "feature"],
+  "motionVariant": "reveal",
+  "cwvImpact": {
+    "grade": "low",
+    "rationale": "The visual state changes only through opacity and transform using host motion tokens."
+  },
+  "accessibility": {
+    "reducedMotionFallback": "Stops motion and leaves the target visible in its final state."
+  },
+  "cwvTripwire": {
+    "layoutShift": "Only opacity and transform may transition.",
+    "longAnimation": "A bounded host semantic duration token is required for every transition.",
+    "durationCap": "Timing is limited to the host semantic duration tokens.",
+    "looping": "Repeating animation is not used."
+  }
+}

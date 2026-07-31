@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "cta-stack-invitation",
+  "type": "cta",
+  "slots": {
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "body": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 24,
+      "maxChars": 360
+    },
+    "primaryCtaLabel": {
+      "type": "text",
+      "required": true,
+      "minChars": 2,
+      "maxChars": 32
+    },
+    "primaryCtaHref": {
+      "type": "url",
+      "required": true,
+      "minChars": 1,
+      "maxChars": 2048
+    }
+  },
+  "variants": {
+    "layoutArchetype": "stack",
+    "density": "airy",
+    "backgroundBleed": "media-bleed",
+    "motion": "stagger",
+    "artDirection": "data-led"
+  },
+  "provenance": "schema-authored",
+  "variantProvenance": "schema-authored",
+  "corpusSource": {
+    "recordId": "schema",
+    "sectionSpan": "v3/SECTION-SCHEMA.md#cta"
+  },
+  "gateProfile": "section-motion-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "schema-authored",
+    "variantProvenance": "schema-authored",
+    "censusTypePeerSpanCount": 1,
+    "observedRawTypePeerSpanCount": 1,
+    "observedActiveTypePeerSpanCount": 1,
+    "rawCorpusSpanCount": 424,
+    "sourcePolicy": {
+      "schemaAnchor": "v3/SECTION-SCHEMA.md#cta",
+      "corpusInputsUsed": false
+    },
+    "axisPermutationFallback": null,
+    "variantDiversity": {
+      "minimumDifferingAxes": 2,
+      "comparisons": [
+        {
+          "peer": "neutral-action-band",
+          "origin": "existing",
+          "differingAxes": 4
+        },
+        {
+          "peer": "cta-split-decision",
+          "origin": "generated",
+          "differingAxes": 5
+        },
+        {
+          "peer": "cta-rail-prompt",
+          "origin": "generated",
+          "differingAxes": 5
+        }
+      ]
+    },
+    "inputSpans": []
+  }
+}

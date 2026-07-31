@@ -1,0 +1,39 @@
+<section class="module-equal-card-gallery" aria-labelledby="equal-card-gallery-title">
+  <header class="module-equal-card-gallery__header">
+    <p class="module-equal-card-gallery__label" data-slot="sectionLabel">Sample set</p>
+    <h2 class="module-equal-card-gallery__headline" id="equal-card-gallery-title" data-slot="headline">Compare a small set of neutral visual samples</h2>
+  </header>
+  <ul class="module-equal-card-gallery__items" data-slot="galleryItems">
+    <li class="module-equal-card-gallery__item">
+      <article class="module-equal-card-gallery__card">
+        <div class="module-equal-card-gallery__visual" role="img" aria-label="Neutral visual placeholder for the first sample"></div>
+        <p class="module-equal-card-gallery__caption">Sample one</p>
+      </article>
+    </li>
+    <li class="module-equal-card-gallery__item">
+      <article class="module-equal-card-gallery__card">
+        <div class="module-equal-card-gallery__visual" role="img" aria-label="Neutral visual placeholder for the second sample"></div>
+        <p class="module-equal-card-gallery__caption">Sample two</p>
+      </article>
+    </li>
+    <li class="module-equal-card-gallery__item">
+      <article class="module-equal-card-gallery__card">
+        <div class="module-equal-card-gallery__visual" role="img" aria-label="Neutral visual placeholder for the third sample"></div>
+        <p class="module-equal-card-gallery__caption">Sample three</p>
+      </article>
+    </li>
+  </ul>
+  <p class="module-equal-card-gallery__note" data-slot="sourceNote">Optional context placeholder</p>
+</section>
+
+<style>
+  .module-equal-card-gallery { display: grid; gap: var(--space-32); padding: var(--space-48) var(--space-24); background: var(--color-surface); color: var(--color-ink); }
+  .module-equal-card-gallery__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-equal-card-gallery__label, .module-equal-card-gallery__note { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-equal-card-gallery__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-equal-card-gallery__items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-equal-card-gallery__item { min-inline-size: 0; }
+  .module-equal-card-gallery__card { display: grid; gap: var(--space-12); padding: var(--space-16); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e1); }
+  .module-equal-card-gallery__visual { min-block-size: var(--space-64); border-radius: var(--radius-md); background: linear-gradient(var(--color-primary-50), var(--color-surface)); }
+  .module-equal-card-gallery__caption { margin: 0; font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+</style>

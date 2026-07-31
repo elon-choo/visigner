@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "neutral-evidence-grid",
+  "type": "proof",
+  "slots": {
+    "eyebrow": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "body": {
+      "type": "rich-text",
+      "required": false,
+      "minChars": 24,
+      "maxChars": 360
+    },
+    "proofItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 6
+    },
+    "sourceNote": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 180
+    }
+  },
+  "variants": {
+    "layoutArchetype": "grid",
+    "density": "standard",
+    "backgroundBleed": "card-contained",
+    "motion": "none",
+    "artDirection": "data-led"
+  },
+  "corpusSource": {
+    "recordId": "stripe",
+    "sectionSpan": "captures/app-ui/stripe/tile_00.png#proof"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "variantProvenance": "structure-mined"
+}

@@ -1,0 +1,36 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+
+.motion-border-draw {
+  position: relative;
+}
+
+.motion-border-draw::after {
+  background: var(--color-line);
+  block-size: var(--space-4);
+  content: "";
+  inset-block-end: 0;
+  inset-inline: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: inline-start;
+  transition: transform var(--dur-2) var(--ease-spring);
+  will-change: transform;
+}
+
+.motion-border-draw[data-motion-state="entered"]::after {
+  transform: scaleX(1);
+}
+
+.motion-border-draw[data-motion-state="rest"]::after {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-border-draw::after {
+    animation: none;
+    transition: none;
+    transform: none;
+    will-change: auto;
+  }
+}

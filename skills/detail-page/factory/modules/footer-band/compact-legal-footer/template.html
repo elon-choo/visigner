@@ -1,0 +1,28 @@
+<footer class="module-compact-legal-footer" aria-label="Footer band">
+  <nav class="module-compact-legal-footer__nav" aria-label="Footer navigation">
+      <ul class="module-compact-legal-footer__links" data-slot="navItems">
+        <li><strong>Explore</strong><a href="#">Overview</a></li>
+        <li><strong>Resources</strong><a href="#">Guide</a></li>
+        <li><strong>Company</strong><a href="#">About</a></li>
+        <li><strong>Legal</strong><a href="#">Terms</a></li>
+      </ul>
+    </nav>
+    <a class="module-compact-legal-footer__contact" data-slot="contactLabel" href="mailto:contact@example.invalid">Contact route</a>
+  <small class="module-compact-legal-footer__legal" data-slot="legalText">Neutral legal text is supplied when this module is assembled.</small>
+</footer>
+
+<style>
+  .module-compact-legal-footer { display: grid; gap: var(--space-32); padding: var(--space-48) var(--space-24); background: var(--color-surface); color: var(--color-ink); }
+  .module-compact-legal-footer__utility { display: grid; gap: var(--space-12); align-content: start; }
+  .module-compact-legal-footer__label { margin: 0; font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-compact-legal-footer__note, .module-compact-legal-footer__legal { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-compact-legal-footer__nav { min-inline-size: 0; }
+  .module-compact-legal-footer__links { display: grid; gap: var(--space-24); margin: 0; padding: 0; list-style: none; }
+  .module-compact-legal-footer__links li { display: grid; gap: var(--space-8); min-inline-size: 0; }
+  .module-compact-legal-footer__links strong { font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-compact-legal-footer__links a { color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); text-decoration: none; }
+  .module-compact-legal-footer__contact { justify-self: start; padding: var(--space-12) var(--space-16); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-md); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+  .module-compact-legal-footer__legal { grid-column: 1 / -1; padding-block-start: var(--space-24); border-block-start: var(--space-4) solid var(--color-line); }
+  .module-compact-legal-footer { grid-template-columns: minmax(0, 1fr); } .module-compact-legal-footer__links { grid-template-columns: repeat(4, minmax(0, 1fr)); } .module-compact-legal-footer__contact { justify-self: start; }
+  .module-compact-legal-footer__links li { padding: var(--space-16); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-md); background: var(--color-card); }
+</style>

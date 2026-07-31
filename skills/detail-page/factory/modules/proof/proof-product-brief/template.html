@@ -1,0 +1,21 @@
+<section class="module-proof-product-brief" aria-labelledby="module-proof-product-brief-title">
+  <header class="module-proof-product-brief__header">
+    <h2 class="module-proof-product-brief__headline" id="module-proof-product-brief-title" data-slot="headline">A neutral section title for a reusable module</h2>
+  </header>
+  <ul class="module-proof-product-brief__items" data-slot="proofItems"><li class="module-proof-product-brief__item"><strong>Evidence label</strong><span>Neutral evidence placeholder for review.</span></li><li class="module-proof-product-brief__item"><strong>Evidence label</strong><span>Neutral evidence placeholder for review.</span></li></ul>
+</section>
+
+<style>
+  .module-proof-product-brief { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-proof-product-brief__header { display: grid; gap: var(--space-12); max-inline-size: var(--prose-max-width); }
+  .module-proof-product-brief__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-proof-product-brief__items { display: grid; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-proof-product-brief__item { display: grid; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); }
+  .module-proof-product-brief__item strong, .module-proof-product-brief__item span { min-inline-size: 0; }
+  .module-proof-product-brief__item strong { font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-proof-product-brief__item span { color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-proof-product-brief__items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .module-proof-product-brief { padding: var(--space-48) var(--space-24); } .module-proof-product-brief__items { gap: var(--space-24); }
+  .module-proof-product-brief { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); align-items: start; } .module-proof-product-brief__header { position: sticky; inset-block-start: var(--space-16); }
+  @media (prefers-reduced-motion: no-preference) { .module-proof-product-brief__items > * { animation: module-proof-product-brief-axis-enter var(--dur-2) var(--ease-out) both; } .module-proof-product-brief__items > *:nth-child(2) { animation-delay: var(--dur-1); } .module-proof-product-brief__items > *:nth-child(3) { animation-delay: var(--dur-2); } @keyframes module-proof-product-brief-axis-enter { from { opacity: 0; transform: translateY(var(--space-12)); } to { opacity: 1; transform: translateY(0); } } } @media (prefers-reduced-motion: reduce) { .module-proof-product-brief__items > * { animation: none; } }
+</style>

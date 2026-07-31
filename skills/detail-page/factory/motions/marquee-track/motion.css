@@ -1,0 +1,30 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+
+/*
+ * Apply data-motion-state="advance" only for a discrete observer or control
+ * update. This repertoire deliberately has no autonomous marquee loop.
+ */
+.motion-marquee-track {
+  transform: translate3d(0, 0, 0);
+  transition: transform var(--dur-3) var(--ease-out);
+  will-change: transform;
+}
+
+.motion-marquee-track[data-motion-state="advance"] {
+  transform: translate3d(calc(var(--space-32) * -1), 0, 0);
+}
+
+.motion-marquee-track[data-motion-state="rest"] {
+  will-change: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-marquee-track,
+  .motion-marquee-track[data-motion-state="advance"] {
+    animation: none;
+    transition: none;
+    transform: none;
+    will-change: auto;
+  }
+}

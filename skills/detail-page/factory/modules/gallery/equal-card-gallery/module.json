@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "equal-card-gallery",
+  "type": "gallery",
+  "provenance": "mined",
+  "slots": {
+    "sectionLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "galleryItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 12
+    },
+    "sourceNote": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 180
+    }
+  },
+  "variants": {
+    "layoutArchetype": "grid",
+    "density": "standard",
+    "backgroundBleed": "card-contained",
+    "motion": "none",
+    "artDirection": "product-ui"
+  },
+  "corpusSource": {
+    "recordId": "supabase",
+    "sectionSpan": "captures/stage2/supabase/tile_00.png#gallery"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "supabase",
+        "segmentFile": "v3/segments/supabase.json",
+        "spanOrder": 13,
+        "type": "gallery",
+        "confidence": "high",
+        "sectionSpan": "captures/stage2/supabase/tile_00.png#gallery",
+        "evidenceLocator": "data.json#/headings/10; bodytext.txt:L89"
+      }
+    ]
+  }
+}

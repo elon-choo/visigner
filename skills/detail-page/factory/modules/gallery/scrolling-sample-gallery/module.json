@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "scrolling-sample-gallery",
+  "type": "gallery",
+  "provenance": "mined",
+  "slots": {
+    "sectionLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "galleryItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 12
+    }
+  },
+  "variants": {
+    "layoutArchetype": "rail",
+    "density": "compact",
+    "backgroundBleed": "contrast-bleed",
+    "motion": "none",
+    "artDirection": "product-ui"
+  },
+  "corpusSource": {
+    "recordId": "raycast",
+    "sectionSpan": "captures/app-ui/raycast/tile_02.png#gallery"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "raycast",
+        "segmentFile": "v3/segments/raycast.json",
+        "spanOrder": 6,
+        "type": "gallery",
+        "confidence": "high",
+        "sectionSpan": "captures/app-ui/raycast/tile_02.png#gallery",
+        "evidenceLocator": "data.json#/headings/3; bodytext.txt:L325"
+      }
+    ]
+  }
+}

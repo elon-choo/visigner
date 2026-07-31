@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "featured-stack-gallery",
+  "type": "gallery",
+  "provenance": "mined",
+  "slots": {
+    "sectionLabel": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "galleryItems": {
+      "type": "collection",
+      "required": true,
+      "minItems": 2,
+      "maxItems": 12
+    },
+    "sourceNote": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 180
+    }
+  },
+  "variants": {
+    "layoutArchetype": "stack",
+    "density": "standard",
+    "backgroundBleed": "media-bleed",
+    "motion": "none",
+    "artDirection": "photographic"
+  },
+  "corpusSource": {
+    "recordId": "kr-detail-29cm-hata-3989017",
+    "sectionSpan": "captures/kr-detail-29cm-3989017/tile_08.png#gallery"
+  },
+  "gateProfile": "section-baseline-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "provenance": "mined",
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "kr-detail-29cm-hata-3989017",
+        "segmentFile": "v3/segments/kr-detail-29cm-hata-3989017.json",
+        "spanOrder": 19,
+        "type": "gallery",
+        "confidence": "high",
+        "sectionSpan": "captures/kr-detail-29cm-3989017/tile_08.png#gallery",
+        "evidenceLocator": "data.json#/headings/16; bodytext.txt:L334"
+      }
+    ]
+  }
+}

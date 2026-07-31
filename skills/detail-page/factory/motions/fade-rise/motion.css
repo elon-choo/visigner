@@ -1,0 +1,24 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+.motion-fade-rise {
+  opacity: 0;
+  transform: translateY(var(--space-12));
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+}
+
+.motion-fade-rise[data-motion-active="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-fade-rise,
+  .motion-fade-rise[data-motion-active="true"] {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}

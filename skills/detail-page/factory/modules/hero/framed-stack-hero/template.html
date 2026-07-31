@@ -1,0 +1,22 @@
+<section class="module-framed-stack-hero" aria-labelledby="module-framed-stack-hero-title">
+  <div class="module-framed-stack-hero__copy">
+    <p class="module-framed-stack-hero__eyebrow" data-slot="eyebrow">Section signal</p>
+    <h1 class="module-framed-stack-hero__headline" id="module-framed-stack-hero-title" data-slot="headline">A neutral starting point for a clear next step</h1>
+    <p class="module-framed-stack-hero__body" data-slot="body">This placeholder introduces one idea in plain language before a visitor chooses a simple, reversible action.</p>
+    <a class="module-framed-stack-hero__cta" data-slot="primaryCtaLabel" data-slot-href="primaryCtaHref" href="#">Explore example</a>
+  </div>
+  <figure class="module-framed-stack-hero__media" data-slot="media">
+    <div class="module-framed-stack-hero__media-placeholder" role="img" data-slot="mediaAlt" data-slot-aria-label="mediaAlt" aria-label="Neutral abstract media placeholder"></div>
+  </figure>
+  <style>
+    .module-framed-stack-hero { display: grid; gap: var(--space-32); padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+    .module-framed-stack-hero__copy { display: grid; gap: var(--space-16); align-content: center; }
+    .module-framed-stack-hero__eyebrow { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+    .module-framed-stack-hero__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-48); line-height: var(--leading-48); }
+    .module-framed-stack-hero__body { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+    .module-framed-stack-hero__cta { justify-self: start; padding: var(--space-12) var(--space-24); border-radius: var(--radius-md); background: var(--color-accent); color: var(--color-on-accent); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+    .module-framed-stack-hero__media { min-block-size: var(--space-96); margin: 0; border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e2); }
+    .module-framed-stack-hero__media-placeholder { min-block-size: var(--space-96); background: linear-gradient(var(--color-card), var(--color-surface)); border-radius: inherit; }
+      .module-framed-stack-hero { grid-template-columns: minmax(0, 1fr); } .module-framed-stack-hero__copy { max-inline-size: var(--prose-max-width); } .module-framed-stack-hero__media { inline-size: 100%; }
+  </style>
+</section>

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "bento-grid-hero",
+  "type": "hero",
+  "slots": {
+    "eyebrow": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 32
+    },
+    "headline": {
+      "type": "text",
+      "required": true,
+      "minChars": 8,
+      "maxChars": 72
+    },
+    "body": {
+      "type": "rich-text",
+      "required": true,
+      "minChars": 24,
+      "maxChars": 360
+    },
+    "primaryCtaLabel": {
+      "type": "text",
+      "required": true,
+      "minChars": 2,
+      "maxChars": 32
+    },
+    "primaryCtaHref": {
+      "type": "url",
+      "required": true,
+      "minChars": 1,
+      "maxChars": 2048
+    },
+    "media": {
+      "type": "asset",
+      "required": true
+    },
+    "mediaAlt": {
+      "type": "text",
+      "required": false,
+      "minChars": 0,
+      "maxChars": 160
+    }
+  },
+  "variants": {
+    "layoutArchetype": "grid",
+    "density": "standard",
+    "motion": "none",
+    "artDirection": "product-ui",
+    "backgroundBleed": "card-contained"
+  },
+  "corpusSource": {
+    "recordId": "supabase",
+    "sectionSpan": "captures/stage2/supabase/tile_00.png#hero"
+  },
+  "gateProfile": "section-media-v1",
+  "tmi": {
+    "status": "pending-g1.6",
+    "why": null,
+    "dependencies": [],
+    "changeImpact": [],
+    "coachComment": null,
+    "perfectScoreExampleLink": null
+  },
+  "miningEvidence": {
+    "sourceContract": "v3/MINER-SOURCES.md",
+    "rawCorpusSpanCount": 424,
+    "typePeerSpanCount": 97,
+    "inputSpans": [
+      {
+        "role": "primary",
+        "recordId": "supabase",
+        "spanOrder": 2,
+        "type": "hero",
+        "confidence": "high",
+        "sectionSpan": "captures/stage2/supabase/tile_00.png#hero",
+        "styleInventory": "skills/detail-page/references/captures/stage2/supabase/styles.json",
+        "semanticStyleSignals": {
+          "dominantSurface": "light",
+          "displayTypographyObserved": true,
+          "bodyTypographyObserved": true,
+          "spacingInventoryObserved": true,
+          "radiusInventoryObserved": true,
+          "elevationInventoryObserved": true,
+          "motionInventoryObserved": true
+        }
+      }
+    ]
+  },
+  "variantProvenance": "structure-mined"
+}

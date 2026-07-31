@@ -1,0 +1,27 @@
+/* CWV-TRIPWIRE: layout-safe */
+/* CWV-TRIPWIRE: duration-cap */
+.motion-scroll-pin {
+  position: sticky;
+  inset-block-start: var(--space-16);
+  opacity: 0;
+  transform: translateY(var(--space-8));
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out);
+}
+
+.motion-scroll-pin[data-motion-active="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-scroll-pin,
+  .motion-scroll-pin[data-motion-active="true"] {
+    position: static;
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,0 +1,18 @@
+<section class="module-cta-rail-prompt" aria-labelledby="module-cta-rail-prompt-title">
+  <div class="module-cta-rail-prompt__copy">
+    <h2 class="module-cta-rail-prompt__headline" id="module-cta-rail-prompt-title" data-slot="headline">Choose a clear next step</h2>
+    <p class="module-cta-rail-prompt__body" data-slot="body">This neutral action band gives a visitor one concise reason to continue and one reversible action.</p>
+    <a class="module-cta-rail-prompt__cta" data-slot="primaryCtaLabel" data-slot-href="primaryCtaHref" href="#">Explore example</a>
+  </div>
+</section>
+
+<style>
+  .module-cta-rail-prompt { display: grid; padding: var(--space-64) var(--space-24); background: var(--color-ink); color: var(--color-surface); }
+  .module-cta-rail-prompt__copy { display: grid; gap: var(--space-16); max-inline-size: var(--prose-max-width); }
+  .module-cta-rail-prompt__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-cta-rail-prompt__body { margin: 0; color: var(--color-primary-100); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+  .module-cta-rail-prompt__cta { padding: var(--space-12) var(--space-24); border-radius: var(--radius-md); background: var(--color-accent); color: var(--color-on-accent); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+  .module-cta-rail-prompt { padding: var(--space-32) var(--space-16); } .module-cta-rail-prompt__items { gap: var(--space-16); }
+  .module-cta-rail-prompt { justify-items: start; overflow-x: auto; text-align: start; } .module-cta-rail-prompt__copy { grid-auto-flow: column; grid-auto-columns: minmax(var(--space-96), 1fr); grid-template-columns: none; max-inline-size: none; }
+  @media (prefers-reduced-motion: no-preference) { .module-cta-rail-prompt { animation: module-cta-rail-prompt-axis-enter var(--dur-2) var(--ease-out) both; } @keyframes module-cta-rail-prompt-axis-enter { from { opacity: 0; transform: translateY(var(--space-12)); } to { opacity: 1; transform: translateY(0); } } } @media (prefers-reduced-motion: reduce) { .module-cta-rail-prompt { animation: none; } }
+</style>

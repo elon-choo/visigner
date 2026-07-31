@@ -55,6 +55,26 @@ No recipe for the honesty check? State `RECIPE: NONE` in the report **with the r
 
 > **Load on demand:** When ultracode or an explicitly requested multi-agent workflow applies, read `references/ultracode-workflow.md` rather than loading it every time.
 
+## 7 · Assemble from a catalog instead of writing a page (optional)
+
+Steps 1–6 write the page. `factory/` is the other route: a 40-module catalog plus a composer that turns a brief into a page **deterministically** — no clock, no random source, same brief in, byte-identical HTML out. Reach for it when the job is a page of known shape (landing, pricing, Korean detail) and you want the composition rules enforced rather than remembered; keep writing by hand when the page needs a signature the catalog does not have.
+
+```bash
+cd "${CLAUDE_PLUGIN_ROOT}/skills/detail-page/factory"
+node scripts/composer-run.js composer/<run>/brief.json composer/<run>   # brief → selection.json → page.html
+node scripts/grammar-lint.js composer/<run>/selection.json              # exit 1 on any composition violation
+```
+
+**Two stages, on purpose.** `composer-select.js` is the only stage allowed to take a human or model decision — the brief's ordered sections, each with a `decision.moduleId`, its five variation axes, and a `content` block carrying that section's actual copy. `composer-assemble.js` then reads nothing but that selection: it injects the copy into the chosen module's template and enforces the slot contract (required slots, char bounds, collection arity, no asset slots). Give it a partial `content` block and it exits 1 rather than filling the gap with the module's placeholder sentence.
+
+**The assembler does NOT enforce the composition grammar** — that is `grammar-lint.js`, run separately after assembly. So a violating selection still produces a complete page; the gate is what refuses it. `composer/case-saas-release-refused/` is that case on purpose: it is `case-saas-release` with one section repeated verbatim, it assembles with exit 0, and the gate exits 1 naming four violations. Reproduce the derivation with `node scripts/g54k-make-refusal-case.js`.
+
+Worked examples, each a brief with real copy in it: `composer/case-cafe-subscription` (ko), `composer/case-pilates-studio` (ko), `composer/case-saas-release` (en). Their businesses are invented and each page's footer says so. Screenshots of all four, with the selection sha, page sha and both exit codes per tile: `site-build/shots/g54k/manifest.json`.
+
+**Contracts** (read before authoring a brief or adding a module): `SECTION-SCHEMA.md` (module anatomy, the five variation axes), `COMPOSITION-GRAMMAR.md` (what the gate refuses), `CATALOG-CONTRACT.md`, `MODULE-TEMPLATE.md`, `FACTORY-BLUEPRINT.md` (the whole pipeline end to end). One caveat worth knowing before you lean on the axes: they are the record of the choice and what the gate reads — what actually changes a section's face is **which module** it is. Two pages differing only in their declared axes render identically.
+
+Other gates in `factory/scripts/`: `contract-validate.js` (all 40 modules against the catalog contract), `section-validate.js` (one module: raw hex/px and primitive-token refs are violations), `two-tier-gate.js`, `diversity-consistency-report.js`, `citation-audit.js` (every figure printed on a page must be backed by a command the page itself prints), `capture-gallery-shots.js`.
+
 ## References (load when you reach that step)
 - `references/aesthetics.md` — full frontend-design method, banned defaults, Top-22 anti-slop rules, font/color systems.
 - `references/anti-ai-tells.md` — the 21 current "still looks AI" tells (mono-label garnish, acid-green flood, ghost numeral, browser mockups, structural monotony…) each with its POSITIVE counter; the meta-insight (noun-space not adjective-space steering). Load whenever a page reads AI despite passing.
@@ -69,4 +89,5 @@ No recipe for the honesty check? State `RECIPE: NONE` in the report **with the r
 - `references/asset-generation.md` — generate real image assets (covers, scenes, deliverables walls) via `openai-responses` (free ChatGPT-OAuth Responses path) / gemini-3-pro-image / gpt-image-1.5; the 기획→제작→배치 flow, plan schema, Korean prompt rules.
 - V2 grounding/conformance — `scripts/librarian-inject.js`, `scripts/build-honesty-check.js`, and repo-root `scripts/anti-pattern-check.js`; load their emitted evidence at plan/score time.
 - `scripts/` — `shoot.js` (screenshot own output + assertion gates: 390px-overflow always, broken-asset always [`ASSETS=0` opts out], `AXE=1` a11y on desktop+mobile, `gate.report` rollup, `GATE_EXIT=1`), `capture-reference.js` + `capture-reference-patchright.js` (capture a reference page; Patchright variant for Wadiz/Akamai walls), `gen-plan.js` (기획: brief → asset plan) + `gen-assets.js` (제작: plan → real PNGs) + `lib-openai-responses.js` (the free ChatGPT-OAuth Responses+image_generation engine `gen-assets.js` calls), `brand-lint.js` (deterministic brand-governance gate — raw-hex/banned-font/AI-purple as machine checks), `keyword-picker.js` (the positive-vocabulary selection engine over `design-lexicon.json` — `plan`/`pick`/`search` emit concrete per-section keywords + the AI-centre moves to avoid), `build-tokens.js` (compile `tokens/*.tokens.json` → the starter's `:root{--brand-*}` / `@theme` layers), `view-capture.js` (build a one-click stitched HTML viewer from any capture dir), `ultracode-workflow.js` (the multi-agent workflow in `references/ultracode-workflow.md`), `README.md`. Saved reference captures (Wadiz 400620/403454, viewable anywhere): `references/captures/`.
+- `factory/` — the catalog + composer route of §7. `modules/` (40 section modules, 10 types), `motions/`, `gold-gallery/` (best-of-N promoted exemplars), `composer/` (four worked runs: three that pass the gate, one derived violation that does not), `scripts/` (composer + every conformance gate), `site-build/` (compiled token sheets, self-hosted OFL faces, gallery shots + manifest), and the contract documents.
 - `tokens/` — DTCG design-token source of truth (`brand-default.tokens.json`) + `README.md`. The starter's `@theme` reads a `:root{--brand-*}` layer so overriding `--brand-*` under `[data-brand="…"]` re-themes the whole page (multi-brand); regenerate the layer with `build-tokens.js`.

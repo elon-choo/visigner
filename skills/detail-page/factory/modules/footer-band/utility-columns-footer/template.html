@@ -1,0 +1,31 @@
+<footer class="module-utility-columns-footer" aria-label="Footer band">
+  <div class="module-utility-columns-footer__utility">
+      <p class="module-utility-columns-footer__label">Stay connected</p>
+      <p class="module-utility-columns-footer__note">A neutral utility area can hold a contact route or a short update invitation.</p>
+      <a class="module-utility-columns-footer__contact" data-slot="contactLabel" href="mailto:contact@example.invalid">Contact route</a>
+    </div>
+    <nav class="module-utility-columns-footer__nav" aria-label="Footer navigation">
+      <ul class="module-utility-columns-footer__links" data-slot="navItems">
+        <li><strong>Explore</strong><a href="#">Overview</a><a href="#">Archive</a></li>
+        <li><strong>Learn</strong><a href="#">Guide</a><a href="#">Updates</a></li>
+        <li><strong>Connect</strong><a href="#">Contact</a><a href="#">Community</a></li>
+      </ul>
+    </nav>
+  <small class="module-utility-columns-footer__legal" data-slot="legalText">Neutral legal text is supplied when this module is assembled.</small>
+</footer>
+
+<style>
+  .module-utility-columns-footer { display: grid; gap: var(--space-32); padding: var(--space-48) var(--space-24); background: var(--color-surface); color: var(--color-ink); }
+  .module-utility-columns-footer__utility { display: grid; gap: var(--space-12); align-content: start; }
+  .module-utility-columns-footer__label { margin: 0; font-family: var(--font-display); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-utility-columns-footer__note, .module-utility-columns-footer__legal { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-utility-columns-footer__nav { min-inline-size: 0; }
+  .module-utility-columns-footer__links { display: grid; gap: var(--space-24); margin: 0; padding: 0; list-style: none; }
+  .module-utility-columns-footer__links li { display: grid; gap: var(--space-8); min-inline-size: 0; }
+  .module-utility-columns-footer__links strong { font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+  .module-utility-columns-footer__links a { color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); text-decoration: none; }
+  .module-utility-columns-footer__contact { justify-self: start; padding: var(--space-12) var(--space-16); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-md); color: var(--color-ink); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+  .module-utility-columns-footer__legal { grid-column: 1 / -1; padding-block-start: var(--space-24); border-block-start: var(--space-4) solid var(--color-line); }
+  .module-utility-columns-footer { grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); } .module-utility-columns-footer__links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .module-utility-columns-footer__utility { padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e1); } .module-utility-columns-footer__links li:last-child { grid-column: 1 / -1; }
+</style>

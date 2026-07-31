@@ -1,0 +1,29 @@
+<section class="module-hero" aria-labelledby="hero-title">
+  <div class="module-hero__copy">
+    <p class="module-hero__eyebrow" data-slot="eyebrow">Section label</p>
+    <h1 class="module-hero__headline" id="hero-title" data-slot="headline">A clear starting point for the next step</h1>
+    <p class="module-hero__body" data-slot="body">Use this neutral placeholder to explain one idea before a visitor chooses a simple action.</p>
+    <a class="module-hero__cta" data-slot="primaryCtaLabel" href="#" data-slot-href="primaryCtaHref">Explore example</a>
+  </div>
+  <figure class="module-hero__media" data-slot="media">
+    <div class="module-hero__media-placeholder" role="img" data-slot="mediaAlt" aria-label="Neutral abstract media placeholder"></div>
+  </figure>
+</section>
+
+<style>
+  .module-hero {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-32);
+    padding: var(--space-48) var(--space-24);
+    background: var(--color-surface);
+    color: var(--color-ink);
+  }
+  .module-hero__copy { display: grid; gap: var(--space-16); align-content: center; }
+  .module-hero__eyebrow { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-hero__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-48); line-height: var(--leading-48); }
+  .module-hero__body { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+  .module-hero__cta { justify-self: start; padding: var(--space-12) var(--space-24); border-radius: var(--radius-md); background: var(--color-accent); color: var(--color-on-accent); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); text-decoration: none; }
+  .module-hero__media { min-block-size: var(--space-96); margin: 0; border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e2); }
+  .module-hero__media-placeholder { min-block-size: var(--space-96); }
+</style>

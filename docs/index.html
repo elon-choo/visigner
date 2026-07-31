@@ -340,6 +340,45 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
 .ship-cap strong{color:var(--color-bone);font-weight:600}
 .ships-foot{margin-top:var(--space-3);font-size:var(--fs-12);color:var(--color-muted);line-height:1.95}
 .ships-foot code{color:var(--color-pine-bright);overflow-wrap:anywhere}
+/* One page big enough to actually read, with the other two beside it. Three equal thumbnails at
+   296 CSS px reduce a 1280px page 4.3x and the body copy lands under 3px, which proves the tool
+   ran but not that it produced anything worth reading. The lead shot is roughly twice that. */
+.built{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:start}
+.built .ship--lead{grid-row:span 2}
+@media (max-width:860px){ .built{grid-template-columns:1fr} .built .ship--lead{grid-row:auto} }
+
+/* The refused build is the only artifact here that is not an endorsement, so it gets its own
+   block instead of a fourth identical card: shot on one side, the rules it broke on the other.
+   That is also what un-mirrors this section from the starter row above it — as four cards the two
+   sections graded structural-monotony medium on the page's own anti-slop check. */
+.refusal{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:var(--space-4);
+  align-items:start;padding:var(--space-4);border:1px solid var(--color-verm);
+  border-radius:var(--radius-2);background:var(--color-ink-2);margin-top:var(--space-4)}
+@media (max-width:820px){ .refusal{grid-template-columns:1fr} .refusal-shot{max-width:300px} }
+.refusal-shot{width:100%;height:auto;background:var(--color-bone);border-radius:var(--radius-1);
+  border:1px solid var(--color-rule)}
+.refusal-lead{font-family:var(--font-display);font-weight:900;font-size:var(--fs-27);
+  line-height:1.25;color:var(--color-bone);margin:0 0 var(--space-2)}
+.refusal .refusal-lead{font-size:var(--fs-27)}
+.refusal-text{color:var(--color-bone-dim);max-width:40em;margin:0 0 var(--space-3)}
+.refusal-list{list-style:none;margin:0 0 var(--space-3);padding:0;display:grid;gap:9px}
+.refusal-list li{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2);
+  font-size:var(--fs-14);color:var(--color-bone-dim);padding-bottom:9px;
+  border-bottom:1px dashed var(--color-rule-soft)}
+.refusal-list li:last-child{border-bottom:0;padding-bottom:0}
+.refusal-list code{flex:none;font-size:var(--fs-12);color:var(--color-verm-bright)}
+.refusal-exit{margin:0;font-size:var(--fs-14);color:var(--color-bone-dim);
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--space-2)}
+.refusal-exit code{font-size:var(--fs-12);color:var(--color-pine-bright);overflow-wrap:anywhere}
+.refusal-exit strong{color:var(--color-bone);font-weight:600}
+/* This section opens on a statement rather than the heading+rule+lede the starter row uses. Two
+   adjacent sections built to the same rhythm is the exact tell this page argues against, and the
+   page's own grade caught it: the mirrored version scored structural-monotony medium. */
+.factory-open{font-family:var(--font-display);font-weight:900;font-size:var(--fs-39);line-height:1.2;
+  max-width:16em;margin:0 0 var(--space-2)}
+@media (max-width:640px){ .factory-open{font-size:var(--fs-27)} }
+.factory-sub{color:var(--color-bone-dim);max-width:40em;margin-bottom:var(--space-4)}
+.factory-sub strong{color:var(--color-bone);font-weight:600}
 /* ============ ledger — no header pattern; a statement, then rows ============ */
 .ledger-open{font-family:var(--font-display);font-weight:900;font-size:var(--fs-39);line-height:1.2;
   max-width:20em;margin-bottom:var(--space-2)}
@@ -402,7 +441,7 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
 
 <nav class="nav" aria-label="주 내비게이션">
   <div class="wrap nav-in">
-    <a class="wordmark" href="./">visigner <span class="v2">v2.0.0</span></a>
+    <a class="wordmark" href="./">visigner <span class="v2">v2.1.0</span></a>
     <div class="nav-links">
       <a href="#refusal" class="hide-m"><span class="ko">거부 기계</span><span class="en">The refusal</span></a>
       <a href="#corpus" class="hide-m"><span class="ko">코퍼스</span><span class="en">Corpus</span></a>
@@ -683,6 +722,115 @@ h2{font-family:var(--font-display);font-size:var(--fs-39)}
       <span class="en">Capture: rendered at a 1280×1600 viewport at 2× scale, resampled to 512×640; all three loaded with 0 console errors.
       To check for yourself, open the files in <code>skills/detail-page/assets/starter/</code> after installing.</span>
     </p>
+
+    <!-- The catalog route is the second half of the same answer to "show me the pages", not a
+         separate section. Kept apart it made two adjacent screenshot rows with the same rhythm,
+         which the page's own anti-slop grade scored structural-monotony medium. -->
+    <div class="factory-part" id="factory">
+    <h3 class="factory-open">
+      <span class="ko">무엇을 파는 가게인지<br>한 장 적어 넣으면 됩니다.</span>
+      <span class="en">Write down what the<br>business actually is.</span>
+    </h3>
+    <p class="factory-sub">
+      <span class="ko">스타터를 손으로 고치는 대신, 조립기가 부품 40개 중에서 골라 페이지를 세웁니다.
+      아래는 그렇게 나온 결과를 그대로 찍은 화면입니다. 여기 나오는 가게들은 예시로 지어낸 곳이고,
+      각 페이지 하단에 그렇게 적혀 있습니다.</span>
+      <span class="en">Instead of editing a starter by hand, the composer picks from 40 modules and stands the page up.
+      Below is what came out, photographed as it stands. The businesses in them are invented examples, and each
+      page says so in its own footer.</span>
+    </p>
+    <div class="ships built">
+      <figure class="ship ship--lead">
+        <img class="ship-shot" src="assets/factory-cafe.png" width="512" height="640" loading="lazy" decoding="async"
+             data-alt-ko="브리프에서 조립된 동네 로스터리 원두 구독 페이지의 상단. 어두운 화면에 로스팅 요일을 말하는 한국어 헤드라인과 주황 버튼이 있고, 그 아래로 요일별 구독 흐름이 번호가 붙은 단계로 이어진다."
+             data-alt-en="Top of a neighbourhood-roastery coffee subscription page assembled from a brief: a dark screen with a Korean headline about which day the beans are roasted, an orange button, and a numbered day-by-day subscription flow beneath it."
+             alt="브리프에서 조립된 동네 로스터리 원두 구독 페이지의 상단. 어두운 화면에 로스팅 요일을 말하는 한국어 헤드라인과 주황 버튼이 있고, 그 아래로 요일별 구독 흐름이 번호가 붙은 단계로 이어진다.">
+        <div class="ship-tab">
+          <code>case-cafe-subscription</code>
+          <span class="kind"><span class="ko">게이트 통과</span><span class="en">gate: pass</span></span>
+        </div>
+        <figcaption class="ship-cap">
+          <span class="ko"><strong>원두 정기구독.</strong> 무슨 요일에 볶아 무슨 요일에 도착하는지가 첫 문장인 페이지.
+          히어로 · 구독 흐름 · 요금제 · 자주 묻는 질문 · 푸터, 다섯 섹션.</span>
+          <span class="en"><strong>A coffee subscription.</strong> A page whose first sentence is which day the beans are roasted and which
+          day they arrive. Five sections: hero, flow, plans, questions, footer.</span>
+        </figcaption>
+      </figure>
+      <figure class="ship">
+        <img class="ship-shot" src="assets/factory-pilates.png" width="512" height="640" loading="lazy" decoding="async"
+             data-alt-ko="브리프에서 조립된 재활 중심 필라테스 스튜디오 페이지의 상단. 화면을 가득 채우는 히어로 아래에 크기가 서로 다른 카드가 격자로 놓여 수업 방식을 설명한다."
+             data-alt-en="Top of a rehab-focused pilates studio page assembled from a brief: a full-bleed hero, with cards of differing sizes laid out in a grid below it describing how the classes work."
+             alt="브리프에서 조립된 재활 중심 필라테스 스튜디오 페이지의 상단. 화면을 가득 채우는 히어로 아래에 크기가 서로 다른 카드가 격자로 놓여 수업 방식을 설명한다.">
+        <div class="ship-tab">
+          <code>case-pilates-studio</code>
+          <span class="kind"><span class="ko">게이트 통과</span><span class="en">gate: pass</span></span>
+        </div>
+        <figcaption class="ship-cap">
+          <span class="ko"><strong>재활 필라테스 스튜디오.</strong> 같은 카탈로그인데 앞 장과 얼굴이 다릅니다.
+          다른 모듈을 골랐기 때문입니다. 여섯 섹션.</span>
+          <span class="en"><strong>A rehab pilates studio.</strong> Same catalog, different face from the page beside it, because it
+          picked different modules. Six sections.</span>
+        </figcaption>
+      </figure>
+      <figure class="ship">
+        <img class="ship-shot" src="assets/factory-saas.png" width="512" height="640" loading="lazy" decoding="async"
+             data-alt-ko="브리프에서 조립된 영문 SaaS 배포 체크리스트 제품 페이지의 상단. 왼쪽 카피와 오른쪽 로그 패널로 나뉜 히어로 아래에 기능 카드가 좌우 비대칭 격자로 놓인다."
+             data-alt-en="Top of an English SaaS release-checklist product page assembled from a brief: a hero split into copy on the left and a log panel on the right, with feature cards in an asymmetric grid below."
+             alt="브리프에서 조립된 영문 SaaS 배포 체크리스트 제품 페이지의 상단. 왼쪽 카피와 오른쪽 로그 패널로 나뉜 히어로 아래에 기능 카드가 좌우 비대칭 격자로 놓인다.">
+        <div class="ship-tab">
+          <code>case-saas-release</code>
+          <span class="kind"><span class="ko">게이트 통과</span><span class="en">gate: pass</span></span>
+        </div>
+        <figcaption class="ship-cap">
+          <span class="ko"><strong>영문 SaaS 제품 페이지.</strong> 브리프를 영어로 쓰면 페이지도 영어로 나옵니다.
+          한글이 한 글자도 섞이지 않습니다.</span>
+          <span class="en"><strong>An English SaaS product page.</strong> Write the brief in English and the page comes out in English,
+          with not one Hangul character mixed in.</span>
+        </figcaption>
+      </figure>
+    </div>
+    <div class="refusal">
+      <img class="refusal-shot" src="assets/factory-refused.png" width="512" height="640" loading="lazy" decoding="async"
+           data-alt-ko="바로 앞 SaaS 페이지와 상단이 같지만, 기능 섹션이 끝나자마자 같은 제목과 같은 카드가 그대로 한 번 더 나타난다."
+           data-alt-en="The same top as the SaaS page above, except that the moment the feature section ends, the same heading and the same cards appear all over again."
+           alt="바로 앞 SaaS 페이지와 상단이 같지만, 기능 섹션이 끝나자마자 같은 제목과 같은 카드가 그대로 한 번 더 나타난다.">
+      <div class="refusal-body">
+        <h3 class="refusal-lead">
+          <span class="ko">그리고 이건, 통과하지 못한 조립본입니다.</span>
+          <span class="en">And this is the build that did not pass.</span>
+        </h3>
+        <p class="refusal-text">
+          <span class="ko">바로 위 SaaS 브리프에 섹션 하나를 그대로 한 번 더 붙인 것입니다. 조립 자체는 됩니다.
+          조립기는 문법을 집행하지 않으니까요. 막는 쪽은 그다음에 도는 게이트고, 무엇을 어겼는지 이름을 붙여 알려줍니다.</span>
+          <span class="en">It is the SaaS brief above with one section repeated verbatim. It assembles fine, because the
+          assembler does not enforce the grammar. What stops it is the gate that runs next, and it names what was broken.</span>
+        </p>
+        <ul class="refusal-list">
+          <li><code>adjacent-same-type</code><span class="ko">이웃한 두 섹션이 같은 종류입니다</span><span class="en">two neighbouring sections are the same type</span></li>
+          <li><code>adjacent-layout-archetype</code><span class="ko">둘 다 같은 배치를 씁니다</span><span class="en">both use the same layout</span></li>
+          <li><code>adjacent-variant-diversity</code><span class="ko">갈라진 축이 하나도 없습니다</span><span class="en">not one axis differs between them</span></li>
+          <li><code>type-archetype-repeat</code><span class="ko">같은 조합이 페이지에서 두 번 나옵니다</span><span class="en">the same pairing appears twice on the page</span></li>
+        </ul>
+        <p class="refusal-exit">
+          <code>node scripts/grammar-lint.js composer/case-saas-release-refused/selection.json</code>
+          <span class="ko">종료 코드 <strong>1</strong>. 통과한 세 건은 <strong>0</strong>.</span>
+          <span class="en">exits <strong>1</strong>. The three that passed exit <strong>0</strong>.</span>
+        </p>
+      </div>
+    </div>
+    <p class="ships-foot">
+      <span class="ko">설치하면 <code>skills/detail-page/factory/</code>에 부품 40개와 조립기, 그리고 위 네 건의 브리프가 그대로 들어옵니다.
+      직접 돌려보려면 <code>node scripts/composer-run.js composer/case-cafe-subscription/brief.json composer/case-cafe-subscription</code>,
+      게이트는 <code>node scripts/grammar-lint.js composer/&lt;run&gt;/selection.json</code>. 앞의 세 건은 0, 거부본은 1로 끝납니다.
+      같은 브리프를 다시 넣으면 바이트까지 같은 HTML이 나옵니다. 각 타일의 선택 파일 해시와 페이지 해시, 두 종료 코드는
+      <code>factory/site-build/shots/g54k/manifest.json</code>에 적혀 있습니다.</span>
+      <span class="en">Installing brings <code>skills/detail-page/factory/</code> with it: 40 modules, the composer, and the four briefs above.
+      To run one yourself: <code>node scripts/composer-run.js composer/case-cafe-subscription/brief.json composer/case-cafe-subscription</code>;
+      for the gate, <code>node scripts/grammar-lint.js composer/&lt;run&gt;/selection.json</code>. The first three exit 0, the refused one exits 1.
+      Feed the same brief again and the same HTML comes back, byte for byte. Each tile's selection hash, page hash and both exit codes are
+      recorded in <code>factory/site-build/shots/g54k/manifest.json</code>.</span>
+    </p>
+    </div>
   </div>
 </section>
 

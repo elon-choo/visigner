@@ -1,0 +1,41 @@
+<section class="module-feature-matrix-grid" aria-labelledby="feature-matrix-grid-title">
+  <header class="module-feature-matrix-grid__header">
+    <div class="module-feature-matrix-grid__identity">
+      <p class="module-feature-matrix-grid__label" data-slot="sectionLabel">Feature matrix</p>
+      <h2 class="module-feature-matrix-grid__headline" id="feature-matrix-grid-title" data-slot="headline">A neutral matrix for several related capabilities</h2>
+    </div>
+    <p class="module-feature-matrix-grid__body" data-slot="body">This neutral placeholder keeps each capability separate while preserving a single shared surface for a reader to compare the group.</p>
+  </header>
+  <ul class="module-feature-matrix-grid__list" data-slot="featureItems">
+    <li class="module-feature-matrix-grid__item module-feature-matrix-grid__item--lead">
+      <h3>Lead neutral capability</h3>
+      <p>A broader placeholder description establishes one clear starting point.</p>
+    </li>
+    <li class="module-feature-matrix-grid__item">
+      <h3>Second neutral capability</h3>
+      <p>A short description keeps this item independently readable.</p>
+    </li>
+    <li class="module-feature-matrix-grid__item">
+      <h3>Third neutral capability</h3>
+      <p>A short description keeps this item comparable.</p>
+    </li>
+    <li class="module-feature-matrix-grid__item">
+      <h3>Fourth neutral capability</h3>
+      <p>A short description completes the starting matrix.</p>
+    </li>
+  </ul>
+</section>
+
+<style>
+  .module-feature-matrix-grid { display: grid; gap: var(--space-32); padding: var(--space-48) var(--space-24); background: var(--color-surface); color: var(--color-ink); }
+  .module-feature-matrix-grid__header { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-32); align-items: end; }
+  .module-feature-matrix-grid__identity { display: grid; gap: var(--space-12); }
+  .module-feature-matrix-grid__label { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-14); line-height: var(--leading-14); }
+  .module-feature-matrix-grid__headline { margin: 0; font-family: var(--font-display); font-size: var(--text-36); line-height: var(--leading-36); }
+  .module-feature-matrix-grid__body { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-18); line-height: var(--leading-18); }
+  .module-feature-matrix-grid__list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .module-feature-matrix-grid__item { display: grid; align-content: start; gap: var(--space-12); min-inline-size: 0; padding: var(--space-24); border: var(--space-4) solid var(--color-line); border-radius: var(--radius-lg); background: var(--color-card); box-shadow: var(--shadow-e1); }
+  .module-feature-matrix-grid__item--lead { grid-column: span 2; }
+  .module-feature-matrix-grid__item h3 { margin: 0; font-family: var(--font-body); font-size: var(--text-20); line-height: var(--leading-20); }
+  .module-feature-matrix-grid__item p { margin: 0; color: var(--color-muted); font-family: var(--font-body); font-size: var(--text-16); line-height: var(--leading-16); }
+</style>
